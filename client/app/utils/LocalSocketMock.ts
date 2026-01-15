@@ -45,4 +45,8 @@ export class LocalSocketMock {
     emit(event: string, data: any) {
         this.room.handleAction('local_player', event, data)
     }
+
+    disconnect(){
+        location.reload()
+    }
 }

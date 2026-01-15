@@ -203,35 +203,9 @@ export class Room {
     }
 
     public async endOfLevel(): void {
-        return
-        // if (this.level?.players.length === 1 && this.level?.players[0].id) {
-        //     try{
-        //         const [results] = await this.db
-        //             .promise()
-        //             .execute(
-        //                 `SELECT * FROM game_stats WHERE class = ? and game_type = 'solo' ORDER BY kills DESC LIMIT 3`,
-        //                 [this.level?.players[0].name]
-        //             )
-
-        //         let more = true
-        //         if (
-        //             results.length > 2 &&
-        //             results.every(elem => elem.kills >= this.level?.kill_count)
-        //         ) {
-        //             more = false
-        //         }
-
-        //         if (more) {
-        //             await this.suggetRecord(this.level?.players[0])
-        //         } else{
-        //             this.socket.emit('game_is_over')
-        //         }
-        //     } catch (err) {
-                
-        //     }
-        // } else {
-        //     this.socket.emit('game_is_over')
-        // }      
+        this.removeLevel()
+        this.createName()
+        this.transport.broadcast('game_is_over')    
     }
 
     handleAction(client_id: string, event: string, payload: any){
@@ -430,11 +404,9 @@ export class Room {
             case 'disconnect':
                 this.clients.delete(client_id)
                     if (this.clients.size === 0) {
-                        this.removeLevel()
-                        this.createName()
-                    } else {
-                        this.updateLobby()
+                        this.endOfLevel()
                     }
+                    this.updateLobby()
                 break;
 
             case 'set_target':

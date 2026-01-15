@@ -1,0 +1,10 @@
+{
+    "name": "server",
+    "version": "1.0.0",
+    "dependencies": {
+        "core": "*",
+        "mysql2": "^3.14.5",
+        "redis": "^5.8.3",
+        "socket.io": "^4.7.5"
+    }
+}

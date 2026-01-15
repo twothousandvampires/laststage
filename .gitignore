@@ -1,0 +1,8 @@
+node_modules
+core/dist
+server/dist
+client/.nuxt
+client/.output
+client/dist/
+client/node_modules
+client/.env

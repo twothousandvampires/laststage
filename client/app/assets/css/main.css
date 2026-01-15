@@ -1,0 +1,717 @@
+    p{
+        padding: 0;
+        margin: 0;
+    }
+     @font-face {
+        font-family: o;
+        src: url("../fonts/manaspc.ttf");
+    }
+    html{
+        font-family: o;
+    }
+    body{
+        margin: 0;
+        padding: 0;
+        background-color: black;
+    }
+    #main-logo{
+        width: 400px;
+        height: auto
+    }
+    @media (max-width: 900px) {
+        #main-logo{
+            display: none;
+        }
+    }
+    #logo{
+        width: 1380px;
+        height: 920px;
+    }
+   
+    #main p {
+        font-size: 50px;
+    }
+    #add-record{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 800;
+        position: fixed;
+        width: fit-content;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #b8b85c;
+        border: 6px solid #7a7a3a;
+        gap: 10px;
+    }
+    #main{
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        cursor: pointer;
+    }
+    #title .main_title{
+        font-size: 20px;
+        color: #001e3a;
+    }
+
+    #title{
+        position: fixed;
+        background-color: #2a9eb2;
+        width: 400px;
+        z-index: 667;
+        border: 4px solid #3a7da3;
+    }
+    #message{
+        position: fixed;
+        background-color: #b8b85c;
+        width: fit-content;
+        height: fit-content;
+        z-index: 667;
+        padding: 2px;
+    }
+
+    .select_ready_equip{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .pointer{
+        cursor: pointer;
+        text-align: center;
+    }
+    .equip_and_image{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #ready_botton{
+        text-align: center;
+        width: 100%;
+        background-color: #4a4a4a;
+        cursor: pointer;
+        padding: 8px;
+        width: 200px;
+    }
+    .stat_wrap {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        height: 100%;
+    }
+    .cannot_use{
+        opacity: 0.3;
+    }
+    .cost_and_buy p{
+        padding: 2px;
+        text-align: center;
+        cursor:  pointer;
+        font-size: 18px;
+        background-color: #b8860b;
+    }
+    #realise{
+        position: fixed;
+        top: 95%;
+        left: 95%;
+        font-size: 14px;
+        color: #e0e07a;
+    }
+    .lobbies{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 колонки равной ширины */
+        gap: 24px;
+        justify-content: center;
+    }
+    #lobby_full{
+        font-size: 30px;
+        position: fixed;
+        top: 45%;
+        left: 40%;
+        color: #e0e07a;
+    }
+    #skill_icons{
+        display: flex;
+        flex-direction: row;
+    }
+    #hud{
+        color: aquamarine;
+    }
+    .stat{
+        display: grid;
+        grid-template-columns:10% 80% 10%;
+        gap: 10px;
+        grid-template-rows: 1;
+        width: 80%;
+        
+    }
+    .stat p {
+        text-align: center;
+    }
+    #stats{
+        display: flex;
+        flex-direction: column;
+    }
+    #canvas-wrap{
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+    }
+    #player{
+        visibility: hidden;
+        display: flex;
+        flex-direction: row;
+    }
+    #wrap{
+       overflow-x: hidden;
+       height: 100vh;
+    }
+    #lobby{
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 равные колонки */
+        grid-template-rows: 55%; /* 2 строки по 50% высоты */
+        gap: 10px;
+        height: 100vh;
+    }
+    .build{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .build p {
+        cursor: pointer;
+        padding: 2px;
+        background-color: #b8860b;
+        margin: 4px;
+    }
+    .stat-row{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between
+    }
+
+    .player {
+        background-color: #b8b85c;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border: 8px solid #7a7a3a;
+        font-size: 18px;
+        height: fit-content;
+    }
+    .player_ready{
+        height: fit-content;
+        background-color: #7a7a3a;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border: 8px solid #7a7a3a;
+        font-size: 18px;
+    }
+ 
+    .item_pull{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        overflow-y: auto;
+        
+        z-index: 667;
+        position: fixed;
+        width: fit-content;
+        left: 50%;
+        top: 50%;
+        background-color: lightgreen;
+        border: 6px solid #7a7a3a;
+        display: flex;
+      
+        align-items: flex-start;
+        justify-content: space-between;
+        align-items: center;
+        transform: translate(-50%, -50%);
+    }
+    .abilities_pull{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        overflow-y: auto;
+
+        z-index: 667;
+        position: fixed;
+        width: fit-content;
+        left: 50%;
+        top: 50%;
+        background-color: lightgreen;
+        border: 6px solid #7a7a3a;
+        display: flex;
+      
+        justify-content: center;
+        align-items: center;
+        transform: translate(-50%, -50%);
+    }
+  
+    .select_and_preview{
+        display: flex;
+        flex-direction: column;
+    }
+    .right_top{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 80%;
+    }
+    .right_bottom{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .right_block{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    .load-and-save{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 0 10px;
+        width: 100%;
+        justify-content: space-around;
+    }
+    .left_block{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+   
+    #player_stats, #meta_info{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    #status{
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        min-height: 64px;
+    }
+    .forge_item{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #forge{
+        z-index: 666;
+        position: fixed;
+        width: fit-content;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+       
+         background-color: #3a7da3;
+        border: 6px solid #1e3a5c;
+        display: flex;
+        flex-direction: row;
+        /* align-items: flex-start; */
+        /* justify-content: space-between; */
+        min-height: 620px;
+        max-width: 100vh;
+        overflow-y: auto;
+    }
+    #forge p {
+        color: aliceblue;
+        font-size: 12px;
+        text-align: center;
+        word-break: break-all;
+        padding: 4px;
+        margin: 0;
+    }
+    #record-name-input{
+        padding: 6px;
+        z-index: 668;
+        position: fixed;
+        width: auto;
+        height: 120px;
+        left: calc(50% - 180px);
+        top: calc(50% - 60px);
+        background-color: #b8b85c;
+        border: 6px solid #7a7a3a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    #record-name-input .bot{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+    }
+    #show-abilities{
+        z-index: 667;
+        position: fixed;
+        width: fit-content;
+        left: 50%;
+        top: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        align-items: center;
+        transform: translate(-50%, -50%);
+        background-color: #3a7da3;
+        border: 6px solid #1e3a5c;
+    }
+    #suggest{
+        z-index: 667;
+        position: fixed;
+        width: fit-content;
+        left: 50%;
+        top: 50%;
+        background-color: inherit;
+        border: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        align-items: center;
+        transform: translate(-50%, -50%);
+    }
+   
+    #upgrades-right{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+    #upgrades{
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        z-index: 666;
+        position: fixed;
+        width: fit-content;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+         background-color: #b8b85c;
+        border: 6px solid #7a7a3a;
+       
+        overflow-y: auto;
+        min-height: 620px;
+        max-height: 100vh;
+    }
+ 
+    #hold_grace{
+        width: 100%;
+        background-color: #ff8c00;
+        cursor: pointer;
+    }
+    #upgrades_list{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        word-wrap: break-word;
+    }
+    #upgrades p {
+        color: aliceblue;
+        font-size: 12px;
+        text-align: center;
+        /* word-break: break-all; */
+        padding: 4px;
+        margin: 0;
+    }
+
+    .all-stats{
+        z-index: 1000;
+        position: fixed;
+        background-color: #3a7da3;
+        border: 6px solid #1e3a5c;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        overflow-y: scroll;
+    }
+
+    #total_wrap{
+        position: fixed;
+        display: flex;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        align-items: center;
+        justify-content: center;
+    }
+    #second-touch-zone{
+        background-image: url('/preview/joystick.png');
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: none;
+        display: flex;
+        flex-direction: column;
+        touch-action: none;
+    }
+    #touch-zone{
+        background-image: url('/preview/joystick.png');
+        width: 120px;
+        height: 120px;
+        z-index: 1000;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: none;
+        display: flex;
+        flex-direction: column;
+        touch-action: none;
+    }
+    #modile-info{
+        display: none;
+    }
+    
+    #defend {
+        width: 40px;
+        height: 40px;
+        background-image: url('./preview/defend.png');
+    }
+    #special {
+        width: 40px;
+        height: 40px;
+        background-image: url('./preview/special.png');
+    }
+    #game-info{
+        width: 80%;
+        position: fixed;
+        top: 5%;
+        background-color: #e0e07a;
+        overflow-y: scroll;
+        height: 90%;
+        padding: 6px;
+        border: 4px solid #7a7a3a;
+    }
+    #records{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #e0e07a;
+        padding: 6px;
+        border: 4px solid #7a7a3a;
+    }
+    #game-info .bg{
+        background-color: #1e1e1e;
+    }
+    #top-panel{
+        z-index: 666666666666;
+        background-color: #ff8c00;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        position: sticky;
+    }
+    #top-panel p{
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 4px 8px;
+        color: white;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        user-select: none;
+    
+        transition: all 0.1s ease;
+        position: relative;
+    }
+
+    .button:active {   
+        transform: translate(4px, 4px);
+    }
+
+    select {
+        font-family: o;
+        padding: 4px;
+        font-size: 12px;
+        outline: none;
+    }
+    #mastery{
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .upgrade img{
+        background-color: #7d9eb2;
+    }
+
+    @media (max-width: 425px) {
+        .grace-and-ascend{
+            display: flex;
+            flex-direction: row; 
+            justify-content: space-around;
+            align-items: center;
+        }
+        .upgrade{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+        }
+        .upgrades-wrap{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .reroll-and-sacrifice{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-around;
+        }
+        #game-info{
+            width: fit-content;
+            height: 100%;
+            top: 0;
+        }
+        #upgrades {
+           flex-direction: column;
+           top: 0;
+           left: 0;
+           transform: none;
+           width: 100vw;
+           height: 100%;
+        }
+        #logo{
+            width: 276px;
+            height: 184px;
+        }
+        #forge{
+            flex-direction: column;
+            top: 0;
+            left: 0;
+            transform: none;
+            width: 100vw;
+            height: 100%;
+            
+        }
+        #forge img{
+            width: 40px;
+            height: 40px;
+            
+        }
+        .left_block{
+            justify-content: center;
+        }
+        .right_block{
+            width: 100%;
+        }
+        .right_top{
+            width: 100%;
+        }
+        .item_pull{
+            overflow-y: scroll;
+            left: 0;
+            top:0;
+            transform: none;
+        }
+        .abilities_pull{
+            overflow-y: clip;
+        }
+        .player{
+            flex-direction: column;
+            height: 100vh;;
+        }
+        .player_ready{
+            flex-direction: column;
+            height: 100vh;;
+        }
+        .stat-row{
+            
+        }
+        #mastery{
+            display: none;
+        }
+        .lobbies{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            justify-content: center;
+        }
+        .button{
+            font-size: 12px;
+        }
+        #lobby{
+            display: flex;
+            flex-direction: column;
+            grid-template-rows: 15% repeat(2, 1fr);
+            height: 100vh;
+        }
+        #lobby p{
+            font-size: 14px;
+        }
+        #ready_botton {
+            width: 150px;
+        }
+        .select_ready_equip {
+            height: 100%;
+        }
+        #title{
+            font-size: 8px;
+            position: fixed;
+            background-color: #2a9eb2;
+            width: 200px;
+            z-index: 667;
+            border: 4px solid #3a7da3;
+        }
+        #title .main_title{
+            font-size: 12;
+        }
+        .stat-wrap{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }

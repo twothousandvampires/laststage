@@ -3,28 +3,40 @@ import { io } from 'socket.io-client';
 export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig()
     
-    let socket = io(config.public.baseIp + ':' + config.public.basePort, {
-        autoConnect: false,
-        transports: ['websocket'],
-    });
+    const isProd = config.public.env == 'prod'
 
-    socket.connect()
+    console.log(isProd)
+
+    const getSocketOptions = (port) => {
+        const options = {
+            autoConnect: false,
+            transports: ['websocket'],
+        };
+
+        if (isProd) {
+            options.path = port == 9001 ? '/socket.io/' : `/ws/${port}/socket.io/`;
+        }
+
+        return options;
+    };
+
+    const getUrl = (port) => {
+        return isProd ? config.public.baseIp : `${config.public.baseIp}:${port}`;
+    };
+
+    let socket = io(getUrl(config.public.basePort), getSocketOptions(config.public.basePort));
+    socket.connect();
+
+
 
     let connectTo = (port) => {
         if (socket) {
-            socket.disconnect()
-            socket = null
+            socket.disconnect();
+            socket = null;
         }
-        socket = io(config.public.baseIp + ':' + port, {
-            autoConnect: false,
-            transports: ['websocket'],
-        });
-        socket.connect()
+        socket = io(getUrl(port), getSocketOptions(port));
+        socket.connect();
     };
-
-    let getInstance = () => {
-        return socket
-    }
 
     let setInstance = (v) => {
         socket = v
@@ -32,7 +44,7 @@ export default defineNuxtPlugin(() => {
 
     return {
         provide: {
-            getInstance: getInstance,
+            getInstance: () => socket,
             connectTo: connectTo,
             setInstance: setInstance
         }

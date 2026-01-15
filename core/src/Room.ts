@@ -172,7 +172,7 @@ export class Room {
     }
 
     async addRecord(name: string, id: string) {
-        this.db.addRecord(name, id)
+        this.db.addRecord()
 
         return
         try {
@@ -203,6 +203,7 @@ export class Room {
     }
 
     public async endOfLevel(): void {
+        return
         // if (this.level?.players.length === 1 && this.level?.players[0].id) {
         //     try{
         //         const [results] = await this.db

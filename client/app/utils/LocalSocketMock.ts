@@ -21,9 +21,7 @@ export class LocalSocketMock {
                 callbacks.forEach(cb => cb(data));
             }
         };
-
-        // 3. Инициализируем Room
-        // Мы прокидываем транспорт, который УЖЕ умеет говорить с нашими обработчиками
+        
         this.room = new Room(this.transport, new LocalStorageDB(undefined), new WebLooper());
 
         // 4. Эмулируем коннект

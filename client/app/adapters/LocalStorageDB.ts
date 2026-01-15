@@ -5,5 +5,11 @@ export default class LocalStorageDB implements IDatabase{
         
     }
 
-    
+    saveData(){
+        console.log('data saved local')
+    }
+
+    addRecord(){
+        console.log('add record local')
+    }
 }

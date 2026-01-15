@@ -5,5 +5,11 @@ export default class DatabaseAdapter implements IDatabase{
         
     }
 
-    
+    saveData(){
+
+    }
+
+    addRecord(){
+        
+    }
 }

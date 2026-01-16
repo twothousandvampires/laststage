@@ -1,14 +1,7 @@
 <template>
     <div id="forge">
         <div class="left-block">
-              <p
-                class="button"
-                style="font-size: 26px;margin-top: 20px;color: whitesmoke;align-self: center;width: 80%;margin: 10px 0;"
-                @click="$socket.emit('set_left_forger')"
-            >left
-            </p>
-
-            <div style="display: flex;width: 100%;justify-content: space-between;padding: 4px;">
+            <div style="display: flex;width: 100%;justify-content: space-around;padding: 4px;">
                 <div>
                     <p style="font-size: 16px; color: gold;"
                     @mouseover="$title($event, 'Click on item for unlocking forgings. Cost depends on existing count.')"
@@ -49,10 +42,16 @@
                 </p>
             </div>
         </div>
-        <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
+       
         <div style="display: flex;flex-direction: column; justify-content: start;align-items: center;gap: 10px">
             <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;gap: 10px;width: 100%;">      
                 <div style="width: 100%;display: flex;justify-content: space-around;">
+                    <p
+                        class="button"
+                        style="color: whitesmoke;font-size: 20px;"
+                        @click="$socket.emit('set_left_forger')"
+                        >left
+                    </p>
                      <p v-if="data.gold >= 100"
                         @mouseover="$title($event, 'Pay 100 gold and get one grace.')"
                         @mouseleave="$closeTitle()"
@@ -129,7 +128,7 @@
         </div>
         
         </div>
-        
+         <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
     </div>
 </template>
 <script setup>

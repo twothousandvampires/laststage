@@ -108,10 +108,12 @@ export default class Input {
         let total_wrap = document.createElement('div')
         total_wrap.id = 'total_wrap'
 
-        let special_div = document.createElement('div')
+        let special_div = document.createElement('img')
+        special_div.src = '/preview/special.png'
         special_div.id = 'special'
 
-        let defend_div = document.createElement('div');
+        let defend_div = document.createElement('img');
+        defend_div.src = '/preview/defend.png'
         defend_div.id = 'defend'
 
         special_div.addEventListener('touchstart', (e) => {
@@ -135,12 +137,12 @@ export default class Input {
         })
 
         let wrap = document.createElement('div')
+        wrap.style.display = 'flex'
+        wrap.style.flexDirection = 'column'
         wrap.id = 'defend_and_special'
         wrap.appendChild(special_div)
         wrap.appendChild(defend_div)
        
-        
-
         let touch_zone = document.createElement('div')
         touch_zone.id = 'touch-zone'
         this.touch_zone = touch_zone

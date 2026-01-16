@@ -1,12 +1,6 @@
 <template>
     <div id="upgrades">
         <div class="left-block">
-             <p
-                class="button"
-                style="font-size: 26px;margin-top: 20px;color: whitesmoke;align-self: center;width: 80%;margin: 10px 0;"
-                @click="$socket.emit('set_left_teacher')"
-            >left
-            </p>
              <div class="grace-and-ascend">
                      <div>
                         <p
@@ -37,10 +31,15 @@
                 <p>{{ ability }}</p>
             </div>
         </div>
-        <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
         <div id='upgrades-right'>
             <div style="display: flex;justify-content: space-between;align-items: center;width: 100%; padding: 10px 0c">
                <div style="display: flex;justify-content: space-around;width: 100%;margin: 8px 0;">
+                    <p
+                        class="button"
+                        style="color: whitesmoke;font-size: 16px;"
+                        @click="$socket.emit('set_left_teacher')"
+                        >left
+                    </p>
                     <p v-if="data.ascend > 0"
                         @click="$socket.emit('hold_ascend')"
                         style="font-size: 16px;"
@@ -88,6 +87,7 @@
                         </p>
                 </div>
            </div>
+           
            <div style="display: flex; flex-direction: column; justify-content: space-around;">
                 <div style="display: flex; flex-direction: row; justify-content: space-around;flex-wrap: wrap;">
                     <div 
@@ -105,6 +105,7 @@
            </div>
            
         </div>
+         <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
     </div>
 </template>
 <script setup>

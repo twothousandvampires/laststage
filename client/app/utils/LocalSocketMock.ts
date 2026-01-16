@@ -10,30 +10,22 @@ export class LocalSocketMock {
     public id = 'local_player'
 
     constructor() {
-        // 1. Создаем транспорт
         this.transport = new LocalTransport();
-        
-        // 2. СВЯЗЫВАЕМ ТРАНСПОРТ С МОКОМ
-        // Когда транспорт получает данные от Room, он просто дергает обработчики мока
+    
         this.transport.onMessage = (event: string, data: any) => {
             const callbacks = this.handlers.get(event);
             if (callbacks) {
                 callbacks.forEach(cb => cb(data));
             }
         };
-        
-        this.room = new Room(this.transport, new LocalStorageDB(undefined), new WebLooper());
 
-        // 4. Эмулируем коннект
+        this.room = new Room(this.transport, new LocalStorageDB(undefined), new WebLooper());
+        
         setTimeout(() => {
-            // Мы просто шлем в комнату событие 'connect'
-            // Room внутри себя выполнит: this.transport.send(id, 'connect_to_lobby')
-            // И благодаря связи в пункте 2, это событие само прилетит во Vue!
             this.room.handleAction('local_player', 'connect', undefined);
         }, 50);
     }
 
-    // Имитация socket.on
     on(event: string, callback: Function) {
         if (!this.handlers.has(event)){
             this.handlers.set(event, [])
@@ -41,12 +33,11 @@ export class LocalSocketMock {
         this.handlers.get(event).push(callback)
     }
 
-    // Имитация socket.emit
     emit(event: string, data: any) {
         this.room.handleAction('local_player', event, data)
     }
 
     disconnect(){
-        location.reload()
+        this.transport.onMessage = () => {}
     }
 }

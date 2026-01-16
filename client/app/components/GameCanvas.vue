@@ -106,7 +106,7 @@
     }
 
     onMounted(() => {
-        $closeTitle()
+   
         
         let render = new Render($socket)
 

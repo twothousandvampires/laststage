@@ -1,15 +1,34 @@
 <template>
     <div id="forge">
-     
-        <p
-        class="button"
-        style="font-size: 26px;margin-top: 20px;color: #8a0e0e;text-align: center;"
-        @click="$socket.emit('set_left_forger')"
-        >left
-        </p>
-     
+        <div class="left-block">
+              <p
+                class="button"
+                style="font-size: 26px;margin-top: 20px;color: whitesmoke;align-self: center;width: 80%;margin: 10px 0;"
+                @click="$socket.emit('set_left_forger')"
+            >left
+            </p>
+
+            <div style="display: flex;width: 100%;justify-content: space-between;padding: 4px;">
+                <div>
+                    <p style="font-size: 16px; color: gold;"
+                    @mouseover="$title($event, 'Click on item for unlocking forgings. Cost depends on existing count.')"
+                    @mouseleave="$closeTitle()"
+                    >gold: 
+                </p>
+                <span>{{ data.gold }}</span>
+                </div>
+                <div>
+                    <p style="font-size: 16px; color: gold;"
+                        @mouseover="$title($event, 'What is this for?')"
+                        @mouseleave="$closeTitle()"
+                        @click="showSparks()">
+                        sparks:
+                    </p>
+                    <span> {{ data.carved_sparks }}</span>
+                </div>          
+            </div>
+        </div>
         <div v-if="items.length" id="suggest">
-            <p style="font-size: 16px;color: brown;">choose one</p>
             <div v-for="(item, index) in items">
                 <img
                 class="button"
@@ -20,7 +39,6 @@
             </div>
         </div>
         <div v-if="forgings.length" id="suggest">
-            <p style="font-size: 16px;color: brown;">choose one</p>
             <div v-for="(forging, index) in forgings">      
                 <p
                 class="button"
@@ -31,24 +49,10 @@
                 </p>
             </div>
         </div>
-        <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
-        <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;gap: 10px">
-            <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;gap: 10px;width: 100%;">
-                <div style="display: flex;width: 100%;justify-content: space-between;">
-                    <p style="font-size: 16px; color: gold;"
-                        @mouseover="$title($event, 'Click on item for unlocking forgings. Cost depends on existing count.')"
-                        @mouseleave="$closeTitle()"
-                        >gold: {{ data.gold }}
-                    </p>
-
-                    <p style="font-size: 16px; color: gold;"
-                        @mouseover="$title($event, 'What is this for?')"
-                        @mouseleave="$closeTitle()"
-                        @click="showSparks()">
-                        carved sparks: {{ data.carved_sparks }}
-                    </p>
-                </div>
-                <div style="width: 100%;display: flex;justify-content: space-between;">
+        
+        <div style="display: flex;flex-direction: column; justify-content: start;align-items: center;gap: 10px">
+            <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;gap: 10px;width: 100%;">      
+                <div style="width: 100%;display: flex;justify-content: space-around;">
                      <p v-if="data.gold >= 100"
                         @mouseover="$title($event, 'Pay 100 gold and get one grace.')"
                         @mouseleave="$closeTitle()"
@@ -88,9 +92,10 @@
                 :src="`/icons/synthesized property.png`" alt=""
             >
         </div>
-        <div style="grid-template-columns: 220px 220px; display: grid;">
+        <div style="grid-template-columns: 220px 220px; display: grid;margin-bottom: 20px;gap: 20px 0;">
             <div v-for="item in data.items" style="display: flex; flex-direction: column;align-items: center;">
-                <img
+                <div style="display: flex;">
+                    <img
                     :class="item.forge.length < item.max_forgings ? 'button' : ''"
                     @mouseover="$title($event, {
                         main_title: getUnlockCost(item),
@@ -100,26 +105,31 @@
                     @click="unlockForge(item)"
                     width="60px"
                     height="60px"
-                    :src="`/icons/${item.name}.png`" alt="">
-                    <p>
-                    {{ item.name }}
-                    <div style="display: flex; flex-direction: column;">
-                        <p  :style="forge.can ? '' : 'background-color: red'" v-for="(forge, index) in item.forge"
-                            class="button"
-                            @mouseover="$title($event, forge.description + '\n(upgrade cost: ' +  forge.cost + ')')"
-                            @mouseleave="$closeTitle()"
-                            @click="$socket.emit('forge_item', {
-                                item_name: item.name,
-                                forge: index
-                            })">
-                            {{ forge.name }} ({{ forge.value }})
-                        </p>
-                    </div>         
-                </p>
+                    :src="`/icons/${item.name}.png`" alt=""
+                >
+                    <!-- <p style="font-size: 12px; color: black;">
+                        {{ item.name }}
+                    </p> -->
+                </div>
+                
+                <div style="display: flex; flex-direction: column;">
+                    <p  :style="forge.can ? '' : 'background-color: red'" v-for="(forge, index) in item.forge"
+                        class="button"
+                        @mouseover="$title($event, forge.description + '\n(upgrade cost: ' +  forge.cost + ')')"
+                        @mouseleave="$closeTitle()"
+                        @click="$socket.emit('forge_item', {
+                            item_name: item.name,
+                            forge: index
+                        })">
+                        <span style="font-size: 14px;">{{ forge.name }} ({{ forge.value }})</span>
+                    </p>
+                </div>         
+                
             </div>
         </div>
         
         </div>
+        <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
     </div>
 </template>
 <script setup>

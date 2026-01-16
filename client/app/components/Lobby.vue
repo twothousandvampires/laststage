@@ -130,7 +130,7 @@
     let abilities_to_pick = ref([])
 
     let $socket = $getInstance()
-    console.log($socket)
+
     let increaseStat = (stat) => {
         $socket.emit('increase_stat', stat)
     }
@@ -169,15 +169,7 @@
         abilities_to_pick.value = []
     }
 
-    let getSkillType = (type) => {
-        if(type === 1) return 'main'
-        else if(type === 2) return 'secondary'
-        else if(type === 3) return 'finisher'
-        else if(type === 4) return 'utility'
-        else if(type === 5) return 'passive'
-    }
-
-     let loadBuild = (name) => {
+    let loadBuild = (name) => {
         let b = JSON.parse(localStorage.getItem(name))
         if(b){
             $socket.emit('load_template', b)
@@ -211,7 +203,6 @@
 
     onMounted(() => {
         $closeTitle()
-    
          $socket.on('update_lobby_data', data => {
             data.data.sort((a, b) => a.id === $socket.id ? - 1 : 1)
 

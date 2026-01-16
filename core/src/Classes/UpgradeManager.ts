@@ -100,8 +100,8 @@ export default class UpgradeManager {
         let item = player.item.find(elem => elem.name === data.i_name)
 
         if(!item) return
-
-        let f = player.grand_forgings.find(elem => elem.name === data.i_name)
+           console.log(item)
+        let f = player.grand_forgings.find(elem => elem.name === data.f_name)
 
         if(!f) return
 

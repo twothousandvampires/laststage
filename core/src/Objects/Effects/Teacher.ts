@@ -4,7 +4,9 @@ import Level from '../../Level'
 import Effect from './Effects'
 
 export default class Teacher extends Effect {
-   
+    
+    entered: any[]  = []
+
     constructor(level: Level) {
         super(level)
         this.name = 'teacher'
@@ -21,9 +23,17 @@ export default class Teacher extends Effect {
             if (!elem.left_teacher && !elem.is_dead && is_coll) {
                 elem.generateUpgrades()
                 UpgradeManager.showUpgrades(elem)
-            } else if (!is_coll) {
+                if(!this.entered.includes(elem.id)){
+                    this.entered.push(elem.id)
+                }
+                
+            } else if (!is_coll && this.entered.includes(elem.id)) {
+                 this.entered = this.entered.filter(elem2 => elem2 != elem.id)
                 elem.left_teacher = false
                 UpgradeManager.closeUpgrades(elem)
+
+               
+                 console.log(this.entered)
             }
         })
     }

@@ -1,43 +1,46 @@
 <template>
     <div id="upgrades">
-     
-        <p
-        class="button"
-        style="font-size: 26px;margin-top: 20px;color: #8a0e0e;"
-        @click="$socket.emit('set_left_teacher')"
-        >left
-        </p>
+        <div class="left-block">
+             <p
+                class="button"
+                style="font-size: 26px;margin-top: 20px;color: whitesmoke;align-self: center;width: 80%;margin: 10px 0;"
+                @click="$socket.emit('set_left_teacher')"
+            >left
+            </p>
+             <div class="grace-and-ascend">
+                     <div>
+                        <p
+                            @mouseover="$title($event, {
+                                text: 'Used to learning abilities'
+                            })"
+                            @mouseleave="$closeTitle()"
+                        >
+                        Grace:
+                        </p>
+                        <span style="color: whitesmoke;">{{ data.grace }}</span>
+                    </div>
+                    <div>
+                        <p
+                            @mouseover="$title($event, {
+                                    text: 'You gain this when get upgrades, and it affects the power of the improvements you can get to learn'
+                            })"
+                            @mouseleave="$closeTitle()"
+                        >
+                        Ascent:
+                        </p>
+                        <span style="color: whitesmoke;">{{ data.ascend }}</span>
+                    </div>
+                </div>
+        </div>  
         <div @click="show_abilities = false; mastery_name = ''" v-if="show_abilities" id="suggest">
-            <h2 style="text-align: center;color: brown;font-size: 16px;">choose ability</h2>
             <div class="button" @click="addMastery(ability)" v-for="ability in abilities">
                 <p>{{ ability }}</p>
             </div>
         </div>
         <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
-        <div id ='upgrades-right'>
-            <div style="display: flex;justify-content: space-between;align-items: center;width: 100%;">
-                <div class="grace-and-ascend">
-                     <div>
-                        <img
-                            src="/preview/grace.gif"
-                            @mouseover="$title($event, {
-                                    text: 'Grace - used to learning abilities'
-                            })"
-                            @mouseleave="$closeTitle()"
-                        >
-                        <span style="color: #8a0e0e;">{{ data.grace }}</span>
-                    </div>
-                    <div>
-                        <img src="/preview/helm.png"
-                            @mouseover="$title($event, {
-                                    text: 'Ascent - you gain this when get upgrades, and it affects the power of the improvements you can get to learn'
-                            })"
-                            @mouseleave="$closeTitle()"
-                        >
-                        <span style="color: #8a0e0e;">{{ data.ascend }}</span>
-                    </div>
-                </div>
-               <div>
+        <div id='upgrades-right'>
+            <div style="display: flex;justify-content: space-between;align-items: center;width: 100%; padding: 10px 0c">
+               <div style="display: flex;justify-content: space-around;width: 100%;margin: 8px 0;">
                     <p v-if="data.ascend > 0"
                         @click="$socket.emit('hold_ascend')"
                         style="font-size: 16px;"
@@ -61,9 +64,7 @@
                </div>
                 
             </div>
-            <p style="text-align: center;">choose one</p>
-            <div class="upgrades-wrap">
-                
+            <div class="upgrades-wrap">      
                 <div v-for="upgrade in data.upgrades" class="upgrade"">
                     <img
                         class="button"
@@ -88,14 +89,7 @@
                 </div>
            </div>
            <div style="display: flex; flex-direction: column; justify-content: space-around;">
-                <div id="mastery">
-                     <h2
-                        @mouseover="$title($event, 'click to mastery to apply they to ability, it will be triggered when you use that ability, chance depends on ability cost. You get mastery every 15 ascent, after boss killing and after activating 5/5 mastery manifistation')"
-                        @mouseleave="$closeTitle()"
-                        >masteries
-                    </h2>
-                </div>
-                <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                <div style="display: flex; flex-direction: row; justify-content: space-around;flex-wrap: wrap;">
                     <div 
                         class="button" 
                         @click="suggestAbilities(mastery.name)"

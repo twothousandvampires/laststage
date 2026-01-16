@@ -82,6 +82,8 @@ export default class Grace extends Effect {
         if (!player_data) return
 
         player.light_r = 16
+        player.left_forger = false
+        player.left_teacher = false
         player.removeUpgrades()
         UpgradeManager.closeUpgrades(player)
         player.setZone(0, player_data.x, player_data.y)
@@ -113,6 +115,8 @@ export default class Grace extends Effect {
                 player_data.player.setZone(0, player_data.x, player_data.y)
                 player_data.player.can_generate_upgrades = true
                 player_data.player.spend_grace = false
+                player_data.player.left_forger = false
+                player_data.player.left_teacher = false
 
                 this.deleteStatus(player_data.player)
 

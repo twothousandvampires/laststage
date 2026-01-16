@@ -47,8 +47,8 @@ export default class Default extends Scenario {
     static TIMES_BAD = 2
 
     last_checked: number
-    time_between_wave_ms: number = 3500
-    max_time_wave: number = 6000
+    time_between_wave_ms: number = 5000
+    max_time_wave: number = 7000
     min_time_wave: number = 4000
     waves_created: number = 0
     times_count: number = 0
@@ -62,7 +62,7 @@ export default class Default extends Scenario {
     add_e_fortify: number = 0
     add_e_elem_resist: number = 0
     minus_create_chance = 0
-    wave_boss_trashold: number = 150
+    wave_boss_trashold: number = 300
 
     monster_upgrades: any
     private need_to_check_grace: boolean = true
@@ -70,7 +70,7 @@ export default class Default extends Scenario {
     times: number
     portal_is_exist = false
 
-    waves_plato: number = 100
+    waves_plato: number = 150
     waves_plato_end: number = 140
     waves_end: number = 150
 
@@ -172,18 +172,11 @@ export default class Default extends Scenario {
 
     async createWave(level: Level) {
         this.waves_created ++
-        console.log('--------------------')
-      
+          
         let add_count = Math.floor(this.waves_created / 23)
         add_count += (level.players.length - 1) * 2
 
         let count = Func.random(1 + Math.floor(add_count / 4.7), 2 + Math.floor(add_count / 3.2))
-
-        // if (this.times === Default.TIMES_BAD) {
-        //     count = Math.round(count * 1.5)
-        // }
-
-        // console.log('enemies spawned: ' + count)
         for (let i = 0; i < count; i++) {
             await Func.sleep(Func.random(100, 300))
 
@@ -195,7 +188,7 @@ export default class Default extends Scenario {
 
     updateTimeBetweenWaves(){
         if(this.waves_created >= this.waves_plato){
-            if(this.waves_created >= 150 && this.max_time_wave >= 4000){
+            if(this.waves_plato + 50 && this.max_time_wave >= 4000){
                 this.max_time_wave -= 30
                 
             }
@@ -210,8 +203,6 @@ export default class Default extends Scenario {
             }
             
         }
-
-        // console.log('waving rate: ' + this.time_between_wave_ms)
     }
 
     createRandomEnemy(level: Level, list: string[] = []) {

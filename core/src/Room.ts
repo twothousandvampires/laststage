@@ -209,7 +209,6 @@ export class Room {
     }
 
     handleAction(client_id: string, event: string, payload: any){
-        console.log(event, client_id)
         if(event === 'connect'){
             if(this.clients.size < Room.MAX_PLAYERS){
                 this.createNewClient(client_id)

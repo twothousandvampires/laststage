@@ -79,8 +79,6 @@
             lobbies_data.value = data
         })
 
-        // $audio.lobby_back.play()
-
         socket.on('lobby_updated', (data) => {
             lobbies_data.value = data
         })

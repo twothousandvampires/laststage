@@ -13,13 +13,13 @@
             </div>
             <div id="meta_info" >
                 <div id="time">
-                    {{ Math.floor(meta.ms / 1000 )}}
+                    <p>{{ Math.floor(meta.ms / 1000 )}}</p>
                 </div>
                 <div id="scenario">
-                    {{ meta.scenario}}
+                    <p>{{ meta.scenario}}</p>
                 </div>
                 <div id="killed">
-                    {{ meta.killed }}
+                    <p>{{ meta.killed }}</p>
                 </div>
             </div>
         </div>
@@ -27,11 +27,24 @@
             <canvas id="canvas" width="480px" height="480px"></canvas>
         </div>
         <div id ="status">
-            <div v-for="status in statuses">
-                <img 
-                @mouseleave="$closeTitle()" @mouseover="$title($event, {'main_title': status.name, 'text': status.desc})"
-                width="60px" height="60px" :title="status.desc" :src="`/icons/${status.name}.png`" alt="">
+            <div class="status-block status-block1">
+                <div v-for="status in statuses.slice(0, 5)">
+                    <img 
+                    @mouseleave="$closeTitle()" @mouseover="$title($event, {'main_title': status.name, 'text': status.desc})"
+                    width="60px" height="60px"
+                    :title="status.desc"
+                    :src="`/icons/${status.name}.png`" alt="">
+                </div>
             </div>
+            <div class="status-block status-block2">
+                <div v-for="status in statuses.slice(5)">
+                    <img 
+                    @mouseleave="$closeTitle()" @mouseover="$title($event, {'main_title': status.name, 'text': status.desc})"
+                    width="60px" height="60px"
+                    :title="status.desc"
+                    :src="`/icons/${status.name}.png`" alt="">
+                </div>
+            </div>s        
         </div>
     </div>
     <Upgrades v-if="show_upgrades" :data="upgrade_data" :abilities="client.abilities"></Upgrades>
@@ -140,7 +153,11 @@
                
                 statuses.value = statuses.value.filter(elem => elem != exist)
             }
-            
+
+            if(statuses.value.length >= 10){
+                return
+            }
+
             if(data.duration){
                 data.timeout = setTimeout(() => {
                     $closeTitle()

@@ -103,7 +103,9 @@
                         <p class="button" v-if="value.is_player" @click="decreaseStat(key)">-</p>
                         <p v-else>///</p>
                         <p
+                        @touchstart="$title($event, value.template.stats_description[key])"
                         @mouseover="$title($event, value.template.stats_description[key])"
+                        @touchend="$closeTitle()"
                         @mouseleave="$closeTitle()"
                         class="button">
                             {{ key }} : {{ stat_value }}

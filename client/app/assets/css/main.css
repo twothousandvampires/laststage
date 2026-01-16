@@ -177,11 +177,9 @@
        height: 100vh;
     }
     #lobby{
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* 2 равные колонки */
-        grid-template-rows: 55%; /* 2 строки по 50% высоты */
+        display: flex;
+        flex-direction: row;
         gap: 10px;
-        height: 100vh;
     }
     .build{
         display: flex;
@@ -210,6 +208,7 @@
         align-items: center;
         border: 8px solid #7a7a3a;
         font-size: 18px;
+        height: fit-content;
     }
     .player_ready{
         background-color: #7a7a3a;
@@ -219,6 +218,7 @@
         align-items: center;
         border: 8px solid #7a7a3a;
         font-size: 18px;
+        height: fit-content;
     }
  
     .item_pull{
@@ -335,7 +335,6 @@
         display: flex;
         flex-direction: row;
 
-        max-width: 100vh;
         overflow-y: auto;
     }
     #forge p {
@@ -463,11 +462,12 @@
     #total_wrap{
         position: fixed;
         display: flex;
-        bottom: 10%;
+        bottom: 15%;
         left: 50%;
         transform: translateX(-50%);
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
+        width: 100%;
     }
     #second-touch-zone{
         background-image: url('/preview/joystick.png');
@@ -602,7 +602,26 @@
         display: flex;
     }
 
-    @media (max-width: 425px) {
+    @media screen and (max-height: 450px) and (max-width: 850px) {
+        #hud{
+            z-index: 222;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        #status{
+            position: fixed;
+            left: 0;
+            top: 85%;
+        }
+        canvas{
+            margin-top: 100px;
+        }
+    }
+
+    @media (max-width: 850px) {
         .grace-and-ascend{
             width: 100%;
             display: flex;

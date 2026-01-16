@@ -49,7 +49,7 @@
                 </p>
             </div>
         </div>
-        
+        <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
         <div style="display: flex;flex-direction: column; justify-content: start;align-items: center;gap: 10px">
             <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;gap: 10px;width: 100%;">      
                 <div style="width: 100%;display: flex;justify-content: space-around;">
@@ -129,7 +129,7 @@
         </div>
         
         </div>
-        <Stats :stats="data.stats" :triggers="data.triggers"></Stats>
+        
     </div>
 </template>
 <script setup>

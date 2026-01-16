@@ -176,7 +176,7 @@ export default class Input {
         }, { touch_zone: false });
 
         total_wrap.appendChild(touch_zone)
-        total_wrap.appendChild(wrap)
+      
         let second_touch_zone = document.createElement('div')
         second_touch_zone.id = 'second-touch-zone'
         this.second_touch_zone = second_touch_zone
@@ -222,8 +222,16 @@ export default class Input {
 
         }, { touch_zone: false })
 
-        total_wrap.appendChild(second_touch_zone)
+        let d = document.createElement('div')
+        d.appendChild(wrap)
+        d.appendChild(second_touch_zone)
+        total_wrap.appendChild(d)
 
+        d.style.display = 'flex'
+        d.style.flexDirection = 'row'
+        d.style.alignItems = 'center'
+        d.style.gap = '18px'
+  
         document.getElementsByTagName('body')[0]?.appendChild(total_wrap)
     }
 

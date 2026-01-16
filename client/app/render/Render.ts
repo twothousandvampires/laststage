@@ -811,19 +811,14 @@ export default class Render{
                     t = elem.id
                 }
             }
-            else if(!t && elem.id != client.id && this.input.mobile && this.input.touch_angle){
+            else if(!t && elem.id != client.id && this.input.pressed.touch_angle){             
                 const deltaX = elem.x -client.x
                 const deltaY = elem.y -client.y
-                
-                // let angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                // angle = (angle - 90) % 360;
 
                 let angle = Math.atan2(deltaY, deltaX)
 
                 angle = -angle + Math.PI / 2;
 
-                // Нормализуем в диапазон [0, 2π)
                 if (angle < 0) {
                     angle += 2 * Math.PI;
                 }
@@ -831,7 +826,7 @@ export default class Render{
                     angle -= 2 * Math.PI;
                 }   
   
-                let diff = Math.abs(this.input.touch_angle - angle)
+                let diff = Math.abs(this.input.pressed.touch_angle - angle)
 
                 if(diff <= 0.5){
                     t = elem.id

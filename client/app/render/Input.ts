@@ -270,9 +270,10 @@ export default class Input {
         }
 
         this.pressed.touch_angle = angle
-      
-        this.pressed.canvas_x = (this.offset / this.scale) + (Math.sin(angle) *  Math.floor(distance/ 3))
-        this.pressed.canvas_y = (this.offset / this.scale) + (Math.cos(angle) *  Math.floor(distance/ 3))
+        
+
+        this.pressed.canvas_x = Math.sin(angle) *  Math.floor(distance/ 3)
+        this.pressed.canvas_y = Math.cos(angle) *  Math.floor(distance/ 3)
         
         this.pressed.over_x = this.pressed.canvas_x
         this.pressed.over_y = this.pressed.canvas_y

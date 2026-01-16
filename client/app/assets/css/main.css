@@ -763,6 +763,9 @@
         .player{
             flex-direction: row;
         }
+         .player_ready{
+            flex-direction: row;
+        }
     }
 
     }

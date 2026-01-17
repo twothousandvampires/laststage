@@ -261,8 +261,13 @@ export default class Flyer extends Character {
     public succesefulBlock(unit: Unit | undefined): void {
         super.succesefulBlock(unit)
 
-        if (Func.notChance(this.will * 4, this.is_lucky)) {
-            this.resource--
+        let will_chance = this.will * 2
+        
+        if(will_chance > 50){
+            will_chance = 50
+        }
+        if (Func.notChance(will_chance, this.is_lucky)) {
+            this.resource --
         }
     }
 
@@ -307,7 +312,8 @@ export default class Flyer extends Character {
             let e = new Spirit(this.level)
             e.setPoint(this.x, this.y)
             this.level.addEffect(e)
-            this.resource--
+
+            this.reduceSecondResourse(1)
             return
         }
 

@@ -783,7 +783,7 @@ select {
         #hud{
             position: fixed;
             left: 50%;
-            top: 82%;
+            top: 78%;
             max-width: 300px;
             overflow-x: hidden;
             z-index: 666;

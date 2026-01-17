@@ -144,6 +144,18 @@ export default class Upgrades {
                 desc: 'Increases chance to avoid damage depend on your courage',
             },
             {
+                name: 'firm grip',
+                canUse: (character: Character) => {
+                    return !(character instanceof Flyer) && character.chance_not_lose_energy_when_block < 50
+                },
+                teach: (character: Character): void => {
+                    character.chance_not_lose_energy_when_block += 5
+                },
+                cost: 2,
+                ascend: 10,
+                desc: 'Increases chance not to lose energy when you block',
+            },        
+            {
                 name: 'lethal strikes',
                 canUse: (character: Character) => {
                     return character.critical >= 20 && !character.triggers_on_critical.some(elem => elem instanceof LethalStrikesOnCritical)
@@ -329,7 +341,7 @@ export default class Upgrades {
                 teach: (character: Character): void => {
                     character.triggers_on_block.push(new WallOfWillTrigger())
                 },
-                cost: 3,
+                cost: 2,
                 ascend: 20,
                 desc: 'When you block you have a chance to increase your block chance',
             },
@@ -1636,18 +1648,18 @@ export default class Upgrades {
                 ascend: 20,
                 desc: 'You have a chance to get energy when you get life',
             },
-            {
-                name: 'conduct of pain',
-                canUse: (character: Cultist) => {
-                    return !character.triggers_on_block.some(elem => elem instanceof ConductOfPain)
-                },
-                teach: (character: Cultist) => {
-                    character.triggers_on_block.push(new ConductOfPain())
-                },
-                cost: 2,
-                ascend: 15,
-                desc: 'You have a chance to get energy when you block hit',
-            },
+            // {
+            //     name: 'conduct of pain',
+            //     canUse: (character: Cultist) => {
+            //         return !character.triggers_on_block.some(elem => elem instanceof ConductOfPain)
+            //     },
+            //     teach: (character: Cultist) => {
+            //         character.triggers_on_block.push(new ConductOfPain())
+            //     },
+            //     cost: 2,
+            //     ascend: 15,
+            //     desc: 'You have a chance to get energy when you block hit',
+            // },
             {
                 name: 'pain extract',
                 canUse: (character: Cultist) => {

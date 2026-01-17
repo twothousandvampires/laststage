@@ -50,14 +50,14 @@ export default class Swordman extends Character {
         this.resource = 0
         this.maximum_resources = 7
 
-        // this.impact = 100
-        // this.pierce = 100
         this.attack_speed = 1450
 
         this.base_regeneration_time = 8500
         this.recent_kills = []
         this.chance_to_block = 50
         this.armour_mutators = [new SwordmanArmourMutator()]
+
+        this.block_for_energy = 5
     }
 
     succefullCast() {
@@ -186,11 +186,26 @@ export default class Swordman extends Character {
         }
     }
 
+    public succesefulBlock(unit: Unit | undefined): void {
+        super.succesefulBlock(unit)
+
+        if(Func.chance(this.chance_not_lose_energy_when_block)){
+            return
+        }
+
+        this.resource --
+        if(this.resource < 0){
+            this.resource = 0
+        }
+    }
+
     isBlock(crush: number = 0): boolean {
         let b_chance = this.chance_to_block + this.perception
 
-        if (b_chance > 90) {
-            b_chance = 90
+        b_chance += this.resource * this.block_for_energy
+
+        if (b_chance > 95) {
+            b_chance = 95
         }
 
         return this.state === 'defend' && Func.chance(b_chance, this.is_lucky)
@@ -256,7 +271,7 @@ export default class Swordman extends Character {
             e.setPoint(this.x, this.y)
             this.level.addEffect(e)
 
-            this.resource--
+            this.reduceSecondResourse(1)
             return
         }
 

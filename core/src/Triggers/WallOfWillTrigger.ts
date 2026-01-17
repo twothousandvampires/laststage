@@ -15,7 +15,7 @@ export default class WallOfWillTrigger implements ITrigger {
 
     trigger(player: Character) {
         let s = new BlockChance(player.level.time)
-        s.setPower(3)
+        s.setPower(5)
         s.setDuration(8000)
 
         player.level.setStatus(player, s, true)

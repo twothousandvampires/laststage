@@ -118,8 +118,10 @@ export default abstract class Character extends Unit {
     chance_to_block: number = 0
     chance_to_create_grace: number = 0
     chance_to_trigger_additional_time: number = 0
+    chance_not_lose_energy_when_block: number = 0
     avoid_damage_chance: number = 0
     chance_to_additional_carved_spark: number = 0
+    block_for_energy: number = 0
 
     enlightenment_threshold: number = 12
     can_get_courage: boolean = true
@@ -395,7 +397,7 @@ export default abstract class Character extends Unit {
     }
 
     isSpiritBlock() {
-        if (this.resource <= 0) return false
+        if (this.getSecondResource() <= 0) return false
 
         return Func.chance(this.spirit, this.is_lucky)
     }

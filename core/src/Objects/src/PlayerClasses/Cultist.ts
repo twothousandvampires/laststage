@@ -65,6 +65,7 @@ export default class Cultist extends Character {
         this.armour_mutators = [new CultistArmourMutator()]
 
         this.courage_expire_timer = 15000
+        this.block_for_energy = 5
     }
 
     getSkipDamageStateChance() {
@@ -206,11 +207,26 @@ export default class Cultist extends Character {
         }
     }
 
+    public succesefulBlock(unit: Unit | undefined): void {
+        super.succesefulBlock(unit)
+
+        if(Func.chance(this.chance_not_lose_energy_when_block)){
+            return
+        }
+        
+        this.resource --
+        if(this.resource < 0){
+            this.resource = 0
+        }
+    }
+
     isBlock(): boolean {
         let b_chance = this.chance_to_block + this.agility
 
-        if (b_chance > 90) {
-            b_chance = 90
+        b_chance += this.block_for_energy * this.resource
+
+        if (b_chance > 95) {
+            b_chance = 95
         }
 
         return this.state === 'defend' && Func.chance(b_chance, this.is_lucky)
@@ -234,12 +250,6 @@ export default class Cultist extends Character {
         }
 
         return Func.chance(arm, this.is_lucky)
-    }
-
-    isSpiritBlock() {
-        if (this.resource <= 0) return false
-
-        return Func.chance(this.spirit + this.durability, this.is_lucky)
     }
 
     getPower(): number {
@@ -285,7 +295,7 @@ export default class Cultist extends Character {
             e.setPoint(this.x, this.y)
             this.level.addEffect(e)
 
-            this.resource--
+            this.reduceSecondResourse(1)
             return
         }
 

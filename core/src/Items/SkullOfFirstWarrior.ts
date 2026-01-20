@@ -1,4 +1,5 @@
-import ITrigger from '../Interfaces/Itrigger'
+
+import ITrigger from '../Interfaces/ITrigger'
 import Character from '../Objects/src/Character'
 import Item from './Item'
 
@@ -49,7 +50,7 @@ export default class SkullOfFirstWarrior extends Item implements ITrigger {
             character.newStatus({
                 name: 'skull of first warrior',
                 duration: 10000 + this.duration,
-                desc: 'might increased',
+                desc: 'might is increased',
             })
 
             setTimeout(() => {

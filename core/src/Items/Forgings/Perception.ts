@@ -7,15 +7,15 @@ export default class Perception extends Forging {
     constructor(item: Item) {
         super(item)
         this.max_value = 10
-        this.name = 'perception'
-        this.description = 'increases your perception'
+        this.name = 'ingenuity'
+        this.description = 'increases your ingenuity'
         this.gold_cost = 6
     }
 
     forge() {
         if (this.canBeForged() && this.costEnough()) {
             this.value += 1
-            this.item.player.perception += 1
+            this.item.player.ingenuity += 1
             this.payCost()
         }
     }

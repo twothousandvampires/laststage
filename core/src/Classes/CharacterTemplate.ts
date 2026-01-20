@@ -4,7 +4,7 @@ import TemplateAbility from '../Types/TemplateAbility'
 export default class characterTemplate {
     stats: any
     public name: string = ''
-    stat_count: number = 5
+    stat_count: number = 3
     abilities: TemplateAbility[] = []
     item: Item[] = []
     max_items: number = 2
@@ -19,29 +19,19 @@ export default class characterTemplate {
             this.name = 'swordman'
             this.stats = {
                 might: 1,
-                agility: 0,
-                knowledge: 0,
-                will: 0,
-                perception: 0,
-                durability: 1,
+                ingenuity: 1,
+                will: 1,
             }
             this.stats_description = {
-                might: `- affects the number of targets that can be hit by your abilities
-                        - affects the chance of not losing courage when receiving damage
-                        - increases your power`,
-                agility: `- increases your attack speed
-                          - reduces speed penalty when defending
-                          - increases pierce rating`,
-                knowledge: `- gives a chance to get additional energy
-                            - increases status resistance`,
-                will: `- increases your life regeneration rate
-                       - increases the chance to skip the damage state
-                       - reduces your cooldowns of your abilities`,
-                perception: `- increases the block chance
-                             - reduces penalty of speed when you attacking
-                             - increases maximum of energy`,
-                durability: `- gives a chance to gain extra life during regeneration
-                             - increases your armour`,
+                might: `  - increases attack and cast speed
+                          - increases critical chance
+                          - affects the number of targets that can be hit by your abilities`,
+                ingenuity: `- increases pierce rating
+                            - increases chance to get additional energy
+                            - increases block chance`,
+                will: `- increases armour
+                             - increases status resistance
+                             - icreases chance not to lose courage when hit`,
             }
             this.abilities = [
                 {
@@ -145,29 +135,20 @@ export default class characterTemplate {
             ]
         } else if (class_name === 'flyer') {
             this.name = 'flyer'
-            this.stat_count = 5
             this.stats = {
                 might: 1,
-                agility: 0,
-                knowledge: 2,
+                ingenuity: 2,
                 will: 0,
-                perception: 0,
-                durability: 0,
             }
             this.stats_description = {
-                might: `- affects your abilities (increases AOE, number of projectiles, etc.)
-                        - reduces cooldowns of your abilities`,
-                agility: `- increases your armour
-                          - increases your move speed`,
-                knowledge: `- gives a chance not to spend mana when used
-                            - affect to start amount of energy
-                            - increases your power`,
-                will: `- gives a chance not to lose mana when block
-                       - gives a chance to get additional energy
-                       - increases a chance that trigger trigered twice`,
-                perception: `- reduces penalty of speed when your cast
-                             - gives a chance to get additional courage`,
-                durability: `- gives a chance to avoid damage state
+                might: `- increases attack and cast speed
+                          - increases critical chance
+                          - increases AOE, count of projectiles etc`,
+                ingenuity: `- increases pierce rating
+                            - increases chance to get additional energy
+                            - reduces cooldowns`,
+                will: `- increases armour
+                             - increases status resistance
                              - increases life regeneration rate`,
             }
             this.abilities = [
@@ -258,29 +239,21 @@ export default class characterTemplate {
             ]
         } else if (class_name === 'cultist') {
             this.name = 'cultist'
-            this.stat_count = 5
             this.stats = {
                 might: 0,
-                agility: 0,
-                knowledge: 0,
-                will: 1,
-                perception: 0,
-                durability: 2,
+                ingenuity: 0,
+                will: 3
             }
             this.stats_description = {
-                might: `- increases your attack speed
-                        - increases your armour`,
-                agility: `- increases your move speed
-                          - increases a block chance`,
-                knowledge: `- gives a chance not to spend mana when used
-                            - increases your cast speed`,
-                will: `- gives a chance to avoid damage
-                       - increases status resistance
-                       - increases your power`,
-                perception: `- increases a chance to avoid damage state
-                             - reduses cooldowns of abilities`,
-                durability: `- increases spirit
-                             - gives a chance to get additional energy`,
+                might: `- increases attack and cast speed
+                          - increases critical chance
+                          - increases impact rating`,
+                ingenuity: `- increases pierce rating
+                            - increases chance to get additional energy
+                            - increases chance to double triggering`,
+                will: `- increases armour
+                             - increases status resistance
+                             - increases chance to avoid damage`,
             }
             this.abilities = [
                 {

@@ -146,12 +146,9 @@ body{
     color: aquamarine;
 }
 .stat{
-    display: grid;
-    grid-template-columns:10% 80% 10%;
-    gap: 10px;
-    grid-template-rows: 1;
-    width: 80%;
-    
+    display: flex;
+    gap:10px;
+    align-items: center;
 }
 .stat p {
     text-align: center;
@@ -617,6 +614,12 @@ select {
 }
 
 @media (max-width: 850px) {
+    .stat_wrap{
+        flex-direction: row;
+    }
+    .stat{
+        flex-direction: column;
+    }
     #status{
         position: fixed;
         left: 20%;

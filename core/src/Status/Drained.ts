@@ -25,23 +25,14 @@ export default class Drained extends Status {
     drain() {
        
         if (this.unit instanceof Character) {
-             this.unit.might -= 2
+            this.unit.might -= 2
             this.might_drained += 2  
 
-            this.unit.perception -= 2
+            this.unit.ingenuity -= 2
             this.perception_drained += 2
             
             this.unit.will -= 2
-            this.will_drained += 2  
-    
-            this.unit.knowledge -= 2
-            this.knowledge_drained += 2  
-
-            this.unit.durability -= 2
-            this.durability_drained += 2  
-
-            this.unit.agility -= 2
-            this.agility_drained += 2  
+            this.will_drained += 2   
         }
     }
 
@@ -62,11 +53,8 @@ export default class Drained extends Status {
     clear() {
         if (this.unit instanceof Character) {
             this.unit.might += this.might_drained
-            this.unit.perception += this.perception_drained
-            this.unit.durability += this.durability_drained
-            this.unit.agility += this.agility_drained
+            this.unit.ingenuity += this.perception_drained
             this.unit.will += this.will_drained
-            this.unit.knowledge += this.knowledge_drained
         }
     }
 

@@ -68,16 +68,26 @@ export default class Cultist extends Character {
         this.block_for_energy = 5
     }
 
-    getSkipDamageStateChance() {
-        return this.chance_to_avoid_damage_state + this.perception * 3
+     sSecondTrigger() {
+        return this.chance_to_trigger_additional_time + this.ingenuity
     }
 
-    getCdRedaction() {
-        return this.cooldown_redaction + this.perception
+    getImpactRating() {
+        let base = this.impact + this.might
+
+        this.impact_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        return base
+    }
+
+    getSkipDamageStateChance() {
+        return this.chance_to_avoid_damage_state
     }
 
     getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty + this.agility
+        let total_inc = this.move_speed_penalty
 
         if (total_inc === 0) return this.move_speed
 
@@ -162,12 +172,6 @@ export default class Cultist extends Character {
         if (this.resource < this.maximum_resources || ignore_limit) {
             this.resource += count
         }
-
-        if (Func.chance(this.durability * 3, this.is_lucky)) {
-            if (this.resource < this.maximum_resources) {
-                this.resource++
-            }
-        }
     }
 
     enlight() {
@@ -210,7 +214,7 @@ export default class Cultist extends Character {
     public succesefulBlock(unit: Unit | undefined): void {
         super.succesefulBlock(unit)
 
-        if(Func.chance(this.chance_not_lose_energy_when_block)){
+        if(Func.chance(this.getNotToLoseEnergeWhenBlockValue())){
             return
         }
         
@@ -221,7 +225,7 @@ export default class Cultist extends Character {
     }
 
     isBlock(): boolean {
-        let b_chance = this.chance_to_block + this.agility
+        let b_chance = this.chance_to_block
 
         b_chance += this.block_for_energy * this.resource
 
@@ -250,10 +254,6 @@ export default class Cultist extends Character {
         }
 
         return Func.chance(arm, this.is_lucky)
-    }
-
-    getPower(): number {
-        return this.power + this.will
     }
 
     takeDamage(unit: any = undefined, options: any = {}) {
@@ -436,7 +436,7 @@ export default class Cultist extends Character {
     }
 
     getSecondResourceTimer() {
-        return this.courage_expire_timer + this.knowledge * 150
+        return this.courage_expire_timer
     }
 
     regen() {
@@ -469,36 +469,26 @@ export default class Cultist extends Character {
 
     getStatDescription(stat: string) {
         if (stat === 'might') {
-            return `Increases your attack speed.
-                        Increases your armour.`
+            return `- increases attack and cast speed
+                    - increases critical chance
+                    - increases impact rating`
+        }
+        if (stat === 'ingenuity') {
+            return `- increases pierce rating
+                    - increases chance to get additional energy
+                    - increases chance to double triggering`
         }
         if (stat === 'will') {
-            return `Gives a chance to avoid damage.
-                       Increases status resistance.
-                       Increases your power`
-        }
-        if (stat === 'agility') {
-            return `Increases your move speed.
-                          Increases a block chance.`
-        }
-        if (stat === 'knowledge') {
-            return `Gives a chance not to spend mana when used.
-                            Increases your cast speed.`
-        }
-        if (stat === 'durability') {
-            return `Increases spirit.
-                             Gives a chance to get additional energy.`
-        }
-        if (stat === 'perception') {
-            return `Increases a chance to avoid damage state.
-                             Reduses cooldowns of abilities.`
+            return `- increases armour
+                    - increases status resistance
+                    - increases chance to avoid damage`
         }
 
         return ''
     }
 
     getAttackSpeed() {
-        let value = this.attack_speed - this.might * 15
+        let value = this.attack_speed - this.might * 10
 
         if (value < Cultist.MIN_ATTACK_SPEED) {
             value = Cultist.MIN_ATTACK_SPEED
@@ -508,11 +498,21 @@ export default class Cultist extends Character {
     }
 
     getMoveSpeedPenaltyValue() {
-        return 70
+        let base = 70
+
+        this.reduces_move_speed_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        if(base < 0){
+            base = 0
+        }
+
+        return base
     }
 
     getCastSpeed() {
-        let value = this.cast_speed - this.knowledge * 50
+        let value = this.cast_speed - this.might * 10
 
         if (value < Cultist.MIN_CAST_SPEED) {
             value = Cultist.MIN_CAST_SPEED
@@ -528,17 +528,9 @@ export default class Cultist extends Character {
             return
         }
 
-        if (Func.notChance(this.knowledge, this.is_lucky)) {
-            this.resource -= this.pay_to_cost
-        }
-
         this.pay_to_cost = 0
         if (this.resource < 0) {
             this.resource = 0
         }
-    }
-
-    getResistValue(): number {
-        return this.status_resistance + this.will * 2
     }
 }

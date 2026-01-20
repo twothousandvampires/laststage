@@ -89,6 +89,8 @@ import ServiceTrigger from '../Triggers/ServiceTrigger'
 import ConductOfPain from '../Triggers/ConductOfPain'
 import PainExtract from '../Triggers/PainExtract'
 import ChargedShield from '../Triggers/ChargedShield'
+import FirmGripMutator from '../Mutators/FirmGripMutator'
+import CoordinationMutator from '../Mutators/CoordinationMutator'
 
 export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
@@ -146,14 +148,26 @@ export default class Upgrades {
             {
                 name: 'firm grip',
                 canUse: (character: Character) => {
-                    return !(character instanceof Flyer) && character.chance_not_lose_energy_when_block < 50
+                    return !(character instanceof Flyer) && !character.chance_not_to_lose_energy_when_block_mutators.some(elem => elem instanceof FirmGripMutator)
                 },
                 teach: (character: Character): void => {
-                    character.chance_not_lose_energy_when_block += 5
+                    character.chance_not_to_lose_energy_when_block_mutators.push(new FirmGripMutator())
                 },
                 cost: 2,
-                ascend: 10,
-                desc: 'Increases chance not to lose energy when you block',
+                ascend: 25,
+                desc: 'Might now also increases the chance not to lose energy when you block',
+            },
+            {
+                name: 'coordination',
+                canUse: (character: Character) => {
+                    return !character.reduces_move_speed_mutators.some(elem => elem instanceof CoordinationMutator)
+                },
+                teach: (character: Character): void => {
+                    character.reduces_move_speed_mutators.push(new CoordinationMutator())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'Ingenuity now also reduces penalty of move speed when you attack or casting spell',
             },        
             {
                 name: 'lethal strikes',
@@ -531,14 +545,14 @@ export default class Upgrades {
             {
                 name: 'inspiration',
                 canUse: (character: Character) => {
-                    return character.perception >= 8 && !character.triggers_on_get_energy.some(elem => elem instanceof InspirationTrigger) 
+                    return character.ingenuity >= 8 && !character.triggers_on_get_energy.some(elem => elem instanceof InspirationTrigger) 
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_get_energy.push(new InspirationTrigger())
                 },
                 cost: 4,
                 ascend: 20,
-                desc: 'gives a chance depending on your perception get maximum energy when you get energy',
+                desc: 'gives a chance depending on your ingenuity get maximum energy when you get energy',
             },
             {
                 name: 'massive impact',
@@ -604,7 +618,7 @@ export default class Upgrades {
                 name: 'unhuman fortitude',
                 canUse: (character: Character) => {
                     return (
-                        character.durability >= 10 &&
+                        character.will >= 10 &&
                         !character.triggers_on_get_hit.some(
                             elem => elem instanceof UnhumanFortitudeTrigger
                         )
@@ -615,7 +629,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 20,
-                desc: 'Grants a 30% chance to gain fortification equal to your durability when taking damage',
+                desc: 'Grants a 30% chance to gain fortification equal to your will when taking damage',
             },
             {
                 name: 'ressurection',
@@ -673,7 +687,7 @@ export default class Upgrades {
             {
                 name: 'lightning reflexes',
                 canUse: (character: Character) => {
-                    return character.agility >= 10
+                    return character.ingenuity >= 10
                 },
                 teach: (character: Character): void => {
                     character.armour_rate += 10
@@ -804,29 +818,29 @@ export default class Upgrades {
                 desc: 'Periodically creates a cold blast that freezes enemies and players',
             },
             {
-                name: 'increase perception',
+                name: 'ingenuity',
                 canUse: (character: Character) => {
-                    return character.perception != undefined
+                    return character.ingenuity  != undefined
                 },
                 teach: (character: Character) => {
-                    character.perception++
+                    character.ingenuity ++
                 },
                 cost: 1,
-                desc: 'Increases your perception',
+                desc: 'Increases your ingenuity ',
             },
+            // {
+            //     name: 'increase knowledge',
+            //     canUse: (character: Character) => {
+            //         return character.knowledge != undefined
+            //     },
+            //     teach: (character: Character) => {
+            //         character.knowledge++
+            //     },
+            //     cost: 1,
+            //     desc: 'Increases your knowledge',
+            // },
             {
-                name: 'increase knowledge',
-                canUse: (character: Character) => {
-                    return character.knowledge != undefined
-                },
-                teach: (character: Character) => {
-                    character.knowledge++
-                },
-                cost: 1,
-                desc: 'Increases your knowledge',
-            },
-            {
-                name: 'increase might',
+                name: 'might',
                 canUse: (character: Character) => {
                     return character.might != undefined
                 },
@@ -837,18 +851,7 @@ export default class Upgrades {
                 desc: 'Increases your might',
             },
             {
-                name: 'increase durability',
-                canUse: (character: Character) => {
-                    return character.durability != undefined
-                },
-                teach: (character: Character) => {
-                    character.durability++
-                },
-                cost: 1,
-                desc: 'Increases your durability',
-            },
-            {
-                name: 'increase will',
+                name: 'will',
                 canUse: (character: Character) => {
                     return character.will != undefined
                 },
@@ -858,17 +861,28 @@ export default class Upgrades {
                 cost: 1,
                 desc: 'Increases your will',
             },
-            {
-                name: 'increase agility',
-                canUse: (character: Character) => {
-                    return character.agility != undefined
-                },
-                teach: (character: Character) => {
-                    character.agility++
-                },
-                cost: 1,
-                desc: 'Increases your agility',
-            },
+            // {
+            //     name: 'increase will',
+            //     canUse: (character: Character) => {
+            //         return character.will != undefined
+            //     },
+            //     teach: (character: Character) => {
+            //         character.will++
+            //     },
+            //     cost: 1,
+            //     desc: 'Increases your will',
+            // },
+            // {
+            //     name: 'increase agility',
+            //     canUse: (character: Character) => {
+            //         return character.agility != undefined
+            //     },
+            //     teach: (character: Character) => {
+            //         character.agility++
+            //     },
+            //     cost: 1,
+            //     desc: 'Increases your agility',
+            // },
             {
                 name: 'heal',
                 canUse: (character: Character) => {
@@ -1420,27 +1434,27 @@ export default class Upgrades {
                 ascend: 12,
                 desc: 'Shield bash no longer stuns, but instead has a chance to shatter the enemy',
             },
-            {
-                name: 'coordination',
-                type: 'shield bash',
-                canUse: (character: Character) => {
-                    return (
-                        character.second_ability instanceof ShieldBash &&
-                        !character.second_ability.coordination
-                    )
-                },
-                teach: (character: Character) => {
-                    if (
-                        character.second_ability &&
-                        character.second_ability instanceof ShieldBash
-                    ) {
-                        character.second_ability.coordination = true
-                    }
-                },
-                cost: 2,
-                ascend: 20,
-                desc: 'Gives a 50% chance to reduce cooldown by 50%',
-            },
+            // {
+            //     name: 'coordination',
+            //     type: 'shield bash',
+            //     canUse: (character: Character) => {
+            //         return (
+            //             character.second_ability instanceof ShieldBash &&
+            //             !character.second_ability.coordination
+            //         )
+            //     },
+            //     teach: (character: Character) => {
+            //         if (
+            //             character.second_ability &&
+            //             character.second_ability instanceof ShieldBash
+            //         ) {
+            //             character.second_ability.coordination = true
+            //         }
+            //     },
+            //     cost: 2,
+            //     ascend: 20,
+            //     desc: 'Gives a 50% chance to reduce cooldown by 50%',
+            // },
             {
                 name: 'increase grim pile effect',
                 type: 'grim pile',
@@ -2540,7 +2554,7 @@ export default class Upgrades {
             {
                 name: 'spirit weapon',
                 canUse: (character: Character) => {
-                    return character.attack_radius <= 16 && character.perception >= 8
+                    return character.attack_radius <= 16 && character.ingenuity >= 8
                 },
                 teach: (character: Character): void => {
                     character.attack_radius += 1.5

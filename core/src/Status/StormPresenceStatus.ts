@@ -21,7 +21,7 @@ export default class StormPresenceStatus extends Status {
             if (!this.unit) return
             let max_hits = 3
             this.unit.level.enemies.forEach(elem => {
-                if (max_hits > 0 && elem.zaped && Func.distance(this.unit, elem) <= 15) {
+                if (max_hits > 0 && elem.zaped && !elem.is_dead && Func.distance(this.unit, elem) <= 15) {
                     max_hits--
 
                     let count = 3

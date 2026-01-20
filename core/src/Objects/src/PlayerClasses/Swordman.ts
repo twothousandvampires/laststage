@@ -48,7 +48,7 @@ export default class Swordman extends Character {
         this.chance_to_avoid_damage_state = 10
         this.armour_rate = 15
         this.resource = 0
-        this.maximum_resources = 7
+        this.maximum_resources = 9
 
         this.attack_speed = 1450
 
@@ -64,24 +64,18 @@ export default class Swordman extends Character {
         this.energy_by_hit_added = false
     }
 
-    getPower(): number {
-        return this.power + this.might
-    }
 
     getTargetsCount() {
         return this.might + 1
     }
 
     getMoveSpeedReduceWhenBlock() {
-        return 80 - this.agility * 5
+        return 80
     }
 
     addCourage() {
         if (!this.can_get_courage) return
 
-        if (Func.chance(this.knowledge * 3, this.is_lucky)) {
-            this.recent_kills.push(this.level.time)
-        }
         this.recent_kills.push(this.level.time)
 
         if (this.can_be_enlighten && this.recent_kills.length >= this.enlightenment_threshold) {
@@ -122,16 +116,10 @@ export default class Swordman extends Character {
         this.playerWasEnlighted()
     }
 
-    getCdRedaction() {
-        return this.cooldown_redaction + this.will
-    }
-
     applyStats(stats: any) {
         for (let stat in stats) {
             this[stat] = stats[stat]
         }
-
-        this.maximum_resources += this.perception
     }
 
     createAbilities(abilities: any) {
@@ -189,7 +177,7 @@ export default class Swordman extends Character {
     public succesefulBlock(unit: Unit | undefined): void {
         super.succesefulBlock(unit)
 
-        if(Func.chance(this.chance_not_lose_energy_when_block)){
+        if(Func.chance(this.getNotToLoseEnergeWhenBlockValue())){
             return
         }
 
@@ -200,7 +188,7 @@ export default class Swordman extends Character {
     }
 
     isBlock(crush: number = 0): boolean {
-        let b_chance = this.chance_to_block + this.perception
+        let b_chance = this.chance_to_block + this.ingenuity
 
         b_chance += this.resource * this.block_for_energy
 
@@ -238,7 +226,6 @@ export default class Swordman extends Character {
             unit?.succesefulKill()
             this.is_dead = true
             this.life_status = 0
-            this.setState(this.setDyingState)
             this.level.playerDead()
             return
         }
@@ -316,7 +303,7 @@ export default class Swordman extends Character {
         e.z = Func.random(2, 8)
         this.level.effects.push(e)
 
-        if (Func.notChance(this.might * 7, this.is_lucky)) {
+        if (Func.notChance(this.will * 5, this.is_lucky)) {
             this.recent_kills = this.recent_kills.filter((elem, index) => index >= 5)
         }
 
@@ -329,32 +316,19 @@ export default class Swordman extends Character {
 
     getStatDescription(stat: string) {
         if (stat === 'might') {
-            return `Affects the number of targets that can be hit by your abilities.
-                        Affects the chance of not losing courage when receiving damage.
-                        Increases your power.`
+            return `- increases attack and cast speed
+                    - increases critical chance
+                    - affects the number of targets that can be hit by your abilities`
+        }
+        if (stat === 'ingenuity') {
+            return `- increases pierce rating
+                    - increases chance to get additional energy
+                    - increases block chance`
         }
         if (stat === 'will') {
-            return `Increases your life regeneration rate.
-                       Increases the chance to skip the damage state.
-                       Reduces your cooldowns of your abilities.`
-        }
-        if (stat === 'agility') {
-            return `Increases your attack speed.
-                          Reduces speed penalty when defending.
-                          Increases pierce rating.`
-        }
-        if (stat === 'knowledge') {
-            return `Gives a chance to get additional energy.
-                            Increases status resistance.`
-        }
-        if (stat === 'durability') {
-            return `Gives a chance to gain extra life during regeneration.
-                             Increases your armour.`
-        }
-        if (stat === 'perception') {
-            return `Increases the block chance.
-                             Reduces penalty of speed when you attacking.
-                             Increases maximum of energy.`
+            return `- increases armour
+                    - increases status resistance
+                    - icreases chance not to lose courage when hit`
         }
 
         return ''
@@ -371,20 +345,11 @@ export default class Swordman extends Character {
     }
 
     getSkipDamageStateChance() {
-        return this.chance_to_avoid_damage_state + this.will * 5
+        return this.chance_to_avoid_damage_state
     }
 
     getRegenTimer() {
-        return this.base_regeneration_time - this.will * 150
-    }
-
-    getPierce() {
-        let base = this.pierce + this.agility
-        this.pierce_rating_mutators.forEach(elem => {
-            base = elem.mutate(base, this)
-        })
-
-        return base
+        return this.base_regeneration_time
     }
 
     generateUpgrades() {
@@ -490,7 +455,7 @@ export default class Swordman extends Character {
     }
 
     isRegenAdditionalLife() {
-        return Func.chance(this.durability, this.is_lucky)
+        return false
     }
 
     setDamagedAct() {
@@ -507,10 +472,6 @@ export default class Swordman extends Character {
         this.setTimerToGetState(300)
     }
 
-    getResistValue(): number {
-        return this.status_resistance + this.knowledge * 2
-    }
-
     getSecondResource() {
         return this.recent_kills.length
     }
@@ -520,16 +481,21 @@ export default class Swordman extends Character {
     }
 
     getMoveSpeedPenaltyValue() {
-        let pen = 70 - this.perception * 2
-        if (pen < 0) {
-            pen = 0
+        let base = 70
+
+        this.reduces_move_speed_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        if(base < 0){
+            base = 0
         }
 
-        return pen
+        return base
     }
 
     getAttackSpeed() {
-        let value = this.attack_speed - this.agility * 25 - this.getSecondResource() * 20
+        let value = this.attack_speed - (this.might * 10) - (this.getSecondResource() * 10)
 
         if (value < Swordman.MIN_ATTACK_SPEED) {
             value = Swordman.MIN_ATTACK_SPEED
@@ -572,11 +538,8 @@ export default class Swordman extends Character {
             return
         }
 
-        if (Func.chance(this.knowledge * 4, this.is_lucky)) {
-            count++
-        }
-
         this.resource += count
+
         if (this.resource > this.maximum_resources) {
             this.resource = this.maximum_resources
         }

@@ -27,15 +27,9 @@ export default class Helm extends Effect {
                 if (r === 1) {
                     elem.might ++
                 } else if (r === 2) {
-                    elem.durability ++
-                } else if (r === 3) {
-                    elem.knowledge ++
-                } else if (r === 4) {
                     elem.will ++
-                } else if (r === 5) {
-                    elem.agility ++
-                } else {
-                    elem.perception ++
+                } else if (r === 3) {
+                    elem.ingenuity ++
                 }
 
                 this.level.deleted.push(this.id)

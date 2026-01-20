@@ -47,7 +47,7 @@ export default class Default extends Scenario {
     static TIMES_BAD = 2
 
     last_checked: number
-    time_between_wave_ms: number = 5000
+    time_between_wave_ms: number = 4500
     max_time_wave: number = 7000
     min_time_wave: number = 4000
     waves_created: number = 0
@@ -70,7 +70,7 @@ export default class Default extends Scenario {
     times: number
     portal_is_exist = false
 
-    waves_plato: number = 150
+    waves_plato: number = 135
     waves_plato_end: number = 140
     waves_end: number = 150
 

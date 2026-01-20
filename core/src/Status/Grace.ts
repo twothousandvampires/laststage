@@ -12,11 +12,8 @@ export default class Grace extends Status {
 
     drain() {
         this.unit.might += 2
-        this.unit.perception += 2
+        this.unit.ingenuity  += 2
         this.unit.will += 2
-        this.unit.knowledge += 2
-        this.unit.durability += 2
-        this.unit.agility += 2
     }
 
     apply(unit: any) {
@@ -36,11 +33,8 @@ export default class Grace extends Status {
     clear() {
         if (this.unit instanceof Character) {
             this.unit.might -= 2
-            this.unit.perception -= 2
-            this.unit.durability -= 2
-            this.unit.agility -= 2
+            this.unit.ingenuity  -= 2
             this.unit.will -= 2
-            this.unit.knowledge -= 2
         }
     }
 

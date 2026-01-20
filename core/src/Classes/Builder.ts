@@ -22,7 +22,6 @@ import Count from '../Items/Forgings/Count'
 import Critical from '../Items/Forgings/Critical'
 import Distance from '../Items/Forgings/Distance'
 import DominanceWhenCritical from '../Items/Forgings/DominanceWhenCritical'
-import Durability from '../Items/Forgings/Durability'
 import Duration from '../Items/Forgings/Duration'
 import FortifyWhenHit from '../Items/Forgings/FortifyWhenHit'
 import Frequency from '../Items/Forgings/Frequency'
@@ -203,7 +202,7 @@ export default class Builder {
         critical: Critical,
         distance: Distance,
         'dominance when critical': DominanceWhenCritical,
-        durability: Durability,
+        will: Will,
         duration: Duration,
         'fortify when hit': FortifyWhenHit,
         frequency: Frequency,
@@ -231,7 +230,7 @@ export default class Builder {
         'frost shpere when kill': FrostShpereWhenKill,
         'sparks when block': SparksWhenBlock,
         overcharge: Overcharge,
-        perception: Perception,
+        ingenuity: Perception,
         'ice presence': IcePresence,
         'cold heart': ColdHeart,
         'explosive armour': ExplosiveArmour,

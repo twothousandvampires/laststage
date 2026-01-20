@@ -11,7 +11,7 @@ export default class BlockingTechnique implements ITrigger {
     blocked: number = 0
     max_blocked: number = 3
     name: string = 'blocking technique'
-    description: string = 'When you block 5 hits the next three will be successfully blocked'
+    description: string = 'When you block 5 hits the next three will be successfully blocked without energy losing'
     chance: number = 100
 
     getTriggerChance(): number {
@@ -26,6 +26,7 @@ export default class BlockingTechnique implements ITrigger {
                 this.activated = false
                 player.chance_to_block -= 100
                 this.blocked = 0
+                player.chance_not_lose_energy_when_block -= 100
 
                 player.emitStatusEnd('blocking technique')
             }
@@ -36,6 +37,7 @@ export default class BlockingTechnique implements ITrigger {
                 this.proc_count = 0
                 player.chance_to_block += 100
                 this.activated = true
+                player.chance_not_lose_energy_when_block += 100
 
                 player.newStatus({
                     name: 'blocking technique',

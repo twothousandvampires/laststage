@@ -61,8 +61,13 @@ export default abstract class Character extends Unit {
     perception: number = 0
     agility: number = 0
     will: number = 0
-    durability: number = 0
     might: number = 0
+
+    might: number = 0
+    ingenuity: number = 0
+    will: number = 0
+
+
     upgrades_generated: number = 5
 
     enlight_timer: number = 35000
@@ -165,6 +170,8 @@ export default abstract class Character extends Unit {
     armour_mutators: Mutator[] = []
     impact_mutators: Mutator[] = []
     regen_over_max_mutators: Mutator[] = []
+    chance_not_to_lose_energy_when_block_mutators: Mutator[] = []
+    reduces_move_speed_mutators: Mutator[] = []
 
     carved_sparks: number = 0
     left_teacher: boolean = false
@@ -190,17 +197,20 @@ export default abstract class Character extends Unit {
     abstract getMoveSpeedPenaltyValue(): number
     abstract addCourage(): void
     abstract getRegenTimer(): number
-    abstract getPower(): number
     abstract reduceSecondResourse(amount: number): void
 
     getTotalArmour(){
-        let base = this.armour_rate
+        let base = this.armour_rate + this.will
 
         this.armour_mutators.forEach(elem => {
             base = elem.mutate(base, this)
         })
         
         return base
+    }
+
+    getPower(){
+        return this.power
     }
     
     getAvoidChance(){
@@ -213,8 +223,18 @@ export default abstract class Character extends Unit {
         return base
     }
 
+    getNotToLoseEnergeWhenBlockValue(){
+        let base = this.chance_not_lose_energy_when_block
+
+        this.chance_not_to_lose_energy_when_block_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        return base
+    }
+
     getCritical(){
-        let base = this.critical
+        let base = this.critical + this.might
        
         this.critical_rating_mutators.forEach(elem => {
             base = elem.mutate(base, this)
@@ -289,14 +309,19 @@ export default abstract class Character extends Unit {
                 }
             }
         })
+
+        if(Func.chance(this.ingenuity)){
+            this.resource ++
+        }
     }
 
     getCastSpeed() {
-        return this.cast_speed
+        return this.cast_speed - this.might * 15
     }
 
     getPierce() {
-        let base = this.pierce
+        let base = this.pierce + this.ingenuity
+
         this.pierce_rating_mutators.forEach(elem => {
             base = elem.mutate(base, this)
         })
@@ -453,7 +478,7 @@ export default abstract class Character extends Unit {
     }
 
     getResistValue(): number {
-        return this.status_resistance
+        return this.status_resistance + this.will
     }
 
     public isStatusResist(): boolean {
@@ -488,7 +513,7 @@ export default abstract class Character extends Unit {
     }
 
     getStatsArray() {
-        return ['might', 'will', 'knowledge', 'agility', 'perception', 'durability']
+        return ['might', 'ingenuity', 'will']
     }
 
     protected payCost(): void {
@@ -560,11 +585,11 @@ export default abstract class Character extends Unit {
     getStats() {
         let descriptions = {
             might: this.getStatDescription('might'),
+            // will: this.getStatDescription('will'),
+            ingenuity: this.getStatDescription('ingenuity'),
+            // knowledge: this.getStatDescription('knowledge'),
+            // perception: this.getStatDescription('perception'),
             will: this.getStatDescription('will'),
-            agility: this.getStatDescription('agility'),
-            knowledge: this.getStatDescription('knowledge'),
-            perception: this.getStatDescription('perception'),
-            durability: this.getStatDescription('durability'),
             armour: 'Increases your chance of not taking damage.',
             resist: 'Increases your chance of not geting bad status(ignite, shock, etc).',
             spirit: 'Increases your chance of losing energy instead of life.',
@@ -582,28 +607,25 @@ export default abstract class Character extends Unit {
         return {
             stats: {
                 0: {
+                    'as': this.getAttackSpeed() + 'ms',
+                    'cs': this.getCastSpeed() + 'ms',
+                    pierce: this.getPierce() + '%',
+                    impact: this.getImpactRating() + '%',
+                    critical: this.getCritical() + '%',
+                    crushing: this.crushing_rating + '%',
+                },
+                1: {
                     'max life': this.max_life,
                     ward: this.ward,
                     armour: this.getTotalArmour(),
                     resist: this.getResistValue() + '%',
                     spirit: this.spirit + '%',
                     fortification: this.fortify + '%',
-                },
-                1: {
-                    'as': this.getAttackSpeed() + 'ms',
-                    'cs': this.getCastSpeed() + 'ms',
-                    pierce: this.getPierce() + '%',
-                    impact: this.getImpactRating() + '%',
-                    critical: this.critical + '%',
-                    crushing: this.crushing_rating + '%',
-                },
+                },             
                 2: {
                     might: this.might,
-                    will: this.will,
-                    knowledge: this.knowledge,
-                    durability: this.durability,
-                    agility: this.agility,
-                    perception: this.perception,
+                    will: this.will,              
+                    ingenuity: this.ingenuity,
                 },
                 3: {
                     'move speed': this.move_speed_penalty + '%',
@@ -1109,17 +1131,8 @@ export default abstract class Character extends Unit {
                     case 'will':
                         this.will = stat_value
                         break
-                    case 'perception':
-                        this.perception = stat_value
-                        break
-                    case 'agility':
-                        this.agility = stat_value
-                        break
-                    case 'durability':
-                        this.durability = stat_value
-                        break
-                    case 'knowledge':
-                        this.knowledge = stat_value
+                    case 'ingenuity':
+                        this.ingenuity = stat_value
                         break
                 }
             }

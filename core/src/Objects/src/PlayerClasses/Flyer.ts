@@ -21,7 +21,6 @@ import Armour from '../../Effects/Armour'
 import Blood from '../../Effects/Blood'
 import Spirit from '../../Effects/Spirit'
 import ToothExplode from '../../Effects/ToothExplode'
-import { Lightning } from '../../Projectiles/Lightning'
 import Character from '../Character'
 import Unit from '../Unit'
 
@@ -46,7 +45,7 @@ export default class Flyer extends Character {
         this.chance_to_avoid_damage_state = 0
         this.armour_rate = 0
         this.resource = 0
-        this.maximum_resources = 7
+        this.maximum_resources = 8
         this.base_regeneration_time = 10000
         this.takeoff = false
         this.allow_mana_regen_while_def = false
@@ -143,7 +142,7 @@ export default class Flyer extends Character {
     }
 
     getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty + this.agility
+        let total_inc = this.move_speed_penalty
 
         if (total_inc === 0) return this.move_speed
 
@@ -157,8 +156,6 @@ export default class Flyer extends Character {
         for (let stat in stats) {
             this[stat] = stats[stat]
         }
-
-        this.maximum_resources += this.knowledge
     }
 
     createAbilities(abilities: any) {
@@ -211,16 +208,21 @@ export default class Flyer extends Character {
     }
 
     getCdRedaction() {
-        return this.cooldown_redaction + this.might
+        return this.cooldown_redaction + this.ingenuity
     }
 
     getMoveSpeedPenaltyValue() {
-        let pen = 70 - this.perception * 2
-        if (pen < 0) {
-            pen = 0
+        let base = 70
+
+        this.reduces_move_speed_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        if(base < 0){
+            base = 0
         }
 
-        return pen
+        return base
     }
 
     defendAct() {
@@ -368,11 +370,11 @@ export default class Flyer extends Character {
     }
 
     getSkipDamageStateChance() {
-        return this.chance_to_avoid_damage_state + this.durability * 7
+        return this.chance_to_avoid_damage_state + this.will * 7
     }
 
     getRegenTimer() {
-        return this.base_regeneration_time - (this.durability * 100)
+        return this.base_regeneration_time - (this.will * 100)
     }
 
     getManaRegenTimer() {
@@ -388,35 +390,24 @@ export default class Flyer extends Character {
     }
 
     isSecondTrigger() {
-        return this.chance_to_trigger_additional_time + this.will
+        return this.chance_to_trigger_additional_time
     }
 
     getStatDescription(stat: string) {
         if (stat === 'might') {
-            return `Affects your abilities (increases AOE, number of projectiles, etc.).
-                        Reduces cooldowns of your abilities.`
+            return `- increases attack and cast speed
+                    - increases critical chance
+                    - increases AOE, count of projectiles etc`
+        }
+        if (stat === 'ingenuity') {
+            return `- increases pierce rating
+                    - increases chance to get additional energy
+                    - reduces cooldowns`
         }
         if (stat === 'will') {
-            return `Gives a chance not to lose mana when block.
-                       Gives a chance to get additional energy.
-                       Increases a chance that trigger trigered twice.`
-        }
-        if (stat === 'agility') {
-            return `Increases your armour.
-                          - increases your move speed.`
-        }
-        if (stat === 'knowledge') {
-            return `Gives a chance not to spend mana when used.
-                            Affect to start maximum energy.
-                            Increases your power`
-        }
-        if (stat === 'durability') {
-            return `Gives a chance to avoid damage state.
-                             Increases life regeneration rate.`
-        }
-        if (stat === 'perception') {
-            return `Reduces penalty of speed when your cast.
-                             Gives a chance to get additional courage.`
+            return `- increases armour
+                    - increases status resistance
+                    - increases life regeneration rate`
         }
 
         return ''
@@ -459,10 +450,6 @@ export default class Flyer extends Character {
         if (this.resource < this.maximum_resources || ignore_limit) {
             this.resource += count
         }
-
-        if (this.resource < this.maximum_resources && Func.chance(this.will * 5, this.is_lucky)) {
-            this.resource++
-        }
     }
 
     setDamagedAct() {
@@ -483,10 +470,6 @@ export default class Flyer extends Character {
         this.addCourage()
     }
 
-    getPower(): number {
-        return this.power + this.knowledge
-    }
-
     payCost() {
         if (this.pay_to_cost === 0) return
 
@@ -496,16 +479,8 @@ export default class Flyer extends Character {
             return
         }
 
-        let chance = this.knowledge
-
-        if (chance > 70) {
-            chance = 70
-        }
-
-        if (Func.notChance(chance, this.is_lucky)) {
-            this.resource -= this.pay_to_cost
-        }
-
+        this.resource -= this.pay_to_cost
+        
         this.pay_to_cost = 0
         if (this.resource < 0) {
             this.resource = 0
@@ -525,10 +500,6 @@ export default class Flyer extends Character {
             setTimeout(() => {
                 this.can_be_enlighten = true
             }, this.getEnlightenTimer())
-        }
-
-        if (Func.chance(this.perception * 2.5, this.is_lucky)) {
-            this.recent_cast.push(this.level.time)
         }
     }
 

@@ -23,10 +23,7 @@ export default class SoulAccumulator extends Item {
         if (!character.life_status) return
 
         character.might += this.count
-        character.perception += this.count
-        character.knowledge += this.count
-        character.agility += this.count
+        character.ingenuity += this.count
         character.will += this.count
-        character.durability += this.count
     }
 }

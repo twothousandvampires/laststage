@@ -14,11 +14,8 @@ export default class Touch extends Status {
 
         if (this.unit instanceof Character) {
             this.unit.might += 10
-            this.unit.perception += 10
-            this.unit.knowledge += 10
+            this.unit.ingenuity += 10
             this.unit.will += 10
-            this.unit.durability += 10
-            this.unit.agility += 10
 
             this.unit.statusWasApplied()
 
@@ -42,11 +39,8 @@ export default class Touch extends Status {
     clear() {
         if (this.unit instanceof Character) {
             this.unit.might -= 10
-            this.unit.perception -= 10
-            this.unit.knowledge -= 10
+            this.unit.ingenuity -= 10
             this.unit.will -= 10
-            this.unit.durability -= 10
-            this.unit.agility -= 10
         }
     }
 }

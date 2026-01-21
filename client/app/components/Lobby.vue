@@ -100,7 +100,7 @@
     
                     <p>left: {{ value.template.stat_count }}</p>
                     <div class="stat" v-for="(stat_value, key) in value.template.stats">
-                        <p class="button" v-if="value.is_player" @click="decreaseStat(key)">-</p>
+                        <p class="button" v-if="value.is_player" @click="increaseStat(key)">+</p>
                         <p v-else>///</p>
                         <img
                         width="60px"
@@ -111,7 +111,8 @@
                         :src="`/icons/${key}.png`"
                         class="button">
                         {{ stat_value }}
-                        <p class="button" v-if="value.is_player" @click="increaseStat(key)">+</p>
+                        <p class="button" v-if="value.is_player" @click="decreaseStat(key)">-</p>
+                        
                          <p v-else>///</p>
                     </div>
                 </div>

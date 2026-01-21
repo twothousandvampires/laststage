@@ -87,7 +87,7 @@ export default class Cultist extends Character {
     }
 
     getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty
+        let total_inc = this.move_speed_penalty + this.ingenuity
 
         if (total_inc === 0) return this.move_speed
 
@@ -150,6 +150,10 @@ export default class Cultist extends Character {
         if (!this.can_get_courage) return
 
         for (let i = 0; i < count; i++) {
+            this.recent_hits.push(this.level.time)
+        }
+
+        if(this.getChanceForAdditionalCourage()){
             this.recent_hits.push(this.level.time)
         }
 
@@ -469,18 +473,18 @@ export default class Cultist extends Character {
 
     getStatDescription(stat: string) {
         if (stat === 'might') {
-            return `- increases attack and cast speed
-                    - increases critical chance
-                    - increases impact rating`
+            return `- increases chance to instant kill
+                         - increases chance to get additional courage
+                         - increases impact rating`
         }
         if (stat === 'ingenuity') {
-            return `- increases pierce rating
-                    - increases chance to get additional energy
-                    - increases chance to double triggering`
+            return `- increases move speed
+                            - increases chance to get additional energy
+                            - increases chance to double triggering`
         }
         if (stat === 'will') {
-            return `- increases armour
-                    - increases status resistance
+            return `- reduces cooldown between geting enligtment
+                    - increases chance not to lose energy after using finisher
                     - increases chance to avoid damage`
         }
 
@@ -512,7 +516,7 @@ export default class Cultist extends Character {
     }
 
     getCastSpeed() {
-        let value = this.cast_speed - this.might * 10
+        let value = this.cast_speed
 
         if (value < Cultist.MIN_CAST_SPEED) {
             value = Cultist.MIN_CAST_SPEED
@@ -527,6 +531,12 @@ export default class Cultist extends Character {
             this.free_cast = false
             return
         }
+
+        if(Func.chance(this.will)){
+            this.pay_to_cost = 0
+        }
+
+        this.resource -= this.pay_to_cost
 
         this.pay_to_cost = 0
         if (this.resource < 0) {

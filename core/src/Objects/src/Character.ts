@@ -5,7 +5,6 @@ import Func from '../../Func'
 import Mastery from '../../Glyphs/Mastery'
 import IUnitState from '../../Interfaces/IUnitState'
 import Forging from '../../Items/Forgings/Forging'
-import ShockWave from '../../Items/Forgings/ShockWave'
 import Item from '../../Items/Item'
 import item from '../../Items/Item'
 import Level from '../../Level'
@@ -60,13 +59,10 @@ export default abstract class Character extends Unit {
     knowledge: number = 0
     perception: number = 0
     agility: number = 0
-    will: number = 0
-    might: number = 0
 
     might: number = 0
     ingenuity: number = 0
     will: number = 0
-
 
     upgrades_generated: number = 5
 
@@ -124,6 +120,7 @@ export default abstract class Character extends Unit {
     chance_to_create_grace: number = 0
     chance_to_trigger_additional_time: number = 0
     chance_not_lose_energy_when_block: number = 0
+    additional_courage_chance: number = 0
     avoid_damage_chance: number = 0
     chance_to_additional_carved_spark: number = 0
     block_for_energy: number = 0
@@ -209,6 +206,10 @@ export default abstract class Character extends Unit {
         return base
     }
 
+    getChanceForAdditionalCourage(){
+        return this.additional_courage_chance + this.might
+    }
+
     getPower(){
         return this.power
     }
@@ -241,6 +242,10 @@ export default abstract class Character extends Unit {
         })
         
         return base
+    }
+
+    getInstantKillChance(){
+        return this.chance_to_instant_kill + Math.round(this.might / 2)
     }
 
     generateUpgrades(){
@@ -316,7 +321,7 @@ export default abstract class Character extends Unit {
     }
 
     getCastSpeed() {
-        return this.cast_speed - this.might * 15
+        return this.cast_speed
     }
 
     getPierce() {
@@ -491,7 +496,7 @@ export default abstract class Character extends Unit {
     }
 
     protected getEnlightenTimer(): number {
-        return this.enlight_timer
+        return this.enlight_timer - (this.will * 750)
     }
 
     playerWasEnlighted() {

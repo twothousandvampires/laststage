@@ -69,6 +69,17 @@ export default class Swordman extends Character {
         return this.might + 1
     }
 
+    getMoveSpeed(): number {
+        let total_inc = this.move_speed_penalty + this.ingenuity
+
+        if (total_inc === 0) return this.move_speed
+
+        if (total_inc > 200) total_inc = 200
+        if (total_inc < -95) total_inc = -95
+
+        return this.move_speed * (1 + total_inc / 100)
+    }
+
     getMoveSpeedReduceWhenBlock() {
         return 80
     }
@@ -77,6 +88,10 @@ export default class Swordman extends Character {
         if (!this.can_get_courage) return
 
         this.recent_kills.push(this.level.time)
+
+        if(this.getChanceForAdditionalCourage()){
+            this.recent_kills.push(this.level.time)
+        }
 
         if (this.can_be_enlighten && this.recent_kills.length >= this.enlightenment_threshold) {
             this.can_be_enlighten = false
@@ -316,18 +331,18 @@ export default class Swordman extends Character {
 
     getStatDescription(stat: string) {
         if (stat === 'might') {
-            return `- increases attack and cast speed
-                    - increases critical chance
-                    - affects the number of targets that can be hit by your abilities`
+            return ` - increases chance to instant kill
+                     - increases chance to get additional courage
+                     - affects the number of targets that can be hit by your abilities`
         }
         if (stat === 'ingenuity') {
-            return `- increases pierce rating
+            return `- increases move speed
                     - increases chance to get additional energy
                     - increases block chance`
         }
         if (stat === 'will') {
-            return `- increases armour
-                    - increases status resistance
+            return `- reduces cooldown between geting enligtment
+                    - increases chance not to lose energy after using finisher
                     - icreases chance not to lose courage when hit`
         }
 
@@ -510,6 +525,11 @@ export default class Swordman extends Character {
             this.free_cast = false
             return
         }
+
+        if(Func.chance(this.will)){
+            this.pay_to_cost = 0
+        }
+
         this.resource -= this.pay_to_cost
         this.pay_to_cost = 0
         if (this.resource < 0) {

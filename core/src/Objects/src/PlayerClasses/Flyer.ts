@@ -142,7 +142,7 @@ export default class Flyer extends Character {
     }
 
     getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty
+        let total_inc = this.move_speed_penalty + this.ingenuity
 
         if (total_inc === 0) return this.move_speed
 
@@ -395,19 +395,19 @@ export default class Flyer extends Character {
 
     getStatDescription(stat: string) {
         if (stat === 'might') {
-            return `- increases attack and cast speed
-                    - increases critical chance
+            return `- increases chance to instant kill
+                    - increases chance to get additional courage
                     - increases AOE, count of projectiles etc`
         }
         if (stat === 'ingenuity') {
-            return `- increases pierce rating
+            return `- increases move speed
                     - increases chance to get additional energy
                     - reduces cooldowns`
         }
         if (stat === 'will') {
-            return `- increases armour
-                    - increases status resistance
-                    - increases life regeneration rate`
+            return  - `- reduces cooldown between geting enligtment
+                        - increases chance not to lose energy after using finisher
+                        - increases life regeneration rate`
         }
 
         return ''
@@ -479,6 +479,10 @@ export default class Flyer extends Character {
             return
         }
 
+        if(Func.chance(this.will)){
+            this.pay_to_cost = 0
+        }
+
         this.resource -= this.pay_to_cost
         
         this.pay_to_cost = 0
@@ -491,6 +495,10 @@ export default class Flyer extends Character {
         if (!this.can_get_courage) return
 
         this.recent_cast.push(this.level.time)
+
+        if(this.getChanceForAdditionalCourage()){
+            this.recent_cast.push(this.level.time)
+        }
 
         if (this.can_be_enlighten && this.recent_cast.length >= this.enlightenment_threshold) {
             this.can_be_enlighten = false

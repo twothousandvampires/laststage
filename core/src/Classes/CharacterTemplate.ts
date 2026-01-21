@@ -23,15 +23,15 @@ export default class characterTemplate {
                 will: 1,
             }
             this.stats_description = {
-                might: `  - increases attack and cast speed
-                          - increases critical chance
+                might: `  - increases chance to instant kill
+                          - increases chance to get additional courage
                           - affects the number of targets that can be hit by your abilities`,
-                ingenuity: `- increases pierce rating
+                ingenuity: `- increases move speed
                             - increases chance to get additional energy
                             - increases block chance`,
-                will: `- increases armour
-                             - increases status resistance
-                             - icreases chance not to lose courage when hit`,
+                will: `- reduces cooldown between getting enlightenment
+                        - increases chance not to lose energy after using finisher
+                        - icreases chance not to lose courage when hit`,
             }
             this.abilities = [
                 {
@@ -141,15 +141,15 @@ export default class characterTemplate {
                 will: 0,
             }
             this.stats_description = {
-                might: `- increases attack and cast speed
-                          - increases critical chance
-                          - increases AOE, count of projectiles etc`,
-                ingenuity: `- increases pierce rating
+                might: `- increases chance to instant kill
+                        - increases chance to get additional courage
+                        - increases AOE, count of projectiles etc`,
+                ingenuity: `- increases move speed
                             - increases chance to get additional energy
                             - reduces cooldowns`,
-                will: `- increases armour
-                             - increases status resistance
-                             - increases life regeneration rate`,
+                will: ` - reduces cooldown between geting enligtment
+                        - increases chance not to lose energy after using finisher
+                        - increases life regeneration rate`,
             }
             this.abilities = [
                 {
@@ -245,15 +245,15 @@ export default class characterTemplate {
                 will: 3
             }
             this.stats_description = {
-                might: `- increases attack and cast speed
-                          - increases critical chance
-                          - increases impact rating`,
-                ingenuity: `- increases pierce rating
+                might: ` - increases chance to instant kill
+                         - increases chance to get additional courage
+                         - increases impact rating`,
+                ingenuity: `- increases move speed
                             - increases chance to get additional energy
                             - increases chance to double triggering`,
-                will: `- increases armour
-                             - increases status resistance
-                             - increases chance to avoid damage`,
+                will: `- reduces cooldown between geting enligtment
+                        - increases chance not to lose energy after using finisher
+                        - increases chance to avoid damage`,
             }
             this.abilities = [
                 {

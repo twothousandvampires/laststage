@@ -272,7 +272,7 @@ export default abstract class Enemy extends Unit {
 
         let is_player_deal_hit = unit instanceof Character
 
-        let instantly = this.can_be_instant_killed && (options?.instant_death || (is_player_deal_hit && Func.chance(unit.chance_to_instant_kill)))
+        let instantly = this.can_be_instant_killed && (options?.instant_death || (is_player_deal_hit && Func.chance(unit.getInstantKillChance())))
 
         if (instantly) {
             this.life_status = 1

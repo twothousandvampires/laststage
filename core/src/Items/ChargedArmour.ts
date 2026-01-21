@@ -10,8 +10,7 @@ export default class ChargedArmour extends Item implements ITrigger {
         super()
         this.name = 'charged armour'
         this.type = 2
-        this.description =
-            'when you get energy there is a chance that if it is not max - you get a ward, otherwise you lose the whole ward and get set on fire'
+        this.description = 'when you get energy there is a chance that if it is not max - you get a ward, otherwise you lose the whole ward and get set on fire'
         this.chance = 15
     }
 

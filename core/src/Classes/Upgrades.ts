@@ -273,7 +273,7 @@ export default class Upgrades {
                     return character.enlightenment_threshold >= 6
                 },
                 teach: (character: Character): void => {
-                    character.enlightenment_threshold--
+                    character.enlightenment_threshold --
                 },
                 cost: 3,
                 ascend: 20,

@@ -524,23 +524,4 @@ export default class Cultist extends Character {
 
         return value
     }
-
-    payCost() {
-        if (this.free_cast) {
-            this.pay_to_cost = 0
-            this.free_cast = false
-            return
-        }
-
-        if(Func.chance(this.will)){
-            this.pay_to_cost = 0
-        }
-
-        this.resource -= this.pay_to_cost
-
-        this.pay_to_cost = 0
-        if (this.resource < 0) {
-            this.resource = 0
-        }
-    }
 }

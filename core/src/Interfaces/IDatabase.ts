@@ -1,4 +1,6 @@
+import Character from "../Objects/src/Character"
+
 export interface IDatabase {
-    saveData(): void
+    saveData(player: Character, game_type: string): void
     addRecord(): void
 }

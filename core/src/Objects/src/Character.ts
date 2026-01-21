@@ -207,7 +207,7 @@ export default abstract class Character extends Unit {
     }
 
     getChanceForAdditionalCourage(){
-        return this.additional_courage_chance + this.might
+        return this.additional_courage_chance + Math.round(this.might / 2)
     }
 
     getPower(){
@@ -495,6 +495,19 @@ export default abstract class Character extends Unit {
         return result
     }
 
+    payCost() {
+        if(Func.chance(Math.round(this.will / 2))){
+            this.pay_to_cost = 0
+        }
+
+        this.resource -= this.pay_to_cost
+        this.pay_to_cost = 0
+        
+        if (this.resource < 0) {
+            this.resource = 0
+        }
+    }
+
     protected getEnlightenTimer(): number {
         return this.enlight_timer - (this.will * 750)
     }
@@ -519,15 +532,6 @@ export default abstract class Character extends Unit {
 
     getStatsArray() {
         return ['might', 'ingenuity', 'will']
-    }
-
-    protected payCost(): void {
-        this.resource -= this.pay_to_cost
-        this.pay_to_cost = 0
-
-        if (this.resource < 0) {
-            this.resource = 0
-        }
     }
 
     public statusWasApplied(): void {}

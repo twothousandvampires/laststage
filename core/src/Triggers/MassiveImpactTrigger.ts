@@ -1,6 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
-
+import ITrigger from '../Interfaces/Itrigger'
 import Impact from '../Objects/Effects/Impact'
 import Character from '../Objects/src/Character'
 
@@ -9,11 +8,11 @@ export default class MassiveImpactTrigger implements ITrigger{
     cd: number = 1000
     last_trigger_time: number = 0
     name: string = 'massive impact'
-    description: string = 'Gives a chance, depending on your might to create additional impacts'
+    description: string = 'Gives a chance, depending on your power to create additional impacts'
     chance: number = 0
 
     getTriggerChance(player: Character): number {
-        return player.might * 3
+        return player.power * 3
     }
 
     trigger(player: Character, target: any = undefined, impact_damage: number = 1) {

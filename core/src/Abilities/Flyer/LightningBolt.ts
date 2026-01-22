@@ -39,13 +39,13 @@ export default class LightningBolt extends FlyerAbility {
         for (let i = 0; i < targets.length; i++) {
             let elem = targets[i]
             if (elem != this.owner && Func.elipseCollision(hiting_box, elem.getBoxElipse())) {
-                if (true) {
+                if (max_targets <= 0) {
                     let status = new ShockStatus(time)
                     status.setDuration(5000)
                     status.setPower(20)
 
-                    this.owner.level.setStatus(elem, status)
-                } else if (max_targets > 0) {
+                    this.owner.level.setStatus(elem, status, true)
+                } else {
                     max_targets--
                     elem.takeDamage(this.owner, {
                         burn: true,

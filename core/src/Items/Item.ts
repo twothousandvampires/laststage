@@ -32,7 +32,7 @@ export default abstract class Item {
     static readonly list = [
         {
             name: 'skull of first warrior',
-            description: 'increases your might by 12 for 10 seconds after 12 kills',
+            description: 'increases your power by 12 for 10 seconds after 12 kills',
         },
         {
             name: 'glacial chain',
@@ -196,8 +196,6 @@ export default abstract class Item {
 
     static forging_list_type_1 = [
         'attack speed',
-        // 'perception',
-        'might',
         'instant kill',
         'ignite when hit',
         'frost shpere when kill',
@@ -211,8 +209,6 @@ export default abstract class Item {
     ]
 
     static forging_list_type_2 = [
-        // 'might',
-        'will',   
         'regen time',
         'block chance',
         'freeze when hited',
@@ -226,8 +222,6 @@ export default abstract class Item {
     ]
 
     static forging_list_type_3 = [
-        'ingenuity',
-        // 'knowledge',
         'max resources',
         'cooldown reduction',
         'blessed life',

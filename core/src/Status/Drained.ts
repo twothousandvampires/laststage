@@ -10,6 +10,8 @@ export default class Drained extends Status {
     durability_drained: number
     name: string
 
+    value: number = 0
+
     constructor(public time: number) {
         super(time)
         this.might_drained = 0
@@ -25,14 +27,9 @@ export default class Drained extends Status {
     drain() {
        
         if (this.unit instanceof Character) {
-            this.unit.might -= 2
-            this.might_drained += 2  
-
-            this.unit.ingenuity -= 2
-            this.perception_drained += 2
+            this.value += 2
             
-            this.unit.will -= 2
-            this.will_drained += 2   
+            this.unit.changeStats(-2)
         }
     }
 
@@ -52,9 +49,7 @@ export default class Drained extends Status {
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.might += this.might_drained
-            this.unit.ingenuity += this.perception_drained
-            this.unit.will += this.will_drained
+            this.unit.changeStats(this.value)
         }
     }
 

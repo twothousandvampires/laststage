@@ -1,8 +1,10 @@
 import Func from '../Func'
+import ITrigger from '../Interfaces/Itrigger'
 import { Lightning } from '../Objects/Projectiles/Lightning'
 import Character from '../Objects/src/Character'
 
-export default class ThunderStrikesTrigger {
+export default class ThunderStrikesTrigger implements ITrigger{
+
     cd: number = 1500
     last_trigger_time: number = 0
     count: number = 0
@@ -10,12 +12,12 @@ export default class ThunderStrikesTrigger {
     description: string = 'Creates lightning bolts that strike behind the target'
     chance: number = 100
 
+    getTriggerChance(player: Character | undefined): number {
+        return this.chance
+    }
+
     trigger(player: Character, enemy: any) {
         if (!enemy) return
-
-        if (player.level.time - this.last_trigger_time < this.cd) return
-
-        this.last_trigger_time = player.level.time
 
         let angle = Func.angle(player.x, player.y, enemy.x, enemy.y)
 

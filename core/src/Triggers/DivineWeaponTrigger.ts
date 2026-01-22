@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import HeavenRay from '../Objects/Effects/HeavenRay'
 import Character from '../Objects/src/Character'
 
@@ -9,10 +9,10 @@ export default class DivineWeaponTrigger implements ITrigger {
     name: string = 'divine weapon'
     chance: number = 0
     description: string =
-        'Gives a chance, depending on your will to rain down pillars of light on enemies when you hit'
+        'Gives a chance, depending on your power to rain down pillars of light on enemies when you hit'
 
     getTriggerChance(player: Character): number {
-        return Math.round(player.will * 1.5)
+        return Math.round(player.power * 1.5)
     }
 
     trigger(player: Character, target: any) {

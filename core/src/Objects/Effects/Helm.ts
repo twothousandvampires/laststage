@@ -25,11 +25,11 @@ export default class Helm extends Effect {
 
                 let r = Func.random(1, 6)
                 if (r === 1) {
-                    elem.might ++
+                    elem.move_speed_penalty ++
                 } else if (r === 2) {
-                    elem.will ++
+                    elem.vampiric_rate ++
                 } else if (r === 3) {
-                    elem.ingenuity ++
+                    elem.chance_to_trigger_additional_time ++
                 }
 
                 this.level.deleted.push(this.id)

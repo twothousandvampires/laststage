@@ -7,7 +7,7 @@ export default class SoulAccumulator extends Item {
         this.count = 5
         this.name = 'soul accumulator'
         this.type = 3
-        this.description = 'when your teammate dies, you gain 5 to all stats'
+        this.description = 'when your teammate dies, you gain 10 to all primary stats'
     }
 
     getSpecialForgings(): string[] {
@@ -22,8 +22,6 @@ export default class SoulAccumulator extends Item {
         if (this.disabled) return
         if (!character.life_status) return
 
-        character.might += this.count
-        character.ingenuity += this.count
-        character.will += this.count
+        character.changeStats(10)
     }
 }

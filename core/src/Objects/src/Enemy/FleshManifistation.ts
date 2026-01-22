@@ -26,7 +26,7 @@ export class FleshManifistation extends Manifistation {
 
         for (let i = -1; i < this.stage; i++) {
             let s = Func.getRandomFromArray(pull)
-            s.setDuration(5000 + this.stage * 1000)
+            s.setDuration(5000 + this.stage * 1500)
 
             this.level.setStatus(this.activated_by, s)
             pull = pull.filter(elem => elem != s)
@@ -37,12 +37,8 @@ export class FleshManifistation extends Manifistation {
         if (this.stage === 0) return
         if (!this.activated_by) return
 
-        let stat = Func.getRandomFromArray(this.activated_by.getStatsArray())
-        this.activated_by.power += this.stage
+        this.activated_by.changeStats(this.stage)
 
-        if (this.activated_by[stat] != undefined) {
-            this.activated_by[stat] += this.stage
-            this.level.addMessedge('your ' + stat + ' was increased', this.activated_by.id)
-        }
+        this.level.addMessedge('main stats were increased', this.activated_by.id)   
     }
 }

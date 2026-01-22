@@ -18,20 +18,10 @@ export default class characterTemplate {
         if (class_name === 'swordman') {
             this.name = 'swordman'
             this.stats = {
-                might: 1,
-                ingenuity: 1,
-                will: 1,
+
             }
             this.stats_description = {
-                might: `  - increases chance to instant kill
-                          - increases chance to get additional courage
-                          - affects the number of targets that can be hit by your abilities`,
-                ingenuity: `- increases move speed
-                            - increases chance to get additional energy
-                            - increases block chance`,
-                will: `- reduces cooldown between getting enlightenment
-                        - increases chance not to lose energy after using finisher
-                        - icreases chance not to lose courage when hit`,
+                
             }
             this.abilities = [
                 {
@@ -136,20 +126,10 @@ export default class characterTemplate {
         } else if (class_name === 'flyer') {
             this.name = 'flyer'
             this.stats = {
-                might: 1,
-                ingenuity: 2,
-                will: 0,
+                
             }
             this.stats_description = {
-                might: `- increases chance to instant kill
-                        - increases chance to get additional courage
-                        - increases AOE, count of projectiles etc`,
-                ingenuity: `- increases move speed
-                            - increases chance to get additional energy
-                            - reduces cooldowns`,
-                will: ` - reduces cooldown between geting enligtment
-                        - increases chance not to lose energy after using finisher
-                        - increases life regeneration rate`,
+                
             }
             this.abilities = [
                 {
@@ -240,20 +220,10 @@ export default class characterTemplate {
         } else if (class_name === 'cultist') {
             this.name = 'cultist'
             this.stats = {
-                might: 0,
-                ingenuity: 0,
-                will: 3
+                
             }
             this.stats_description = {
-                might: ` - increases chance to instant kill
-                         - increases chance to get additional courage
-                         - increases impact rating`,
-                ingenuity: `- increases move speed
-                            - increases chance to get additional energy
-                            - increases chance to double triggering`,
-                will: `- reduces cooldown between geting enligtment
-                        - increases chance not to lose energy after using finisher
-                        - increases chance to avoid damage`,
+                
             }
             this.abilities = [
                 {

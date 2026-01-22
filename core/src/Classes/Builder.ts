@@ -31,7 +31,6 @@ import Impact from '../Items/Forgings/Impact'
 import InstantKill from '../Items/Forgings/InstantKill'
 import Knowledge from '../Items/Forgings/Knowledge'
 import MaxResource from '../Items/Forgings/MaxResource'
-import Might from '../Items/Forgings/Might'
 import NovaThenHit from '../Items/Forgings/NovaThenHit'
 import Penetrating from '../Items/Forgings/Penetrating'
 import Pierce from '../Items/Forgings/Pierce'
@@ -41,7 +40,6 @@ import Sacredness from '../Items/Forgings/Sacredness'
 import ShockNovaWhenArmour from '../Items/Forgings/ShockNovaWhenArmour'
 import StunWhenHit from '../Items/Forgings/StunWhenHit'
 import Toughness from '../Items/Forgings/Toughness'
-import Will from '../Items/Forgings/Will'
 import GlacialChain from '../Items/GlacialChain'
 import GlassSword from '../Items/GlassSword'
 import IceBelt from '../Items/IceBelt'
@@ -202,7 +200,6 @@ export default class Builder {
         critical: Critical,
         distance: Distance,
         'dominance when critical': DominanceWhenCritical,
-        will: Will,
         duration: Duration,
         'fortify when hit': FortifyWhenHit,
         frequency: Frequency,
@@ -212,7 +209,6 @@ export default class Builder {
         'instant kill': InstantKill,
         knowledge: Knowledge,
         'max resources': MaxResource,
-        might: Might,
         'nova when hit': NovaThenHit,
         penetrating: Penetrating,
         pierce: Pierce,
@@ -222,7 +218,6 @@ export default class Builder {
         'shock nova when armour': ShockNovaWhenArmour,
         'stun when hit': StunWhenHit,
         toughness: Toughness,
-        will: Will,
         agility: Agility,
         spirit: Spirit,
         'freeze when hited': FreezeWhenHited,
@@ -230,7 +225,6 @@ export default class Builder {
         'frost shpere when kill': FrostShpereWhenKill,
         'sparks when block': SparksWhenBlock,
         overcharge: Overcharge,
-        ingenuity: Perception,
         'ice presence': IcePresence,
         'cold heart': ColdHeart,
         'explosive armour': ExplosiveArmour,

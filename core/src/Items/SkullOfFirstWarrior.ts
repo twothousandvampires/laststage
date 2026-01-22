@@ -20,7 +20,7 @@ export default class SkullOfFirstWarrior extends Item implements ITrigger {
         this.add_might = 8
         this.name = 'skull of first warrior'
         this.type = 3
-        this.description = 'increases your might by 12 for 10 seconds after 12 kills'
+        this.description = 'increases your power by 12 for 10 seconds after 12 kills'
     }
 
     getTriggerChance(): number {
@@ -42,7 +42,7 @@ export default class SkullOfFirstWarrior extends Item implements ITrigger {
         this.kill_count++
 
         if (this.kill_count >= this.threshold) {
-            character.might += this.add_might
+            character.power += this.add_might
 
             this.kill_count = 0
             this.countable = false
@@ -50,11 +50,11 @@ export default class SkullOfFirstWarrior extends Item implements ITrigger {
             character.newStatus({
                 name: 'skull of first warrior',
                 duration: 10000 + this.duration,
-                desc: 'might is increased',
+                desc: 'power is increased',
             })
 
             setTimeout(() => {
-                character.might -= this.add_might
+                character.power -= this.add_might
                 this.countable = true
             }, 10000 + this.duration)
         }

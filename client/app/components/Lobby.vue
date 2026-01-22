@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            <div class="left_block">
+            <!-- <div class="left_block">
                 <div class="stat_wrap">
     
                     <p>left: {{ value.template.stat_count }}</p>
@@ -116,7 +116,7 @@
                          <p v-else>///</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

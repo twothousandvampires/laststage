@@ -1,13 +1,15 @@
 import Func from '../Func'
+import ITrigger from '../Interfaces/Itrigger'
 import Heal from '../Objects/Effects/Heal'
 import LightNova from '../Objects/Effects/LightNova'
 import Character from '../Objects/src/Character'
-import { Enemy } from '../Objects/src/Enemy/Enemy'
+import Enemy from '../Objects/src/Enemy/Enemy'
 import Item from './Item'
 
-export default class SolarSpear extends Item {
-    frequency: number = 4000
-    last_trigger: number = 0
+export default class SolarSpear extends Item implements ITrigger {
+
+    cd: number = 4000
+    last_trigger_time: number = 0
     chance: number = 100
 
     constructor() {
@@ -15,6 +17,10 @@ export default class SolarSpear extends Item {
         this.name = 'solar spear'
         this.type = 1
         this.description = 'when you pierce enemy you create light nova which heals allies'
+    }
+
+    getTriggerChance(player: Character | undefined): number {
+        return this.chance
     }
 
     getSpecialForgings(): string[] {
@@ -29,26 +35,22 @@ export default class SolarSpear extends Item {
         if (this.disabled) return
         if (!enemy) return
 
-        if (player.level.time - this.last_trigger >= this.frequency) {
-            this.last_trigger = player.level.time
+        let e = new LightNova(player.level)
+        e.setPoint(enemy.x, enemy.y)
+        player.level.effects.push(e)
 
-            let e = new LightNova(player.level)
-            e.setPoint(enemy.x, enemy.y)
-            player.level.effects.push(e)
+        player.level.players.forEach(elem => {
+            if (Func.distance(elem, enemy) <= 12) {
+                player.level.addSound('heal', elem.x, elem.y)
 
-            player.level.players.forEach(elem => {
-                if (Func.distance(elem, enemy) <= 12) {
-                    player.level.addSound('heal', elem.x, elem.y)
+                let e = new Heal(player.level)
+                e.setPoint(elem.x, elem.y)
+                e.z += 8
 
-                    let e = new Heal(player.level)
-                    e.setPoint(elem.x, elem.y)
-                    e.z += 8
+                player.level.effects.push(e)
 
-                    player.level.effects.push(e)
-
-                    elem.addLife()
-                }
-            })
-        }
+                elem.addLife()
+            }
+        })     
     }
 }

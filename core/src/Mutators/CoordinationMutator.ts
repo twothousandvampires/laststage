@@ -1,8 +1,8 @@
 import Character from "../Objects/src/Character";
-import { Mutator } from "./Mittor";
+import Mutator from "./Mutator";
 
 export default class CoordinationMutator extends Mutator {
     mutate(base: number,  player: Character): number {
-        return base - player.ingenuity
+        return base - 20
     }
 }

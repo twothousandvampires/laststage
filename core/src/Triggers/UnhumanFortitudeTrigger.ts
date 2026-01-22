@@ -7,7 +7,7 @@ export default class UnhumanFortitudeTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 30
     name: string = 'unhuman fortitude'
-    description: string = 'Grants a 30% chance to gain fortification equal to your will'
+    description: string = 'Grants a 30% chance to gain fortification equal to your power'
 
     getTriggerChance(): number {
         return this.chance
@@ -15,7 +15,7 @@ export default class UnhumanFortitudeTrigger implements ITrigger {
 
     trigger(player: Character, target: any = undefined) {
         let s = new Fortify(player.level.time)
-        s.setPower(player.will)
+        s.setPower(player.power)
         s.setDuration(5000)
 
         player.level.setStatus(player, s, true)

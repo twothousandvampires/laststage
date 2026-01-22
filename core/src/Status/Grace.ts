@@ -3,7 +3,7 @@ import Status from './Status'
 
 export default class Grace extends Status {
     name: string
-
+    value: number = 0
     constructor(public time: number) {
         super(time)
         this.name = 'grace'
@@ -11,9 +11,7 @@ export default class Grace extends Status {
     }
 
     drain() {
-        this.unit.might += 2
-        this.unit.ingenuity  += 2
-        this.unit.will += 2
+        this.unit.changeStats(2)
     }
 
     apply(unit: any) {
@@ -32,9 +30,7 @@ export default class Grace extends Status {
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.might -= 2
-            this.unit.ingenuity  -= 2
-            this.unit.will -= 2
+             this.unit.changeStats(-2)
         }
     }
 

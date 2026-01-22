@@ -58,7 +58,7 @@ export default class Flyer extends Character {
     }
 
     getAdditionalRadius() {
-        return Math.floor(this.might / 2)
+        return Math.floor(this.power / 4)
     }
 
     getDefendState() {
@@ -142,7 +142,7 @@ export default class Flyer extends Character {
     }
 
     getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty + this.ingenuity
+        let total_inc = this.move_speed_penalty
 
         if (total_inc === 0) return this.move_speed
 
@@ -153,6 +153,7 @@ export default class Flyer extends Character {
     }
 
     applyStats(stats: any) {
+        return
         for (let stat in stats) {
             this[stat] = stats[stat]
         }
@@ -208,7 +209,7 @@ export default class Flyer extends Character {
     }
 
     getCdRedaction() {
-        return this.cooldown_redaction + this.ingenuity
+        return this.cooldown_redaction
     }
 
     getMoveSpeedPenaltyValue() {
@@ -263,11 +264,8 @@ export default class Flyer extends Character {
     public succesefulBlock(unit: Unit | undefined): void {
         super.succesefulBlock(unit)
 
-        let will_chance = this.will * 2
-        
-        if(will_chance > 50){
-            will_chance = 50
-        }
+        let will_chance = 0
+    
         if (Func.notChance(will_chance, this.is_lucky)) {
             this.resource --
         }
@@ -370,11 +368,11 @@ export default class Flyer extends Character {
     }
 
     getSkipDamageStateChance() {
-        return this.chance_to_avoid_damage_state + this.will * 7
+        return this.chance_to_avoid_damage_state
     }
 
     getRegenTimer() {
-        return this.base_regeneration_time - (this.will * 100)
+        return this.base_regeneration_time
     }
 
     getManaRegenTimer() {
@@ -391,26 +389,6 @@ export default class Flyer extends Character {
 
     isSecondTrigger() {
         return this.chance_to_trigger_additional_time
-    }
-
-    getStatDescription(stat: string) {
-        if (stat === 'might') {
-            return `- increases chance to instant kill
-                    - increases chance to get additional courage
-                    - increases AOE, count of projectiles etc`
-        }
-        if (stat === 'ingenuity') {
-            return `- increases move speed
-                    - increases chance to get additional energy
-                    - reduces cooldowns`
-        }
-        if (stat === 'will') {
-            return  - `- reduces cooldown between geting enligtment
-                        - increases chance not to lose energy after using finisher
-                        - increases life regeneration rate`
-        }
-
-        return ''
     }
 
     regen() {

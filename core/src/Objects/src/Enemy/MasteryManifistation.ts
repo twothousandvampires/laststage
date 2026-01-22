@@ -16,27 +16,32 @@ export class MasteryManifistation extends Manifistation {
         if (this.stage === 0) return
         if (!this.activated_by) return
 
-        if (this.stage >= 1) {
-            this.activated_by.attack_speed -= 20
-            this.activated_by.cast_speed -= 20
-            this.activated_by.level.addMessedge('attack and cast speed was increased')
+        if (this.stage == 1) {
+            this.activated_by.first_ability.mastery_chance += 1
+            this.activated_by.level.addMessedge('mastery chance was increased on first ability')
         }
-        if (this.stage >= 2) {
-            this.activated_by.armour += 3
+        else if (this.stage == 2) {
+            this.activated_by.first_ability.mastery_chance += 1
+            this.activated_by.second_ability.mastery_chance += 1
             await Func.sleep(2000)
-            this.activated_by.level.addMessedge('armour was increased')
+            this.activated_by.level.addMessedge('mastery chance were increased on first and second ability')
         }
-        if (this.stage >= 3) {
-            this.activated_by.pierce += 3
+        else if (this.stage == 3) {
+            this.activated_by.first_ability.mastery_chance += 1
+            this.activated_by.second_ability.mastery_chance += 1
+            this.activated_by.third_ability.mastery_chance += 1
             await Func.sleep(2000)
-            this.activated_by.level.addMessedge('pierce was increased')
+            this.activated_by.level.addMessedge('mastery chance were increased on first and second and third ability')
         }
-        if (this.stage >= 4) {
-            this.activated_by.move_speed_penalty += 5
+        else if (this.stage == 4) {
+            this.activated_by.first_ability.mastery_chance += 1
+            this.activated_by.second_ability.mastery_chance += 1
+            this.activated_by.third_ability.mastery_chance += 1
+            this.activated_by.utility.mastery_chance += 1
             await Func.sleep(2000)
-            this.activated_by.level.addMessedge('speed was increased')
+            this.activated_by.level.addMessedge('mastery chance were increased on first and second and third ability and utility')
         }
-        if (this.stage >= 5) {
+        else if (this.stage >= 5) {
             let mastery = Builder.createRandomMastery()
             this.activated_by.masteries.push(mastery)
             await Func.sleep(2000)

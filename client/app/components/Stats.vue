@@ -7,7 +7,7 @@
         </div> -->
         <div v-if="!all" class="stat-wrap">
             <div v-for="(part, num) in stats.stats">
-                <p>-------------------------</p>
+                <p>{{ num }}</p>
                 <div class="stat-row" v-for="(key, stat) in part">
                     <p 
                         class="class-paragraph"

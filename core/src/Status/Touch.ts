@@ -13,9 +13,7 @@ export default class Touch extends Status {
         this.unit = unit
 
         if (this.unit instanceof Character) {
-            this.unit.might += 10
-            this.unit.ingenuity += 10
-            this.unit.will += 10
+            this.unit.changeStats(10)
 
             this.unit.statusWasApplied()
 
@@ -38,9 +36,7 @@ export default class Touch extends Status {
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.might -= 10
-            this.unit.ingenuity -= 10
-            this.unit.will -= 10
+            this.unit.changeStats(-10)
         }
     }
 }

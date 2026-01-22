@@ -66,11 +66,11 @@ export default class Swordman extends Character {
 
 
     getTargetsCount() {
-        return this.might + 1
+        return 5 + Math.round(this.power / 5)
     }
 
     getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty + this.ingenuity
+        let total_inc = this.move_speed_penalty
 
         if (total_inc === 0) return this.move_speed
 
@@ -132,6 +132,7 @@ export default class Swordman extends Character {
     }
 
     applyStats(stats: any) {
+        return
         for (let stat in stats) {
             this[stat] = stats[stat]
         }
@@ -203,7 +204,7 @@ export default class Swordman extends Character {
     }
 
     isBlock(crush: number = 0): boolean {
-        let b_chance = this.chance_to_block + this.ingenuity
+        let b_chance = this.chance_to_block
 
         b_chance += this.resource * this.block_for_energy
 
@@ -318,35 +319,11 @@ export default class Swordman extends Character {
         e.z = Func.random(2, 8)
         this.level.effects.push(e)
 
-        if (Func.notChance(this.will * 5, this.is_lucky)) {
-            this.recent_kills = this.recent_kills.filter((elem, index) => index >= 5)
-        }
-
         if (Func.chance(this.getAvoidChance(), this.is_lucky)) {
             return
         }
 
         this.subLife(unit, options)
-    }
-
-    getStatDescription(stat: string) {
-        if (stat === 'might') {
-            return ` - increases chance to instant kill
-                     - increases chance to get additional courage
-                     - affects the number of targets that can be hit by your abilities`
-        }
-        if (stat === 'ingenuity') {
-            return `- increases move speed
-                    - increases chance to get additional energy
-                    - increases block chance`
-        }
-        if (stat === 'will') {
-            return `- reduces cooldown between geting enligtment
-                    - increases chance not to lose energy after using finisher
-                    - icreases chance not to lose courage when hit`
-        }
-
-        return ''
     }
 
     getPenaltyByLifeStatus() {
@@ -510,7 +487,7 @@ export default class Swordman extends Character {
     }
 
     getAttackSpeed() {
-        let value = this.attack_speed - (this.might * 10) - (this.getSecondResource() * 10)
+        let value = this.attack_speed - (this.getSecondResource() * 10)
 
         if (value < Swordman.MIN_ATTACK_SPEED) {
             value = Swordman.MIN_ATTACK_SPEED

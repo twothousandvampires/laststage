@@ -96,6 +96,35 @@ export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
         return [
             {
+                name: 'might',
+                canUse: (character: Character) => {
+                    return character.power >= 30
+                },
+                teach: (character: Character): void => {
+                    character.attack_speed -= 50
+                    character.cast_speed -= 50
+                    character.armour_rate += 10
+                    character.pierce += 10
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'Increases attack and cast speed, armour and pierce',
+            },
+            {
+                name: 'ingenuity',
+                canUse: (character: Character) => {
+                    return character.power >= 25
+                },
+                teach: (character: Character): void => {
+                    character.avoid_damage_chance += 3
+                    character.cooldown_redaction += 5
+                    character.status_resistance += 5
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'Increases chance to avoid damage, resist and cd reduction',
+            },
+            {
                 name: 'taste of blood',
                 canUse: (character: Character) => {
                     return character.kills >= 250
@@ -155,7 +184,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 25,
-                desc: 'Might now also increases the chance not to lose energy when you block',
+                desc: 'Power now also increases the chance not to lose energy when you block',
             },
             {
                 name: 'coordination',
@@ -167,7 +196,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 20,
-                desc: 'Ingenuity now also reduces penalty of move speed when you attack or casting spell',
+                desc: 'Reduces penalty of move speed when you attack or casting spell',
             },        
             {
                 name: 'lethal strikes',
@@ -389,7 +418,7 @@ export default class Upgrades {
                     return character.power < 100
                 },
                 teach: (character: Character): void => {
-                    character.power++
+                    character.power += 2
                 },
                 cost: 1,
                 ascend: 12,
@@ -545,14 +574,14 @@ export default class Upgrades {
             {
                 name: 'inspiration',
                 canUse: (character: Character) => {
-                    return character.ingenuity >= 8 && !character.triggers_on_get_energy.some(elem => elem instanceof InspirationTrigger) 
+                    return character.power >= 30 && !character.triggers_on_get_energy.some(elem => elem instanceof InspirationTrigger) 
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_get_energy.push(new InspirationTrigger())
                 },
                 cost: 4,
                 ascend: 20,
-                desc: 'gives a chance depending on your ingenuity get maximum energy when you get energy',
+                desc: 'gives a chance depending on your power get maximum energy when you get energy',
             },
             {
                 name: 'massive impact',
@@ -564,7 +593,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 14,
-                desc: 'Gives a chance, depending on your might to create additional impacts',
+                desc: 'Gives a chance, depending on your power to create additional impacts',
             },
             {
                 name: 'focusing',
@@ -605,20 +634,20 @@ export default class Upgrades {
             {
                 name: 'divine weapon',
                 canUse: (character: Character) => {
-                    return  character.will >= 10 && !character.triggers_on_hit.some(elem => elem instanceof DivineWeaponTrigger)
+                    return  character.power >= 10 && !character.triggers_on_hit.some(elem => elem instanceof DivineWeaponTrigger)
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_hit.push(new DivineWeaponTrigger())
                 },
                 cost: 3,
                 ascend: 20,
-                desc: 'Gives a chance depending on your will to rain down pillars of light on enemies when you hit',
+                desc: 'Gives a chance depending on your power to rain down pillars of light on enemies when you hit',
             },
             {
                 name: 'unhuman fortitude',
                 canUse: (character: Character) => {
                     return (
-                        character.will >= 10 &&
+                        character.power >= 25 &&
                         !character.triggers_on_get_hit.some(
                             elem => elem instanceof UnhumanFortitudeTrigger
                         )
@@ -629,7 +658,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 20,
-                desc: 'Grants a 30% chance to gain fortification equal to your will when taking damage',
+                desc: 'Grants a 30% chance to gain fortification equal to your power when taking damage',
             },
             {
                 name: 'ressurection',
@@ -687,13 +716,13 @@ export default class Upgrades {
             {
                 name: 'lightning reflexes',
                 canUse: (character: Character) => {
-                    return character.ingenuity >= 10
+                    return Func.chance(30)
                 },
                 teach: (character: Character): void => {
                     character.armour_rate += 10
                 },
-                cost: 4,
-                ascend: 20,
+                cost: 2,
+                ascend: 30,
                 desc: 'Increases your armour by 10',
             },
             {
@@ -711,7 +740,7 @@ export default class Upgrades {
             {
                 name: 'titanic strikes',
                 canUse: (character: Character) => {
-                    return character.might >= 12
+                    return character.power >= 12
                 },
                 teach: (character: Character): void => {
                     character.impact += 6
@@ -749,7 +778,7 @@ export default class Upgrades {
             {
                 name: 'spirit strikes',
                 canUse: (character: Character) => {
-                    return !character.triggers_on_impact.some(elem => elem instanceof SpiritStrikes) && character.will >= 6
+                    return !character.triggers_on_impact.some(elem => elem instanceof SpiritStrikes) && character.ward >= 6
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_impact.push(new SpiritStrikes())
@@ -818,72 +847,6 @@ export default class Upgrades {
                 desc: 'Periodically creates a cold blast that freezes enemies and players',
             },
             {
-                name: 'ingenuity',
-                canUse: (character: Character) => {
-                    return character.ingenuity  != undefined
-                },
-                teach: (character: Character) => {
-                    character.ingenuity ++
-                },
-                cost: 1,
-                desc: 'Increases your ingenuity ',
-            },
-            // {
-            //     name: 'increase knowledge',
-            //     canUse: (character: Character) => {
-            //         return character.knowledge != undefined
-            //     },
-            //     teach: (character: Character) => {
-            //         character.knowledge++
-            //     },
-            //     cost: 1,
-            //     desc: 'Increases your knowledge',
-            // },
-            {
-                name: 'might',
-                canUse: (character: Character) => {
-                    return character.might != undefined
-                },
-                teach: (character: Character) => {
-                    character.might++
-                },
-                cost: 1,
-                desc: 'Increases your might',
-            },
-            {
-                name: 'will',
-                canUse: (character: Character) => {
-                    return character.will != undefined
-                },
-                teach: (character: Character) => {
-                    character.will++
-                },
-                cost: 1,
-                desc: 'Increases your will',
-            },
-            // {
-            //     name: 'increase will',
-            //     canUse: (character: Character) => {
-            //         return character.will != undefined
-            //     },
-            //     teach: (character: Character) => {
-            //         character.will++
-            //     },
-            //     cost: 1,
-            //     desc: 'Increases your will',
-            // },
-            // {
-            //     name: 'increase agility',
-            //     canUse: (character: Character) => {
-            //         return character.agility != undefined
-            //     },
-            //     teach: (character: Character) => {
-            //         character.agility++
-            //     },
-            //     cost: 1,
-            //     desc: 'Increases your agility',
-            // },
-            {
                 name: 'heal',
                 canUse: (character: Character) => {
                     return character.life_status < 4
@@ -924,7 +887,7 @@ export default class Upgrades {
                     return true
                 },
                 teach: (character: Character) => {
-                    character.pierce += 2
+                    character.pierce += 3
                 },
                 cost: 1,
                 desc: 'Increases pierce rating',
@@ -935,7 +898,7 @@ export default class Upgrades {
                     return character.critical < 100
                 },
                 teach: (character: Character) => {
-                    character.critical += 2
+                    character.critical += 3
                 },
                 cost: 1,
                 desc: 'Increases chance to deal double damage',
@@ -946,7 +909,7 @@ export default class Upgrades {
                     return true
                 },
                 teach: (character: Character) => {
-                    character.armour_rate += 3
+                    character.armour_rate += 4
                 },
                 cost: 1,
                 desc: 'Increases your armour',
@@ -992,7 +955,7 @@ export default class Upgrades {
             {
                 name: 'vision',
                 canUse: (character: Character) => {
-                    return Func.chance(30)
+                    return character.light_r < 20
                 },
                 teach: (character: Character) => {
                     character.light_r += 1
@@ -1150,7 +1113,7 @@ export default class Upgrades {
                 },
                 teach: (character: Character) => {
                     if (character instanceof Character) {
-                        character.impact++
+                        character.impact += 2
                     }
                 },
                 cost: 1,
@@ -1158,12 +1121,23 @@ export default class Upgrades {
                 desc: 'Increases impact rating',
             },
             {
+                name: 'preparation',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character) => {
+                    character.changeStats(1)
+                },
+                cost: 2,
+                desc: 'Increases all main stats by 1',
+            },
+            {
                 name: 'crushing',
                 canUse: (character: Character) => {
                     return character.crushing_rating < 100
                 },
                 teach: (character: Character) => {
-                    character.crushing_rating++
+                    character.crushing_rating += 3
                 },
                 cost: 1,
                 ascend: 8,
@@ -1191,7 +1165,7 @@ export default class Upgrades {
                     return character.spirit < 90
                 },
                 teach: (character: Character) => {
-                    character.spirit++
+                    character.spirit += 2
                 },
                 cost: 1,
                 ascend: 10,
@@ -2554,7 +2528,7 @@ export default class Upgrades {
             {
                 name: 'spirit weapon',
                 canUse: (character: Character) => {
-                    return character.attack_radius <= 16 && character.ingenuity >= 8
+                    return character.attack_radius <= 16 && character.power >= 12
                 },
                 teach: (character: Character): void => {
                     character.attack_radius += 1.5

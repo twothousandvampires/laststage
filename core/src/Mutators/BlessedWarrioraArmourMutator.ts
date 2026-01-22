@@ -1,5 +1,5 @@
 import Character from "../Objects/src/Character";
-import { Mutator } from "./Mittor";
+import Mutator from "./Mutator";
 
 export default class BlessedWarrioraArmourMutator extends Mutator {
     mutate(base: number,  player: Character): number {

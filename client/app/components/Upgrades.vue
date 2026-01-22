@@ -50,7 +50,7 @@
                         @mouseleave="$closeTitle()" 
                         >reroll
                     </p>
-                    <p v-if="true"
+                    <p v-if="data.can_hold"
                         @click="$socket.emit('sacrifice')"
                         style="font-size: 16px;"
                         class="button" 

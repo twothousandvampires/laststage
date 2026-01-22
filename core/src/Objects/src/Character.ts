@@ -8,7 +8,7 @@ import Forging from '../../Items/Forgings/Forging'
 import Item from '../../Items/Item'
 import item from '../../Items/Item'
 import Level from '../../Level'
-import { Mutator } from '../../Mutators/Mittor'
+import Mutator from '../../Mutators/Mutator'
 import PlayerDamagedState from '../../State/PlayerDamagedState'
 import PlayerDeadState from '../../State/PlayerDeadState'
 import PlayerDefendState from '../../State/PlayerDefendState'
@@ -22,6 +22,7 @@ import Upgrade from '../../Types/Upgrade'
 import Effect from '../Effects/Effects'
 import Grace from '../Effects/Grace'
 import SmallTextLanguage1 from '../Effects/SmallTextLanguage1'
+import TextLanguage1 from '../Effects/TextLanguage1'
 import Ward from '../Effects/Ward'
 import Enemy from './Enemy/Enemy'
 import Unit from './Unit'
@@ -56,13 +57,14 @@ export default abstract class Character extends Unit {
     impact_radius:number = 10
     base_mana_regen_rate: number = 5000
 
+    // UNUSED
     knowledge: number = 0
     perception: number = 0
     agility: number = 0
-
     might: number = 0
     ingenuity: number = 0
     will: number = 0
+    //
 
     upgrades_generated: number = 5
 
@@ -143,17 +145,19 @@ export default abstract class Character extends Unit {
     courage_expire_timer: number = 8000
     last_ascent_mastery_getting: number = 0
     vampiric_rate: number = 0
-    kills: number = 0
-    suggested_abilities: string[]=  []
 
-    current_state: IUnitState<Character> | undefined
+    kills: number = 0
+    blocks: number = 0
+    hits: number = 0
+    ability_use: number = 0
+
+    suggested_abilities: string[]=  []
 
     spend_grace: boolean = false
     target: string | undefined
     a: number = 0.2
 
     upgrades: any[] = []
-    free_cast: boolean = false
 
     pay_to_cost: number = 0
     after_grace_statuses: Status[] = []
@@ -174,6 +178,8 @@ export default abstract class Character extends Unit {
     left_teacher: boolean = false
     left_forger: boolean = false
 
+    stats: (keyof Character)[] = ['pierce', 'armour_rate', 'critical', 'crushing_rating', 'impact', 'power']
+
     constructor(level: Level) {
         super(level)
         this.box_r = 2.5
@@ -190,14 +196,13 @@ export default abstract class Character extends Unit {
     abstract getSecondResource(): number
     abstract isBlock(): boolean
     abstract getPenaltyByLifeStatus(): number
-   
     abstract getMoveSpeedPenaltyValue(): number
     abstract addCourage(): void
     abstract getRegenTimer(): number
     abstract reduceSecondResourse(amount: number): void
 
     getTotalArmour(){
-        let base = this.armour_rate + this.will
+        let base = this.armour_rate
 
         this.armour_mutators.forEach(elem => {
             base = elem.mutate(base, this)
@@ -206,8 +211,17 @@ export default abstract class Character extends Unit {
         return base
     }
 
+    changeStats(value: number){
+        this.stats.forEach(stat => {
+            let cur_stat = this[stat]
+            if(typeof cur_stat === 'number'){
+                (this[stat] as number) += value
+            }
+        })
+    }
+
     getChanceForAdditionalCourage(){
-        return this.additional_courage_chance + Math.round(this.might / 2)
+        return this.additional_courage_chance
     }
 
     getPower(){
@@ -235,7 +249,7 @@ export default abstract class Character extends Unit {
     }
 
     getCritical(){
-        let base = this.critical + this.might
+        let base = this.critical
        
         this.critical_rating_mutators.forEach(elem => {
             base = elem.mutate(base, this)
@@ -245,7 +259,7 @@ export default abstract class Character extends Unit {
     }
 
     getInstantKillChance(){
-        return this.chance_to_instant_kill + Math.round(this.might / 2)
+        return this.chance_to_instant_kill
     }
 
     generateUpgrades(){
@@ -253,7 +267,21 @@ export default abstract class Character extends Unit {
     }
 
     succesefulPierce(enemy: Unit): void {
-        this.triggers_on_pierce.forEach(elem => elem.trigger(this, enemy))
+        let time = this.level.time
+
+        this.triggers_on_pierce.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    this.triggers_on_impact.forEach(elem => elem.trigger(this, enemy))
+
+                    if (Func.chance(this.isSecondTrigger())) {
+                        this.triggers_on_impact.forEach(elem => elem.trigger(this, enemy))
+                    }
+
+                    elem.last_trigger_time = time
+                }
+            }
+        })
     }
 
     impactHit(enemy: any = undefined, impact_damage: number = 1) {
@@ -314,10 +342,6 @@ export default abstract class Character extends Unit {
                 }
             }
         })
-
-        if(Func.chance(this.ingenuity)){
-            this.resource ++
-        }
     }
 
     getCastSpeed() {
@@ -325,7 +349,7 @@ export default abstract class Character extends Unit {
     }
 
     getPierce() {
-        let base = this.pierce + this.ingenuity
+        let base = this.pierce
 
         this.pierce_rating_mutators.forEach(elem => {
             base = elem.mutate(base, this)
@@ -362,6 +386,8 @@ export default abstract class Character extends Unit {
 
     useNotUtility(): void {
         let time = this.level.time
+
+        this.ability_use ++
 
         this.triggers_on_use_not_utility.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
@@ -455,10 +481,8 @@ export default abstract class Character extends Unit {
     }
 
     protected equipItems() {
-
         this.item.forEach(elem => {
             elem.setPlayer(this)
-
             elem.unlockForgings()
             elem.pickRandomForging()
         })
@@ -466,6 +490,8 @@ export default abstract class Character extends Unit {
 
     public succesefulBlock(unit: Unit | undefined): void {
         let time = this.level.time
+
+        this.blocks ++
 
         this.triggers_on_block.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
@@ -483,7 +509,7 @@ export default abstract class Character extends Unit {
     }
 
     getResistValue(): number {
-        return this.status_resistance + this.will
+        return this.status_resistance
     }
 
     public isStatusResist(): boolean {
@@ -491,15 +517,12 @@ export default abstract class Character extends Unit {
         if (chacne > 95) {
             chacne = 95
         }
+        
         let result = Func.chance(chacne, this.is_lucky)
         return result
     }
 
     payCost() {
-        if(Func.chance(Math.round(this.will / 2))){
-            this.pay_to_cost = 0
-        }
-
         this.resource -= this.pay_to_cost
         this.pay_to_cost = 0
         
@@ -509,7 +532,7 @@ export default abstract class Character extends Unit {
     }
 
     protected getEnlightenTimer(): number {
-        return this.enlight_timer - (this.will * 750)
+        return this.enlight_timer
     }
 
     playerWasEnlighted() {
@@ -530,11 +553,9 @@ export default abstract class Character extends Unit {
         })
     }
 
-    getStatsArray() {
-        return ['might', 'ingenuity', 'will']
+    public statusWasApplied(): void {
+        //todo
     }
-
-    public statusWasApplied(): void {}
 
     public addGold(value: number = 1): void {
         let v = Func.random(value, value * 2)
@@ -566,7 +587,15 @@ export default abstract class Character extends Unit {
     public sayPhrase(): void {
         if (!Func.chance(this.chance_to_say_phrase)) return
 
-        let phrase = new SmallTextLanguage1(this.level)
+        let phrase = undefined
+
+        if(Func.chance(5)){
+            phrase = new TextLanguage1(this.level)
+        }
+        else{
+            phrase = new SmallTextLanguage1(this.level) 
+        }
+
         phrase.z = 12
         phrase.setPoint(this.x, this.y)
 
@@ -593,57 +622,63 @@ export default abstract class Character extends Unit {
 
     getStats() {
         let descriptions = {
-            might: this.getStatDescription('might'),
-            // will: this.getStatDescription('will'),
-            ingenuity: this.getStatDescription('ingenuity'),
-            // knowledge: this.getStatDescription('knowledge'),
-            // perception: this.getStatDescription('perception'),
-            will: this.getStatDescription('will'),
             armour: 'Increases your chance of not taking damage.',
             resist: 'Increases your chance of not geting bad status(ignite, shock, etc).',
-            spirit: 'Increases your chance of losing energy instead of life.',
-            pierce: 'Increases your chance to deal damage by reducing enemy armour.',
+            spirit: 'Increases your chance of losing courage instead of life.',
+            pierce: 'Increases your chance to deal additional damage by reducing enemy armour.',
             impact: 'Increases your chance to damage adjacent targets in addition to your primary target. Rating above 100 gives a chance to create additional impcats.',
             critical: 'Increases your chance to deal double damage.',
             crushing:
                 'Increases your chance to crush an enemy, every time when enemy being crushed they take additional damage next time.',
-            power: 'Gives a chance to increase damage by 1 after all calculations',
+            power: 'Gives a chance to increase damage by 1 after all calculations, determines the overall strength of the character, affects the receipt of some improvements',
             fortification:
                 'Gives a chance to reduce damage by 1 before multiplying of receiving damage',
             'double triggering': 'chance that trigger will triger twice',
             'avoid damage': 'chance to avoid damage',
+            'blessed blood': 'chance to regenerate life above maximum',
+            'instant kill': 'chance to kill enemy instantly',
+            'vampiric rate': 'chance to get life after killing enemy',
+            'move penalty': 'movement speed reduction rate when using an ability'
         }
         return {
             stats: {
-                0: {
-                    'as': this.getAttackSpeed() + 'ms',
-                    'cs': this.getCastSpeed() + 'ms',
+                'main': {                
                     pierce: this.getPierce() + '%',
                     impact: this.getImpactRating() + '%',
                     critical: this.getCritical() + '%',
                     crushing: this.crushing_rating + '%',
+                    armour: this.getTotalArmour(),       
+                    power: this.getPower(),
                 },
-                1: {
+                'survivability': {
                     'max life': this.max_life,
-                    ward: this.ward,
-                    armour: this.getTotalArmour(),
-                    resist: this.getResistValue() + '%',
+                    'avoid damage': this.getAvoidChance(),                  
                     spirit: this.spirit + '%',
                     fortification: this.fortify + '%',
-                },             
-                2: {
-                    might: this.might,
-                    will: this.will,              
-                    ingenuity: this.ingenuity,
-                },
-                3: {
-                    'move speed': this.move_speed_penalty + '%',
-                    'cd reduction': this.getCdRedaction() + '%',
                     'regeneration': this.getRegenTimer() / 1000 + 'sec',
-                    power: this.getPower(),
-                    'double trigger': this.isSecondTrigger(),
-                    'avoid damage': this.getAvoidChance()
-                }    
+                    resist: this.getResistValue() + '%', 
+                },             
+                'misc': {
+                    ward: this.ward,
+                    'cd reduction': this.getCdRedaction() + '%',    
+                    'blessed blood': this.canRegenMoreLife() + '%',
+                    'instant kill': this.getInstantKillChance() + '%',
+                    'vampiric rate': this.vampiric_rate,
+                    'block chance': this.chance_to_block,
+                    'double trigger': this.isSecondTrigger(),                                 
+                },
+                'speed': {
+                    'as': this.getAttackSpeed() + 'ms',
+                    'cs': this.getCastSpeed() + 'ms',  
+                    'move speed': this.move_speed_penalty + '%',
+                    'move penalty': this.getMoveSpeedPenaltyValue(),  
+                },
+                'stats': {
+                    kills: this.kills,
+                    blocks: this.blocks,
+                    hits: this.hits,
+                    'ability used': this.ability_use
+                }   
             },
             descriptions: descriptions,
         }
@@ -705,7 +740,7 @@ export default abstract class Character extends Unit {
         return result
     }
 
-    getTriggersFromAbility(triggers: any[], chance) {
+    getTriggersFromAbility(triggers: any[], chance: number) {
         let result: any[] = []
 
         triggers.forEach((elem, index) => {
@@ -1051,6 +1086,9 @@ export default abstract class Character extends Unit {
     protected playerWasHited(unit: Unit | undefined): void {
         let time = this.level.time
 
+        this.hits ++
+
+
         this.triggers_on_get_hit.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
@@ -1127,25 +1165,6 @@ export default abstract class Character extends Unit {
         })
 
         this.last_hit_time = this.level.time
-    }
-
-    public applyStats(stats: any): void {
-        for (let stat in stats) {
-            if (typeof stats[stat] === 'number') {
-                let stat_value = stats[stat]
-                switch (stat) {
-                    case 'might':
-                        this.might = stat_value
-                        break
-                    case 'will':
-                        this.will = stat_value
-                        break
-                    case 'ingenuity':
-                        this.ingenuity = stat_value
-                        break
-                }
-            }
-        }
     }
 
     public setTarget(id: string): void {

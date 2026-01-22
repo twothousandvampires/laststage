@@ -69,11 +69,11 @@ export default class Cultist extends Character {
     }
 
      sSecondTrigger() {
-        return this.chance_to_trigger_additional_time + this.ingenuity
+        return this.chance_to_trigger_additional_time
     }
 
     getImpactRating() {
-        let base = this.impact + this.might
+        let base = this.impact
 
         this.impact_mutators.forEach(elem => {
             base = elem.mutate(base, this)
@@ -87,7 +87,7 @@ export default class Cultist extends Character {
     }
 
     getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty + this.ingenuity
+        let total_inc = this.move_speed_penalty
 
         if (total_inc === 0) return this.move_speed
 
@@ -470,29 +470,9 @@ export default class Cultist extends Character {
     succesefulKill(enemy: Unit) {
         super.succesefulKill(enemy)
     }
-
-    getStatDescription(stat: string) {
-        if (stat === 'might') {
-            return `- increases chance to instant kill
-                         - increases chance to get additional courage
-                         - increases impact rating`
-        }
-        if (stat === 'ingenuity') {
-            return `- increases move speed
-                            - increases chance to get additional energy
-                            - increases chance to double triggering`
-        }
-        if (stat === 'will') {
-            return `- reduces cooldown between geting enligtment
-                    - increases chance not to lose energy after using finisher
-                    - increases chance to avoid damage`
-        }
-
-        return ''
-    }
-
+    
     getAttackSpeed() {
-        let value = this.attack_speed - this.might * 10
+        let value = this.attack_speed
 
         if (value < Cultist.MIN_ATTACK_SPEED) {
             value = Cultist.MIN_ATTACK_SPEED

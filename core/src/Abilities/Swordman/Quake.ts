@@ -16,7 +16,7 @@ export default class Quake extends SwordmanAbility implements IUnitState<Charact
 
     constructor(owner: Swordman) {
         super(owner)
-        this.cost = 7
+        this.cost = 8
         this.consequences = false
         this.selfcare = false
         this.name = 'quake'

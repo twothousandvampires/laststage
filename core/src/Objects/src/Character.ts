@@ -75,7 +75,7 @@ export default abstract class Character extends Unit {
     gold: number = 0
     cooldown_redaction: number = 0
     max_life: number = 4
-    maximum_resources: number = 7
+    maximum_resources: number = 8
     resource: number = 0
     crushing_rating: number = 0
     crushing_cd: number = 1000

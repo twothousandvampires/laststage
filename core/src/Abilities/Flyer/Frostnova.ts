@@ -8,7 +8,7 @@ export default class Frostnova extends FlyerAbility {
 
     constructor(owner: Flyer) {
         super(owner)
-        this.cost = 7
+        this.cost = 8
         this.name = 'frost nova'
         this.need_to_pay = true
         this.mastery_chance = 60

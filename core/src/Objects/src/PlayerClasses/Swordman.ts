@@ -24,6 +24,7 @@ import Upgrade from '../../../Types/Upgrade'
 import Spirit from '../../Effects/Spirit'
 import SwordmanArmourMutator from '../../../Mutators/SwordmanArmourMutator'
 import ShatteredWeapon from '../../../Abilities/Swordman/ShatteredWeapon'
+import Enemy from '../Enemy/Enemy'
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -31,7 +32,6 @@ export default class Swordman extends Character {
 
     weapon_angle: number
     resource: number
-    maximum_resources: number
     next_life_regen_time: any
     recent_kills: any[]
     check_recent_hits_timer: any
@@ -48,7 +48,6 @@ export default class Swordman extends Character {
         this.chance_to_avoid_damage_state = 10
         this.armour_rate = 15
         this.resource = 0
-        this.maximum_resources = 9
 
         this.attack_speed = 1450
 
@@ -89,7 +88,7 @@ export default class Swordman extends Character {
 
         this.recent_kills.push(this.level.time)
 
-        if(this.getChanceForAdditionalCourage()){
+        if(Func.chance(this.getChanceForAdditionalCourage())){
             this.recent_kills.push(this.level.time)
         }
 
@@ -104,10 +103,11 @@ export default class Swordman extends Character {
         }
     }
 
-    succesefulKill(enemy: Unit) {
+    succesefulKill(enemy: Enemy) {
         super.succesefulKill(enemy)
-
-        this.addCourage()
+        if(enemy.count_as_killed){
+            this.addCourage()
+        }     
     }
 
     enlight() {

@@ -45,7 +45,6 @@ export default class Flyer extends Character {
         this.chance_to_avoid_damage_state = 0
         this.armour_rate = 0
         this.resource = 0
-        this.maximum_resources = 8
         this.base_regeneration_time = 10000
         this.takeoff = false
         this.allow_mana_regen_while_def = false
@@ -448,7 +447,7 @@ export default class Flyer extends Character {
 
         this.recent_cast.push(this.level.time)
 
-        if(this.getChanceForAdditionalCourage()){
+        if(Func.chance(this.getChanceForAdditionalCourage())){
             this.recent_cast.push(this.level.time)
         }
 

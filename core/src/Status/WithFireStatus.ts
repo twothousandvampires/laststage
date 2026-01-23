@@ -1,5 +1,5 @@
 import Func from '../Func'
-import { FlameWallObject } from '../Objects/Projectiles/FlameWallObject'
+import Ignite from './Ignite'
 import Status from './Status'
 
 export default class WithFireStatus extends Status {
@@ -26,20 +26,18 @@ export default class WithFireStatus extends Status {
             area.r = check_distance
 
             let targets = this.unit.level.enemies.filter(elem =>
-                !elem.is_dead && Func.elipseCollision(elem.getBoxElipse(), area) && Func.distance(elem, this.unit) >= 8
+                !elem.is_dead && Func.elipseCollision(elem.getBoxElipse(), area)
             )
 
-            let random_target = targets[Math.round(Math.random() * targets.length)]
+            targets = targets.slice(0, Func.random(2,5))
+       
+            targets.forEach(elem => {
+                let s = new Ignite(elem.level.time)
+                s.setDuration(5000)
+                s.setPower(30)
 
-            if (random_target) {
-                let fire = new FlameWallObject(this.unit.level)
-                fire.box_r += 5
-
-                fire.setOwner(this.unit)
-                fire.setPoint(random_target.x, random_target.y)
-
-                this.unit.level.projectiles.push(fire)
-            }
+                elem.level.setStatus(elem, s, true)
+            })
         }
     }
 }

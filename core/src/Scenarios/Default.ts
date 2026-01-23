@@ -174,9 +174,11 @@ export default class Default extends Scenario {
         this.waves_created ++
           
         let add_count = Math.floor(this.waves_created / 23)
-        add_count += (level.players.length - 1) * 2
+       
+        let count = Func.random(1 + Math.round(add_count / 4), 2 + Math.round(add_count / 2.5))
 
-        let count = Func.random(1 + Math.floor(add_count / 4.7), 2 + Math.floor(add_count / 3.2))
+        count += (level.players.length - 1) * 2
+
         for (let i = 0; i < count; i++) {
             await Func.sleep(Func.random(100, 300))
 

@@ -853,7 +853,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 12,
-                desc: 'Creates a flame that periodically burns everything around it',
+                desc: 'Periodically ignites nearby enemies',
             },
             {
                 name: 'with cold',

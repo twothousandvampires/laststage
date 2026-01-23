@@ -17,7 +17,7 @@ export default class IcePresenceStatus extends Status {
 
     act(tick_time: number) {
         if (tick_time > this.last_checked) {
-            this.last_checked += 1500
+            this.last_checked += 2000
 
             if (!this.unit) return
 

@@ -30,7 +30,6 @@ export default class Cultist extends Character {
     static MAX_ARMOUR = 95
 
     resource: number
-    maximum_resources: number
     next_life_regen_time: any
     attack_point_radius: number
     hit_x: number | undefined
@@ -52,7 +51,6 @@ export default class Cultist extends Character {
         this.chance_to_avoid_damage_state = 15
         this.armour_rate = 25
         this.resource = 0
-        this.maximum_resources = 7
         this.hit_x = undefined
         this.hit_y = undefined
         this.enlightenment_threshold = 8
@@ -153,7 +151,7 @@ export default class Cultist extends Character {
             this.recent_hits.push(this.level.time)
         }
 
-        if(this.getChanceForAdditionalCourage()){
+        if(Func.chance(this.getChanceForAdditionalCourage())){
             this.recent_hits.push(this.level.time)
         }
 

@@ -11,7 +11,7 @@ export default class PileOfThornCast extends CultistAbility {
         super(owner)
         this.name = 'pile of thorns'
         this.distance = 25
-        this.cost = 6
+        this.cost = 8
         this.need_to_pay = true
         this.mastery_chance = 35
         this.cd = 5000

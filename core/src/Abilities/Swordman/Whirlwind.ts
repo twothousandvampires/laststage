@@ -16,7 +16,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
 
     constructor(owner: Swordman) {
         super(owner)
-        this.cost = 7
+        this.cost = 8
         this.blood_harvest = false
         this.fan_of_swords = false
         this.name = 'whirlwind'

@@ -256,7 +256,7 @@ export default class Builder {
         }
 
         character.id = client.id
-        character.applyStats(template.stats)
+        
         character.createAbilities(template.abilities)
 
         if (template.item.length) {

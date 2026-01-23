@@ -388,9 +388,6 @@ export default class Cultist extends Character {
             if (elem.ascend === undefined) {
                 elem.ascend = 0
             }
-            if(elem.type == 'new ability'){
-                this.suggested_abilities.push(elem.name)
-            }
         })
 
         filtered.sort((a, b) => {
@@ -430,6 +427,12 @@ export default class Cultist extends Character {
         }
 
         this.upgrades = this.upgrades.filter(elem => elem)
+
+        this.upgrades.forEach(elem => {
+            if(elem.type == 'new ability'){
+                this.suggested_abilities.push(elem.name)
+            }
+        })   
     }
 
     startGame() {

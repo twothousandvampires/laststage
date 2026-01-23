@@ -1,5 +1,5 @@
 import Func from '../../Func'
-import ITrigger from '../../Interfaces/ITrigger'
+import ITrigger from '../../Interfaces/Itrigger'
 import { Bone } from '../../Objects/Projectiles/Bone'
 import Character from '../../Objects/src/Character'
 import Unit from '../../Objects/src/Unit'
@@ -17,7 +17,7 @@ export default class BonesWhenBlock extends Forging implements ITrigger {
         this.max_value = 80
         this.name = 'bones when block'
         this.description = 'gives a chance to realise bones when you block which hurts enemies'
-        this.gold_cost = 20
+        this.gold_cost = 10
     }
 
     getTriggerChance(): number {
@@ -42,29 +42,31 @@ export default class BonesWhenBlock extends Forging implements ITrigger {
 
     trigger(player: Character, target: Unit) {
         if (this.item.disabled) return
+        if(!target) return
 
-        let angle = Func.angle(player.x, player.y, player.y, target.y)
+        let angle = Func.angle(player.x, player.y, target.x, target.y)
+        
+        let u = 0
+        let d = 0
+        let count = Math.round(player.chance_to_block / 15)
 
-        let proj = new Bone(player.level)
-        proj.setAngle(angle - 0.4)
-        proj.setPoint(player.x, player.y)
-        proj.setOwner(player)
+        for (let i = 0; i < count; i++) {
+            let proj = new Bone(player.level)
+  
+            if (i === 0) {
+                proj.setAngle(angle)
+            } else if (i % 2 === 0) {
+                u += 0.5
+                proj.setAngle(angle - u)
+            } else {
+                d += 0.5
+                proj.setAngle(angle + d)
+            }
 
-        player.level.projectiles.push(proj)
-
-        let proj2 = new Bone(player.level)
-        proj2.setAngle(angle)
-        proj2.setPoint(player.x, player.y)
-        proj2.setOwner(player)
-
-        player.level.projectiles.push(proj2)
-
-        let proj3 = new Bone(player.level)
-        proj3.setAngle(angle + 0.4)
-        proj3.setPoint(player.x, player.y)
-        proj3.setOwner(player)
-
-        player.level.projectiles.push(proj3)
+            proj.setPoint(player.x, player.y)
+            proj.setOwner(player)
+            player.level.projectiles.push(proj)
+        }
     }
 
     canBeForged(): boolean {

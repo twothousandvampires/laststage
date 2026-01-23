@@ -131,13 +131,6 @@ export default class Swordman extends Character {
         this.playerWasEnlighted()
     }
 
-    applyStats(stats: any) {
-        return
-        for (let stat in stats) {
-            this[stat] = stats[stat]
-        }
-    }
-
     createAbilities(abilities: any) {
         let main_name = abilities.find(elem => elem.type === 1 && elem.selected).name
 
@@ -367,9 +360,6 @@ export default class Swordman extends Character {
             if (elem.ascend === undefined) {
                 elem.ascend = 0
             }     
-            if(elem.type == 'new ability'){
-                this.suggested_abilities.push(elem.name)
-            }
         })
 
         filtered.sort((a, b) => {
@@ -409,6 +399,11 @@ export default class Swordman extends Character {
         }
 
         this.upgrades = this.upgrades.filter(elem => elem)
+        this.upgrades.forEach(elem => {
+            if(elem.type == 'new ability'){
+                this.suggested_abilities.push(elem.name)
+            }
+        })   
     }
 
     startGame() {

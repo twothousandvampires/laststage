@@ -3,6 +3,6 @@ import Mutator from "./Mutator";
 
 export default class CultistWillDamageAvoid extends Mutator {
     mutate(base: number,  player: Character): number {
-        return base
+        return base + player.getSecondResource()
     }
 }

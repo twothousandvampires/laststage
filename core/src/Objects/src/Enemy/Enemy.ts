@@ -25,14 +25,14 @@ export default abstract class Enemy extends Unit {
     hit_x: number = 0
     hit_y: number = 0
 
-    create_grace_chance: number = 15
+    create_grace_chance: number = 16
     create_energy_chance: number = 6
     create_entity_chance: number = 6
     create_item_chance: number = 0
     create_sorcerers_skull_chance: number = 0
     create_helm_of_ascendence_chance: number = 1
 
-    create_chance: number = 17
+    create_chance: number = 18
     last_action: number = 0
 
     count_as_killed: boolean = true
@@ -59,7 +59,6 @@ export default abstract class Enemy extends Unit {
         let minor_times = Math.floor(wave / 27)
 
         if(minor_times){
-            console.log('minor: ' + minor_times)
             this.armour_rate += minor_times * 5
             this.pierce += minor_times * 5
             this.cooldown_attack -= minor_times * 50
@@ -68,7 +67,6 @@ export default abstract class Enemy extends Unit {
         let major_times = Math.floor(wave / 57)
         
         if(major_times){
-            console.log('major: ' + major_times)
             this.life_status += major_times
             this.fortify += major_times * 4
 

@@ -522,6 +522,32 @@ export default class Upgrades {
                 desc: 'Every 2 seconds, nearby crushed enemies take damage',
             },
             {
+                name: 'mystic way',
+                canUse: (character: Character) => {
+                    return character.additional_energy_chance < 100
+                },
+                teach: (character: Character): void => {
+                    character.additional_energy_chance += 2
+                    character.not_to_pay_finisher_chance += 5
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'Gives a chance not to lose energy when use finisher and get additional energy when you get energy',
+            },    
+            {
+                name: 'excitement',
+                canUse: (character: Character) => {
+                    return character.additional_courage_chance < 100
+                },
+                teach: (character: Character): void => {
+                    character.additional_courage_chance += 5
+                    character.enlight_timer -= 2000
+                },
+                cost: 2,
+                ascend: 10,
+                desc: 'Gives a chance to get additional courage and reduces cooldown between getting enlightenment',
+            },
+            {
                 name: 'bravery',
                 canUse: (character: Character) => {
                     return character.courage_expire_timer <= 20000
@@ -574,14 +600,14 @@ export default class Upgrades {
             {
                 name: 'inspiration',
                 canUse: (character: Character) => {
-                    return character.power >= 30 && !character.triggers_on_get_energy.some(elem => elem instanceof InspirationTrigger) 
+                    return character.power >= 10 && !character.triggers_on_get_energy.some(elem => elem instanceof InspirationTrigger) 
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_get_energy.push(new InspirationTrigger())
                 },
-                cost: 4,
+                cost: 3,
                 ascend: 20,
-                desc: 'gives a chance depending on your power get maximum energy when you get energy',
+                desc: 'gives a chance depending on your courage get maximum energy when you get energy',
             },
             {
                 name: 'massive impact',
@@ -695,9 +721,9 @@ export default class Upgrades {
                     return character.move_speed_penalty <= 100
                 },
                 teach: (character: Character): void => {
-                    character.move_speed_penalty += 2
+                    character.move_speed_penalty += 3
                 },
-                cost: 3,
+                cost: 2,
                 ascend: 20,
                 desc: 'Increases move speed',
             },
@@ -1025,16 +1051,30 @@ export default class Upgrades {
                 desc: 'Increases a chance to say something',
             },
             {
-                name: 'swiftness',
+                name: 'inner guidance',
                 canUse: (character: Character) => {
-                    return character.cooldown_redaction < 90
+                    return character.cooldown_redaction < 95
                 },
                 teach: (character: Character) => {
-                    character.cooldown_redaction += 2
+                    character.cooldown_redaction += 5
                 },
-                cost: 3,
+                cost: 2,
+                ascend: 20,
+                desc: 'Reduces your cooldowns',
+            },
+            {
+                name: 'swiftness',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character) => {
+                    character.attack_speed -= 30
+                    character.cast_speed -= 30
+                    character.move_speed_penalty += 3
+                },
+                cost: 2,
                 ascend: 16,
-                desc: 'Reduces cooldowns of your skills',
+                desc: 'Increases your attack, cast and move speed',
             },
             {
                 name: 'small ward',

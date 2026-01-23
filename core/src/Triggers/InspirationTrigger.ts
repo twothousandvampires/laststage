@@ -7,11 +7,11 @@ export default class InspirationTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'inspiration'
-    description: string ='Gives a chance depending on your power get maximum energy when you get energy'
+    description: string ='Gives a chance depending on your courage get maximum energy when you get energy'
 
     getTriggerChance(player: Character | undefined): number {
         if (player) {
-            return Math.round(player.power / 3)
+            return Math.round(player.getSecondResource() / 3)
         }
         return 0
     }

@@ -88,9 +88,6 @@ export default class Flyer extends Character {
             if (elem.ascend === undefined) {
                 elem.ascend = 0
             }
-            if(elem.type == 'new ability'){
-                this.suggested_abilities.push(elem.name)
-            }
         })
 
         filtered.sort((a, b) => {
@@ -129,8 +126,13 @@ export default class Flyer extends Character {
             this.upgrades = this.upgrades.concat(Func.getRandomFromArray(part2))
             this.upgrades = this.upgrades.concat(Func.getRandomFromArray(part3))
         }
-
+    
         this.upgrades = this.upgrades.filter(elem => elem)
+        this.upgrades.forEach(elem => {
+            if(elem.type == 'new ability'){
+                this.suggested_abilities.push(elem.name)
+            }
+        })
     }
 
     castSound() {
@@ -150,13 +152,6 @@ export default class Flyer extends Character {
         if (total_inc < -95) total_inc = -95
 
         return this.move_speed * (1 + total_inc / 100)
-    }
-
-    applyStats(stats: any) {
-        return
-        for (let stat in stats) {
-            this[stat] = stats[stat]
-        }
     }
 
     createAbilities(abilities: any) {

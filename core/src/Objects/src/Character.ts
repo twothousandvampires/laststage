@@ -126,6 +126,8 @@ export default abstract class Character extends Unit {
     avoid_damage_chance: number = 0
     chance_to_additional_carved_spark: number = 0
     block_for_energy: number = 0
+    additional_energy_chance: number = 0
+    not_to_pay_finisher_chance: number = 0
 
     enlightenment_threshold: number = 12
     can_get_courage: boolean = true
@@ -342,6 +344,11 @@ export default abstract class Character extends Unit {
                 }
             }
         })
+
+        if(Func.chance(this.additional_energy_chance)){
+            this.resource ++
+            this.playerGetResourse()
+        }
     }
 
     getCastSpeed() {
@@ -523,6 +530,9 @@ export default abstract class Character extends Unit {
     }
 
     payCost() {
+        if(Func.chance(this.not_to_pay_finisher_chance)){
+            this.pay_to_cost = 0
+        }
         this.resource -= this.pay_to_cost
         this.pay_to_cost = 0
         
@@ -668,8 +678,8 @@ export default abstract class Character extends Unit {
                     'double trigger': this.isSecondTrigger(),                                 
                 },
                 'speed': {
-                    'as': this.getAttackSpeed() + 'ms',
-                    'cs': this.getCastSpeed() + 'ms',  
+                    'attack speed': this.getAttackSpeed() + 'ms',
+                    'cast speed': this.getCastSpeed() + 'ms',  
                     'move speed': this.move_speed_penalty + '%',
                     'move penalty': this.getMoveSpeedPenaltyValue(),  
                 },

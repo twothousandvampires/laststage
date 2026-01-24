@@ -86,15 +86,28 @@ import AscendedPierceMutator from '../Mutators/AscendedPierceMutator'
 import AscendedArmourMutator from '../Mutators/AscendedArmourMutator'
 import LustForLife from '../Mutators/LustForLife'
 import ServiceTrigger from '../Triggers/ServiceTrigger'
-import ConductOfPain from '../Triggers/ConductOfPain'
 import PainExtract from '../Triggers/PainExtract'
 import ChargedShield from '../Triggers/ChargedShield'
 import FirmGripMutator from '../Mutators/FirmGripMutator'
 import CoordinationMutator from '../Mutators/CoordinationMutator'
+import EnergyArmourMutator from '../Mutators/EnergyArmourMutator'
 
 export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
         return [
+            {
+                name: 'energy armour',
+                canUse: (character: Character) => {
+                    return !character.avaid_damage_mutator.some(elem => elem instanceof EnergyArmourMutator)
+                },
+                teach: (character: Character): void => {
+                    character.maximum_resources ++
+                    character.avaid_damage_mutator.push(new EnergyArmourMutator())
+                },
+                cost: 2,
+                ascend: 30,
+                desc: 'Increase maximum of energy and your chance to avoid damage increased by energy',
+            },
             {
                 name: 'will',
                 canUse: (character: Character) => {

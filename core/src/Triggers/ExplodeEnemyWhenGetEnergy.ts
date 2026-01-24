@@ -1,8 +1,7 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import FireExplosion from '../Objects/Effects/FireExplosion'
 import Character from '../Objects/src/Character'
-import Unit from '../Objects/src/Unit'
 
 export default class ExplodeEnemyWhenGetEnergy implements ITrigger {
     cd: number = 1200
@@ -17,7 +16,7 @@ export default class ExplodeEnemyWhenGetEnergy implements ITrigger {
 
     trigger(player: Character) {
         let targets = player.level.enemies.filter(
-            elem => elem.is_corpse && Func.distance(elem, player) <= 20
+            elem => elem.can_be_removed && elem.is_corpse && Func.distance(elem, player) <= 16
         )
 
         let target = Func.getRandomFromArray(targets)

@@ -15,6 +15,7 @@ export default abstract class Unit extends GameObject {
     has_boby: boolean = true
     destroyed: boolean = false
     exploded: boolean = false
+    can_be_exploded: boolean = true
     burned: boolean = false
     can_be_instant_killed: boolean = true
     crushing: number = 0

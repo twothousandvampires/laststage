@@ -151,6 +151,7 @@ export default abstract class Character extends Unit {
     blocks: number = 0
     hits: number = 0
     ability_use: number = 0
+    gold_earned: number = 0
 
     suggested_abilities: string[]=  []
 
@@ -567,12 +568,14 @@ export default abstract class Character extends Unit {
     }
 
     public addGold(value: number = 1): void {
-        let v = Func.random(value, value * 2)
-        this.gold += v
-
+        let total = Func.random(Math.round(value / 2), Math.round(value * 2))
+ 
         if (Func.chance(this.chance_to_get_additional_gold, this.is_lucky)) {
-            this.gold ++
+            total ++
         }
+
+        this.gold += total
+        this.gold_earned += total
     }
 
     onSayTriggers() {
@@ -686,7 +689,8 @@ export default abstract class Character extends Unit {
                     kills: this.kills,
                     blocks: this.blocks,
                     hits: this.hits,
-                    'ability used': this.ability_use
+                    'ability used': this.ability_use,
+                    'gold earned': this.gold_earned
                 }   
             },
             descriptions: descriptions,

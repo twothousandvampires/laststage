@@ -14,11 +14,11 @@ export default class BindedRocks extends Enemy {
         this.attack_radius = 7.5
         this.attack_speed = 2000
         this.spawn_time = 1200
-        this.life_status = 6
-        this.armour_rate = 25
+        this.life_status = 7
+        this.armour_rate = 45
         this.create_grace_chance = 90
-        this.pierce = 40
-        this.cooldown_attack = 3500
+        this.pierce = 60
+        this.cooldown_attack = 3000
         this.create_chance = 80
         this.say_z = 20
         this.gold_revard = 5
@@ -29,7 +29,7 @@ export default class BindedRocks extends Enemy {
         this.can_be_burned = false
         this.immune_to_zap = true
         this.immune_to_stun = true
-        this.wave_start = 150
+        this.wave_start = 120
     }
 
     hitImpact() {

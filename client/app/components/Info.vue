@@ -11,7 +11,7 @@
 
     <div id ="records" v-if="show_records" @click="show_records = false">
         <div style="display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;text-align: center">
           <p>class</p>
           <p>kills</p>

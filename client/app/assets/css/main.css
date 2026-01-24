@@ -622,7 +622,7 @@ select {
         top: 0;
         left: 0;
         transform: none;
-        width: fit-content;`
+        width: fit-content;
         height: 100vh;
     }
     #records p{

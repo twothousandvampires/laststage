@@ -14,8 +14,6 @@
             grid-template-columns: repeat(6, 1fr);
             gap: 20px;text-align: center">
           <p>class</p>
-          <p>name</p>
-          <p>time</p>
           <p>kills</p>
           <p>waves</p>
           <p>date</p>
@@ -23,13 +21,11 @@
  
         <div v-for="record in records" style="display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 20px;text-align: center;">
-          <p> {{ record.class }}</p>
-          <p> {{ record.name }}</p>
-          <p> {{ record.time / 1000 }}</p>
-          <p> {{ record.kills }}</p>
-          <p> {{ record.waves ? record.waves : "unknown"}}</p>
-          <p> {{ record.created.split('T')[0] }}</p>
+            gap: 10px;text-align: center;">
+            <p> {{ record.class }}</p>
+            <p> {{ record.kills }}</p>
+            <p> {{ record.waves ? record.waves : "unknown"}}</p>
+            <p> {{ record.created.split('T')[0] }}</p>
         </div>
     </div>
   </div>

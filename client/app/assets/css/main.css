@@ -614,6 +614,14 @@ select {
 }
 
 @media (max-width: 850px) {
+    #records{
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: none;
+        width: fit-content;
+        height: 100vh;
+    }
     .stat_wrap{
         flex-direction: row;
     }

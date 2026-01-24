@@ -79,8 +79,15 @@ export default abstract class Enemy extends Unit {
             this.move_speed_penalty += major_times * 7
             this.create_chance -= major_times * 3
 
-            this.attack_speed -= major_times * 60
+            this.attack_speed -= major_times * 100
             this.critical += major_times * 4
+
+            let add_range = major_times * 0.1
+            if(add_range > 1){
+                add_range = 1
+            }
+
+            this.attack_radius += add_range
         }   
     }
 

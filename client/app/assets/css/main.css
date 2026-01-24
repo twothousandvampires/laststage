@@ -621,7 +621,7 @@ select {
         transform: none;
         width: fit-content;
         height: 100vh;
-        font-size: 12px!importantq;
+        font-size: 12px!important;
     }
     .stat_wrap{
         flex-direction: row;

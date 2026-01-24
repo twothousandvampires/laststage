@@ -20,7 +20,7 @@
         </div>
  
         <div v-for="record in records" style="display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;text-align: center;">
             <p> {{ record.class }}</p>
             <p> {{ record.kills }}</p>

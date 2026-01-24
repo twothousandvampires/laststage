@@ -89,7 +89,6 @@ export default abstract class Character extends Unit {
     steps: boolean = true
     lust_for_life: boolean = false
     blessed: boolean = false
-    spirit_strikes: boolean = false
     free_upgrade_count: number = 0
 
     triggers_on_kill: any[] = [new LifeAfterKIllTrigger()]

@@ -328,10 +328,9 @@ export default class Upgrades {
                     return character.base_regeneration_time > 5000
                 },
                 teach: (character: Character): void => {
-                    character.base_regeneration_time -= 500
+                    character.base_regeneration_time -= 200
                 },
                 cost: 1,
-                ascend: 12,
                 desc: 'Increases your life regeneration rate',
             },
             {
@@ -520,6 +519,18 @@ export default class Upgrades {
                 cost: 3,
                 ascend: 26,
                 desc: 'Every 2 seconds, nearby crushed enemies take damage',
+            },
+             {
+                name: 'defender',
+                canUse: (character: Character) => {
+                    return character.chance_to_block < 100
+                },
+                teach: (character: Character): void => {
+                    character.chance_to_block += 2
+                    character.armour_rate += 2
+                },
+                cost: 2,
+                desc: 'Increases armour and chance to block',
             },
             {
                 name: 'mystic way',
@@ -882,6 +893,17 @@ export default class Upgrades {
                 },
                 cost: 1,
                 desc: 'Restore your life',
+            },
+            {
+                name: 'gold finder',
+                canUse: (character: Character) => {
+                    return character.chance_to_get_additional_gold < 100
+                },
+                teach: (character: Character) => {
+                    character.chance_to_get_additional_gold += 3
+                },
+                cost: 1,
+                desc: `Icreases chance to get additional gold`,
             },
             {
                 name: 'chosen one',

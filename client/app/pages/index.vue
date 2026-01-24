@@ -40,22 +40,16 @@
     let socket = $getInstance()
 
     const startLocalGame = () => {
-        // Вместо реального сокета создаем локальный мок
-        const localSocket = new LocalSocketMock();
-        
-        // Перезаписываем глобальный инстанс сокета (или передаем локально)
-        // В зависимости от того, как работает твой $getInstance
-        socket = localSocket; 
-
+        let localSocket = new LocalSocketMock()
+        socket = localSocket
         $setInstance(socket) 
-        // Дальше логика Vue не меняется! 
-        // Она вызовет socket.on('connect_to_lobby'), который сработает в моке
+
         socket.on('start', () => {
             state.value = 2
         })
         
         socket.on('connect_to_lobby', () => {
-            state.value = 3; // Переходим в лобби
+            state.value = 3
         });
     }
 

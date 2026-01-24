@@ -66,7 +66,6 @@ class GameServer {
     }
 
     updateData(){
-
         let lobbyInfo = {
             port: this.port.toString(),
             players: this.room.clients.size.toString(),

@@ -96,6 +96,30 @@ export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
         return [
             {
+                name: 'will',
+                canUse: (character: Character) => {
+                    return character.additional_energy_chance < 100
+                },
+                teach: (character: Character): void => {
+                    character.spirit ++
+                    character.additional_energy_chance ++
+                },
+                cost: 1,
+                desc: 'Increases spirit and chance to get additional energy',
+            },
+            {
+                name: 'offense',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character): void => {
+                    character.move_speed_penalty ++
+                    character.pierce ++
+                },
+                cost: 1,
+                desc: 'Increases pierce rating and move speed',
+            },
+            {
                 name: 'might',
                 canUse: (character: Character) => {
                     return character.power >= 30
@@ -356,7 +380,7 @@ export default class Upgrades {
                 teach: (character: Character): void => {
                     character.level.setStatus(character, new PressingSteps(character.level.time))
                 },
-                cost: 5,
+                cost: 3,
                 ascend: 60,
                 desc: 'If you move for 3 seconds you begin to deal damage to nearby enemies',
             },

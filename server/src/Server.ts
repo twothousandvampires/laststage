@@ -1,13 +1,26 @@
 import { Server as SocketServer } from 'socket.io'
+const mysql = require('mysql2')
+
+let pool = mysql.createPool({
+    host: 'localhost',
+    user: 'myuser',
+    password: 'secure_password123',
+    database: 'last_stage',
+    connectionLimit: 10,
+    acquireTimeout: 60000,
+    timeout: 60000,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
+})
 
 export default class MasterServer {
     private io: SocketServer
     private lobbies: Map<number, any> = new Map()
+    private db
 
     constructor(io: SocketServer, public port: number) {
         this.io = io
-
-       
+        this.db = pool
     }
 
     async initialize(): Promise<void> {

@@ -29,7 +29,7 @@ export default class WithFireStatus extends Status {
                 !elem.is_dead && Func.elipseCollision(elem.getBoxElipse(), area)
             )
 
-            targets = targets.slice(0, Func.random(2,5))
+            targets = targets.slice(0, Func.random(2, 5))
        
             targets.forEach(elem => {
                 let s = new Ignite(elem.level.time)

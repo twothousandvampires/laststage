@@ -642,12 +642,9 @@ select {
 }
 
 @media (max-width: 850px) {
-    #wrap{
-        align-items: start;
-    }
     .grid-img{
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
     }
     #records{
         position: fixed;

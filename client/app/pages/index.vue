@@ -73,7 +73,7 @@
 
         if (tg) {
             tg.ready()
-            console.log('tg')
+            
             if (tg.requestFullscreen) {
                 tg.requestFullscreen()
             } else {

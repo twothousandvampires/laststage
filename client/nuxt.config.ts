@@ -35,9 +35,9 @@ export default defineNuxtConfig({
     head: {
       title: 'last stage',
       script: [
-        { 
-          src: 'https://telegram.org/js/telegram-web-app.js', 
-        }
+        // { 
+        //   src: 'https://telegram.org/js/telegram-web-app.js', 
+        // }
       ]
     }
   },

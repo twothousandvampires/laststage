@@ -69,19 +69,34 @@
         })
     }
     onMounted(() => {
+        // 1. Проверяем наличие объекта Telegram
         const tg = window.Telegram?.WebApp
 
-        if (tg) {
+        // 2. Проверяем, что мы реально внутри Telegram (наличие initData)
+        const isTelegram = tg && tg.initData !== ""
+
+        if (isTelegram) {
             tg.ready()
             
+            // Растягиваем на всё окно
+            tg.expand()
+
+            // ВКЛЮЧАЕМ ФУЛСКРИН (Убираем шапку)
+            // Работает в Telegram 8.0+ (твоя 12.3.1 подходит)
             if (tg.requestFullscreen) {
-                tg.requestFullscreen()
-            } else {
-                tg.expand()
+            tg.requestFullscreen()
             }
+
+            // ОТКЛЮЧАЕМ СВАЙП (Чтобы приложение не закрывалось при движении пальцем вниз)
             if (tg.disableVerticalSwipes) {
-                tg.disableVerticalSwipes()
+            tg.disableVerticalSwipes()
             }
+
+            // Сливаем системную полоску с фоном (черный цвет)
+            tg.setHeaderColor('#000000')
+            tg.setBackgroundColor('#000000')
+        } else {
+            console.log('Это обычный браузер — Telegram SDK игнорируется')
         }
 
         socket.on('lobbies_list', (data) => {

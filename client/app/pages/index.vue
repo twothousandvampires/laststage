@@ -69,6 +69,21 @@
         })
     }
     onMounted(() => {
+        const tg = window.Telegram?.WebApp
+
+        if (tg) {
+            tg.ready()
+            
+            if (tg.requestFullscreen) {
+                tg.requestFullscreen()
+            } else {
+                tg.expand()
+            }
+            if (tg.disableVerticalSwipes) {
+                tg.disableVerticalSwipes()
+            }
+        }
+
         socket.on('lobbies_list', (data) => {
             lobbies_data.value = data
         })

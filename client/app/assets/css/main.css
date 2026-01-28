@@ -27,7 +27,25 @@ body{
     width: 1380px;
     height: 920px;
 }
-
+.grid-menu {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.cell span{
+    box-shadow: unset!important;
+}
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: 0.2s;
+}
+.grid-img{
+    width: 80px;
+    height: 80px;
+}
 #main p {
     font-size: 50px;
 }
@@ -126,6 +144,10 @@ body{
     color: #e0e07a;
 }
 .lobbies{
+    position: fixed;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 колонки равной ширины */
     gap: 24px;
@@ -172,6 +194,9 @@ body{
 #wrap{
     overflow-x: hidden;
     height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 #lobby{
     display: flex;
@@ -617,6 +642,13 @@ select {
 }
 
 @media (max-width: 850px) {
+    #wrap{
+        align-items: start;
+    }
+    .grid-img{
+        width: 50px;
+        height: 50px;
+    }
     #records{
         position: fixed;
         top: 0;

@@ -1,6 +1,22 @@
 <template>
     <div id="wrap">
-        <Info v-if="state === 1"></Info>
+        <div v-if="state === 1" class="grid-menu">
+        <!-- Генерируем 60 ячеек (5 колонок * 12 строк) -->
+            <div 
+                v-for="n in 40" 
+                :key="n"
+                class="cell",
+            >
+          
+            <span class="button" v-if="b_data[n]">
+                <img @click="handleCellClick(n)" class="grid-img" :src="`/icons/${b_data[n].icon}.png`" alt="">
+            </span>
+            <span v-else>
+                <img class="grid-img" :src="`/icons/${getRandomIcon(n)}.png`" alt="">
+            </span>
+            </div>
+        </div>
+        <!-- <Info v-if="state === 1"></Info>
 
         <div v-if="state === 1" style="color: #7a6b5c;display: flex;flex-direction: column; align-items: center;">
             <div>
@@ -12,18 +28,18 @@
             <div>
                 <img src="/preview/666.gif" alt="">
             </div>
-            <div>
-                <div v-if="lobbies_data.length" class="lobbies">
-                    <div :style="'background-color:' +  (data.started === 'true' || (data.players >= data.maxPlayers) ? '#3a0000' : '#8a2121') + '; color:#e0e07a;'" @click="connect(data)" class="button" v-for="data in lobbies_data">
-                        <p>{{ data.name }}</p>
-                        <p>{{ data.players }} / {{ data.maxPlayers }}</p>
-                    </div>
+           
+        </div> -->
+         <div>
+            <div v-if="lobbies_data.length && show_lobbies" class="lobbies">
+                <div :style="'background-color:' +  (data.started === 'true' || (data.players >= data.maxPlayers) ? '#3a0000' : '#8a2121') + '; color:#e0e07a;'" @click="connect(data)" class="button" v-for="data in lobbies_data">
+                    <p>{{ data.name }}</p>
+                    <p>{{ data.players }} / {{ data.maxPlayers }}</p>
                 </div>
             </div>
         </div>
-           
-        <GameCanvas v-else-if="state === 2"></GameCanvas> 
-        <Lobby v-else-if="state === 3"></Lobby>
+        <GameCanvas v-if="state === 2"></GameCanvas> 
+        <Lobby v-if="state === 3"></Lobby>
     </div>
 </template>
 <script setup>
@@ -31,15 +47,45 @@
     import { LocalSocketMock } from '~/utils/LocalSocketMock'
     import { ref } from 'vue';
     import { useNuxtApp } from '#app';
-   
+
+    let icons = ['divine weapon', 'focusing', 'jump', 'ascended','grim pile', 'icicles', 'scorching', 'scream', 'shattered weapon', 'staff', 'light beacon',
+        'soulrender', 'spiritual call', 'sword handle', 'unhuman fortitude', 'blind', 'body melting', 'bravery', 'cloak', 'charged bow', 'commands'
+    ]
+
+    let b_data = {
+            13: {
+                icon: 'local game',
+                action: () => startLocalGame()
+            },
+            18: {
+                icon: 'lobby',
+                action: () => showLobbies()
+            }
+        }
+
+    const handleCellClick = (index) => {
+        const cell = b_data[index]
+        if (cell) cell.action()
+    }
+
     let { $getInstance, $connectTo, $audio, $setInstance } = useNuxtApp();
 
     let state = ref(1)
     let lobbies_data = ref([])
+    let show_lobbies = ref(false)
 
     let socket = $getInstance()
 
+    const getRandomIcon = () => {
+        return icons[Math.floor(Math.random() * icons.length)]
+    }
+
+    const showLobbies = () => {
+        show_lobbies.value = true
+    }
+
     const startLocalGame = () => {
+        show_lobbies.value = false
         let localSocket = new LocalSocketMock()
         socket = localSocket
         $setInstance(socket) 
@@ -54,6 +100,7 @@
     }
 
     let connect = (data) => {
+        show_lobbies.value = false
         if(data.started === 'true') return
         if(data.players >= data.maxPlayers) return
 
@@ -69,34 +116,20 @@
         })
     }
     onMounted(() => {
-        // 1. Проверяем наличие объекта Telegram
         const tg = window.Telegram?.WebApp
-
-        // 2. Проверяем, что мы реально внутри Telegram (наличие initData)
         const isTelegram = tg && tg.initData !== ""
 
         if (isTelegram) {
             tg.ready()
-            
-            // Растягиваем на всё окно
             tg.expand()
-
-            // ВКЛЮЧАЕМ ФУЛСКРИН (Убираем шапку)
-            // Работает в Telegram 8.0+ (твоя 12.3.1 подходит)
             if (tg.requestFullscreen) {
-            tg.requestFullscreen()
+                tg.requestFullscreen()
             }
-
-            // ОТКЛЮЧАЕМ СВАЙП (Чтобы приложение не закрывалось при движении пальцем вниз)
             if (tg.disableVerticalSwipes) {
-            tg.disableVerticalSwipes()
+                tg.disableVerticalSwipes()
             }
-
-            // Сливаем системную полоску с фоном (черный цвет)
             tg.setHeaderColor('#000000')
             tg.setBackgroundColor('#000000')
-        } else {
-            console.log('Это обычный браузер — Telegram SDK игнорируется')
         }
 
         socket.on('lobbies_list', (data) => {

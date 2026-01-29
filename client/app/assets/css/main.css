@@ -641,7 +641,12 @@ select {
     min-height: 130px;
 }
 
+.cell img {
+    transition: all 0.5s ease-in-out;
+}
+
 @media (max-width: 850px) {
+    
     .grid-img{
         width: 60px;
         height: 60px;

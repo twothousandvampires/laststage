@@ -3,33 +3,18 @@
         <div v-if="state === 1" class="grid-menu">
         <!-- Генерируем 60 ячеек (5 колонок * 12 строк) -->
             <div 
-                v-for="n in 40" 
-                :key="n"
+                v-for="(cell, index) in grid" 
+                :key="index"
                 class="cell",
-            >
-          
-            <span class="button" v-if="b_data[n]">
-                <img @click="handleCellClick(n)" class="grid-img" :src="`/icons/${b_data[n].icon}.png`" alt="">
-            </span>
-            <span v-else>
-                <img class="grid-img" :src="`/icons/${getRandomIcon(n)}.png`" alt="">
-            </span>
+            >   
+                <span class="button" v-if="b_data[index]">
+                    <img @click="handleCellClick(index)" class="grid-img" :src="`/icons/${b_data[index].icon}.png`" alt="">
+                </span>
+                <span v-else>
+                    <img class="grid-img" :src="`/icons/${cell.icon}.png`" alt="">
+                </span>  
             </div>
         </div>
-        <!-- <Info v-if="state === 1"></Info>
-
-        <div v-if="state === 1" style="color: #7a6b5c;display: flex;flex-direction: column; align-items: center;">
-            <div>
-                <img id="main-logo" src="/preview/logo.png" alt="">
-            </div>
-            <div class="button" @click="startLocalGame" style="background-color: #218a21;padding: 10px;margin-top: 6px;">
-                single game
-            </div> 
-            <div>
-                <img src="/preview/666.gif" alt="">
-            </div>
-           
-        </div> -->
          <div>
             <div v-if="lobbies_data.length && show_lobbies" class="lobbies">
                 <div :style="'background-color:' +  (data.started === 'true' || (data.players >= data.maxPlayers) ? '#3a0000' : '#8a2121') + '; color:#e0e07a;'" @click="connect(data)" class="button" v-for="data in lobbies_data">
@@ -49,15 +34,20 @@
     import { useNuxtApp } from '#app';
 
     let icons = ['divine weapon', 'focusing', 'jump', 'ascended','grim pile', 'icicles', 'scorching', 'scream', 'shattered weapon', 'staff', 'light beacon',
-        'soulrender', 'spiritual call', 'sword handle', 'unhuman fortitude', 'blind', 'body melting', 'bravery', 'cloak', 'charged bow', 'commands'
+        'soulrender', 'spiritual call', 'sword handle', 'unhuman fortitude', 'blind', 'body melting', 'bravery', 'cloak', 'charged bow', 'commands', 'afterlight',
+        'blessed fighter', 'crystal greaves', 'electrified dash', 'exhaustion', 'leaded by shost', 'lightning_eye', 'mystic way', 'through and through', 'zap',
+        'while we alive', 'heaven intervention', 'glass sword', 'frost sphere', 'fragility', 'fortification', 'forger', 'forge', 'flesh harvest', 'flame ring',
+        'emerald knife', 'durability', 'drained', 'distorter', 'disintegration', 'disease', 'devouring', 'devouring flame', 'destroyer', 'despair', 'defender',
+        'cutting', 'curse', 'crushed', 'crossbow', 'corrosion', 'conductivity', 'conduct of pain', 'collapse', 'charged shield', 'charged armour', 'glacial chain',
+        'excitement', 'fan of swords', 'fire spliting', 'light stream'
     ]
 
     let b_data = {
-            13: {
+            12: {
                 icon: 'local game',
                 action: () => startLocalGame()
             },
-            18: {
+            17: {
                 icon: 'lobby',
                 action: () => showLobbies()
             }
@@ -73,6 +63,7 @@
     let state = ref(1)
     let lobbies_data = ref([])
     let show_lobbies = ref(false)
+    let grid = ref([])
 
     let socket = $getInstance()
 
@@ -82,6 +73,14 @@
 
     const showLobbies = () => {
         show_lobbies.value = true
+    }
+
+    const createGrid = () => {
+        for(let i = 0; i < 45; i++){
+            grid.value.push({
+                icon: getRandomIcon()
+            })
+        }
     }
 
     const startLocalGame = () => {
@@ -97,6 +96,14 @@
         socket.on('connect_to_lobby', () => {
             state.value = 3
         });
+    }
+
+    const changeGridImg = () => {
+        grid.value = grid.value.map(elem => {
+            return {
+                icon: getRandomIcon()
+            }
+        })
     }
 
     let connect = (data) => {
@@ -116,6 +123,12 @@
         })
     }
     onMounted(() => {
+        createGrid()
+        setInterval(() => {
+            if(state.value != 1) return
+
+            changeGridImg()
+        }, 5000)
         const tg = window.Telegram?.WebApp
         const isTelegram = tg && tg.initData !== ""
 

@@ -170,7 +170,7 @@ export default class CallOfPower extends Effect {
     }
 
     act(time: number) {
-        if(this.count >= 6){
+        if(this.count >= 4){
             this.activate()
             this.delete()
             return

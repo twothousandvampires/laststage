@@ -55,8 +55,6 @@ export default class Swordman extends Character {
         this.recent_kills = []
         this.chance_to_block = 50
         this.armour_mutators = [new SwordmanArmourMutator()]
-
-        this.block_for_energy = 5
     }
 
     succefullCast() {

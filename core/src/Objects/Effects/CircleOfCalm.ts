@@ -57,7 +57,7 @@ export default class CircleOfCalm extends Effect {
     }
 
     act(time: number) {
-        if(this.count >= 6){
+        if(this.count >= 4){
             this.activate()
             return
         }

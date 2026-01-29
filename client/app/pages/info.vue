@@ -1,10 +1,10 @@
 <template>
   <div id="top-panel">
-    <NuxtLink to="/">BACK</NuxtLink>
+    <NuxtLink to="/"><img :src="`/icons/back.png`" class="grid-img button" style="box-shadow: unset;"></NuxtLink>
     <div>
-      <img :src="`/icons/focusing.png`" class="grid-img button" style="box-shadow: unset;" @click="show_info = !show_info">
-      <img :src="`/icons/dash.png`" class="grid-img button" style="box-shadow: unset;"  @click="socket.emit('get_records');show_records = !show_records">
-      <img :src="`/icons/attack speed.png`" class="grid-img button" style="box-shadow: unset;" @click="goTg()">
+      <img :src="`/icons/rules.png`" class="grid-img button" style="box-shadow: unset;" @click="show_info = !show_info">
+      <img :src="`/icons/records.png`" class="grid-img button" style="box-shadow: unset;"  @click="socket.emit('get_records');show_records = !show_records">
+      <img :src="`/icons/tg.png`" class="grid-img button" style="box-shadow: unset;" @click="goTg()">
     </div>
   </div>
 

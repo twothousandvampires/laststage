@@ -425,17 +425,20 @@ export default class Default extends Scenario {
         if(this.waves_created >= 1 && this.waves_created % 14 === 0){
             
             let a = Math.random() > 0.5 ? new CircleOfCalm(level) : new CallOfPower(level)
-            let random = Func.getRandomFromArray(players)
+            
 
-            let angle: number = Math.random() * 6.28
-            let distance_x: number = Func.random(12, 17)
-            let distance_y: number = Func.random(12, 17)
+            while(a.isOutOfMap()){
+                let random = Func.getRandomFromArray(players)
 
-            a.setPoint(
-                random.x + Math.sin(angle) * distance_x,
-                random.y + Math.cos(angle) * distance_y
-            )
-
+                let angle: number = Math.random() * 6.28
+                let distance_x: number = Func.random(12, 17)
+                let distance_y: number = Func.random(12, 17)
+                 a.setPoint(
+                    random.x + Math.sin(angle) * distance_x,
+                    random.y + Math.cos(angle) * distance_y
+                )
+            }
+           
             level.binded_effects.push(a)
         }
         if (this.waves_created > 1 && this.waves_created % 25 === 0) {

@@ -91,6 +91,8 @@ import ChargedShield from '../Triggers/ChargedShield'
 import FirmGripMutator from '../Mutators/FirmGripMutator'
 import CoordinationMutator from '../Mutators/CoordinationMutator'
 import EnergyArmourMutator from '../Mutators/EnergyArmourMutator'
+import RegeneratinBlocks from '../Triggers/RegeneratingBlocks'
+import RegeneratingBlocks from '../Triggers/RegeneratingBlocks'
 
 export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
@@ -162,12 +164,39 @@ export default class Upgrades {
                 desc: 'Increases chance to avoid damage, resist and cd reduction',
             },
             {
-                name: 'taste of blood',
+                name: 'regeneration',
+                type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.kills >= 250
+                    return character.life_gained >= 40
                 },
                 teach: (character: Character): void => {
-                    character.vampiric_rate += 2
+                    character.chance_to_regen_additional_life += 5
+                },
+                cost: 1,
+                ascend: 25,
+                desc: 'Increases chance to regenerate additional life when gain life',
+            },
+            {
+                name: 'tormented',
+                type: 'mastery',
+                canUse: (character: Character) => {
+                    return character.hits >= 20
+                },
+                teach: (character: Character): void => {
+                    character.avoid_damage_chance += 2
+                },
+                cost: 1,
+                ascend: 20,
+                desc: 'Increases chance to avoid damage',
+            },
+            {
+                name: 'taste of blood',
+                type: 'mastery',
+                canUse: (character: Character) => {
+                    return character.kills >= 350
+                },
+                teach: (character: Character): void => {
+                    character.vampiric_rate += 3
                 },
                 cost: 2,
                 ascend: 20,
@@ -212,9 +241,35 @@ export default class Upgrades {
                 desc: 'Increases chance to avoid damage depend on your courage',
             },
             {
+                name: 'regenerating blocks',
+                type: 'mastery',
+                canUse: (character: Character) => {
+                    return character.blocks >= 30 && character.life_gained >= 50 && !character.triggers_on_block.some(elem => elem instanceof RegeneratingBlocks)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_block.push(new RegeneratingBlocks())
+                },
+                cost: 2,
+                ascend: 25,
+                desc: 'When you block you have a chance to gain life',
+            },
+            {
+                name: 'as a wall',
+                type: 'mastery',
+                canUse: (character: Character) => {
+                    return character.blocks >= 40
+                },
+                teach: (character: Character): void => {
+                    character.block_for_energy += 3
+                },
+                cost: 2,
+                ascend: 25,
+                desc: 'Your block chance is increased by your energy',
+            },
+            {
                 name: 'firm grip',
                 canUse: (character: Character) => {
-                    return !(character instanceof Flyer) && !character.chance_not_to_lose_energy_when_block_mutators.some(elem => elem instanceof FirmGripMutator)
+                    return character.blocks >= 30 && !(character instanceof Flyer) && !character.chance_not_to_lose_energy_when_block_mutators.some(elem => elem instanceof FirmGripMutator)
                 },
                 teach: (character: Character): void => {
                     character.chance_not_to_lose_energy_when_block_mutators.push(new FirmGripMutator())
@@ -273,15 +328,16 @@ export default class Upgrades {
             },
             {
                 name: 'golden chainmail',
+                type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.gold >= 200 && !character.armour_mutators.some(elem => elem instanceof GoldenChainmailMutator)
+                    return character.gold_earned >= 400 && !character.armour_mutators.some(elem => elem instanceof GoldenChainmailMutator)
                 },
                 teach: (character: Character) => {
                     character.armour_mutators.push(new GoldenChainmailMutator())
                 },
                 cost: 3,
                 ascend: 20,
-                desc: 'Your armor increases depending on the amount of gold you have',
+                desc: 'Your gold increases your armour rate',
             },
             {
                 name: 'cast speed',
@@ -571,8 +627,9 @@ export default class Upgrades {
             },
             {
                 name: 'mystic way',
+                type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.additional_energy_chance < 100
+                    return character.additional_energy_chance < 100 && character.ability_use >= 200
                 },
                 teach: (character: Character): void => {
                     character.additional_energy_chance += 2

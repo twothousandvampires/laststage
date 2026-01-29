@@ -127,6 +127,7 @@ export default abstract class Character extends Unit {
     block_for_energy: number = 0
     additional_energy_chance: number = 0
     not_to_pay_finisher_chance: number = 0
+    chance_to_regen_additional_life: number = 0
 
     enlightenment_threshold: number = 12
     can_get_courage: boolean = true
@@ -650,7 +651,8 @@ export default abstract class Character extends Unit {
             'blessed blood': 'chance to regenerate life above maximum',
             'instant kill': 'chance to kill enemy instantly',
             'vampiric rate': 'chance to get life after killing enemy',
-            'move penalty': 'movement speed reduction rate when using an ability'
+            'move penalty': 'movement speed reduction rate when using an ability',
+            'additional life': 'chance to regenerate additional life when gain life'
         }
         return {
             stats: {
@@ -677,7 +679,8 @@ export default abstract class Character extends Unit {
                     'instant kill': this.getInstantKillChance() + '%',
                     'vampiric rate': this.vampiric_rate,
                     'block chance': this.chance_to_block,
-                    'double trigger': this.isSecondTrigger(),                                 
+                    'double trigger': this.isSecondTrigger(),
+                    'additional life': this.chance_to_regen_additional_life                                 
                 },
                 'speed': {
                     'attack speed': this.getAttackSpeed() + 'ms',
@@ -690,7 +693,8 @@ export default abstract class Character extends Unit {
                     blocks: this.blocks,
                     hits: this.hits,
                     'ability used': this.ability_use,
-                    'gold earned': this.gold_earned
+                    'gold earned': this.gold_earned,
+                    'life gained': this.life_gained
                 }   
             },
             descriptions: descriptions,
@@ -910,7 +914,7 @@ export default abstract class Character extends Unit {
     }
 
     isRegenAdditionalLife() {
-        return false
+        return this.chance_to_regen_additional_life
     }
 
     canRegenMoreLife() {
@@ -953,6 +957,8 @@ export default abstract class Character extends Unit {
                 restored++
             }
         }
+
+        this.life_gained += restored
 
         if (restored > 0) {
             this.playerWasHealed()

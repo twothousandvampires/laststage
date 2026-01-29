@@ -226,14 +226,21 @@ body{
 }
 
 .player {
-    background-color: #b8b85c;
+    background-color: #8a7a6b;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border: 8px solid #7a7a3a;
+    border: 10px solid transparent;
     font-size: 18px;
     height: fit-content;
+
+    border: 10px solid transparent; 
+    border-image-source: url('/icons/focusing.png');
+    border-image-slice: 10;
+    border-image-repeat: round;
+    background-clip: padding-box;
+
 }
 .player_ready{
     background-color: #7a7a3a;
@@ -241,9 +248,15 @@ body{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border: 8px solid #7a7a3a;
+    border: 10px solid transparent;
     font-size: 18px;
     height: fit-content;
+
+    border: 10px solid transparent; 
+    border-image-source: url('/icons/heaven intervention.png');
+    border-image-slice: 10;
+    border-image-repeat: round;
+    background-clip: padding-box;
 }
 
 .item_pull{
@@ -258,14 +271,20 @@ body{
     width: fit-content;
     left: 50%;
     top: 50%;
-    background-color: lightgreen;
-    border: 6px solid #7a7a3a;
+    background-color: #8a7a6b;
+    border: 10px solid transparent;
     display: flex;
     
     align-items: flex-start;
     justify-content: space-between;
     align-items: center;
     transform: translate(-50%, -50%);
+
+    border: 10px solid transparent; 
+    border-image-source: url('/icons/focusing.png');
+    border-image-slice: 10;
+    border-image-repeat: round;
+    background-clip: padding-box;
 }
 .abilities_pull{
     display: flex;
@@ -278,13 +297,24 @@ body{
     width: fit-content;
     left: 50%;
     top: 50%;
-    background-color: lightgreen;
-    border: 6px solid #7a7a3a;
+    background-color: #8a7a6b;
+    border: 10px solid transparent;
+
     display: flex;
     
     justify-content: center;
     align-items: center;
     transform: translate(-50%, -50%);
+
+    border: 10px solid transparent; 
+    border-image-source: url('/icons/focusing.png');
+    border-image-slice: 10;
+    border-image-repeat: round;
+    background-clip: padding-box;
+
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
 }
 
 .select_and_preview{
@@ -556,12 +586,11 @@ body{
     background-image: url('./preview/special.png');
 }
 #game-info{
-    width: 80%;
+    width: 100%;
     position: fixed;
-    top: 5%;
     background-color: #e0e07a;
     overflow-y: scroll;
-    height: 90%;
+    height: 100%;
     padding: 6px;
     border: 4px solid #7a7a3a;
 }
@@ -578,20 +607,21 @@ body{
     background-color: #1e1e1e;
 }
 #top-panel{
-    z-index: 666666666666;
-    background-color: #ff8c00;
-    top: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px;
-    position: sticky;
+    position: fixed;
+    flex-direction: column;
 }
-#top-panel p{
-    cursor: pointer;
-    font-size: 18px;
+#top-panel a{
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 12px;
 }
-
 .button {
     display: inline-block;
     padding: 4px;
@@ -606,7 +636,7 @@ body{
 
     transition: all 0.1s ease;
     position: relative;
-    box-shadow: 4px 4px 0px 0px gray
+    box-shadow: 4px 4px 0px 0px #3a2a1e
 }
 
 .button:active {   
@@ -643,6 +673,28 @@ select {
 
 .cell img {
     transition: all 0.5s ease-in-out;
+}
+
+.btn-cell {
+  /* Создаем градиент под углом, размер ставим 400% чтобы было пространство для маневра */
+  background: linear-gradient(-45deg, #3a7da3, #8a2a8a, #7a7a3a, #e05c2a);
+  background-size: 400% 400%;
+  
+  /* Название анимации | Время | Плавность | Бесконечно */
+  animation: gradientBG 15s ease infinite;
+
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @media (max-width: 850px) {
@@ -704,6 +756,8 @@ select {
         width: fit-content;
         height: 100%;
         top: 0;
+        padding: 0;
+        border: unset;
     }
     #upgrades {
         align-items: unset;

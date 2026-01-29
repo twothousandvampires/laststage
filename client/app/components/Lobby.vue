@@ -17,7 +17,7 @@
             </div>
         </div>
         <div v-if="lobby_data.length && show_abilities_pull" class="abilities_pull">
-            <div style="flex-grow: 1;min-width: 100%;text-align: center; cursor: pointer;">
+            <div style="text-align: center; cursor: pointer;">
                     <h2>possible abilities</h2>
                 </div>
             <div style="display: flex; align-items: center;">            
@@ -59,7 +59,7 @@
                                 
                                 width="60px"
                                 height="60px"
-                                :src="`/icons/service.png`"
+                                :src="`/icons/divine pack.png`"
                                 @mouseleave="$closeTitle()"
                                 @click="openItemPull(value)"
                                 @mouseover="$title($event, 'click to select item')"
@@ -80,8 +80,7 @@
                         <p class="button">stage</p>
                     </div>
                 </div>
-                <div class="right_bottom" v-if="lobby_data.length">
-                    
+                <div class="right_bottom" v-if="lobby_data.length">            
                     <div class="selected_skill_div" v-for="selected in value.template.abilities.filter(elem => elem.selected)">        
                         <img 
                         class="button"
@@ -95,28 +94,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="left_block">
-                <div class="stat_wrap">
-    
-                    <p>left: {{ value.template.stat_count }}</p>
-                    <div class="stat" v-for="(stat_value, key) in value.template.stats">
-                        <p class="button" v-if="value.is_player" @click="increaseStat(key)">+</p>
-                        <p v-else>///</p>
-                        <img
-                        width="60px"
-                        height="60px"
-                        @mouseover="$title($event, key.toUpperCase() + '\n\n' +value.template.stats_description[key])"
-                        @touchend="$closeTitle()"
-                        @mouseleave="$closeTitle()"
-                        :src="`/icons/${key}.png`"
-                        class="button">
-                        {{ stat_value }}
-                        <p class="button" v-if="value.is_player" @click="decreaseStat(key)">-</p>
-                        
-                         <p v-else>///</p>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </template>

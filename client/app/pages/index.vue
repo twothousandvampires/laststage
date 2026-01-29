@@ -1,14 +1,13 @@
 <template>
     <div id="wrap">
         <div v-if="state === 1" class="grid-menu">
-        <!-- Генерируем 60 ячеек (5 колонок * 12 строк) -->
             <div 
                 v-for="(cell, index) in grid" 
                 :key="index"
                 class="cell",
             >   
                 <span class="button" v-if="b_data[index]">
-                    <img @click="handleCellClick(index)" class="grid-img" :src="`/icons/${b_data[index].icon}.png`" alt="">
+                    <img @click="handleCellClick(index)" class="grid-img  btn-cell" :src="`/icons/${b_data[index].icon}.png`" alt="">
                 </span>
                 <span v-else>
                     <img class="grid-img" :src="`/icons/${cell.icon}.png`" alt="">
@@ -28,7 +27,6 @@
     </div>
 </template>
 <script setup>
-    import '~/assets/css/main.css'
     import { LocalSocketMock } from '~/utils/LocalSocketMock'
     import { ref } from 'vue';
     import { useNuxtApp } from '#app';
@@ -50,7 +48,11 @@
             17: {
                 icon: 'lobby',
                 action: () => showLobbies()
-            }
+            },
+            22: {
+                icon: 'info',
+                action: async () => await navigateTo('/info')
+            },
         }
 
     const handleCellClick = (index) => {
@@ -99,11 +101,10 @@
     }
 
     const changeGridImg = () => {
-        grid.value = grid.value.map(elem => {
-            return {
-                icon: getRandomIcon()
-            }
-        })
+        let count = 35
+        for(let i = 0; i < count;i++){
+            let r = grid.value[Math.floor(Math.random() * grid.value.length)].icon = getRandomIcon()
+        }
     }
 
     let connect = (data) => {

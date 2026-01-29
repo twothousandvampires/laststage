@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  css: ['~/assets/css/main.css'],
   ssr: false,
   nitro: {
     static: true, // Оптимизация для статических файлов
@@ -33,7 +34,13 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'last stage',
+      title: 'Last Stage — Pixel Multiplayer Action',
+      meta: [
+        { name: 'description', content: 'It is your last stage.' },
+        { property: 'og:title', content: 'Last Stage' },
+        { property: 'og:description', content: 'Play on browser or telegram.' },
+        { property: 'og:image', content: 'https://laststage.online' },
+      ],
       script: [
         { 
           src: 'https://telegram.org/js/telegram-web-app.js', 

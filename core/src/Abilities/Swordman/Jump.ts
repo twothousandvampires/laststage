@@ -1,4 +1,5 @@
 import Func from '../../Func'
+import TurtleShell from '../../Glyphs/TurtleShell'
 import IUnitState from '../../Interfaces/IUnitState'
 import Character from '../../Objects/src/Character'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
@@ -26,7 +27,7 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
         this.stomp = false
         this.name = 'jump'
         this.type = Ability.TYPE_CUSTOM
-        this.mastery_chance = 40
+        this.mastery_chance = 45
     }
 
     enter(player: Character) {

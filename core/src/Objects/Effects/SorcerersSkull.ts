@@ -21,7 +21,7 @@ export default class SorcerersSkull extends Effect {
         this.level.players.forEach(elem => {
             let col = Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())
             if (col) {
-                elem.addWard(3)
+                elem.addWard(5)
 
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)

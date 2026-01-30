@@ -195,6 +195,7 @@ export default abstract class Item {
     ]
 
     static forging_list_type_1 = [
+        'boiling blood',
         'attack speed',
         'instant kill',
         'ignite when hit',
@@ -209,6 +210,7 @@ export default abstract class Item {
     ]
 
     static forging_list_type_2 = [
+        'bloody spell',
         'regen time',
         'block chance',
         'freeze when hited',

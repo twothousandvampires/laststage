@@ -8,7 +8,7 @@ export default class WindBarrier extends Mastery {
     constructor() {
         super()
         this.name = 'wind barrier'
-        this.description = 'When you start ability there is a chance to destroy nearby projectiles.'
+        this.description = 'When you start ability there is a chance to destroy nearby projectiles and blind nearby enemies.'
     }
 
     trigger(player: Character, ability: Ability) {
@@ -19,6 +19,12 @@ export default class WindBarrier extends Mastery {
         player.level.projectiles.forEach(elem => {
             if (Func.distance(player, elem) <= 16) {
                 elem.impact()
+            }
+        })
+
+        player.level.enemies.forEach(elem => {
+            if(!elem.is_dead && Func.distance(player, elem) <= 16){
+                elem.removeTarget(5000)
             }
         })
     }

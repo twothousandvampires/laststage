@@ -44,6 +44,7 @@ export default class Soulrender extends CultistAbility {
                 proj.setStart(this.owner.level.time)
                 proj.setAngle(angle)
                 proj.setPoint(t.x, t.y)
+                proj.setOwner(this.owner)
 
                 this.owner.level.projectiles.push(proj)
             }

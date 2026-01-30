@@ -1,4 +1,5 @@
 import Func from '../../Func'
+import WindBarrier from '../../Glyphs/WindBarrier'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
 import CommandsStatus from '../../Status/CommandsStatus'
 import SwordmanAbility from './SwordmanAbility'

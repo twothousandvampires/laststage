@@ -1,5 +1,6 @@
 import Ability from '../Abilities/Ability'
 import Func from '../Func'
+import FireExplosionMedium from '../Objects/Effects/FireExplosionMedium'
 import Character from '../Objects/src/Character'
 import Mastery from './Mastery'
 
@@ -14,6 +15,7 @@ export default class InfernalGaze extends Mastery {
     trigger(player: Character, ability: Ability) {
         player.level.addSound('fire explosion', player.x, player.y)
         let gaze_angle = 0
+
         if (player.attack_angle) {
             gaze_angle = player.attack_angle
         } else {
@@ -28,6 +30,10 @@ export default class InfernalGaze extends Mastery {
         )
 
         f.forEach(elem => {
+            let e = new FireExplosionMedium(player.level)
+            e.setPoint(elem.x, elem.y)
+            player.level.addEffect(e)
+            
             elem.takeDamage(player, {
                 burn: true,
             })

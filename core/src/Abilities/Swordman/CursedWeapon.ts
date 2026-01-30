@@ -1,10 +1,13 @@
+import FireExplosionSmall from '../../Objects/Effects/FireExplosionSmall'
+import FrostExplosionSmall from '../../Objects/Effects/FrostExplosionSmall'
+import ToothExplode from '../../Objects/Effects/ToothExplode'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
 import CursedWeaponStatus from '../../Status/CursedWeaponStatus'
 import SwordmanAbility from './SwordmanAbility'
 
 export default class CursedWeapon extends SwordmanAbility {
     drinker: boolean = false
-
+    c: number = 0
     constructor(owner: Swordman) {
         super(owner)
         this.name = 'cursed weapon'
@@ -22,10 +25,38 @@ export default class CursedWeapon extends SwordmanAbility {
 
         this.owner.level.setStatus(this.owner, status)
 
-        this.owner.level.sounds.push({
-            name: 'dark cast',
-            x: this.owner.x,
-            y: this.owner.y,
-        })
+        if(this.c === 0){
+            let e = new FrostExplosionSmall(this.owner.level)
+            e.setPoint(this.owner.x, this.owner.y)
+            e.z = 10
+            e.y --
+
+            this.owner.level.addEffect(e)
+        }
+        else if(this.c === 1){
+            let e = new FireExplosionSmall(this.owner.level)
+            e.setPoint(this.owner.x, this.owner.y)
+            e.z = 10
+            e.y --
+
+            this.owner.level.addEffect(e)
+        }
+        else{
+            let e = new ToothExplode(this.owner.level)
+            e.setPoint(this.owner.x, this.owner.y)
+            e.z = 10
+            e.y --
+
+            this.owner.level.addEffect(e)
+        }
+
+        this.c ++
+
+
+        // this.owner.level.sounds.push({
+        //     name: 'dark cast',
+        //     x: this.owner.x,
+        //     y: this.owner.y,
+        // })
     }
 }

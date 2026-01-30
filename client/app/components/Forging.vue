@@ -1,26 +1,5 @@
 <template>
     <div id="forge">
-        <div class="left-block">
-            <div style="display: flex;width: 100%;justify-content: space-around;padding: 4px;">
-                <div>
-                    <p style="font-size: 16px; color: gold;"
-                    @mouseover="$title($event, 'Click on item for unlocking forgings. Cost depends on existing count.')"
-                    @mouseleave="$closeTitle()"
-                    >gold: 
-                </p>
-                <span>{{ data.gold }}</span>
-                </div>
-                <div>
-                    <p style="font-size: 16px; color: gold;"
-                        @mouseover="$title($event, 'What is this for?')"
-                        @mouseleave="$closeTitle()"
-                        @click="showSparks()">
-                        sparks:
-                    </p>
-                    <span> {{ data.carved_sparks }}</span>
-                </div>          
-            </div>
-        </div>
         <div v-if="items.length" id="suggest">
             <div v-for="(item, index) in items">
                 <img
@@ -44,7 +23,26 @@
         </div>
        
         <div style="display: flex;flex-direction: column; justify-content: start;align-items: center;gap: 10px">
-            <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;gap: 10px;width: 100%;">      
+            <div style="display: flex;flex-direction: column; justify-content: center;align-items: center;gap: 10px;width: 100%;">    
+                <div style="display: flex;width: 100%;justify-content: space-around;padding: 4px;">
+                    <div>
+                        <p style="font-size: 16px; color: gold;"
+                        @mouseover="$title($event, 'Click on item for unlocking forgings. Cost depends on existing count.')"
+                        @mouseleave="$closeTitle()"
+                        >gold: 
+                    </p>
+                    <span>{{ data.gold }}</span>
+                </div>
+                <div>
+                    <p style="font-size: 16px; color: gold;"
+                        @mouseover="$title($event, 'What is this for?')"
+                        @mouseleave="$closeTitle()"
+                        @click="showSparks()">
+                        sparks:
+                    </p>
+                    <span> {{ data.carved_sparks }}</span>
+                </div>          
+            </div>  
                 <div style="width: 100%;display: flex;justify-content: space-around;">
                     <p
                         class="button"

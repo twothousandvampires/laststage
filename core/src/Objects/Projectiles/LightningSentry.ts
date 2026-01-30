@@ -10,6 +10,8 @@ export class LightningSentry extends Projectiles {
     angle_added: number = 0
     duration: number = 12000
     start: number = Date.now()
+    max_spins: number = 7
+    spins: number = 0
 
     constructor(
         level: Level,
@@ -23,10 +25,6 @@ export class LightningSentry extends Projectiles {
     }
 
     act(time: number): void {
-        if(time - this.start >= this.duration){
-            this.impact()
-            return
-        }
         let enemies = this.level.enemies
         let players = this.level.players
 
@@ -80,6 +78,11 @@ export class LightningSentry extends Projectiles {
         this.angle_added += 0.1
 
         if (this.angle_added > 6.28) {
+            this.spins ++
+            if(this.spins >= this.max_spins){
+                this.impact()
+                return
+            }
             this.hitted = []
             this.angle_added = 0
         }

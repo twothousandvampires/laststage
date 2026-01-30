@@ -151,6 +151,8 @@ import Binded from "./src/sprites/Enemy/Binded"
 import EarthSpikes from "./src/sprites/Effect/EarthSpikes"
 import EarthSpikesBig from "./src/sprites/Effect/EarthSpikesBig"
 import SingleEarthSpike from "./src/sprites/Effect/SingleEarthSpike"
+import BloodyVines from "./src/sprites/Effect/BloodyVines"
+import BloodySphere from "./src/sprites/Effect/BloodySphere"
 
 export default class Render{
     
@@ -670,6 +672,12 @@ export default class Render{
         }
         else if(elem.name === 'single earth spike'){
             return new SingleEarthSpike(elem.id)
+        }
+        else if(elem.name === 'bloody vines'){
+            return new BloodyVines(elem.id)
+        }
+        else if(elem.name === 'boiling blood'){
+            return new BloodySphere(elem.id)
         }
     }
 

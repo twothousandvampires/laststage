@@ -198,6 +198,13 @@ body{
     justify-content: center;
     display: flex;
 }
+.grace-and-ascend{
+    display: flex;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
 #lobby{
     display: flex;
     flex-direction: row;
@@ -388,12 +395,12 @@ body{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    
-        background-color: #3a7da3;
+    background-color: #3a7da3;
     border: 6px solid #1e3a5c;
     display: flex;
     flex-direction: row;
-
+    justify-content: space-around;
+    width: 800px;
     overflow-y: auto;
 }
 #record-name-input{
@@ -465,7 +472,6 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    width: 40%;
 }
 .upgrade{
     display: flex;
@@ -485,7 +491,7 @@ body{
     transform: translate(-50%, -50%);
     background-color: #b8b85c;
     border: 6px solid #7a7a3a;
-    justify-content: space-between;
+    justify-content: space-around;
     overflow-y: auto;
     max-height: 100vh;
     gap: 20px;
@@ -621,6 +627,10 @@ body{
     color: white;
     text-decoration: none;
 }
+.stat-wrap{
+    padding: 10px;
+    overflow-y: auto;
+}
 .button {
     display: inline-block;
     padding: 4px;
@@ -696,8 +706,10 @@ select {
   }
 }
 
-@media (max-width: 850px) {
-    
+@media (max-width: 450px) {
+    #upgrades{
+        flex-direction: column;
+    }
     .grid-img{
         width: 60px;
         height: 60px;
@@ -760,8 +772,7 @@ select {
     }
     #upgrades {
         align-items: unset;
-        justify-content: start;
-        flex-direction: column;
+        justify-content: space-around;
         top: 0;
         left: 0;
         transform: none;
@@ -849,18 +860,22 @@ select {
     #title .main_title{
         font-size: 12;
     }
-    .stat-wrap{
-            width: 95%;
-    }
+    
     .left-block{
         display: flex;
         flex-direction: row;
     }
-    #upgrades-right{
-        width: 100%;
-    }
-    
-    @media screen and (max-height: 450px) and (max-width: 850px) {
+}
+
+@media screen and (max-height: 450px) and (max-width: 850px) {
+        #forge{
+            width: 100vw;
+            height: 100vh;
+        }
+        .grid-img{
+            width: 60px;
+            height: 60px;
+        }
         #skill_icons img{
             width: 40px;
             height: 40px;
@@ -908,4 +923,3 @@ select {
             flex-direction: row;
         }
     }
-}

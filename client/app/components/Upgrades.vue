@@ -1,7 +1,13 @@
 <template>
     <div id="upgrades">
-        <div class="left-block">
-             <div class="grace-and-ascend">
+        <div @click="show_abilities = false; mastery_name = ''" v-if="show_abilities" id="suggest">
+            <div class="button" @click="addMastery(ability)" v-for="ability in abilities">
+                <p>{{ ability }}</p>
+            </div>
+        </div>
+        <div id='upgrades-right'>
+            <div style="display: flex;justify-content: space-between;align-items: center;width: 100%; padding: 10px 0; flex-direction: column;">
+                <div class="grace-and-ascend">
                      <div>
                         <p
                             @mouseover="$title($event, {
@@ -25,14 +31,6 @@
                         <span style="color: whitesmoke;">{{ data.ascend }}</span>
                     </div>
                 </div>
-        </div>  
-        <div @click="show_abilities = false; mastery_name = ''" v-if="show_abilities" id="suggest">
-            <div class="button" @click="addMastery(ability)" v-for="ability in abilities">
-                <p>{{ ability }}</p>
-            </div>
-        </div>
-        <div id='upgrades-right'>
-            <div style="display: flex;justify-content: space-between;align-items: center;width: 100%; padding: 10px 0c">
                <div style="display: flex;justify-content: space-around;width: 100%;margin: 8px 0;">
                     <p
                         class="button"
@@ -99,7 +97,7 @@
                         })"
                         @mouseleave="$closeTitle()"
                         v-for="mastery in data.masteries">
-                        <img width="60px" height="60px" :src="`/icons/small ward.png`" alt="">
+                        <img width="60px" height="60px" :src="`/icons/empower.png`" alt="">
                     </div>
                 </div>        
            </div>

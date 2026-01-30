@@ -9,8 +9,7 @@ export default class WaveOfTransformation extends Mastery {
     constructor() {
         super()
         this.name = 'wave of trasformation'
-        this.description =
-            'When the ability is activated, there is a chance to turn nearby enemies into gold.'
+        this.description = 'When the ability is activated, there is a chance to turn nearby enemies into gold.'
     }
 
     trigger(player: Character, ability: Ability) {
@@ -21,7 +20,7 @@ export default class WaveOfTransformation extends Mastery {
 
         player.level.enemies.forEach(elem => {
             if (
-                Func.chance(15) &&
+                Func.chance(20) &&
                 !elem.is_dead &&
                 elem.can_be_removed &&
                 Func.distance(player, elem) <= 12

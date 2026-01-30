@@ -22,16 +22,8 @@ export default class Helm extends Effect {
             let col = Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())
             if (col) {
                 elem.power ++
-
-                let r = Func.random(1, 6)
-                if (r === 1) {
-                    elem.move_speed_penalty ++
-                } else if (r === 2) {
-                    elem.vampiric_rate ++
-                } else if (r === 3) {
-                    elem.chance_to_trigger_additional_time ++
-                }
-
+                elem.addAscent()
+                
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)
             }

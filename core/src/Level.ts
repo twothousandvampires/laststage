@@ -19,6 +19,7 @@ import SorcerersSkull from './Objects/Effects/SorcerersSkull'
 import UpgradeManager from './Classes/UpgradeManager'
 import Helm from './Objects/Effects/Helm'
 import Message from './Types/Message'
+import SpellDialers from './Scenarios/SpellDialers'
 
 export default class Level {
     static enemy_list = [
@@ -95,7 +96,7 @@ export default class Level {
     public started: number
     public ambient_time: number = 0
     public check_grace_time: number = 0
-    public messedges: Message[] = []
+    public messedges: Message[] = []                            
 
     
     public script: Scenario = new Default()
@@ -106,7 +107,7 @@ export default class Level {
 
     constructor(private server: GameServer) {
         this.server = server
-        this.socket = this.server.transport
+        this.socket = this.server.transport                                         
         this.started = this.time
     }
 

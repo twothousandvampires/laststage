@@ -25,6 +25,8 @@ import Spirit from '../../Effects/Spirit'
 import SwordmanArmourMutator from '../../../Mutators/SwordmanArmourMutator'
 import ShatteredWeapon from '../../../Abilities/Swordman/ShatteredWeapon'
 import Enemy from '../Enemy/Enemy'
+import BoilingBloodEffect from '../../Effects/BoilingBloodEffect'
+import BoilingBloodTrigger from '../../../Triggers/BoilingBloodTrigger'
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -437,10 +439,6 @@ export default class Swordman extends Character {
 
             this.addLife()
         }
-    }
-
-    isRegenAdditionalLife() {
-        return false
     }
 
     setDamagedAct() {

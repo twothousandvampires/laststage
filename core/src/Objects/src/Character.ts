@@ -91,6 +91,8 @@ export default abstract class Character extends Unit {
     blessed: boolean = false
     free_upgrade_count: number = 0
 
+
+
     triggers_on_kill: any[] = [new LifeAfterKIllTrigger()]
     triggers_on_hit: any[] = [new ImpactTrigger()]
     triggers_on_use_not_utility: any[] = []
@@ -112,6 +114,7 @@ export default abstract class Character extends Unit {
     triggers_on_enlight: any[] = []
     triggers_on_impact: any[] = []
     triggers_on_crushing: any[] = []
+    triggers_on_trigger: any[] = []
 
     chance_to_instant_kill: number = 0
     chance_to_avoid_damage_state: number = 0
@@ -124,7 +127,7 @@ export default abstract class Character extends Unit {
     additional_courage_chance: number = 0
     avoid_damage_chance: number = 0
     chance_to_additional_carved_spark: number = 0
-    block_for_energy: number = 0
+    block_for_energy: number = 1
     additional_energy_chance: number = 0
     not_to_pay_finisher_chance: number = 0
     chance_to_regen_additional_life: number = 0
@@ -153,6 +156,8 @@ export default abstract class Character extends Unit {
     hits: number = 0
     ability_use: number = 0
     gold_earned: number = 0
+    life_gained: number = 0
+    triggers_count: number = 0
 
     suggested_abilities: string[]=  []
 
@@ -188,6 +193,7 @@ export default abstract class Character extends Unit {
         this.box_r = 2.5
         this.light_r = 16
         this.life_status = 4
+        this.pierce = 10
         this.getState()
     }
 
@@ -275,13 +281,14 @@ export default abstract class Character extends Unit {
         this.triggers_on_pierce.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
-                    this.triggers_on_impact.forEach(elem => elem.trigger(this, enemy))
+                    elem.trigger(this, enemy)
 
                     if (Func.chance(this.isSecondTrigger())) {
-                        this.triggers_on_impact.forEach(elem => elem.trigger(this, enemy))
+                        elem.trigger(this, enemy)
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -293,13 +300,14 @@ export default abstract class Character extends Unit {
         this.triggers_on_impact.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
-                    this.triggers_on_impact.forEach(elem => elem.trigger(this, enemy, impact_damage))
+                    elem.trigger(this, enemy, impact_damage)
 
                     if (Func.chance(this.isSecondTrigger())) {
-                        this.triggers_on_impact.forEach(elem => elem.trigger(this, enemy, impact_damage))
+                        elem.trigger(this, enemy, impact_damage)
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -318,6 +326,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -342,6 +351,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -379,6 +389,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -407,6 +418,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -479,6 +491,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -511,6 +524,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -546,6 +560,27 @@ export default abstract class Character extends Unit {
         return this.enlight_timer
     }
 
+    wasTrigger(){
+        this.triggers_count ++
+
+        let time = this.level.time
+
+        this.triggers_on_trigger.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this)
+
+                    if (Func.chance(this.isSecondTrigger())) {
+                        elem.trigger(this)
+                    }
+
+                    elem.last_trigger_time = time
+                    this.wasTrigger()
+                }
+            }
+        })
+    }
+
     playerWasEnlighted() {
         let time = this.level.time
 
@@ -559,6 +594,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -592,6 +628,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -694,7 +731,8 @@ export default abstract class Character extends Unit {
                     hits: this.hits,
                     'ability used': this.ability_use,
                     'gold earned': this.gold_earned,
-                    'life gained': this.life_gained
+                    'life gained': this.life_gained,
+                    'triggers': this.triggers_count
                 }   
             },
             descriptions: descriptions,
@@ -787,6 +825,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -864,14 +903,14 @@ export default abstract class Character extends Unit {
     addAscent(value = 1) {
         this.ascend_level += value
 
-        let diff = this.ascend_level - this.last_ascent_mastery_getting
+        // let diff = this.ascend_level - thi0
 
-        while (diff >= 10) {
-            this.last_ascent_mastery_getting += 10
-            this.masteries.push(Builder.createRandomMastery())
+        // while (diff >= 10) {
+        //     this.last_ascent_mastery_getting += 10
+        //     this.masteries.push(Builder.createRandomMastery())
 
-            diff = this.ascend_level - this.last_ascent_mastery_getting
-        }
+        //     diff = this.ascend_level - this.last_ascent_mastery_getting
+        // }
     }
 
     public exitGrace(): void {
@@ -942,7 +981,6 @@ export default abstract class Character extends Unit {
 
         for (let i = 0; i < count; i++) {
             let previous = this.life_status
-
             if (previous > this.max_life) {
                 continue
             } else if (previous === this.max_life) {
@@ -978,6 +1016,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -1093,6 +1132,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -1107,7 +1147,6 @@ export default abstract class Character extends Unit {
 
         this.hits ++
 
-
         this.triggers_on_get_hit.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
@@ -1118,6 +1157,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -1159,6 +1199,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })
@@ -1179,6 +1220,7 @@ export default abstract class Character extends Unit {
                     }
 
                     elem.last_trigger_time = time
+                    this.wasTrigger()
                 }
             }
         })

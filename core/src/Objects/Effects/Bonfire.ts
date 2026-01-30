@@ -28,13 +28,13 @@ export default class Bonfire extends Effect {
             if (Func.chance(50)) {
                 if (Func.chance(50)) {
                     this.light_r--
-                    if (this.light_r < 18) {
-                        this.light_r = 18
+                    if (this.light_r < 14) {
+                        this.light_r = 14
                     }
                 } else {
                     this.light_r++
-                    if (this.light_r > 21) {
-                        this.light_r = 21
+                    if (this.light_r > 18) {
+                        this.light_r = 18
                     }
                 }
             }

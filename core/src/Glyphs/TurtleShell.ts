@@ -7,8 +7,7 @@ export default class TurtleShell extends Mastery {
     constructor() {
         super()
         this.name = 'turtle shell'
-        this.description =
-            'When you start ability there is a chance to increase armour and fortification.'
+        this.description = 'When you start ability there is a chance to increase armour and fortification.'
     }
 
     trigger(player: Character, ability: Ability) {

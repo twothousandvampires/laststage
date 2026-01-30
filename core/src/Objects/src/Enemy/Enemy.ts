@@ -25,14 +25,14 @@ export default abstract class Enemy extends Unit {
     hit_x: number = 0
     hit_y: number = 0
 
-    create_grace_chance: number = 16
+    create_grace_chance: number = 17
     create_energy_chance: number = 6
     create_entity_chance: number = 6
     create_item_chance: number = 0
     create_sorcerers_skull_chance: number = 0
     create_helm_of_ascendence_chance: number = 1
 
-    create_chance: number = 18
+    create_chance: number = 20
     last_action: number = 0
 
     count_as_killed: boolean = true
@@ -43,6 +43,7 @@ export default abstract class Enemy extends Unit {
     dead_time: number = 5000
     killed_by: Character | undefined
     wave_start = 0
+    player_check_timer: number = 2000
 
     constructor(level: Level) {
         super(level)
@@ -107,6 +108,16 @@ export default abstract class Enemy extends Unit {
         return new EnemyDeadState()
     }
 
+    removeTarget(timer: number = this.player_check_timer){
+        this.target = undefined
+
+        this.can_check_player = false
+        
+        setTimeout(() => {
+            this.can_check_player = true
+        }, timer)
+    }
+
     checkPlayer() {
         if (this.can_check_player) {
             if (!this.target) {
@@ -135,7 +146,7 @@ export default abstract class Enemy extends Unit {
 
             setTimeout(() => {
                 this.can_check_player = true
-            }, 2000)
+            }, this.player_check_timer)
         }
     }
 

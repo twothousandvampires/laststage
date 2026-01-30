@@ -14,7 +14,7 @@ export default class Rune extends Effect {
         super(level)
         this.name = 'rune'
         this.time = Date.now()
-        this.box_r = 10
+        this.box_r = 8
         this.fast_detonation = false
         this.explosive = false
         this.second_detanation = false
@@ -29,7 +29,7 @@ export default class Rune extends Effect {
         let box = this.getBoxElipse()
 
         if (this.explosive) {
-            box.r += 2
+            box.r += 3
         }
 
         this.level.enemies.forEach(elem => {

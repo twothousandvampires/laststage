@@ -16,36 +16,32 @@ export class MasteryManifistation extends Manifistation {
         if (this.stage === 0) return
         if (!this.activated_by) return
 
+        let chance = 0
+
         if (this.stage == 1) {
-            this.activated_by.first_ability.mastery_chance += 1
-            this.activated_by.level.addMessedge('mastery chance was increased on first ability')
+            chance = 10
         }
         else if (this.stage == 2) {
-            this.activated_by.first_ability.mastery_chance += 1
-            this.activated_by.second_ability.mastery_chance += 1
-            await Func.sleep(2000)
-            this.activated_by.level.addMessedge('mastery chance were increased on first and second ability')
+            chance = 20
         }
         else if (this.stage == 3) {
-            this.activated_by.first_ability.mastery_chance += 1
-            this.activated_by.second_ability.mastery_chance += 1
-            this.activated_by.third_ability.mastery_chance += 1
-            await Func.sleep(2000)
-            this.activated_by.level.addMessedge('mastery chance were increased on first and second and third ability')
+            chance = 30
         }
         else if (this.stage == 4) {
-            this.activated_by.first_ability.mastery_chance += 1
-            this.activated_by.second_ability.mastery_chance += 1
-            this.activated_by.third_ability.mastery_chance += 1
-            this.activated_by.utility.mastery_chance += 1
-            await Func.sleep(2000)
-            this.activated_by.level.addMessedge('mastery chance were increased on first and second and third ability and utility')
+            chance = 50
         }
         else if (this.stage >= 5) {
+            chance = 100
+        }
+
+        if(Func.chance(chance)){
             let mastery = Builder.createRandomMastery()
             this.activated_by.masteries.push(mastery)
             await Func.sleep(2000)
             this.activated_by.level.addMessedge(mastery.name + ' was added')
+        }
+        else{
+            this.activated_by.level.addMessedge('your skill is not enough...')
         }
     }
 }

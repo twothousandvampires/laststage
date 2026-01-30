@@ -117,6 +117,8 @@ import EnergyWeapon from '../Items/Forgings/EnergyWeapon'
 import GiftOfEnlightment from '../Items/Forgings/GiftOfEnlightment'
 import AscensionArmour from '../Items/Forgings/AscensionArmour'
 import Crusher from '../Items/Crusher'
+import BloodySpell from '../Items/Forgings/BloodySpell'
+import BoilingBlood from '../Items/Forgings/BoilingBlood'
 
 export default class Builder {
     static masteryMap = {
@@ -238,7 +240,9 @@ export default class Builder {
         'fragility on hit': FragilityOnHit,
         'energy weapon': EnergyWeapon,
         'gift of enlightenment': GiftOfEnlightment,
-        'ascension armor': AscensionArmour
+        'ascension armor': AscensionArmour,
+        'bloody spell': BloodySpell,
+        'boiling blood': BoilingBlood
     }
 
     static createCharacter(client: Client, level: Level): Character {

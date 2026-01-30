@@ -8,7 +8,7 @@ export default class VoidDevouring extends Mastery {
     constructor() {
         super()
         this.name = 'devouring void'
-        this.description = 'There is a chance that the void will absorb nearby enemy.'
+        this.description = 'There is a chance that the void will get nearby enemy.'
     }
 
     trigger(player: Character, ability: Ability) {

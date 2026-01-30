@@ -7,7 +7,7 @@ export default class AttackSpeed extends Forging {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 200
+        this.max_value = 120
         this.name = 'attack speed'
         this.description = 'increases your attack speed'
         this.gold_cost = 7

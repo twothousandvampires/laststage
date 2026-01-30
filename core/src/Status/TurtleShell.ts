@@ -9,20 +9,32 @@ export default class TurtleShellStatus extends Status {
     apply(unit: any) {
         this.unit = unit
         if (this.unit instanceof Character) {
-            this.unit.armour_rate += 20
-            this.unit.fortify += 20
+            this.unit.armour_rate += 30
+            this.unit.fortify += 30
             this.unit.statusWasApplied()
+
+            this.unit.newStatus({
+                name: 'turtle shell',
+                duration: this.duration,
+                desc: 'armour and fortification are increased',
+            })
         }
     }
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.armour_rate -= 20
-            this.unit.fortify -= 20
+            this.unit.armour_rate -= 30
+            this.unit.fortify -= 30
         }
     }
 
-    update(status: any) {
+    update(status: any): void {
         this.time = Date.now()
+
+        this.unit.newStatus({
+            name: 'turtle shell',
+            duration: this.duration,
+            desc: 'armour and fortification are increased',
+        })
     }
 }

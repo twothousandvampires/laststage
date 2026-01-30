@@ -8,8 +8,7 @@ export default class SwirlingIce extends Mastery {
     constructor() {
         super()
         this.name = 'swirling ice'
-        this.description =
-            'When the ability is activated, there is a chance to create 3 swirling spheres around you.'
+        this.description = 'When the ability is activated, there is a chance to create 3 swirling spheres around you.'
     }
 
     trigger(player: Character, ability: Ability) {

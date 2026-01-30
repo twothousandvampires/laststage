@@ -14,14 +14,16 @@ export default class EternalThirst extends Status {
             this.unit.statusWasApplied()
 
             this.unit.phasing = true
-            this.unit.move_speed_penalty += 100
+            this.unit.move_speed_penalty += 50
+            this.unit.attack_speed -= 500
+            this.unit.cast_speed -= 500
             this.unit.critical += 50
             this.unit.pierce += 100
 
             this.unit.newStatus({
                 name: 'eternal thirst',
                 duration: this.duration,
-                desc: 'Your are phased, critical chance increased by 50, pierce rating increased by 100, move speed increased by 100',
+                desc: 'Your are phased, critical chance increased by 50, pierce rating increased by 100, move speed increased by 50, cast and attack speed by 500',
             })
         }
     }
@@ -29,9 +31,11 @@ export default class EternalThirst extends Status {
     clear() {
         if (this.unit instanceof Character) {
             this.unit.phasing = false
-            this.unit.move_speed_penalty -= 100
+            this.unit.move_speed_penalty -= 50
             this.unit.critical -= 50
             this.unit.pierce -= 100
+            this.unit.attack_speed += 500
+            this.unit.cast_speed += 500
         }
     }
 }

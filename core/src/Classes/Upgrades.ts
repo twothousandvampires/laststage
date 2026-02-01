@@ -110,7 +110,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 27,
-                desc: 'Increase maximum of energy and your chance to avoid damage increased by energy',
+                desc: 'Increases maximum energy and the chance to avoid damage based on energy',
             },
             {
                 name: 'will',
@@ -122,7 +122,7 @@ export default class Upgrades {
                     character.additional_energy_chance ++
                 },
                 cost: 1,
-                desc: 'Increases spirit and chance to get additional energy',
+                desc: 'Increases spirit and the chance to gain additional energy',
             },
             {
                 name: 'offense',
@@ -134,7 +134,7 @@ export default class Upgrades {
                     character.pierce ++
                 },
                 cost: 1,
-                desc: 'Increases pierce rating and move speed',
+                desc: 'Increases pierce rating and movement speed',
             },
             {
                 name: 'might',
@@ -149,7 +149,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Increases attack and cast speed, armour and pierce',
+                desc: 'Increases attack speed, cast speed, armour, and pierce',
             },
             {
                 name: 'ingenuity',
@@ -163,7 +163,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Increases chance to avoid damage, resist and cd reduction',
+                desc: 'Increases chance to avoid damage, status resistance, and cooldown reduction',
             },
             {
                 name: 'regeneration',
@@ -176,7 +176,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 22,
-                desc: 'Increases chance to regenerate additional life when gain life',
+                desc: 'Increases chance to regenerate additional life when you gain life',
             },
             {
                 name: 'tormented',
@@ -215,7 +215,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 18,
-                desc: 'When any of your triggers are activated, matter around you is distorted, applying various effects to you or your enemies',
+                desc: 'When one of your triggers activates, matter around you distorts, applying various effects to you or nearby enemies',
             },
             {
                 name: 'forbidden power',
@@ -229,7 +229,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 0,
-                desc: 'Gives a random ewpower that can be attached to your any skill',
+                desc: 'Gives a random empowerment that can be attached to any of your skills',
             },
             {
                 name: 'taste of blood',
@@ -242,7 +242,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Give me more!',
+                desc: 'Increases vampiric rate',
             },
             {
                 name: 'ascended',
@@ -255,7 +255,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 27,
-                desc: 'Your pierce and armor rating is increased by the amount of your Grace',
+                desc: 'Your pierce and armour ratings are increased by your Grace',
             },
             {
                 name: 'equiped',
@@ -268,7 +268,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 22,
-                desc: 'If you have more that 5 items, gets 7 armour and pierce rating',
+                desc: 'If you have more than 5 items, gain +7 armour and +7 pierce rating',
             },
             {
                 name: 'senselessness',
@@ -280,7 +280,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 27,
-                desc: 'Increases chance to avoid damage depend on your courage',
+                desc: 'Increases chance to avoid damage based on your courage',
             },
             {
                 name: 'regenerating blocks',
@@ -293,7 +293,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 22,
-                desc: 'When you block you have a chance to gain life',
+                desc: 'When you block, you have a chance to gain life',
             },
             {
                 name: 'as a wall',
@@ -318,7 +318,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 22,
-                desc: 'Power now also increases the chance not to lose energy when you block',
+                desc: 'Power now increases the chance not to lose energy when you block',
             },
             {
                 name: 'coordination',
@@ -330,7 +330,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Reduces penalty of move speed when you attack or casting spell',
+                desc: 'Reduces movement speed penalty when you attack or cast spells',
             },        
             {
                 name: 'lethal strikes',
@@ -342,7 +342,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'When you deal critical strike there is a chance to get lethal strikes buff',
+                desc: 'When you deal a critical strike, there is a chance to gain the Lethal Strikes buff',
             },
             {
                 name: 'through and through',
@@ -379,7 +379,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 18,
-                desc: 'Your gold increases your armour rate',
+                desc: 'Your gold increases your armour rating',
             },
             {
                 name: 'cast speed',
@@ -403,7 +403,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'When you crush enemy there is a chance to reduce their armour',
+                desc: 'When you crush an enemy, there is a chance to reduce their armour',
             },
             {
                 name: 'breaking bones',
@@ -415,7 +415,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 10,
-                desc: 'When you crush enemy there is a chance to reduce their move speed',
+                desc: 'When you crush an enemy, there is a chance to reduce their movement speed',
             },
             {
                 name: 'fortune-teller',
@@ -428,7 +428,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 20,
-                desc: 'Increases chance to get grace after enemy dead and carved spark',
+                desc: 'Increases chance to gain grace when an enemy dies and to get a carved spark',
             },
             {
                 name: 'agility',
@@ -441,7 +441,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 15,
-                desc: 'Reduces move speed penalty when using ability and increases critical chance',
+                desc: 'Reduces movement speed penalty when using abilities and increases critical chance',
             },
             {
                 name: 'wave of enlightenment',
@@ -455,7 +455,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 12,
-                desc: 'When you gain enlightenment you deal damage in a large radius',
+                desc: 'When you gain enlightenment, you deal damage in a large radius',
             },
             {
                 name: 'way of enlightenment',
@@ -481,7 +481,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 24,
-                desc: 'Gives a chance to create a sphere around yourself every 5 seconds',
+                desc: 'Gives a chance to create a sphere around you every 5 seconds',
             },
             {
                 name: 'metabolism',
@@ -492,7 +492,7 @@ export default class Upgrades {
                     character.base_regeneration_time -= 200
                 },
                 cost: 1,
-                desc: 'Increases your life regeneration rate',
+                desc: 'Increases life regeneration rate',
             },
             {
                 name: 'masterliness',
@@ -507,7 +507,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Increases the chance that empowers will trigger on your skills',
+                desc: 'Increases the chance that empowerments will trigger on your skills',
             },
             {
                 name: 'pressing steps',
@@ -519,7 +519,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 60,
-                desc: 'If you move for 3 seconds you begin to deal damage to nearby enemies',
+                desc: 'If you move for 3 seconds, you begin to deal damage to nearby enemies',
             },
             {
                 name: 'from defense to attack',
@@ -533,7 +533,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 10,
-                desc: 'When you block you have a chance to increase your power',
+                desc: 'When you block, you have a chance to increase your power',
             },
             {
                 name: 'wall of will',
@@ -546,7 +546,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'When you block you have a chance to increase your block chance',
+                desc: 'When you block, you have a chance to increase your block chance',
             },
             {
                 name: 'cutting',
@@ -558,7 +558,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Pierce rating increased by courage',
+                desc: 'Pierce rating increases with courage',
             },
             {
                 name: 'annihilation',
@@ -570,7 +570,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Critical rating increased by energy',
+                desc: 'Critical rating increases with energy',
             },
             {
                 name: 'power',
@@ -582,7 +582,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 10,
-                desc: 'Increases your power',
+                desc: 'Increases power',
             },
             {
                 name: 'overpower',
@@ -597,7 +597,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Increases your critical, impact, crushing rating and power',
+                desc: 'Increases critical, impact, and crushing ratings, and power',
             },
             {
                 name: 'first to strike',
@@ -609,7 +609,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 8,
-                desc: 'When you block you have a chance to increase your attack and cast speed',
+                desc: 'When you block, you have a chance to increase attack and cast speed',
             },
             {
                 name: 'divine forging',
@@ -650,7 +650,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 27,
-                desc: 'Your random item gains a new forging, upgrades a random forging and increases the maximum number of forgings',
+                desc: 'A random item gains a new forging, upgrades a random forging, and increases its maximum number of forgings',
             },
             {
                 name: 'best day',
@@ -705,7 +705,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Gives a chance not to lose energy when use finisher and get additional energy when you get energy',
+                desc: 'Gives a chance not to lose energy when using finishers and to gain additional energy when you gain energy',
             },    
             {
                 name: 'excitement',
@@ -718,7 +718,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 8,
-                desc: 'Gives a chance to get additional courage and reduces cooldown between getting enlightenment',
+                desc: 'Gives a chance to gain additional courage and reduces cooldown between enlightenment gains',
             },
             {
                 name: 'bravery',
@@ -730,7 +730,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 8,
-                desc: 'Your courage expires slower',
+                desc: 'Your courage expires more slowly',
             },
             {
                 name: 'forger',
@@ -742,7 +742,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 12,
-                desc: 'Gives a chance to get additional carved spark',
+                desc: 'Gives a chance to gain an additional carved spark',
             },
             {
                 name: 'blessed fighter',
@@ -755,7 +755,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 22,
-                desc: 'If you are blessed(your life more that maximum), you have additional armour and pierce rating',
+                desc: 'If you are blessed (life above maximum), you gain additional armour and pierce rating',
             },
             {
                 name: 'divine pack',
@@ -768,7 +768,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 27,
-                desc: 'Gives additional item slot',
+                desc: 'Grants an additional item slot',
             },
             {
                 name: 'inspiration',
@@ -780,7 +780,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 18,
-                desc: 'gives a chance depending on your courage get maximum energy when you get energy',
+                desc: 'Gives a chance, based on your courage, to gain maximum energy when you gain energy',
             },
             {
                 name: 'massive impact',
@@ -792,7 +792,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 12,
-                desc: 'Gives a chance, depending on your power to create additional impacts',
+                desc: 'Gives a chance, based on your power, to create additional impacts',
             },
             {
                 name: 'focusing',
@@ -828,7 +828,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 10,
-                desc: 'Increases impact rating, impact hit radius and reduces cd beetwen procs',
+                desc: 'Increases impact rating and hit radius, and reduces cooldown between procs',
             },
             {
                 name: 'divine weapon',
@@ -840,7 +840,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 18,
-                desc: 'Gives a chance depending on your power to rain down pillars of light on enemies when you hit',
+                desc: 'Gives a chance, based on your power, to rain pillars of light on enemies when you hit',
             },
             {
                 name: 'unhuman fortitude',
@@ -869,7 +869,7 @@ export default class Upgrades {
                 },
                 cost: 7,
                 ascend: 27,
-                desc: 'Returns you after dead',
+                desc: 'Resurrects you after death',
             },
             {
                 name: 'with storm',
@@ -886,7 +886,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 8,
-                desc: 'Creates lightning periodically which shocks enemies',
+                desc: 'Creates lightning periodically that shocks enemies',
             },
             {
                 name: 'move speed',
@@ -898,7 +898,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Increases move speed',
+                desc: 'Increases movement speed',
             },
             {
                 name: 'vampiric strikes',
@@ -910,7 +910,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 8,
-                desc: 'Increases your vampiric rate',
+                desc: 'Increases vampiric rate',
             },
             {
                 name: 'lightning reflexes',
@@ -922,7 +922,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 27,
-                desc: 'Increases your armour by 10',
+                desc: 'Increases armour by 10',
             },
             {
                 name: 'moment replication',
@@ -934,7 +934,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 15,
-                desc: 'Gives a chance that a trigger triggered twice',
+                desc: 'Gives a chance for a trigger to activate twice',
             },
             {
                 name: 'titanic strikes',
@@ -946,7 +946,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 22,
-                desc: 'Increases your impact rating by 6',
+                desc: 'Increases impact rating by 6',
             },
             {
                 name: 'clear mind',
@@ -958,7 +958,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 18,
-                desc: 'Increases your cooldown reduction by 10%',
+                desc: 'Increases cooldown reduction by 10%',
             },
             {
                 name: 'afterlight',
@@ -972,7 +972,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 22,
-                desc: 'You get 3 ward when you become enlightenment',
+                desc: 'You gain 3 ward when you become enlightened',
             },
             {
                 name: 'spirit strikes',
@@ -985,7 +985,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 14,
-                desc: 'Impact rating increased by your amount of ward, then you impact there is a chance to get ward',
+                desc: 'Impact rating increases with your amount of ward; when you impact, there is a chance to gain ward',
             },
             {
                 name: 'immune to freeze',
@@ -997,7 +997,7 @@ export default class Upgrades {
                 },
                 cost: 8,
                 ascend: 50,
-                desc: 'Immune to freeze',
+                desc: 'Immune to freezing',
             },
             {
                 name: 'ascending',
@@ -1009,7 +1009,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 5,
-                desc: 'Increases your ascension by 5',
+                desc: 'Increases ascension by 5',
             },
             {
                 name: 'with fire',
@@ -1054,7 +1054,7 @@ export default class Upgrades {
                     character.addLife(3, true, true)
                 },
                 cost: 1,
-                desc: 'Restore your life',
+                desc: 'Restores life',
             },
             {
                 name: 'gold finder',
@@ -1065,7 +1065,7 @@ export default class Upgrades {
                     character.chance_to_get_additional_gold += 3
                 },
                 cost: 1,
-                desc: `Icreases chance to get additional gold`,
+                desc: `Increases chance to get additional gold`,
             },
             {
                 name: 'chosen one',
@@ -1077,7 +1077,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 22,
-                desc: `Icreases your chance to gain grace after an enemy's death`,
+                desc: `Increases your chance to gain grace after an enemy's death`,
             },
             {
                 name: 'blessed',
@@ -1089,7 +1089,7 @@ export default class Upgrades {
                 },
                 cost: 4,
                 ascend: 14,
-                desc: 'Undead creatures you kill have a reduced chance of resurrecting',
+                desc: 'Undead creatures you kill have a reduced chance to resurrect',
             },
             {
                 name: 'pierce',
@@ -1122,7 +1122,7 @@ export default class Upgrades {
                     character.armour_rate += 4
                 },
                 cost: 1,
-                desc: 'Increases your armour',
+                desc: 'Increases armour',
             },
             {
                 name: 'gamble',
@@ -1148,7 +1148,7 @@ export default class Upgrades {
                     character.status_resistance += 2
                 },
                 cost: 1,
-                desc: 'Increases your resist',
+                desc: 'Increases resistance',
             },
             {
                 name: 'lust for life',
@@ -1160,7 +1160,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 18,
-                desc: 'Gives you a chance based on your courage to restore life more than the maximum',
+                desc: 'Gives a chance, based on your courage, to restore life above the maximum',
             },
             {
                 name: 'vision',
@@ -1171,7 +1171,7 @@ export default class Upgrades {
                     character.light_r += 1
                 },
                 cost: 1,
-                desc: 'Increases your light radius',
+                desc: 'Increases light radius',
             },
             {
                 name: 'touch',
@@ -1186,7 +1186,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 18,
-                desc: 'Grants a buff upon exiting a portal that increases all your stats by 10',
+                desc: 'Grants a buff upon exiting a portal that increases all stats by 10',
             },
             {
                 name: 'blessed armour',
@@ -1205,7 +1205,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 8,
-                desc: 'Grants a buff upon exiting a portal that give armour to you and your allies',
+                desc: 'Grants a buff upon exiting a portal that gives armour to you and nearby allies',
             },
             {
                 name: 'scream',
@@ -1220,7 +1220,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Nearby enemies get damage when you speak',
+                desc: 'Nearby enemies take damage when you speak',
             },
             {
                 name: 'talkativeness',
@@ -1232,7 +1232,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 10,
-                desc: 'Increases a chance to say something',
+                desc: 'Increases chance to say a phrase',
             },
             {
                 name: 'inner guidance',
@@ -1244,7 +1244,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Reduces your cooldowns',
+                desc: 'Reduces cooldowns',
             },
             {
                 name: 'swiftness',
@@ -1258,7 +1258,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 14,
-                desc: 'Increases your attack, cast and move speed',
+                desc: 'Increases attack, cast, and movement speed',
             },
             {
                 name: 'small ward',
@@ -1270,7 +1270,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 6,
-                desc: 'Gives you 3 ward',
+                desc: 'Grants 3 ward',
             },
             {
                 name: 'strong ward',
@@ -1282,7 +1282,7 @@ export default class Upgrades {
                 },
                 cost: 4,
                 ascend: 22,
-                desc: 'Gives you 10 ward',
+                desc: 'Grants 10 ward',
             },
             {
                 name: 'redemption',
@@ -1298,7 +1298,7 @@ export default class Upgrades {
                 },
                 cost: 6,
                 ascend: 40,
-                desc: 'Consumes a corpse to create sphere',
+                desc: 'Consumes a corpse to create a sphere',
             },
             {
                 name: 'flesh harvest',
@@ -1328,7 +1328,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 16,
-                desc: 'Increases your maximum of energy',
+                desc: 'Increases maximum energy',
             },
             {
                 name: 'impact',
@@ -1381,7 +1381,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'When you speak, there is a chance to heal yourself and your allies',
+                desc: 'When you speak, there is a chance to heal you and nearby allies',
             },
             {
                 name: 'spirit',
@@ -1393,7 +1393,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 8,
-                desc: 'Increases your spirit',
+                desc: 'Increases spirit',
             },
             {
                 name: 'shout',
@@ -1405,7 +1405,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 6,
-                desc: 'Increases the radius of your phrases',
+                desc: 'Increases phrase radius',
             },
         ]
     }
@@ -1704,7 +1704,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 22,
-                desc: 'Iincreases the enemy search radius and the number of warriors increases depending on courage',
+                desc: 'Increases enemy search radius and the number of warriors based on courage',
             },
             {
                 name: 'spreading',
@@ -2123,7 +2123,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 8,
-                desc: 'Fires a sereral of bone teeth',
+                desc: 'Fires a series of bone teeth',
             },
             {
                 name: 'pulling out teeth',
@@ -2652,7 +2652,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 14,
-                desc: 'Reduses mana cost',
+                desc: 'Reduces mana cost',
             },
             {
                 name: 'concentrating energy',
@@ -2829,7 +2829,7 @@ export default class Upgrades {
                 },
                 cost: 4,
                 ascend: 18,
-                desc: 'Provide you a chance to create additional copies of your throwed weapon',
+                desc: 'Provides a chance to create additional copies of your thrown weapon',
             },
             {
                 name: 'returning',

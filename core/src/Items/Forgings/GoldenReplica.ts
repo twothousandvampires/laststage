@@ -10,7 +10,7 @@ export default class GoldenReplica extends Forging {
         super(item)
         this.max_value = 1
         this.name = 'golden replica'
-        this.description = 'adds gold, the amount depends on the number of forged elements on the item, can only be used on accessories./'
+            this.description = 'Adds gold; the amount depends on the number of forged elements on the item. Can only be used on accessories.'
         this.gold_cost = 0
     }
 

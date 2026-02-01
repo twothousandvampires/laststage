@@ -6,7 +6,7 @@ export default class IceBelt extends Item {
         super()
         this.name = 'ice belt'
         this.type = 2
-        this.description = 'increases maximum of energy'
+        this.description = 'Increases maximum energy'
     }
 
     equip(character: Character): void {

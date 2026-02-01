@@ -7,7 +7,7 @@ export default class RegeneratingBlocks implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 3
     name: string = 'regenerating blocks'
-    description: string = 'When you block you have a chance to gain life'
+    description: string = 'When you block, you have a chance to gain life'
 
     getTriggerChance(player: Character): number {
         return this.chance

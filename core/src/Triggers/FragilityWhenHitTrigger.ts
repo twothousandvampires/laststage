@@ -7,7 +7,7 @@ export default class FragilityWhenHitTrigger implements ITrigger {
     cd: number = 2000
     last_trigger_time: number = 0
     name: string = 'disintegration'
-    description: string = 'Your hits have a chance to apply fragility on enemies'
+    description: string = 'Your hits have a chance to apply fragility to enemies'
 
     constructor(public chance: number = 100) {}
 

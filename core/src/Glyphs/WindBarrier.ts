@@ -8,7 +8,7 @@ export default class WindBarrier extends Mastery {
     constructor() {
         super()
         this.name = 'wind barrier'
-        this.description = 'When you start ability there is a chance to destroy nearby projectiles and blind nearby enemies.'
+        this.description = 'When you start an ability there is a chance to destroy nearby projectiles and blind nearby enemies.'
     }
 
     trigger(player: Character, ability: Ability) {

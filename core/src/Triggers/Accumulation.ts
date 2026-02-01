@@ -9,7 +9,7 @@ export default class Accumulation implements ITrigger {
     last_trigger_time: number = 0
     count: number = 0
     name: string = 'accumulation'
-    description: string = 'When you cast 10 spells, realise magick stars equals your courage'
+    description: string = 'When you cast 10 spells, release magic stars equal to your courage'
     chance: number = 100
 
     getTriggerChance(player: Character | undefined): number {

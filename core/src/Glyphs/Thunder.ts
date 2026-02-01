@@ -8,7 +8,7 @@ export default class Thunder extends Mastery {
     constructor() {
         super()
         this.name = 'thunder'
-        this.description = 'Realises a thunder that deal damage in radius and creates sparks'
+        this.description = 'Releases a thunder that deals damage in a radius and creates sparks'
     }
 
     async trigger(player: Character) {

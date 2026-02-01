@@ -7,7 +7,7 @@ export default class ConductOfPain implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 30
     name: string = 'conduct of pain'
-    description: string = 'You have a chance to get energy when you block hit'
+    description: string = 'You have a chance to gain energy when you block a hit'
 
     getTriggerChance(player: Character): number {
         return this.chance

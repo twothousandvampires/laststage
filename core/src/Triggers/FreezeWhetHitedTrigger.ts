@@ -9,7 +9,7 @@ export default class FreezeWhetHitedTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'icy halo'
-    description: string = 'Сhance to freeze enemies in radius when getting hit'
+    description: string = 'Chance to freeze enemies in a radius when getting hit'
 
     getTriggerChance(): number {
         return this.chance

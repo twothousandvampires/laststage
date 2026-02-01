@@ -6,7 +6,7 @@ export default class Distorter extends Item {
         super()
         this.name = 'distorter'
         this.type = 3
-        this.description = 'Gives 5% chance that a trigger triggered twice'
+        this.description = 'Gives a 5% chance that a trigger activates twice'
     }
 
     equip(character: Character): void {

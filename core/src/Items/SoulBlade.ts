@@ -15,7 +15,7 @@ export default class SoulBlade extends Item implements ITrigger {
         super()
         this.name = 'soul blade'
         this.type = 1
-        this.description = 'when you kill enemy there is a chance to get ward'
+        this.description = 'When you kill an enemy there is a chance to gain a ward'
     }
 
     getTriggerChance(): number {

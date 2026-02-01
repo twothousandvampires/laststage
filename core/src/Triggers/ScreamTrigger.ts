@@ -5,7 +5,7 @@ import Character from '../Objects/src/Character'
 export default class ScreamTrigger implements ITrigger {
     chance: number = 80
     name: string = 'scream'
-    description: string = 'Nearby enemies get damage when you speak'
+    description: string = 'Nearby enemies take damage when you speak'
     cd: number = 1000
     last_trigger_time: number = 0
 

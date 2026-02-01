@@ -32,7 +32,7 @@ export default abstract class Item {
     static readonly list = [
         {
             name: 'skull of first warrior',
-            description: 'increases your power by 12 for 10 seconds after 12 kills',
+            description: 'Increases your power by 12 for 10 seconds after 12 kills',
         },
         {
             name: 'glacial chain',
@@ -46,7 +46,7 @@ export default abstract class Item {
         },
         {
             name: 'soul accumulator',
-            description: 'when your teammate dies, you gain 15 to all main stats',
+            description: 'When your teammate dies, you gain +15 to all main stats',
         },
         {
             name: 'doom mantia',
@@ -60,63 +60,63 @@ export default abstract class Item {
         },
         {
             name: 'flame ring',
-            description: 'when you take damage, the nearest enemy takes damage',
+            description: 'When you take damage, the nearest enemy takes damage',
         },
         {
             name: 'sparkling helmet',
-            description: 'if you do not use any skills for 5 seconds, creates a shock ring',
+            description: 'If you do not use any skills for 5 seconds, creates a shock ring',
         },
         {
             name: 'glass sword',
-            description: 'always deal double damage, always take double damage',
+            description: 'Always deals double damage but also takes double damage',
         },
         {
             name: 'cloak',
-            description: 'gives a chance to gain phasing when taking damage',
+            description: 'Gives a chance to gain phasing when taking damage',
         },
         {
             name: 'staff',
-            description: 'reduces cooldowns',
+            description: 'Reduces cooldowns',
         },
         {
             name: 'charged bow',
-            description: 'after hit enemy there is a chance to create lightnings with 2000 ms cd',
+            description: 'After hitting an enemy there is a chance to create lightning with a 2000 ms cooldown',
         },
         {
             name: 'dagger of smoke',
-            description: 'when you heal, there is a chance to create blood shards',
+            description: 'When you heal, there is a chance to create blood shards',
         },
         {
             name: 'yellow stone',
-            description: 'increases a chance to resist status, when you resist gain a ward',
+            description: 'Increases chance to resist status; when you resist, you gain a ward',
         },
         {
             name: 'white shield',
-            description: 'you have a chance to get ward when block',
+            description: 'You have a chance to gain a ward when you block',
         },
         {
             name: 'emerald knife',
-            description: 'increase a chance to get additional gold',
+            description: 'Increases chance to get additional gold',
         },
         {
             name: 'whispering shield',
-            description: 'increases a chance to block and... whispers strange things sometimes',
+            description: 'Increases chance to block and... sometimes whispers strange things',
         },
         {
             name: 'twilight gloves',
-            description: 'periodically create clots of energy on enemies',
+            description: 'Periodically creates clots of energy on enemies',
         },
         {
             name: 'ring of transmutation',
-            description: 'when hitted by enemy there is a chance turn them into gold',
+            description: 'When hit by an enemy, there is a chance to turn them into gold',
         },
         {
             name: 'sword handle',
-            description: 'you are lucky',
+            description: 'You are lucky',
         },
         {
             name: 'ice belt',
-            description: 'increases maximum of energy',
+            description: 'Increases maximum energy',
         },
         {
             name: 'searching heart',
@@ -135,11 +135,11 @@ export default abstract class Item {
         },
         {
             name: 'soul blade',
-            description: 'when you kill enemy there is a chance to get ward',
+            description: 'When you kill an enemy there is a chance to gain a ward',
         },
         {
             name: 'solar spear',
-            description: 'when you pierce enemy you create light nova which heals allies',
+            description: 'When you pierce an enemy, you create a light nova that heals allies',
         },
         {
             name: 'crystal greaves',
@@ -158,27 +158,27 @@ export default abstract class Item {
         },
         {
             name: 'crossbow',
-            description: 'when you lead critical damage there is a chance to crush nearby enemies',
+            description: 'When you deal critical damage, there is a chance to crush nearby enemies',
         },
         {
             name: 'royal mace',
-            description: 'increases impact, crushing and critical rating by 7',
+            description: 'Increases impact, crushing and critical rating by 7',
         },
         {
             name: 'devouring axe',
-            description: 'give you a chance to get devouring after kill',
+            description: 'Gives you a chance to gain devouring after a kill',
         },
         {
             name: 'flamy nimbus',
-            description: 'when you get maximum energy create a ring that burn enemies',
+            description: 'When you reach maximum energy, creates a ring that burns enemies',
         },
         {
             name: 'distorter',
-            description: 'gives 5% chance that a trigger triggered twice',
+            description: 'Gives a 5% chance that a trigger activates twice',
         },
         {
             name: 'crusher',
-            description: 'increases crushing rating by 5 and give a chance that killed crushed enemy will explode and deal damage in radius'
+            description: 'Increases crushing rating by 5 and gives a chance that a killed crushed enemy will explode and deal damage in a radius'
         }
     ]
 

@@ -7,7 +7,7 @@ export default class CallWarriorWhenBlock implements ITrigger {
     cd: number = 1000
     last_trigger_time: number = 0
     name: string = 'call warrior when block'
-    description: string = 'When you block there is a chance to summon spirit warrior'
+    description: string = 'When you block, there is a chance to summon a spirit warrior'
 
     getTriggerChance(player: Character): number {
         return this.chance

@@ -17,7 +17,7 @@ export default class Crusher extends Item implements ITrigger{
         this.chance = 35
         this.cd = 1000
         this.distance = 12
-        this.description = 'increases crushing rating by 5 and give a chance that killed crushed enemy will explode and deal damage in radius'
+        this.description = 'Increases crushing rating by 5 and gives a chance that a killed crushed enemy will explode and deal damage in a radius'
     }
 
     equip(character: Character): void {

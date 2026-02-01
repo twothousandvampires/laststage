@@ -12,7 +12,7 @@ export default class WhisperingShield extends Item implements ITrigger {
         this.chance = 5
         this.name = 'whispering shield'
         this.type = 2
-        this.description = 'increases a chance to block and... whispers strange things sometimes'
+        this.description = 'Increases chance to block and... sometimes whispers strange things'
     }
 
     getTriggerChance(): number {

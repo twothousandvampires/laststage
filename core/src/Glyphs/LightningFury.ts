@@ -9,7 +9,7 @@ export default class LightningFury extends Mastery {
         super()
         this.name = 'lightning fury'
         this.description =
-            'When the ability is activated, there is a chance to explode nearby enemy and create a lot of sparks.'
+            'When the ability is activated, there is a chance to explode a nearby enemy and create many sparks.'
     }
 
     trigger(player: Character, ability: Ability) {

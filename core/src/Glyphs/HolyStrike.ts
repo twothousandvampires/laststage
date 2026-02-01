@@ -10,7 +10,7 @@ export default class HolyStrike extends Mastery {
         super()
         this.name = 'holy strike'
         this.description =
-            'When the ability is activated, there is a chance to deal damage to undead in medium radius.'
+            'When the ability is activated, there is a chance to deal damage to undead in a medium radius.'
     }
 
     trigger(player: Character, ability: Ability) {

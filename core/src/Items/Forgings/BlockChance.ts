@@ -8,7 +8,7 @@ export default class BlockChance extends Forging {
         super(item)
         this.max_value = 10
         this.name = 'block chance'
-        this.description = 'increases block chance'
+        this.description = 'Increases block chance'
         this.gold_cost = 5
     }
 

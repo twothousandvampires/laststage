@@ -12,7 +12,7 @@ export default class StormPresence extends Forging {
         super(item)
         this.max_value = 40
         this.name = 'storm presence'
-        this.description = 'give a chance to create 3 sparks around nearby shoked enemy'
+        this.description = 'Gives a chance to create 3 sparks around a nearby shocked enemy'
         this.gold_cost = 10
     }
 

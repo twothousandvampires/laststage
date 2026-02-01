@@ -11,7 +11,7 @@ export default class Overcharge extends Forging {
         super(item)
         this.max_value = 45
         this.name = 'corpse explosion'
-        this.description = 'gives a chance to explode nearby corpse when you get energy'
+        this.description = 'Gives a chance to explode a nearby corpse when you gain energy'
         this.gold_cost = 8
     }
 

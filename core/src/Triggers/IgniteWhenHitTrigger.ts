@@ -9,7 +9,7 @@ export default class IgniteWhenHitTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'flaming'
-    description: string = 'Give a chance to ignite enemies in radius when hitting target'
+    description: string = 'Gives a chance to ignite enemies in a radius when hitting a target'
 
     getTriggerChance(player: Character | undefined): number {
         return this.chance

@@ -7,7 +7,7 @@ export default class IciclesWhenGetLife implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'cold heart'
-    description: string = 'Creates icicles equal in number to your life'
+    description: string = 'Creates a number of icicles equal to your life'
 
     getTriggerChance(player: Character | undefined): number {
         return this.chance

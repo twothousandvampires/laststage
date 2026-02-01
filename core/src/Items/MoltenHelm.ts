@@ -13,7 +13,7 @@ export default class MoltenHelm extends Item implements ITrigger {
         super()
         this.name = 'molten helm'
         this.type = 2
-        this.description = 'When the block starts, it creates explosions around you, the number of which depends on your armor'
+        this.description = 'When the block starts, it creates explosions around you; the number depends on your armour'
     }
 
     getTriggerChance(): number {

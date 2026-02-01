@@ -12,7 +12,7 @@ export default class DaggerOfSmoke extends Item implements ITrigger {
         this.name = 'dagger of smoke'
         this.type = 1
         this.count = 3
-        this.description = 'when you heal, there is a chance to create blood shards'
+        this.description = 'When you heal, there is a chance to create blood shards'
     }
 
     getTriggerChance(player: Character | undefined): number {

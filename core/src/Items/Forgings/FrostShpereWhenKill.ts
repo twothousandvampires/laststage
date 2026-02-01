@@ -10,7 +10,7 @@ export default class FrostShpereWhenKill extends Forging {
         super(item)
         this.max_value = 50
         this.name = 'cold weapon'
-        this.description = 'when you kill enemy where is a chance to create frost spheres'
+        this.description = 'When you kill an enemy there is a chance to create frost spheres'
         this.gold_cost = 8
     }
 

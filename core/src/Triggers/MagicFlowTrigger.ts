@@ -5,7 +5,7 @@ import Character from '../Objects/src/Character'
 export default class MagicFlowTrigger implements ITrigger {
     chance: number = 40
     name: string = 'magic flow'
-    description: string = 'Gives a chance to get energy to you and allies'
+    description: string = 'Gives a chance to grant energy to you and your allies'
     cd: number = 1000
     last_trigger_time: number = 0
 

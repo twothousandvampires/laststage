@@ -8,7 +8,7 @@ export default class Vampiric extends Forging {
         super(item)
         this.max_value = 15
         this.name = 'vampiric'
-        this.description = 'increases your vampiric rate'
+        this.description = 'Increases your vampiric rate'
         this.gold_cost = 10
     }
 

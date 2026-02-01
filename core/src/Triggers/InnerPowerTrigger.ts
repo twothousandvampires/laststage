@@ -8,7 +8,7 @@ export default class InnerPowerTrigger {
     while_alive: boolean = false
     name: string = 'inner power'
     chance: number = 100
-    description: string = 'Gives a powerful buff that will help you survive. Has a long cooldown'
+    description: string = 'Gives a powerful buff that helps you survive. It has a long cooldown'
 
     trigger(player: Character) {
         if (player.level.time - this.last_trigger_time < this.cd) return

@@ -6,7 +6,7 @@ export default class Distance extends Forging {
         super(item)
         this.max_value = 10
         this.name = 'distance'
-        this.description = 'increases distance for searching targets for trigger'
+        this.description = 'Increases distance for searching targets for triggers'
         this.gold_cost = 3
     }
 

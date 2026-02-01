@@ -8,7 +8,7 @@ export default class DivineWeaponTrigger implements ITrigger {
     last_trigger_time: number = 0
     name: string = 'divine weapon'
     chance: number = 0
-    description: string = 'Gives a chance, depending on your power to rain down pillars of light on enemies when you hit'
+    description: string = 'Gives a chance, depending on your power, to rain down pillars of light on enemies when you hit'
 
     getTriggerChance(player: Character): number {
         return Math.round(player.power / 2)

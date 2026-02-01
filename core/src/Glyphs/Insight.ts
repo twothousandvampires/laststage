@@ -7,7 +7,7 @@ export default class Insight extends Mastery {
     constructor() {
         super()
         this.name = 'insight'
-        this.description = 'When you start ability there is a chance to get energy.'
+        this.description = 'When you start an ability there is a chance to gain energy.'
     }
 
     trigger(player: Character, ability: Ability) {

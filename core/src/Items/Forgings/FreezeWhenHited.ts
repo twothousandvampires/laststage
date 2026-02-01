@@ -11,7 +11,7 @@ export default class FreezeWhenHited extends Forging {
         super(item)
         this.max_value = 50
         this.name = 'icy halo'
-        this.description = 'chance to freeze enemies in radius when getting hit'
+        this.description = 'Chance to freeze enemies in a radius when getting hit'
         this.gold_cost = 8
     }
 

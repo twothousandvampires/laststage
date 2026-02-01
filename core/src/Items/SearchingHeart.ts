@@ -14,7 +14,7 @@ export default class SearchingHeart extends Item implements ITrigger {
         super()
         this.name = 'searching heart'
         this.type = 3
-        this.description = 'Every 10 seconds releases fireballs, the number of which depends on the health lost during this time'
+        this.description = 'Every 10 seconds releases fireballs; the number depends on health lost during that time'
     }
 
     getTriggerChance(player: Character | undefined): number {

@@ -9,7 +9,7 @@ export default class EnergyWeaponTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'energy weapon'
-    description: string = 'When you deal critical strike where is a chance to create energy sphere'
+    description: string = 'When you deal a critical strike, there is a chance to create an energy sphere'
 
     getTriggerChance(): number {
         return this.chance

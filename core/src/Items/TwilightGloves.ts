@@ -10,7 +10,7 @@ export default class TwilightGloves extends Item {
         super()
         this.name = 'twilight gloves'
         this.type = 2
-        this.description = 'periodically create clots of energy on enemies'
+        this.description = 'Periodically creates clots of energy on enemies'
         this.count = 1
         this.distance = 15
         this.chance = 50

@@ -10,7 +10,7 @@ export default class MaxLife extends Forging {
         super(item)
         this.max_value = 1
         this.name = 'life'
-        this.description = 'increases miximum life'
+        this.description = 'Increases maximum life'
         this.gold_cost = 0
     }
 

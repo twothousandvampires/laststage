@@ -8,7 +8,7 @@ export default class Perception extends Forging {
         super(item)
         this.max_value = 10
         this.name = 'ingenuity'
-        this.description = 'increases your ingenuity'
+        this.description = 'Increases your ingenuity'
         this.gold_cost = 6
     }
 

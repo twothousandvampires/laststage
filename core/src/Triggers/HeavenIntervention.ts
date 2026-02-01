@@ -8,7 +8,7 @@ export default class HeavenIntervention implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 25
     name: string = 'heaven intervention'
-    description: string =
+    description: string = 'Has a chance to help you when you take damage'
         'Gives a chance that the heavens will help you, chance is increased by your power'
 
     getTriggerChance(player: Character): number {

@@ -6,7 +6,7 @@ import Character from '../Objects/src/Character'
 export default class ChainLightningTrigger implements ITrigger {
     chance: number = 5
     name: string = 'chain lightning'
-    description: string = 'Creates a lightning that hit enemy and jupms to another 15 times'
+    description: string = 'Creates a lightning that hits an enemy and jumps to another target up to 15 times'
     last_trigger_time: number = 0
     cd: number = 0
 

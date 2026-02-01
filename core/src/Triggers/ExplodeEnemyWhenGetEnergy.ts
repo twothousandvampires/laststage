@@ -8,7 +8,7 @@ export default class ExplodeEnemyWhenGetEnergy implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'corpse explosion'
-    description: string = 'Give a chance to explode nearby corpse when you get energy'
+    description: string = 'Gives a chance to explode a nearby corpse when you gain energy'
 
     getTriggerChance(player: Character | undefined): number {
         return this.chance

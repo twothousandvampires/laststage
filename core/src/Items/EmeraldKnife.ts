@@ -6,7 +6,7 @@ export default class EmeraldKnife extends Item {
         super()
         this.name = 'emerald knife'
         this.type = 1
-        this.description = 'increase a chance to get additional gold'
+        this.description = 'Increases chance to get additional gold'
     }
 
     equip(character: Character): void {

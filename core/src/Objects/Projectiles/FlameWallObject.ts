@@ -7,7 +7,7 @@ export class FlameWallObject extends Projectiles {
     interval: any
     hitted: any
     w: number
-    frendly_flame: boolean
+    friendly_flame: boolean
 
     constructor(
         level: Level,
@@ -22,7 +22,7 @@ export class FlameWallObject extends Projectiles {
         this.hitted = []
         this.light_r = 6
         this.w = 8
-        this.frendly_flame = false
+        this.friendly_flame = false
         this.start()
     }
 
@@ -45,7 +45,7 @@ export class FlameWallObject extends Projectiles {
         let enemies = this.level.enemies
         let players = this.level.players
 
-        if (!this.frendly_flame) {
+        if (!this.friendly_flame) {
             for (let i = 0; i < players.length; i++) {
                 let p = players[i]
 

@@ -8,7 +8,7 @@ export default class LethalStrikesOnCritical implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 20
     name: string = 'letchal strikes'
-    description: string = 'When you lead critical strike there is a chance to get lethal strikes'
+    description: string = 'When you land a critical strike, there is a chance to gain lethal strikes buff'
 
     getTriggerChance(): number {
         return this.chance

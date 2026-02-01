@@ -12,7 +12,7 @@ export default class Thunder extends Forging {
         super(item)
         this.max_value = 100
         this.name = 'thunder'
-        this.description = 'realises a thunder that deal damage in radius and creates sparks, trigger type and chance depends on item type'
+        this.description = 'Releases a thunder that deals damage in a radius and creates sparks; trigger type and chance depend on item type'
         this.gold_cost = 0
     }
 

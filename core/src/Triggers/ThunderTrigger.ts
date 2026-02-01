@@ -8,7 +8,7 @@ export default class ThunderTrigger implements ITrigger {
 
     chance: number = 0
     name: string = 'thunder'
-    description: string = 'realises a thunder that deal damage in radius and creates sparks'
+    description: string = 'Releases a thunder that deals damage in a radius and creates sparks'
     last_trigger_time: number = 0
     cd: number = 500
 

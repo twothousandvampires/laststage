@@ -8,7 +8,7 @@ export default class YellowStone extends Item {
         this.count = 1
         this.name = 'yellow stone'
         this.type = 3
-        this.description = 'increases a chance to resist status, when you resist gain a ward'
+        this.description = 'Increases chance to resist status; when you resist, you gain a ward'
         this.chance = 15
     }
 

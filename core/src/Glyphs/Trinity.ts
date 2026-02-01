@@ -9,7 +9,7 @@ export default class Trinity extends Mastery {
     constructor() {
         super()
         this.name = 'trinity'
-        this.description = 'Creates frost sphere, spark and flame.'
+        this.description = 'Creates a frost sphere, a spark and a flame.'
     }
 
     async trigger(player: Character, ability: Ability) {

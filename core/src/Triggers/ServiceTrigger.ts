@@ -7,7 +7,7 @@ export default class ServiceTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'service'
-    description: string ='You have a chance to get energy when you get life'
+    description: string = 'You have a chance to gain energy when you gain life'
 
     getTriggerChance(player: Character): number {
         return player.getSecondResource() * 4  

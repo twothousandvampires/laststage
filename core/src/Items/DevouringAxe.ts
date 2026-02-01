@@ -12,7 +12,7 @@ export default class DevouringAxe extends Item implements ITrigger {
         this.chance = 10
         this.name = 'devouring axe'
         this.type = 1
-        this.description = 'give you a chance to get devouring after kill'
+        this.description = 'Gives you a chance to gain devouring after a kill'
     }
 
     getTriggerChance(): number {

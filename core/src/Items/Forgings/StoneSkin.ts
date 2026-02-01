@@ -10,7 +10,7 @@ export default class StoneSkin extends Forging {
         super(item)
         this.max_value = 5
         this.name = 'stone skin'
-        this.description = 'increases the chance of avoiding damage'
+        this.description = 'Increases the chance of avoiding damage'
         this.gold_cost = 0
     }
 

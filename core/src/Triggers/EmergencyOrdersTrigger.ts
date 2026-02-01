@@ -6,7 +6,7 @@ import CommandsStatus from '../Status/CommandsStatus'
 export default class EmergencyOrdersTrigger implements ITrigger {
     chance: number = 35
     name: string = 'emergency orders'
-    description: string = 'Gives a chance to grant you and your allies gain Command ability buff'
+    description: string = 'Gives a chance to grant you and your allies the Command ability buff'
     cd: number = 1000
     last_trigger_time: number = 0
 

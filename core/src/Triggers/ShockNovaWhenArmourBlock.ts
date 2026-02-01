@@ -10,7 +10,7 @@ export default class ShockNovaWhenArmourBlock implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'shock nova'
-    description: string = 'Chance to shock nearby enemies when you block damage by armour'
+    description: string = 'Chance to shock nearby enemies when you block damage with armour'
 
     getTriggerChance(): number {
         return this.chance

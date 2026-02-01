@@ -7,7 +7,7 @@ export default class InspirationTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'inspiration'
-    description: string ='Gives a chance depending on your courage get maximum energy when you get energy'
+    description: string = 'Gives a chance, depending on your courage, to gain maximum energy when you gain energy'
 
     getTriggerChance(player: Character | undefined): number {
         if (player) {

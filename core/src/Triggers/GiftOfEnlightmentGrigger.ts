@@ -9,7 +9,7 @@ export default class GiftOfEnlightmentGrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'gift of enlightenment'
-    description: string = 'When you get enlightened there is a chance to create grace'
+    description: string = 'When you become enlightened, there is a chance to create grace'
 
     getTriggerChance(): number {
         return this.chance

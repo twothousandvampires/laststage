@@ -9,7 +9,7 @@ export default class AcsensionArmourTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'ascension armour'
-    description: string = 'When you block damage by armour there is a chance to create helm of ascending'
+    description: string = 'When you block damage with armour there is a chance to create a helm of ascending'
 
     getTriggerChance(): number {
         return this.chance

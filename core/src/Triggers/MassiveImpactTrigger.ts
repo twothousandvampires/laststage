@@ -8,7 +8,7 @@ export default class MassiveImpactTrigger implements ITrigger{
     cd: number = 1000
     last_trigger_time: number = 0
     name: string = 'massive impact'
-    description: string = 'Gives a chance, depending on your power to create additional impacts'
+    description: string = 'Gives a chance, depending on your power, to create additional impacts'
     chance: number = 0
 
     getTriggerChance(player: Character): number {

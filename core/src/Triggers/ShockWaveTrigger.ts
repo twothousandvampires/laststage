@@ -7,7 +7,7 @@ export default class ShockWaveTrigger implements ITrigger {
 
     chance: number = 0
     name: string = 'shock wave'
-    description: string = 'there is a chance to create 10 strikes around you that deal damage, the radius is chosen randomly'
+    description: string = 'There is a chance to create 10 strikes around you that deal damage; the radius is chosen randomly'
     last_trigger_time: number = 0
     cd: number = 500
 

@@ -8,7 +8,7 @@ export default class Will extends Forging {
         super(item)
         this.max_value = 10
         this.name = 'will'
-        this.description = 'increases your will'
+        this.description = 'Increases your will'
         this.gold_cost = 6
     }
 

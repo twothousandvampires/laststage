@@ -9,7 +9,7 @@ export default class Resist extends Forging {
         super(item)
         this.max_value = 15
         this.name = 'resist'
-        this.description = 'increases your status resistance'
+        this.description = 'Increases your status resistance'
         this.gold_cost = 5
     }
 

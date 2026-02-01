@@ -6,7 +6,7 @@ export default class RoyalMace extends Item {
         super()
         this.name = 'royal mace'
         this.type = 1
-        this.description = 'increases impact, crush and critical rating by 7'
+        this.description = 'Increases impact, crush and critical rating by 7'
     }
 
     equip(character: Character): void {

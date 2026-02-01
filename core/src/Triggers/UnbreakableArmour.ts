@@ -5,7 +5,7 @@ export default class UnbreakableArmour implements ITrigger {
 
     chance: number = 100
     name: string = 'unbreakable armour'
-    description: string = 'When you reach 1 life its permanently gives to you 1 armour and fortification rate up to 20'
+    description: string = 'When you reach 1 life, it permanently gives you 1 armour and increases fortification rate up to 20'
     last_trigger_time: number = 0
     cd: number = 5000
     add:number = 0

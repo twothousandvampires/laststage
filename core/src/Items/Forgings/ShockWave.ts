@@ -12,7 +12,7 @@ export default class ShockWave extends Forging {
         super(item)
         this.max_value = 100
         this.name = 'shock wave'
-        this.description = 'After using the ability, there is a chance to create 10 strikes around you that deal damage, the radius is chosen randomly'
+        this.description = 'After using the ability, there is a chance to create 10 strikes around you that deal damage; the radius is chosen randomly'
         this.gold_cost = 0
     }
 

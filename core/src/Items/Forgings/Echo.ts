@@ -9,7 +9,7 @@ export default class Echo extends Forging {
         super(item)
         this.max_value = 5
         this.name = 'echo'
-        this.description = 'gives a chance that a trigger triggered twice'
+        this.description = 'Gives a chance that a trigger activates twice'
         this.gold_cost = 0
     }
 

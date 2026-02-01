@@ -13,7 +13,7 @@ export default class ChargedBow extends Item implements ITrigger {
         this.type = 1
         this.chance = 20
         this.count = 1
-        this.description = 'after hit enemy there is a chance to create lightnings with 2000 ms cd'
+        this.description = 'After hitting an enemy there is a chance to create lightning with a 2000 ms cooldown'
     }
 
     getTriggerChance(): number {

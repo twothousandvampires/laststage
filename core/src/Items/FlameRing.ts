@@ -14,7 +14,7 @@ export default class FlameRing extends Item implements ITrigger {
         this.name = 'flame ring'
         this.type = 3
         this.count = 1
-        this.description = 'when you take damage, the nearest enemy takes damage'
+        this.description = 'When you take damage, the nearest enemy takes damage'
     }
 
     getTriggerChance(): number {

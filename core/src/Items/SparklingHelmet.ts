@@ -10,7 +10,7 @@ export default class SparklingHelmet extends Item {
         super()
         this.name = 'sparkling helmet'
         this.type = 2
-        this.description = 'if you do not use any skills for 5 seconds, creates a shock ring'
+        this.description = 'If you do not use any skills for 5 seconds, creates a shock ring'
     }
 
     equip(character: Character): void {

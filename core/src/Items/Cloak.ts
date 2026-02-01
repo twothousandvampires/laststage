@@ -13,7 +13,7 @@ export default class Cloak extends Item implements ITrigger {
         this.chance = 40
         this.name = 'cloak'
         this.type = 2
-        this.description = 'gives a chance to gain phasing when taking damage'
+        this.description = 'Gives a chance to gain phasing when taking damage'
     }
 
     getTriggerChance(): number {

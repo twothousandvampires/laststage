@@ -8,7 +8,7 @@ export default class Critical extends Forging {
         super(item)
         this.max_value = 15
         this.name = 'critical'
-        this.description = 'increases your chance to deal double damage'
+        this.description = 'Increases your chance to deal double damage'
         this.gold_cost = 5
     }
 

@@ -13,7 +13,7 @@ export default class FlamyNimbus extends Item implements ITrigger {
         this.type = 3
         this.chance = 20
         this.cd = 4000
-        this.description = 'when you get maximum energy create a ring that burn enemies'
+        this.description = 'When you reach maximum energy, creates a ring that burns enemies'
         this.name = 'flamy nimbus'
     }
 

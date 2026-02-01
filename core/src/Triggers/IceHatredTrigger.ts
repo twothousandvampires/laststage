@@ -10,7 +10,7 @@ export default class IceHatredTrigger implements ITrigger {
     radius: number = 8
     chance: number = 0
     name: string = 'ice hatred'
-    description: string = 'There is a chance to create spheres that will target the enemy and deal damage to them'
+    description: string = 'There is a chance to create spheres that target the enemy and deal damage to them'
 
     getTriggerChance(): number {
         return 100

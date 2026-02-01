@@ -7,7 +7,7 @@ export default class LightningSentries extends Mastery {
     constructor() {
         super()
         this.name = 'lightning sentries'
-        this.description = 'Creates 3 charged sentries around you for 12 seconds those hit enemies and players.'
+        this.description = 'Creates 3 charged sentries around you for 12 seconds that hit enemies and players.'
     }
 
     trigger(player: Character, ability: Ability) {

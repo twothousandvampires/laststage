@@ -7,7 +7,7 @@ export default class Recovery extends Mastery {
     constructor() {
         super()
         this.name = 'recovery'
-        this.description = 'When you start ability there is a chance to get life.'
+        this.description = 'When you start an ability there is a chance to gain life.'
     }
 
     trigger(player: Character, ability: Ability) {

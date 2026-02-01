@@ -9,7 +9,7 @@ export default class SparksWhenBlockTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'charged shield'
-    description: string = 'Gives a chance to release sparks when block'
+    description: string = 'Gives a chance to release sparks when you block'
 
     getTriggerChance(): number {
         return this.chance

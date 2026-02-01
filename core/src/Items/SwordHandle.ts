@@ -6,7 +6,7 @@ export default class SwordHandle extends Item {
         super()
         this.name = 'sword handle'
         this.type = 1
-        this.description = 'you are lucky'
+        this.description = 'You are lucky'
         this.max_forgings = 0
     }
 

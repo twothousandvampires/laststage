@@ -20,7 +20,7 @@ export default class SkullOfFirstWarrior extends Item implements ITrigger {
         this.add_might = 8
         this.name = 'skull of first warrior'
         this.type = 3
-        this.description = 'increases your power by 12 for 10 seconds after 12 kills'
+        this.description = 'Increases your power by 12 for 10 seconds after 12 kills'
     }
 
     getTriggerChance(): number {

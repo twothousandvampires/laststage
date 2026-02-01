@@ -4,7 +4,7 @@ import Character from '../Objects/src/Character'
 export default class WardAfterEnlightTrigger implements ITrigger {
     
     name: string = 'afterlight'
-    description: string = 'You gain  ward'
+    description: string = 'You gain a ward'
     chance: number = 100
     last_trigger_time: number = 0
     cd: number = 2000

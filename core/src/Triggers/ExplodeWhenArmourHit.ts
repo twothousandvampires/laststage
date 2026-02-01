@@ -8,7 +8,7 @@ export default class ExplodeWhenArmourHit implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'explosive armour'
-    description: string = 'Give a chance to create explode around you when you block hit by armour'
+    description: string = 'Gives a chance to create an explosion around you when you block a hit with armour'
 
     getTriggerChance(): number {
         return this.chance

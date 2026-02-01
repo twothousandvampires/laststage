@@ -10,7 +10,7 @@ export default class SpikedWeapon extends Forging {
         super(item)
         this.max_value = 1
         this.name = 'spiked weapon'
-        this.description = 'permanently increases you pierce rating depends of count of forgings on item, can be used only on weapons'
+        this.description = 'Permanently increases your pierce rating depending on the number of forgings on the item; can be used only on weapons'
         this.gold_cost = 0
     }
 

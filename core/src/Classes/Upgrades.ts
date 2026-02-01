@@ -258,7 +258,7 @@ export default class Upgrades {
                 desc: 'Your pierce and armour ratings are increased by your Grace',
             },
             {
-                name: 'equiped',
+                name: 'equipped',
                 canUse: (character: Character) => {
                     return character.item.length >=6
                 },
@@ -860,7 +860,7 @@ export default class Upgrades {
                 desc: 'Grants a 30% chance to gain fortification equal to your power when taking damage',
             },
             {
-                name: 'ressurection',
+                name: 'resurrection',
                 canUse: (character: Character) => {
                     return !character.can_ressurect
                 },
@@ -1480,7 +1480,7 @@ export default class Upgrades {
                 desc: 'Increases detonation rate',
             },
             {
-                name: 'second detanation',
+                name: 'second detonation',
                 type: 'rune',
                 canUse: (character: Character) => {
                     return (
@@ -1533,7 +1533,7 @@ export default class Upgrades {
                 desc: 'Always creates souls',
             },
             {
-                name: 'slaming',
+                name: 'slamming',
                 type: 'slam',
                 canUse: (character: Character) => {
                     return (
@@ -1785,7 +1785,7 @@ export default class Upgrades {
                 desc: 'Upon expiration, releases bones for each enemy killed',
             },
             {
-                name: 'pack with dead',
+                name: 'pack of the dead',
                 type: 'self flagellation',
                 canUse: (character: Character) => {
                     return character.utility instanceof SelfFlagellation && !character.utility.pack
@@ -1817,7 +1817,7 @@ export default class Upgrades {
                 desc: 'Increases move speed for short period after use',
             },
             {
-                name: 'leaded by shost',
+                name: 'led by ghosts',
                 type: 'ghost form',
                 canUse: (character: Character) => {
                     return character.utility instanceof GhostForm && !character.utility.lead
@@ -2004,7 +2004,7 @@ export default class Upgrades {
                 desc: 'Increases the count of shards after tear enemy',
             },
             {
-                name: 'dark prolifiration',
+                name: 'dark proliferation',
                 type: 'soulrender',
                 canUse: (character: Character) => {
                     return (
@@ -2026,7 +2026,7 @@ export default class Upgrades {
     static getFlyerUpgrades() {
         return [
             {
-                name: 'fire spliting',
+                name: 'fire splitting',
                 type: 'fireball',
                 canUse: (character: Character) => {
                     return (
@@ -2092,17 +2092,17 @@ export default class Upgrades {
                 desc: 'Fire wall deals damage more often',
             },
             {
-                name: 'frendly flame',
+                name: 'friendly flame',
                 type: 'flame wall',
                 canUse: (character: Character) => {
                     return (
                         character.second_ability instanceof FlameWall &&
-                        !character.second_ability.frendly_flame
+                        !character.second_ability.friendly_flame
                     )
                 },
                 teach: (character: Character) => {
                     if (character && character.second_ability instanceof FlameWall) {
-                        character.second_ability.frendly_flame = true
+                        character.second_ability.friendly_flame = true
                     }
                 },
                 cost: 3,
@@ -2504,7 +2504,7 @@ export default class Upgrades {
                 desc: 'Upon cast, you create icy spires that freeze enemies and explode',
             },
             {
-                name: 'hand cuffing',
+                name: 'handcuffing',
                 type: 'static field',
                 canUse: (character: Character) => {
                     return (
@@ -2580,7 +2580,7 @@ export default class Upgrades {
                 desc: 'Increases radius of end point',
             },
             {
-                name: 'mana regen while defend',
+                name: 'mana regen while defending',
                 canUse: (character: Character) => {
                     return character instanceof Flyer && !character.allow_mana_regen_while_def
                 },
@@ -2851,7 +2851,7 @@ export default class Upgrades {
                 desc: 'Thrown weapons have a chance to return',
             },
             {
-                name: 'while we alive',
+                name: 'while we are alive',
                 type: 'inner power',
                 canUse: (character: Character) => {
                     let status = character.level.status_pull.find(
@@ -3035,7 +3035,7 @@ export default class Upgrades {
                 desc: 'Provide a chance to instant kill',
             },
             {
-                name: 'selfcare',
+                name: 'self care',
                 type: 'quake',
                 canUse: (character: Character) => {
                     return (

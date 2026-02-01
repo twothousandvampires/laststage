@@ -9,7 +9,7 @@ export default class BoilingBloodTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'boiling blood'
-    description: string = 'There is a chance to create spheres that will target the enemy and deal damage to them'
+    description: string = 'There is a chance to create spheres that target the enemy and deal damage to them'
 
     getTriggerChance(): number {
         return this.chance

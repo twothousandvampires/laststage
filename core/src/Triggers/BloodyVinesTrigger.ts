@@ -8,7 +8,7 @@ export default class BloodyVinesTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'bloody spell'
-    description: string = 'There is a chance to create 4 blood vines from their body that damage enemies'
+    description: string = 'There is a chance to create 4 blood vines from their body that will damage enemies'
 
     getTriggerChance(): number {
         return this.chance

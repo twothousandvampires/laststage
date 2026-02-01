@@ -14,7 +14,7 @@ export default class Crossbow extends Item implements ITrigger{
         this.chance = 35
         this.cd = 2000
         this.distance = 12
-        this.description = 'when you lead critical damage there is a chance to crushingw nearby enemies'
+        this.description = 'When you deal critical damage, there is a chance to crush nearby enemies'
     }
 
     equip(character: Character): void {

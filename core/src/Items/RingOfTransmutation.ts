@@ -14,7 +14,7 @@ export default class RingOfTransmutation extends Item implements ITrigger {
         this.chance = 5
         this.name = 'ring of transmutation'
         this.type = 3
-        this.description = 'when hitted by enemy there is a chance turn them into gold'
+        this.description = 'When hit by an enemy, there is a chance to turn them into gold'
     }
 
     getSpecialForgings(): string[] {

@@ -7,7 +7,7 @@ export default class Duration extends Forging {
     constructor(item: Item) {
         super(item)
         this.name = 'duration'
-        this.description = 'increases duration of item effects'
+        this.description = 'Increases duration of item effects'
         this.gold_cost = 8
         this.max_value = 1500
     }

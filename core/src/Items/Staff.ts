@@ -6,7 +6,7 @@ export default class Staff extends Item {
         super()
         this.name = 'staff'
         this.type = 1
-        this.description = 'reduces cooldowns'
+        this.description = 'Reduces cooldowns'
     }
 
     equip(character: Character): void {

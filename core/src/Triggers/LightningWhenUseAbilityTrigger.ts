@@ -7,7 +7,7 @@ export default class LightningWhenUseAbilityTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'electrification'
-    description: string = 'Gives a chance to realise 3 lightnings'
+    description: string = 'Gives a chance to release 3 lightning bolts'
 
     getTriggerChance(player: Character | undefined): number {
         return this.chance

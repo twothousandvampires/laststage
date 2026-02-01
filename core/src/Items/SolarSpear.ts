@@ -16,7 +16,7 @@ export default class SolarSpear extends Item implements ITrigger {
         super()
         this.name = 'solar spear'
         this.type = 1
-        this.description = 'when you pierce enemy you create light nova which heals allies'
+        this.description = 'When you pierce an enemy, you create a light nova that heals allies'
     }
 
     getTriggerChance(player: Character | undefined): number {

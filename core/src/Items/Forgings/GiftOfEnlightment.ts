@@ -10,7 +10,7 @@ export default class GiftOfEnlightment extends Forging {
         super(item)
         this.max_value = 80
         this.name = 'gift of enlightenment'
-        this.description = 'When you get enlightened there is a chance to create grace'
+        this.description = 'When you become enlightened, there is a chance to create grace'
         this.gold_cost = 8
     }
 

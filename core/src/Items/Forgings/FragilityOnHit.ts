@@ -11,7 +11,7 @@ export default class FragilityOnHit extends Forging {
         super(item)
         this.max_value = 50
         this.name = 'crystilizing hits'
-        this.description = 'provides a chance to inflict fragility on enemies in a small radius on hit'
+        this.description = 'Provides a chance to inflict fragility on enemies in a small radius on hit'
         this.gold_cost = 8
     }
 

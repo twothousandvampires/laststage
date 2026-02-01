@@ -8,7 +8,7 @@ export default class TornadoLaunch extends Mastery {
     constructor() {
         super()
         this.name = 'tornado launch'
-        this.description = 'When you start ability there is a chance to relise a tornado.'
+        this.description = 'When you start an ability there is a chance to release a tornado.'
     }
 
     trigger(player: Character, ability: Ability) {

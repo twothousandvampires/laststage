@@ -10,7 +10,7 @@ export default class WhiteShield extends Item implements ITrigger {
         this.chance = 40
         this.name = 'white shield'
         this.type = 2
-        this.description = 'you have a chance to get ward when block'
+        this.description = 'You have a chance to gain a ward when you block'
     }
 
     getTriggerChance(): number {

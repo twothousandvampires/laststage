@@ -6,7 +6,7 @@ export default class BlessedLife extends Forging {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 10
+        this.max_value = 12
         this.name = 'blessed life'
         this.description = 'increases chance to regen life above maximum'
         this.gold_cost = 5

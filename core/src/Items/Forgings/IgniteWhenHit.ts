@@ -8,10 +8,10 @@ export default class IgniteWhenHit extends Forging {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 35
+        this.max_value = 45
         this.name = 'flaming'
         this.description = 'chance to ignite enemies in radius when hitting target'
-        this.gold_cost = 10
+        this.gold_cost = 8
     }
 
     forge(player: Character) {

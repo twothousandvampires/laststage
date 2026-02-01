@@ -65,6 +65,7 @@
                 <div v-for="upgrade in data.upgrades" class="upgrade"">
                     <img
                         class="button"
+                        style="padding: 0!important;"
                         @mouseover="$title($event, {
                             main_title: upgrade.name,
                             text: upgrade.desc

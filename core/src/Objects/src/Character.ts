@@ -7,6 +7,7 @@ import IUnitState from '../../Interfaces/IUnitState'
 import Forging from '../../Items/Forgings/Forging'
 import Item from '../../Items/Item'
 import item from '../../Items/Item'
+import Jewel from '../../Jeewl/Jewel'
 import Level from '../../Level'
 import Mutator from '../../Mutators/Mutator'
 import PlayerDamagedState from '../../State/PlayerDamagedState'
@@ -44,7 +45,7 @@ export default abstract class Character extends Unit {
     passive: any
     item: item[] = []
     masteries: Mastery[] = []
-    grand_forgings: Forging[] = []
+    grand_forgings: Jewel[] = []
 
     max_items: number = 6
     start_move_time: number = 0
@@ -90,8 +91,6 @@ export default abstract class Character extends Unit {
     lust_for_life: boolean = false
     blessed: boolean = false
     free_upgrade_count: number = 0
-
-
 
     triggers_on_kill: any[] = [new LifeAfterKIllTrigger()]
     triggers_on_hit: any[] = [new ImpactTrigger()]
@@ -182,12 +181,14 @@ export default abstract class Character extends Unit {
     chance_not_to_lose_energy_when_block_mutators: Mutator[] = []
     reduces_move_speed_mutators: Mutator[] = []
 
+    base_move_speed_penalty_when_action: number = 70
+
     carved_sparks: number = 0
     left_teacher: boolean = false
     left_forger: boolean = false
 
     stats: (keyof Character)[] = ['pierce', 'armour_rate', 'critical', 'crushing_rating', 'impact', 'power']
-
+  
     constructor(level: Level) {
         super(level)
         this.box_r = 2.5
@@ -686,7 +687,7 @@ export default abstract class Character extends Unit {
             'double triggering': 'chance that trigger will triger twice',
             'avoid damage': 'chance to avoid damage',
             'blessed blood': 'chance to regenerate life above maximum',
-            'instant kill': 'chance to kill enemy instantly',
+            'sacred strike': 'chance to kill enemy instantly',
             'vampiric rate': 'chance to get life after killing enemy',
             'move penalty': 'movement speed reduction rate when using an ability',
             'additional life': 'chance to regenerate additional life when gain life'
@@ -702,22 +703,24 @@ export default abstract class Character extends Unit {
                     power: this.getPower(),
                 },
                 'survivability': {
-                    'max life': this.max_life,
-                    'avoid damage': this.getAvoidChance(),                  
+                    'max life': this.max_life,             
                     spirit: this.spirit + '%',
                     fortification: this.fortify + '%',
                     'regeneration': this.getRegenTimer() / 1000 + 'sec',
-                    resist: this.getResistValue() + '%', 
+                    'additional life': this.chance_to_regen_additional_life    
                 },             
                 'misc': {
+                    resist: this.getResistValue() + '%',
                     ward: this.ward,
-                    'cd reduction': this.getCdRedaction() + '%',    
-                    'blessed blood': this.canRegenMoreLife() + '%',
-                    'instant kill': this.getInstantKillChance() + '%',
+                    'cd reduction': this.getCdRedaction() + '%',                 
                     'vampiric rate': this.vampiric_rate,
                     'block chance': this.chance_to_block,
-                    'double trigger': this.isSecondTrigger(),
-                    'additional life': this.chance_to_regen_additional_life                                 
+                },
+                'blessings': {
+                    'blessed blood': this.canRegenMoreLife() + '%',
+                    'sacred strike': this.getInstantKillChance() + '%',
+                    'double trigger': this.isSecondTrigger(),    
+                    'avoid damage': this.getAvoidChance(),     
                 },
                 'speed': {
                     'attack speed': this.getAttackSpeed() + 'ms',
@@ -1047,12 +1050,13 @@ export default abstract class Character extends Unit {
             return
         }
 
-        if (
-            unit &&
-            unit.pierce > this.getTotalArmour() &&
-            Func.chance(unit.pierce - this.getTotalArmour())
-        ) {
-            value++
+        if (unit) {
+            let a = this.getTotalArmour()
+            let p = unit.pierce
+            console.log('pa:' + a + ', up:' + p)
+            if(Func.chance(p - a)){
+                value ++
+            }       
         }
 
         if (Func.chance(this.fortify)) {
@@ -1070,7 +1074,7 @@ export default abstract class Character extends Unit {
         if (unit && Func.chance(unit.power)) {
             value ++
         }
-
+        console.log(value + ' ' + unit?.name)
         if (value > 0) {
             this.last_time_get_hit = this.level.time
 

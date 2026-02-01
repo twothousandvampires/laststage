@@ -4,7 +4,7 @@
             <div 
                 v-for="(cell, index) in grid" 
                 :key="index"
-                class="cell",
+                class="cell"
             >   
                 <span class="button" v-if="b_data[index]">
                     <img @click="handleCellClick(index)" class="grid-img" :src="`/icons/${b_data[index].icon}.png`" alt="">
@@ -37,7 +37,7 @@
         'while we alive', 'heaven intervention', 'glass sword', 'frost sphere', 'fragility', 'fortification', 'forger', 'forge', 'flesh harvest', 'flame ring',
         'emerald knife', 'durability', 'drained', 'distorter', 'disintegration', 'disease', 'devouring', 'devouring flame', 'destroyer', 'despair', 'defender',
         'cutting', 'curse', 'crushed', 'crossbow', 'corrosion', 'conductivity', 'conduct of pain', 'collapse', 'charged shield', 'charged armour', 'glacial chain',
-        'excitement', 'fan of swords', 'fire spliting', 'light stream', 'as a wall', 'regeneration','forbidden power'
+        'excitement', 'fan of swords', 'fire spliting', 'light stream', 'as a wall', 'regeneration','forbidden power', 'red jewel'
     ]
 
     let b_data = {

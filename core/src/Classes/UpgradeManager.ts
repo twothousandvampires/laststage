@@ -1,6 +1,7 @@
 import Func from '../Func'
 import Forging from '../Items/Forgings/Forging'
 import Item from '../Items/Item'
+import Jewel from '../Jeewl/Jewel'
 import Character from '../Objects/src/Character'
 import Builder from './Builder'
 
@@ -85,52 +86,27 @@ export default class UpgradeManager {
 
         player.carved_sparks -= amount
 
-        if(Func.chance(amount)){
-            let name = Func.getRandomFromArray(Object.keys(Builder.greatForgingMap))
-            let f = Builder.createGreatForging(name, undefined)
-
-            player.grand_forgings.push(f)
+        if(Func.chance(Math.round(amount * 1.5))){
+            player.grand_forgings.push(Jewel.createRandom(amount))
 
             UpgradeManager.closeForgings(player)
         }
     }
 
     static applyGrandForging(data: string, player: Character){
-        console.log(data)
         let item = player.item.find(elem => elem.name === data.i_name)
 
         if(!item) return
-           console.log(item)
-        let f = player.grand_forgings.find(elem => elem.name === data.f_name)
+  
+        let f = player.grand_forgings.find(elem => elem.id === data.f_name)
 
         if(!f) return
 
-        if(f.consumable){
-            f.setItem(item)
-            if(f.canBeForged()){
-                f.forge(player)
-                player.grand_forgings = player.grand_forgings.filter(elem => elem != f)
-            }
-            else {
-                f.setItem(undefined)
-            }
+        if(f.canBeAttached(item)){
+            f.attach(item)
+            player.grand_forgings = player.grand_forgings.filter(elem => elem != f)
         }
-        else{
-            let exist = item.forge.find(elem => elem.name === f.name)
-            if(exist){
-                exist.forge(player, true)
-                player.grand_forgings = player.grand_forgings.filter(elem => elem != f)
-            }
-            else{
-                if(item.forge.length >= item.max_forgings) return
-
-                f.setItem(item)
-                f.forge(player)
-                item.forge.push(f)
-                player.grand_forgings = player.grand_forgings.filter(elem => elem != f)
-            }       
-        }
-      
+    
         UpgradeManager.closeForgings(player)
     }
 

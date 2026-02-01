@@ -6,10 +6,10 @@ export default class Pierce extends Forging {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 50
+        this.max_value = 25
         this.name = 'pierce'
-        this.description = 'provides you a chance to ignore enemy armour'
-        this.gold_cost = 5
+        this.description = 'Provides you a chance to ignore enemy armour'
+        this.gold_cost = 7
     }
 
     forge() {

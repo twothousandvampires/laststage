@@ -9,13 +9,13 @@ export default class BlockChance extends Forging {
         this.max_value = 10
         this.name = 'block chance'
         this.description = 'increases block chance'
-        this.gold_cost = 7
+        this.gold_cost = 5
     }
 
     forge() {
         if (this.canBeForged() && this.costEnough()) {
             this.value += 2
-            this.item.player.chance_to_block += 2
+            this.item.player.chance_to_block += 1
             this.payCost()
         }
     }

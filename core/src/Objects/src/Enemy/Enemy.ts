@@ -57,12 +57,12 @@ export default abstract class Enemy extends Unit {
         let wave = waves - this.wave_start
         if(wave <= 0) return
  
-        let minor_times = Math.floor(wave / 25)
+        let minor_times = Math.floor(wave / 22)
 
         if(minor_times){
-            this.armour_rate += minor_times * 6
-            this.pierce += minor_times * 6
-            this.cooldown_attack -= minor_times * 60
+            this.armour_rate += minor_times * 9
+            this.pierce += minor_times * 9
+            this.cooldown_attack -= minor_times * 70
         }
 
         let major_times = Math.floor(wave / 55)
@@ -77,11 +77,11 @@ export default abstract class Enemy extends Unit {
             }
             this.elemental_status_resist += status 
 
-            this.move_speed_penalty += major_times * 7
-            this.create_chance -= major_times * 3
+            this.move_speed_penalty += major_times * 8
+            this.create_chance -= major_times * 4
 
             this.attack_speed -= major_times * 100
-            this.critical += major_times * 4
+            this.critical += major_times * 5
 
             let add_range = major_times * 0.1
             if(add_range > 1){

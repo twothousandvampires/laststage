@@ -1,11 +1,11 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
+import FireExplosionSmall from '../Objects/Effects/FireExplosionSmall'
 import Character from '../Objects/src/Character'
-import Ignite from '../Status/Ignite'
 import Item from './Item'
 
 export default class MoltenHelm extends Item implements ITrigger {
-    cd: number = 10000
+    cd: number = 12000
     last_trigger_time: number = 0
     chance: number = 100
 
@@ -13,8 +13,7 @@ export default class MoltenHelm extends Item implements ITrigger {
         super()
         this.name = 'molten helm'
         this.type = 2
-        this.description =
-            'when you start blocking you ignite enemies within a radius and youself, the power of the burn depends on your armor. it has a 15-second cooldown'
+        this.description = 'When the block starts, it creates explosions around you, the number of which depends on your armor'
     }
 
     getTriggerChance(): number {
@@ -28,27 +27,31 @@ export default class MoltenHelm extends Item implements ITrigger {
     trigger(character: Character) {
         if (this.disabled) return
 
-        let s = new Ignite(character.level.time)
-        s.setDuration(4000)
-        s.setPower(Math.floor(character.armour_rate / 2))
-        s.provider = this
+        let count = Math.floor(character.getTotalArmour() / 35) + 1
+        
+  
+        for (let i = 1; i <= count; i++) {
+          
+            let a = Math.random() * 6.28
 
-        character.level.setStatus(character, s, true)
+            let l = 1 - Math.abs(0.5 * Math.cos(a))
 
-        character.level.addSound('fire cast', character.x, character.y)
+            let n_x = Math.sin(a) * l * Func.random(4, 10)
+            let n_y = Math.cos(a) * l * Func.random(4, 10)
 
-        let box = character.getBoxElipse()
-        box.r = 12
-        character.level.enemies.forEach(elem => {
-            if (!elem.is_dead && Func.elipseCollision(box, elem.getBoxElipse())) {
-                let s = new Ignite(character.level.time)
+            let flame = new FireExplosionSmall(character.level)
 
-                s.setDuration(6000)
-                s.setPower(character.armour_rate)
-                s.provider = character
+            flame.setPoint(character.x + n_x, character.y + n_y)
 
-                character.level.setStatus(elem, s)
-            }
-        })
+            character.level.effects.push(flame)
+
+            character.level.enemies.forEach(elem => {
+                if(!elem.is_dead && Func.distance(elem, flame) <= 5){
+                    elem.takeDamage(character, {
+                        burn: true
+                    })
+                }
+            })
+        }
     }
 }

@@ -11,7 +11,7 @@ export default class EnergyWeapon extends Forging {
         this.max_value = 45
         this.name = 'energy weapon'
         this.description = 'When you deal critical strike where is a chance to create energy sphere'
-        this.gold_cost = 8
+        this.gold_cost = 5
     }
 
     forge(player: Character) {
@@ -19,16 +19,16 @@ export default class EnergyWeapon extends Forging {
             let trigger = player.triggers_on_critical.find( elem => elem instanceof EnergyWeaponTrigger)
 
             if (trigger) {
-                trigger.chance += 15
+                trigger.chance += 5
             } else {
                 let t = new EnergyWeaponTrigger()
-                t.chance = 15
+                t.chance = 5
 
                 player.triggers_on_critical.push(t)
             }
 
             this.payCost()
-            this.value += 15
+            this.value += 5
         }
     }
 

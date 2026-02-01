@@ -16,10 +16,8 @@ import Enemy from './Objects/src/Enemy/Enemy'
 import Learning from './Scenarios/Learning'
 import ItemDrop from './Objects/Effects/ItemDrop'
 import SorcerersSkull from './Objects/Effects/SorcerersSkull'
-import UpgradeManager from './Classes/UpgradeManager'
 import Helm from './Objects/Effects/Helm'
 import Message from './Types/Message'
-import SpellDialers from './Scenarios/SpellDialers'
 
 export default class Level {
     static enemy_list = [

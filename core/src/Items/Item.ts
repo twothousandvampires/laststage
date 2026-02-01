@@ -46,7 +46,7 @@ export default abstract class Item {
         },
         {
             name: 'soul accumulator',
-            description: 'when your teammate dies, you gain 5 to all stats',
+            description: 'when your teammate dies, you gain 15 to all main stats',
         },
         {
             name: 'doom mantia',
@@ -191,7 +191,8 @@ export default abstract class Item {
         'vampiric',  
         'armour rate',
         'resist',
-        'pierce',   
+        'pierce',
+        'critical',   
     ]
 
     static forging_list_type_1 = [
@@ -202,7 +203,6 @@ export default abstract class Item {
         'frost shpere when kill',
         'stun when hit',
         'thunder strikes',
-        'critical',
         'dominance when critical',
         'fragility on hit',
         'storm presence',
@@ -224,6 +224,7 @@ export default abstract class Item {
     ]
 
     static forging_list_type_3 = [
+        'ice hatred',
         'max resources',
         'cooldown reduction',
         'blessed life',
@@ -254,6 +255,17 @@ export default abstract class Item {
 
     setPlayer(player: Character) {
         this.player = player
+
+        if(this.type === 1){
+            player.pierce += Func.random(1, 4)
+        }
+        else if(this.type === 2){
+            player.armour_rate += Func.random(1, 4)
+        }
+        else{
+            player.gold += Func.random(10, 30)
+        }
+
         this.equip(this.player)
     }
 

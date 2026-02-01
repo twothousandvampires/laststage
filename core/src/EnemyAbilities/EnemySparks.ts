@@ -30,6 +30,7 @@ export default class EnemySparks extends EnemyAbility {
             let proj = new Spark(enemy.level, 1, 3000)
 
             proj.setAngle(angle)
+            proj.setOwner(enemy)
             proj.setPoint(enemy.x, enemy.y)
             proj.by_enemy = true
 

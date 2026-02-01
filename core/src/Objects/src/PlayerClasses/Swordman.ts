@@ -23,10 +23,7 @@ import HeavenWrath from '../../../Abilities/Swordman/HeavenWrath'
 import Upgrade from '../../../Types/Upgrade'
 import Spirit from '../../Effects/Spirit'
 import SwordmanArmourMutator from '../../../Mutators/SwordmanArmourMutator'
-import ShatteredWeapon from '../../../Abilities/Swordman/ShatteredWeapon'
 import Enemy from '../Enemy/Enemy'
-import BoilingBloodEffect from '../../Effects/BoilingBloodEffect'
-import BoilingBloodTrigger from '../../../Triggers/BoilingBloodTrigger'
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -48,15 +45,17 @@ export default class Swordman extends Character {
         this.name = 'swordman'
         this.move_speed = 0.5
         this.chance_to_avoid_damage_state = 10
-        this.armour_rate = 15
+        this.armour_rate = 0
         this.resource = 0
 
         this.attack_speed = 1450
 
         this.base_regeneration_time = 8500
         this.recent_kills = []
+        this.cast_speed = 1650
         this.chance_to_block = 50
         this.armour_mutators = [new SwordmanArmourMutator()]
+        this.armour_rate = 15
     }
 
     succefullCast() {
@@ -65,7 +64,7 @@ export default class Swordman extends Character {
 
 
     getTargetsCount() {
-        return 5 + Math.round(this.power / 5)
+        return 10
     }
 
     getMoveSpeed(): number {
@@ -257,6 +256,8 @@ export default class Swordman extends Character {
                 x: this.x,
                 y: this.y,
             })
+
+            return
         }
 
         this.playerWasHited(unit)
@@ -464,7 +465,7 @@ export default class Swordman extends Character {
     }
 
     getMoveSpeedPenaltyValue() {
-        let base = 70
+        let base = this.base_move_speed_penalty_when_action
 
         this.reduces_move_speed_mutators.forEach(elem => {
             base = elem.mutate(base, this)

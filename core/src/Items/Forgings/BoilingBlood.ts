@@ -1,5 +1,4 @@
 import Character from '../../Objects/src/Character'
-import BloodyVinesTrigger from '../../Triggers/BloodyVinesTrigger'
 import BoilingBloodTrigger from '../../Triggers/BoilingBloodTrigger'
 import Item from '../Item'
 import Forging from './Forging'
@@ -12,7 +11,7 @@ export default class BoilingBlood extends Forging {
         this.max_value = 10
         this.name = 'boiling blood'
         this.description = 'When you kill an enemy near you, there is a chance to create spheres that will target the enemy and deal damage to them'
-        this.gold_cost = 20
+        this.gold_cost = 5
     }
 
     forge(player: Character) {
@@ -20,16 +19,16 @@ export default class BoilingBlood extends Forging {
             let trigger = player.triggers_on_kill.find( elem => elem instanceof BoilingBloodTrigger)
 
             if (trigger) {
-                trigger.chance += 2
+                trigger.chance += 1
             } else {
                 let t = new BoilingBloodTrigger()
-                t.chance = 2
+                t.chance = 1
 
                 player.triggers_on_kill.push(t)
             }
 
             this.payCost()
-            this.value += 2
+            this.value += 1
         }
     }
 

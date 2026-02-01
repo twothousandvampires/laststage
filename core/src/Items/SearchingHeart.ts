@@ -5,7 +5,7 @@ import Item from './Item'
 
 export default class SearchingHeart extends Item implements ITrigger {
 
-    cd: number = 10000
+    cd: number = 100
     hit_count: number = 0
     last_trigger_time: number = 0
     chance: number = 100
@@ -14,8 +14,7 @@ export default class SearchingHeart extends Item implements ITrigger {
         super()
         this.name = 'searching heart'
         this.type = 3
-        this.description =
-            'every 10 seconds releases fireballs, the number of which depends on the health lost during this time'
+        this.description = 'Every 10 seconds releases fireballs, the number of which depends on the health lost during this time'
     }
 
     getTriggerChance(player: Character | undefined): number {
@@ -23,7 +22,7 @@ export default class SearchingHeart extends Item implements ITrigger {
     }
 
     getSpecialForgings() {
-        return ['frequency', 'count']
+        return ['count']
     }
 
     equip(character: Character): void {

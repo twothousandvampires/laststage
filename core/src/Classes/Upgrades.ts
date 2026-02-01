@@ -169,7 +169,7 @@ export default class Upgrades {
                 name: 'regeneration',
                 type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.life_gained >= 40
+                    return character.life_gained >= 60
                 },
                 teach: (character: Character): void => {
                     character.chance_to_regen_additional_life += 5
@@ -195,13 +195,13 @@ export default class Upgrades {
                 name: 'second skin',
                 type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.hits >= 50
+                    return character.hits >= 150
                 },
                 teach: (character: Character): void => {
                     character.max_life += 1
                 },
-                cost: 4,
-                ascend: 27,
+                cost: 6,
+                ascend: 40,
                 desc: 'Increases maximum life',
             },
             {
@@ -394,7 +394,7 @@ export default class Upgrades {
                 desc: 'Increases cast speed',
             },
             {
-                name: 'beaking armor',
+                name: 'breaking armor',
                 canUse: (character: Character) => {
                     return character.crushing_rating >= 30 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingArmorTrigger)
                 },
@@ -416,6 +416,32 @@ export default class Upgrades {
                 cost: 1,
                 ascend: 10,
                 desc: 'When you crush enemy there is a chance to reduce their move speed',
+            },
+            {
+                name: 'fortune-teller',
+                canUse: (character: Character) => {
+                    return character.chance_to_create_grace < 15
+                },
+                teach: (character: Character): void => {
+                    character.chance_to_create_grace += 1
+                    character.chance_to_additional_carved_spark += 5
+                },
+                cost: 1,
+                ascend: 20,
+                desc: 'Increases chance to get grace after enemy dead and carved spark',
+            },
+            {
+                name: 'agility',
+                canUse: (character: Character) => {
+                    return character.base_move_speed_penalty_when_action >= 30
+                },
+                teach: (character: Character): void => {
+                    character.base_move_speed_penalty_when_action -= 5
+                    character.critical += 1
+                },
+                cost: 2,
+                ascend: 15,
+                desc: 'Reduces move speed penalty when using ability and increases critical chance',
             },
             {
                 name: 'wave of enlightenment',
@@ -481,7 +507,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Increases the chance that masteries will trigger on your skills',
+                desc: 'Increases the chance that empowers will trigger on your skills',
             },
             {
                 name: 'pressing steps',
@@ -664,7 +690,7 @@ export default class Upgrades {
                     character.chance_to_block += 1
                     character.armour_rate += 2
                 },
-                cost: 2,
+                cost: 1,
                 desc: 'Increases armour and chance to block',
             },
             {
@@ -1044,10 +1070,10 @@ export default class Upgrades {
             {
                 name: 'chosen one',
                 canUse: (character: Character) => {
-                    return character.chance_to_create_grace < 10
+                    return character.chance_to_create_grace < 15
                 },
                 teach: (character: Character) => {
-                    character.chance_to_create_grace += 1
+                    character.chance_to_create_grace += 2
                 },
                 cost: 2,
                 ascend: 22,
@@ -1202,9 +1228,9 @@ export default class Upgrades {
                     return character.chance_to_say_phrase < 8 && Func.chance(50)
                 },
                 teach: (character: Character) => {
-                    character.chance_to_say_phrase++
+                    character.chance_to_say_phrase ++
                 },
-                cost: 2,
+                cost: 1,
                 ascend: 10,
                 desc: 'Increases a chance to say something',
             },
@@ -1326,7 +1352,7 @@ export default class Upgrades {
                 teach: (character: Character) => {
                     character.changeStats(1)
                 },
-                cost: 2,
+                cost: 1,
                 desc: 'Increases all main stats by 1',
             },
             {
@@ -2951,7 +2977,7 @@ export default class Upgrades {
                         character.third_ability.blood_harvest = true
                     }
                 },
-                cost: 5,
+                cost: 3,
                 ascend: 35,
                 desc: 'After using the whirlwind, you have a chance to create a blood sphere',
             },
@@ -2969,7 +2995,7 @@ export default class Upgrades {
                         character.third_ability.fan_of_swords = true
                     }
                 },
-                cost: 6,
+                cost: 3,
                 ascend: 40,
                 desc: 'Your whirlwind now shoots a fan of swords, and the weapon throwing ability upgrade also works',
             },
@@ -3215,6 +3241,24 @@ export default class Upgrades {
                 cost: 3,
                 ascend: 18,
                 desc: 'When you block 5 hits the next three will be successfully blocked',
+            },
+            {
+                name: 'pressure',
+                type: 'dash',
+                canUse: (character: Character) => {
+                    return (
+                        character.first_ability instanceof Dash &&
+                        !character.first_ability.pressure
+                    )
+                },
+                teach: (character: Character) => {
+                    if (character.first_ability instanceof Dash) {
+                        character.first_ability.pressure = true
+                    }
+                },
+                cost: 2,
+                ascend: 12,
+                desc: 'Increases the maximum number of targets that can be hit',
             },
             {
                 name: 'electrified dash',

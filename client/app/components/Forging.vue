@@ -83,10 +83,10 @@
                     text: grand_forging.description
                 })"
                 @mouseleave="$closeTitle()" 
-                @click.stop="selectGrandForging(grand_forging.name)"
+                @click.stop="selectGrandForging(grand_forging.id)"
                 width="60px"
                 height="60px"
-                :src="`/icons/synthesized property.png`" alt=""
+                :src="`/icons/${grand_forging.name}.png`" alt=""
             >
         </div>
         <div style="grid-template-columns: 220px 220px; display: grid;margin-bottom: 20px;gap: 20px 0;">
@@ -140,9 +140,6 @@
         required: true,
         },
     });
-
-
-    console.log(props.data.items)
 
     let items = ref([])
     let forgings =  ref([])

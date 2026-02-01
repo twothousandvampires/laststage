@@ -25,7 +25,7 @@ export default class EarthSpikes extends EnemyAbility {
         let e =  new EarthSpikesEffect(enemy.level)
         e.setPoint(enemy.x, enemy.y)
         e.setOwner(enemy)
-
+        
         enemy.level.binded_effects.push(e)
     }
 }

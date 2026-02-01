@@ -19,7 +19,7 @@ export default class DoomMantia extends Item {
     }
 
     getSpecialForgings(): string[] {
-        return ['chance', 'distance']
+        return ['chance']
     }
 
     trigger(character: Character) {

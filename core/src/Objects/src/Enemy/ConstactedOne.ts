@@ -62,11 +62,7 @@ export default class ConstactedOne extends Enemy {
                 let char = this.level.players.find(elem => elem.id === id)
 
                 if (char && t) {
-                    let chance = char.power
-                    if (chance < 5) {
-                        chance = 5
-                    }
-
+                    let chance = 5
                     t.chance = chance
 
                     let r = Func.random(1, 4)

@@ -11,7 +11,7 @@ export default class AscensionArmour extends Forging {
         this.max_value = 50
         this.name = 'ascension armour'
         this.description = 'When you block damage by armour there is a chance to create helm of ascending'
-        this.gold_cost = 8
+        this.gold_cost = 5
     }
 
     forge(player: Character) {
@@ -19,16 +19,16 @@ export default class AscensionArmour extends Forging {
             let trigger = player.triggers_on_armour_hit.find( elem => elem instanceof AcsensionArmourTrigger)
 
             if (trigger) {
-                trigger.chance += 10
+                trigger.chance += 5
             } else {
                 let t = new AcsensionArmourTrigger()
-                t.chance = 10
+                t.chance = 5
 
                 player.triggers_on_armour_hit.push(t)
             }
 
             this.payCost()
-            this.value += 10
+            this.value += 5
         }
     }
 

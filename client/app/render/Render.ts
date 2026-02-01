@@ -153,6 +153,7 @@ import EarthSpikesBig from "./src/sprites/Effect/EarthSpikesBig"
 import SingleEarthSpike from "./src/sprites/Effect/SingleEarthSpike"
 import BloodyVines from "./src/sprites/Effect/BloodyVines"
 import BloodySphere from "./src/sprites/Effect/BloodySphere"
+import StreaksOfIce from "./src/sprites/Effect/StreaksOfIce"
 
 export default class Render{
     
@@ -678,6 +679,9 @@ export default class Render{
         }
         else if(elem.name === 'boiling blood'){
             return new BloodySphere(elem.id)
+        }
+        else if(elem.name === 'streaks of ice'){
+            return new StreaksOfIce(elem.id)
         }
     }
 

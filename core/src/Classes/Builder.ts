@@ -109,16 +109,17 @@ import FragilityOnHit from '../Items/Forgings/FragilityOnHit'
 import LightningSentries from '../Glyphs/LightningSentries'
 import MaxLife from '../Items/Forgings/MaxLife'
 import StoneSkin from '../Items/Forgings/StoneSkin'
-import Thunder from '../Items/Forgings/Thunder'
 import SpikedWeapon from '../Items/Forgings/SpikedWeapon'
 import GoldenReplica from '../Items/Forgings/GoldenReplica'
-import ShockWave from '../Items/Forgings/ShockWave'
 import EnergyWeapon from '../Items/Forgings/EnergyWeapon'
 import GiftOfEnlightment from '../Items/Forgings/GiftOfEnlightment'
 import AscensionArmour from '../Items/Forgings/AscensionArmour'
 import Crusher from '../Items/Crusher'
 import BloodySpell from '../Items/Forgings/BloodySpell'
 import BoilingBlood from '../Items/Forgings/BoilingBlood'
+import IceHatred from '../Items/Forgings/IceHatred'
+import Thunder from '../Glyphs/Thunder'
+import ShockWave from '../Glyphs/ShockWave'
 
 export default class Builder {
     static masteryMap = {
@@ -138,7 +139,9 @@ export default class Builder {
         trinity: Trinity,
         'turtle shell': TurtleShell,
         dismemberment: Dismemberment,
-        'lightning sentries': LightningSentries
+        'lightning sentries': LightningSentries,
+        'thunder': Thunder,
+        'shock wave': ShockWave
     }
 
     static itemMap = {
@@ -242,7 +245,8 @@ export default class Builder {
         'gift of enlightenment': GiftOfEnlightment,
         'ascension armor': AscensionArmour,
         'bloody spell': BloodySpell,
-        'boiling blood': BoilingBlood
+        'boiling blood': BoilingBlood,
+        'ice hatred': IceHatred
     }
 
     static createCharacter(client: Client, level: Level): Character {

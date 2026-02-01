@@ -1,5 +1,4 @@
 import Func from '../../Func'
-import TurtleShell from '../../Glyphs/TurtleShell'
 import IUnitState from '../../Interfaces/IUnitState'
 import Character from '../../Objects/src/Character'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'

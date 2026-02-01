@@ -21,7 +21,7 @@ export default class SolidDeadState implements IUnitState<Enemy> {
 
             enemy.level.enemies.forEach(elem => {
                 if (elem != enemy && Func.distance(enemy, elem) <= 12) {
-                    elem.takeDamage(undefined, {
+                    elem.takeDamage(enemy, {
                         burn: true,
                     })
                 }
@@ -29,7 +29,7 @@ export default class SolidDeadState implements IUnitState<Enemy> {
 
             enemy.level.players.forEach(elem => {
                 if (Func.distance(enemy, elem) <= 12) {
-                    elem.takeDamage()
+                    elem.takeDamage(enemy)
                 }
             })
 

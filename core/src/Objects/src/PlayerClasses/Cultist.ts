@@ -49,7 +49,7 @@ export default class Cultist extends Character {
         this.name = 'cultist'
         this.move_speed = 0.43
         this.chance_to_avoid_damage_state = 15
-        this.armour_rate = 25
+        this.armour_rate = 0
         this.resource = 0
         this.hit_x = undefined
         this.hit_y = undefined
@@ -63,7 +63,8 @@ export default class Cultist extends Character {
         this.armour_mutators = [new CultistArmourMutator()]
 
         this.courage_expire_timer = 15000
-        this.block_for_energy = 5
+    
+        this.armour_rate = 25
     }
 
      sSecondTrigger() {
@@ -287,6 +288,8 @@ export default class Cultist extends Character {
                 x: this.x,
                 y: this.y,
             })
+
+            return
         }
 
         this.playerWasHited(unit)
@@ -483,7 +486,7 @@ export default class Cultist extends Character {
     }
 
     getMoveSpeedPenaltyValue() {
-        let base = 70
+        let base = this.base_move_speed_penalty_when_action
 
         this.reduces_move_speed_mutators.forEach(elem => {
             base = elem.mutate(base, this)

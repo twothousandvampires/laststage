@@ -207,7 +207,7 @@ export default class Flyer extends Character {
     }
 
     getMoveSpeedPenaltyValue() {
-        let base = 70
+        let base = this.base_move_speed_penalty_when_action
 
         this.reduces_move_speed_mutators.forEach(elem => {
             base = elem.mutate(base, this)

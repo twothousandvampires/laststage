@@ -263,7 +263,7 @@ export default abstract class Item {
             player.armour_rate += Func.random(1, 4)
         }
         else{
-            player.gold += Func.random(10, 30)
+            player.base_regeneration_time -= 200
         }
 
         this.equip(this.player)

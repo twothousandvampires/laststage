@@ -25,38 +25,10 @@ export default class CursedWeapon extends SwordmanAbility {
 
         this.owner.level.setStatus(this.owner, status)
 
-        if(this.c === 0){
-            let e = new FrostExplosionSmall(this.owner.level)
-            e.setPoint(this.owner.x, this.owner.y)
-            e.z = 10
-            e.y --
-
-            this.owner.level.addEffect(e)
-        }
-        else if(this.c === 1){
-            let e = new FireExplosionSmall(this.owner.level)
-            e.setPoint(this.owner.x, this.owner.y)
-            e.z = 10
-            e.y --
-
-            this.owner.level.addEffect(e)
-        }
-        else{
-            let e = new ToothExplode(this.owner.level)
-            e.setPoint(this.owner.x, this.owner.y)
-            e.z = 10
-            e.y --
-
-            this.owner.level.addEffect(e)
-        }
-
-        this.c ++
-
-
-        // this.owner.level.sounds.push({
-        //     name: 'dark cast',
-        //     x: this.owner.x,
-        //     y: this.owner.y,
-        // })
+        this.owner.level.sounds.push({
+            name: 'dark cast',
+            x: this.owner.x,
+            y: this.owner.y,
+        })
     }
 }

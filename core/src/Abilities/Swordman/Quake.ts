@@ -30,6 +30,7 @@ export default class Quake extends SwordmanAbility implements IUnitState<Charact
 
     enter(player: Character) {
         player.prepareToAction()
+        player.setCounterWindow()
         player.state = 'jump'
   
         player.addMoveSpeedPenalty(-50)

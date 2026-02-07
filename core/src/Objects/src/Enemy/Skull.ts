@@ -8,7 +8,7 @@ export default class Skull extends Undead {
         this.name = 'skull'
         this.box_r = 0.8
         this.move_speed = 0.2
-        this.attack_radius = 1
+        this.attack_radius = 1.2
         this.attack_speed = 1100
         this.cooldown_attack = 1200
         this.is_spawning = false
@@ -18,6 +18,7 @@ export default class Skull extends Undead {
         this.gold_revard = 0
         this.create_chance = 0
         this.has_boby = false
+        this.count_as_killed = false
     }
 
     hitImpact() {

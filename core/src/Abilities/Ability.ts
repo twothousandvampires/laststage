@@ -33,9 +33,9 @@ export default abstract class Ability {
 
     use(player: Character) {
         if (this.type === Ability.TYPE_CAST) {
-            player.setState(new PlayerCastState())
+            player.setState(player.getCastState())
         } else if (this.type === Ability.TYPE_ATTACK) {
-            player.setState(new PlayerAttackState())
+            player.setState(player.getAttackState())
         } else if (this.type === Ability.TYPE_INSTANT) {
             this.impact()
             this.afterUse()

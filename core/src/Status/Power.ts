@@ -12,7 +12,7 @@ export default class Power extends Status {
 
         if (this.unit instanceof Character) {
             this.unit.power += this.power
-
+            this.unit.critical += this.power
             this.unit.newStatus({
                 name: 'power',
                 duration: this.duration,
@@ -23,6 +23,7 @@ export default class Power extends Status {
 
     clear() {
         this.unit.power -= this.power
+        this.unit.critical -= this.power
     }
 
     update(status: any) {

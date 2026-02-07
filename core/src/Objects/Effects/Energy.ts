@@ -1,0 +1,10 @@
+import Level from '../../Level'
+import Effect from './Effects'
+
+export default class Energy extends Effect {
+    constructor(level: Level) {
+        super(level)
+        this.name = 'energy'
+        this.z = 12
+    }
+}

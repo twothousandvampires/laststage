@@ -15,7 +15,7 @@ export default class Slime extends Enemy {
         this.name = 'slime'
         this.box_r = 3
         this.move_speed = 0.2
-        this.attack_radius = 6.5
+        this.attack_radius = 6.3
         this.attack_speed = 1800
         this.spawn_time = 1400
         this.say_z = 8
@@ -41,14 +41,14 @@ export default class Slime extends Enemy {
                 Func.elipseCollision(e, this.target.getBoxElipse()) &&
                 Func.checkAngle(this, this.target, this.attack_angle, this.weapon_angle)
             ) {
-                this.target.takeDamage(this, {})
-
                 if (Func.chance(50)) {
                     let status = new Corrosion(this.level.time)
                     status.setDuration(6000)
                     this.level.setStatus(this.target, status)
                     this.level.addSound('goo', this.x, this.y)
                 }
+
+                this.target.takeDamage(this, {})
             }
         }
     }

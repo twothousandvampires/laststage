@@ -87,10 +87,11 @@ export default class HeavenVengeance extends SwordmanAbility {
         let vengeance_count = this.owner.getTargetsCount()
 
         if (target_to_hit && vengeance_count != 0) {
-            let vengeance_radius = 18
+            let vengeance_radius = 12
 
             if (this.eye) {
                 vengeance_radius += second * 2
+                vengeance_count += second
             }
 
             let hit = this.owner.getBoxElipse()

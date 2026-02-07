@@ -32,12 +32,12 @@ export default class GhostForm extends CultistAbility implements IUnitState<Char
         this.used = true
 
         player.action_time = 500
-        player.can_be_damaged = false
         player.setImpactTime(100)
         player.phasing = true
         player.can_attack = false
         player.can_cast = false
         player.state = 'start ghost'
+        player.can_be_damaged = false
     }
 
     update(player: Character, time: number) {
@@ -83,9 +83,9 @@ export default class GhostForm extends CultistAbility implements IUnitState<Char
     exit(player: Character) {
         this.started = false
 
-        player.can_be_damaged = true
         player.phasing = false
         player.can_attack = true
         player.can_cast = true
+        player.can_be_damaged = true
     }
 }

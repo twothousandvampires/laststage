@@ -1,3 +1,4 @@
+import UpgradeManager from '../../Classes/UpgradeManager'
 import Func from '../../Func'
 import Level from '../../Level'
 import Effect from './Effects'
@@ -21,7 +22,8 @@ export default class SorcerersSkull extends Effect {
         this.level.players.forEach(elem => {
             let col = Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())
             if (col) {
-                elem.addWard(5)
+                elem.addGold(Func.random(40, 60))
+                UpgradeManager.getGrandForging(Func.random(20, 100), elem, true)
 
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)

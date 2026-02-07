@@ -8,6 +8,7 @@ export default class PlayerCastState implements IUnitState<Character> {
         player.prepareToAction()
         player.state = 'cast'
 
+        player.setCounterWindow()
         this.move_penalty = player.getMoveSpeedPenaltyValue()
         player.addMoveSpeedPenalty(-this.move_penalty)
 

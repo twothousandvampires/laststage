@@ -1,18 +1,19 @@
 import Ability from '../../Abilities/Ability'
-import Builder from '../../Classes/Builder'
 import UpgradeManager from '../../Classes/UpgradeManager'
 import Func from '../../Func'
 import Mastery from '../../Glyphs/Mastery'
 import IUnitState from '../../Interfaces/IUnitState'
-import Forging from '../../Items/Forgings/Forging'
 import Item from '../../Items/Item'
 import item from '../../Items/Item'
 import Jewel from '../../Jeewl/Jewel'
 import Level from '../../Level'
+import CouragedAttackSpeedMutator from '../../Mutators/CouragedAttackSpeedMutator'
+import CouragedCastSpeedMutator from '../../Mutators/CouragedCastSpeedMutator'
+import CouragedMoveSpeedMutator from '../../Mutators/CouragedMoveSpeedMutator'
 import Mutator from '../../Mutators/Mutator'
 import PlayerDamagedState from '../../State/PlayerDamagedState'
 import PlayerDeadState from '../../State/PlayerDeadState'
-import PlayerDefendState from '../../State/PlayerDefendState'
+import SwordmanDefendState from '../../State/SwordmanDefendState'
 import PlayerDyingState from '../../State/PlayerDyingState'
 import PlayerIdleState from '../../State/PlayerIdleState'
 import Status from '../../Status/Status'
@@ -20,17 +21,26 @@ import ImpactTrigger from '../../Triggers/ImpactTrigger'
 import LifeAfterKIllTrigger from '../../Triggers/LifeAfterKIllTrigger'
 import Sound from '../../Types/Sound'
 import Upgrade from '../../Types/Upgrade'
+import Blood from '../Effects/Blood'
+import Courage from '../Effects/Courage'
 import Effect from '../Effects/Effects'
+import Energy from '../Effects/Energy'
 import Grace from '../Effects/Grace'
+import HalfEnergy from '../Effects/HalfEnergy'
+import Regen from '../Effects/Regen'
 import SmallTextLanguage1 from '../Effects/SmallTextLanguage1'
 import TextLanguage1 from '../Effects/TextLanguage1'
 import Ward from '../Effects/Ward'
+import WeakCourage from '../Effects/WeakCourage'
 import Enemy from './Enemy/Enemy'
 import Unit from './Unit'
+import PlayerCastState from '../../State/PlayerCastState'
+import PlayerAttackState from '../../State/PlayerAttackState'
 
 export default abstract class Character extends Unit {
     static MAX_ITEMS_TO_PURCHASE: number = 3
 
+    next_life_regen_time: any
     action_end_time: number = 0
     pressed: { [key: string]: any } = {}
     angle_for_forced_movement: number | undefined
@@ -114,6 +124,8 @@ export default abstract class Character extends Unit {
     triggers_on_impact: any[] = []
     triggers_on_crushing: any[] = []
     triggers_on_trigger: any[] = []
+    triggers_on_parry: any[] = []
+    on_counter_triggers: any[] = []
 
     chance_to_instant_kill: number = 0
     chance_to_avoid_damage_state: number = 0
@@ -122,7 +134,7 @@ export default abstract class Character extends Unit {
     chance_to_block: number = 0
     chance_to_create_grace: number = 0
     chance_to_trigger_additional_time: number = 0
-    chance_not_lose_energy_when_block: number = 0
+    chance_not_lose_energy_when_block: number = 10
     additional_courage_chance: number = 0
     avoid_damage_chance: number = 0
     chance_to_additional_carved_spark: number = 0
@@ -146,9 +158,12 @@ export default abstract class Character extends Unit {
     can_block: boolean = true
     can_ressurect: boolean = false
     ascend_level: number = 0
-    courage_expire_timer: number = 8000
+    courage_expire_timer: number = 3000
     last_ascent_mastery_getting: number = 0
     vampiric_rate: number = 0
+
+    refresh_courage_chance: number = 0
+    not_to_lose_courage_when_damage_chance: number = 0
 
     kills: number = 0
     blocks: number = 0
@@ -157,6 +172,20 @@ export default abstract class Character extends Unit {
     gold_earned: number = 0
     life_gained: number = 0
     triggers_count: number = 0
+
+    //parry
+    can_parry: boolean = true
+    parry_start: number = 0
+    parry_window: number = 250
+    parry_time_until: number = 0
+    parry_panalty_time: number = 0
+
+    //counter
+    can_counter: boolean = true
+    counter_start: number = 0
+    counter_window: number = 250
+    counter_time_until: number = 0
+    counter_panalty_time: number = 0
 
     suggested_abilities: string[]=  []
 
@@ -181,6 +210,10 @@ export default abstract class Character extends Unit {
     chance_not_to_lose_energy_when_block_mutators: Mutator[] = []
     reduces_move_speed_mutators: Mutator[] = []
 
+    move_speed_penalty_mutators: Mutator[] = [new CouragedMoveSpeedMutator()]
+    attack_speed_mutators: Mutator[] = [new CouragedAttackSpeedMutator()]
+    cast_speeed_mitator: Mutator[] = [new CouragedCastSpeedMutator()]
+
     base_move_speed_penalty_when_action: number = 70
 
     carved_sparks: number = 0
@@ -188,6 +221,21 @@ export default abstract class Character extends Unit {
     left_forger: boolean = false
 
     stats: (keyof Character)[] = ['pierce', 'armour_rate', 'critical', 'crushing_rating', 'impact', 'power']
+
+    energy_effect: any = undefined
+    energy_effect_z = 12
+    defended: boolean = false
+    courage_effect: any = undefined
+    not_to_lose_courage_when_hit_chacnce: number = 0
+    not_to_lose_regen_when_damage_chance: number = 0
+    current_regen_time: number = 0
+    regen_effect: any
+    courage_lose_rate: number = 0
+
+    check_recent_hits_timer: any
+
+    courages: any[] = []
+    damage_state_duration: number = 300
   
     constructor(level: Level) {
         super(level)
@@ -202,14 +250,160 @@ export default abstract class Character extends Unit {
     abstract createAbilities(abilities: any): void
     abstract takeDamage(unut: Unit | undefined, options: object): void
     abstract getSkipDamageStateChance(): number
-    abstract regen(): void
-    abstract getSecondResource(): number
     abstract isBlock(): boolean
     abstract getPenaltyByLifeStatus(): number
     abstract getMoveSpeedPenaltyValue(): number
-    abstract addCourage(): void
-    abstract getRegenTimer(): number
-    abstract reduceSecondResourse(amount: number): void
+    abstract enlight(): void
+    abstract energyRegen(): void
+
+    getTotalMoveSpeedPenalty(){
+        let base = this.move_speed_penalty
+
+        this.move_speed_penalty_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        return base
+    }
+
+    getRegenTimer() {
+        return this.base_regeneration_time * this.life_status
+    }
+
+    getSecondResourceTimer() {
+        return this.courage_expire_timer
+    }
+
+    regen() {
+    
+        let second_resouce_timer = this.getSecondResourceTimer()
+
+        if (this.level.time >= this.check_recent_hits_timer) {
+            this.check_recent_hits_timer += 1000
+
+            let last = this.courages.pop()
+            if(last){
+                if(last >= this.level.time - second_resouce_timer){
+                    this.courages.push(last)
+                }
+                else if(Func.chance(this.refresh_courage_chance)){
+                    this.courages.push(this.level.time)
+                }
+                else{
+                    if(this.courage_lose_rate){
+                        this.courages.splice(-this.courage_lose_rate);
+                    }
+
+                    this.courage_lose_rate ++
+                }         
+            }
+
+            this.sayPhrase()
+            this.playerGainCourage()
+        }
+
+        if (this.level.time >= this.next_life_regen_time) {
+            this.addLife()
+            this.setRegenTimer()  
+        }
+        else if (this.level.time >= this.next_life_regen_time - 3000 && !this.regen_effect) {
+            this.regen_effect = new Regen(this.level)
+            this.regen_effect.setOwner(this)
+            this.regen_effect.setPoint(this.x, this.y)
+
+            this.level.binded_effects.push(this.regen_effect)
+        }
+    }
+
+    getMoveSpeed(): number {
+        let total_inc = this.getTotalMoveSpeedPenalty()
+     
+        if (!total_inc) return this.move_speed
+
+        if (total_inc > 200) total_inc = 200
+        if (total_inc < -95) total_inc = -95
+
+        return this.move_speed * (1 + total_inc / 100)
+    }
+
+    isParry(){
+        return this.can_parry && (this.level.time - 50) <= this.parry_time_until
+    }
+
+    isCounter(){
+        return this.can_counter && (this.level.time - 100) <= this.counter_time_until
+    }
+
+    isCouraged(){
+        let courage = this.getSecondResource()
+
+        return courage > this.enlightenment_threshold
+    }
+
+    addCourage(count = 1) {
+        if (!this.can_get_courage) return
+
+        this.courage_lose_rate = 0
+
+        let is_couraged = this.isCouraged()
+
+        for (let i = 0; i < count; i++) {
+            this.courages.push(this.level.time)
+        }
+
+        if(Func.chance(this.getChanceForAdditionalCourage())){
+            this.courages.push(this.level.time)
+        }
+
+        if (this.can_be_enlighten && this.courages.length >= this.enlightenment_threshold && !is_couraged) {
+            this.can_be_enlighten = false
+
+            console.log('en')
+            this.enlight()
+
+            setTimeout(() => {
+                this.can_be_enlighten = true
+            }, this.getEnlightenTimer())
+        }
+
+        this.playerGainCourage()
+    }
+
+    playerGainCourage(){
+        let courage = this.getSecondResource()
+
+        if(courage >= this.enlightenment_threshold){
+            if(this.courage_effect instanceof Courage) return
+
+            if(this.courage_effect){
+                this.courage_effect.delete()
+            }
+            
+            this.courage_effect = new Courage(this.level)
+            this.courage_effect.setOwner(this)
+
+            this.level.binded_effects.push(this.courage_effect)
+        }
+        else if(courage >= Math.floor(this.enlightenment_threshold / 2)){
+            if(this.courage_effect instanceof WeakCourage) return
+
+            if(this.courage_effect){
+                this.courage_effect.delete()
+            }
+
+            this.courage_effect = new WeakCourage(this.level)
+            this.courage_effect.setOwner(this)
+
+            this.level.binded_effects.push(this.courage_effect)
+        }
+        else{
+            if(this.courage_effect){
+                this.courage_effect.delete()
+            }
+
+            this.courage_effect = undefined
+        }
+    }
 
     getTotalArmour(){
         let base = this.armour_rate
@@ -361,10 +555,54 @@ export default abstract class Character extends Unit {
             this.resource ++
             this.playerGetResourse()
         }
+
+        this.checkEnergyEffect()
+    }
+
+    checkEnergyEffect(){
+        if(this.resource >= this.third_ability?.cost){
+            if(this.energy_effect instanceof Energy) return
+
+            if(this.energy_effect){
+                this.energy_effect.delete()
+            }
+            
+            this.energy_effect = new Energy(this.level)
+            this.energy_effect.setOwner(this)
+            this.energy_effect.z  = this.energy_effect_z
+
+            this.level.binded_effects.push(this.energy_effect)
+        }
+        else if(this.resource >= this.second_ability?.cost){
+            if(this.energy_effect instanceof HalfEnergy) return
+
+            if(this.energy_effect){
+                this.energy_effect.delete()
+            }
+
+            this.energy_effect = new HalfEnergy(this.level)
+            this.energy_effect.setOwner(this)
+            this.energy_effect.z  = this.energy_effect_z
+
+            this.level.binded_effects.push(this.energy_effect)
+        }
+        else{
+            if(this.energy_effect){
+                this.energy_effect.delete()
+            }
+
+            this.energy_effect = undefined
+        }
     }
 
     getCastSpeed() {
-        return this.cast_speed
+        let base = this.cast_speed
+
+        this.cast_speeed_mitator.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        return base
     }
 
     getPierce() {
@@ -510,6 +748,74 @@ export default abstract class Character extends Unit {
         })
     }
 
+    setParryWindow(){
+        this.parry_start = this.level.time
+         
+        if(this.can_parry && this.parry_start <= this.parry_time_until){    
+            this.can_parry = false
+            this.parry_panalty_time = this.parry_start + 3000
+        }
+        else if(this.parry_start >= this.parry_panalty_time){
+            this.parry_time_until = this.parry_start + this.parry_window
+            this.can_parry = true
+        }
+    }
+
+    setCounterWindow(){
+        this.counter_start = this.level.time
+         
+        if(this.can_counter && this.counter_start <= this.counter_time_until){    
+            this.can_counter = false
+            this.counter_panalty_time = this.counter_start + 3000
+        }
+        else if(this.counter_start >= this.counter_panalty_time){
+            this.counter_time_until = this.counter_start + this.counter_window
+            this.can_counter = true
+        }
+    }
+
+    wasCounter(unit: any){
+        this.counter_time_until = 0
+
+        let time = this.level.time
+
+        this.on_counter_triggers.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this, unit)
+
+                    // if (Func.chance(this.isSecondTrigger())) {
+                    //     elem.trigger(this, unit)
+                    // }
+
+                    elem.last_trigger_time = time
+                    // this.wasTrigger()
+                }
+            }
+        })
+    }
+
+    wasParry(unit: Unit | undefined){
+        let time = this.level.time
+
+        this.parry_time_until = 0
+
+        this.triggers_on_parry.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this, unit)
+
+                    if (Func.chance(this.isSecondTrigger())) {
+                        elem.trigger(this, unit)
+                    }
+
+                    elem.last_trigger_time = time
+                    this.wasTrigger()
+                }
+            }
+        })
+    }
+
     public succesefulBlock(unit: Unit | undefined): void {
         let time = this.level.time
 
@@ -545,6 +851,14 @@ export default abstract class Character extends Unit {
         return result
     }
 
+    loseEnergy(v = 11111){
+        this.resource -= v
+        if(this.resource < 0){
+            this.resource = 0
+        }
+        this.checkEnergyEffect()
+    }
+
     payCost() {
         if(Func.chance(this.not_to_pay_finisher_chance)){
             this.pay_to_cost = 0
@@ -555,6 +869,8 @@ export default abstract class Character extends Unit {
         if (this.resource < 0) {
             this.resource = 0
         }
+
+        this.checkEnergyEffect()
     }
 
     protected getEnlightenTimer(): number {
@@ -635,8 +951,8 @@ export default abstract class Character extends Unit {
         })
     }
 
-    public sayPhrase(): void {
-        if (!Func.chance(this.chance_to_say_phrase)) return
+    public sayPhrase(force: boolean = false): void {
+        if (!Func.chance(this.chance_to_say_phrase) && !force) return
 
         let phrase = undefined
 
@@ -667,8 +983,18 @@ export default abstract class Character extends Unit {
         return 70
     }
 
+    getAttackState(){
+        return new PlayerAttackState()
+    }
+
     getAttackSpeed() {
-        return this.attack_speed
+        let base = this.attack_speed
+
+        this.attack_speed_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        return base
     }
 
     getStats() {
@@ -988,14 +1314,14 @@ export default abstract class Character extends Unit {
                 continue
             } else if (previous === this.max_life) {
                 if (ignore_limit || this.canRegenMoreLife()) {
-                    this.life_status++
-                    restored++
+                    this.life_status ++
+                    restored ++
                 }
             } else {
                 let penalty = this.getPenaltyByLifeStatus()
                 this.addMoveSpeedPenalty(penalty)
-                this.life_status++
-                restored++
+                this.life_status ++
+                restored ++
             }
         }
 
@@ -1052,11 +1378,18 @@ export default abstract class Character extends Unit {
 
         if (unit) {
             let a = this.getTotalArmour()
+          
             let p = unit.pierce
-            console.log('pa:' + a + ', up:' + p)
+          
             if(Func.chance(p - a)){
+                this.level.addSound('get hit', this.x, this.y)
+                let e = new Blood(this.level)
+                e.setPoint(Func.random(this.x - 3, this.x + 3), Func.random(this.y - 1, this.y + 1))
+                e.z = Func.random(2, 8)
+                this.level.effects.push(e)
                 value ++
-            }       
+            }   
+                           
         }
 
         if (Func.chance(this.fortify)) {
@@ -1065,6 +1398,13 @@ export default abstract class Character extends Unit {
 
         if (unit && Func.chance(unit.critical)) {
             value *= 2
+
+            this.level.addSound('get hit', this.x, this.y)
+
+            let e = new Blood(this.level)
+            e.setPoint(Func.random(this.x - 3, this.x + 3), Func.random(this.y - 3, this.y + 3))
+            e.z = Func.random(2, 8)
+            this.level.effects.push(e)
         }
 
         if (this.fragility) {
@@ -1074,7 +1414,7 @@ export default abstract class Character extends Unit {
         if (unit && Func.chance(unit.power)) {
             value ++
         }
-        console.log(value + ' ' + unit?.name)
+      
         if (value > 0) {
             this.last_time_get_hit = this.level.time
 
@@ -1092,7 +1432,7 @@ export default abstract class Character extends Unit {
 
                 if (this.life_status <= 0) {
                     this.playerTakeLethalDamage()
-
+            
                     if (this.can_be_lethaled) {
                         if (options?.explode) {
                             this.exploded = true
@@ -1110,6 +1450,11 @@ export default abstract class Character extends Unit {
 
             if (this.life_status > 0) {
                 this.playerLoseLife()
+                if(options?.hit_effects){
+                    options.hit_effects.forEach(elem => {
+                        this.level.setStatus(this, elem)
+                    })
+                }         
             }
 
             if (!this.can_be_lethaled) {
@@ -1123,9 +1468,35 @@ export default abstract class Character extends Unit {
         }
     }
 
+    getSecondResource() {
+        return this.courages.length
+    }
+
+    reduceSecondResourse(amount: number = 1){
+        this.courages.splice(-amount)
+
+        this.playerGainCourage()
+    }
+    
+    setRegenTimer(){
+        if(this.regen_effect){
+            this.regen_effect.delete()
+            this.regen_effect = undefined
+        }
+        if(this.life_status < this.max_life || (this.life_status === this.max_life && this.canRegenMoreLife())){
+            let timer = this.getRegenTimer()
+            this.current_regen_time = timer
+            this.next_life_regen_time = this.level.time + timer
+        }      
+    }
+
     playerLoseLife() {
         let time = this.level.time
 
+        if(this.life_status != 1 && Func.notChance(this.not_to_lose_regen_when_damage_chance)){
+            this.setRegenTimer()
+        }
+    
         this.triggers_on_lose_life.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
@@ -1540,12 +1911,20 @@ export default abstract class Character extends Unit {
         return 80
     }
 
+    getCastState(){
+        return new PlayerCastState()
+    }
+
     getDefendState() {
-        return new PlayerDefendState()
+        return new SwordmanDefendState()
+    }
+
+    energyRegen(){
+        
     }
 
     public act(time: number): void {
-        if (this.can_block && this.can_be_controlled_by_player && this.pressed[32]) {
+        if (!this.defended && this.can_block && this.can_be_controlled_by_player && this.pressed[32]) {
             this.setState(this.getDefendState())
         }
 
@@ -1556,6 +1935,7 @@ export default abstract class Character extends Unit {
         if (!this.is_dead) {
             this.moveAct(time)
             this.regen()
+            this.energyRegen()
         }
 
         if (this.action_impact && time >= this.action_impact) {

@@ -7,7 +7,7 @@ export default class FromDefendToAttackTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 30
     name: string = 'from defense to attack'
-    description: string = 'You have a chance to increase your power'
+    description: string = 'You have a chance to increase your power and critical chance'
 
     getTriggerChance(player: Character): number {
         return this.chance

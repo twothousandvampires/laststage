@@ -12,13 +12,18 @@ import Upgrades from '../../../Classes/Upgrades'
 import Func from '../../../Func'
 import Level from '../../../Level'
 import FlyerArmourMutator from '../../../Mutators/FlyerArmourMutator'
+import FlyerCastState from '../../../State/FlyerCastState'
 import FlyerDefendState from '../../../State/FlyerDefendState'
 import PlayerDyingState from '../../../State/PlayerDyingState'
 import Accumulation from '../../../Triggers/Accumulation'
+import FlyerCounterTrigger from '../../../Triggers/FlyerCounterTrigger'
+import FlyerParryTrigger from '../../../Triggers/FlyerParryTrigger'
 import FragilityWhenHitTrigger from '../../../Triggers/FragilityWhenHitTrigger'
 import Upgrade from '../../../Types/Upgrade'
 import Armour from '../../Effects/Armour'
-import Blood from '../../Effects/Blood'
+import Counter from '../../Effects/Counter'
+import FlyerParry from '../../Effects/FlyerParry'
+import Parry from '../../Effects/Parry'
 import Spirit from '../../Effects/Spirit'
 import ToothExplode from '../../Effects/ToothExplode'
 import Character from '../Character'
@@ -27,13 +32,10 @@ import Unit from '../Unit'
 export default class Flyer extends Character {
     static MIN_CAST_SPEED: number = 150
 
-    next_life_regen_time: any
     next_mana_regen_time: any
     takeoff: boolean
     allow_mana_regen_while_def: boolean
     charged_shield: boolean
-    recent_cast: any[]
-    check_recent_hits_timer: any
     mental_shield: boolean
 
     constructor(level: Level) {
@@ -45,19 +47,26 @@ export default class Flyer extends Character {
         this.chance_to_avoid_damage_state = 0
         this.armour_rate = 0
         this.resource = 0
-        this.base_regeneration_time = 10000
+        this.base_regeneration_time = 8000
         this.takeoff = false
         this.allow_mana_regen_while_def = false
         this.charged_shield = false
         this.mental_shield = false
-        this.recent_cast = []
         this.chance_to_block = 100
-        this.enlightenment_threshold = 9
+        this.enlightenment_threshold = 12
         this.armour_mutators = [new FlyerArmourMutator()]
+        this.energy_effect_z = 15
+        this.parry_window = 450
+        this.triggers_on_parry = [new FlyerParryTrigger()]
+        this.on_counter_triggers = [new FlyerCounterTrigger()]
     }
 
     getAdditionalRadius() {
-        return Math.floor(this.power / 4)
+        return this.getSecondResource()
+    }
+
+    getCastState(){
+        return new FlyerCastState()
     }
 
     getDefendState() {
@@ -228,6 +237,10 @@ export default class Flyer extends Character {
     }
 
     isBlock(): boolean {
+        if(this.isParry()){
+            return true
+        }
+
         return (
             this.state === 'defend' &&
             this.resource > 0 &&
@@ -258,11 +271,47 @@ export default class Flyer extends Character {
     public succesefulBlock(unit: Unit | undefined): void {
         super.succesefulBlock(unit)
 
-        let will_chance = 0
-    
-        if (Func.notChance(will_chance, this.is_lucky)) {
-            this.resource --
+        let is_parry = this.isParry()
+
+        if(is_parry){
+            this.wasParry(unit)
+
+            let e = new Parry(this.level)
+            e.setPoint(this.x, this.y - 13)
+
+            this.level.addEffect(e)
+            
+            this.level.sounds.push({
+                name: 'parry',
+                x: this.x,
+                y: this.y,
+            })
         }
+        
+        if(is_parry && Func.chance(20)){
+            return
+        }
+
+        this.loseEnergy(1)
+    }
+
+    setCounterWindow(): void {
+
+        this.counter_start = this.level.time
+         
+        if(this.can_counter && this.counter_start <= this.counter_time_until){    
+            this.can_counter = false
+            this.counter_panalty_time = this.counter_start + 3000
+        }
+        else if(this.counter_start >= this.counter_panalty_time){
+            this.counter_time_until = this.counter_start + this.counter_window
+            this.can_counter = true
+
+            // let e = new FlyerParry(this.level)
+            // e.setPoint(this.x, this.y)
+
+            // this.level.addEffect(e)
+        }   
     }
 
     takeDamage(unit: any = undefined, options: any) {
@@ -280,10 +329,6 @@ export default class Flyer extends Character {
         if (this.damaged || this.is_dead) return
 
         if (this.ward) {
-            // let count = 1
-            // if (unit && Func.chance(unit.critical)) {
-            //     count++
-            // }
             this.loseWard(1)
             let e = new ToothExplode(this.level)
             e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
@@ -296,6 +341,15 @@ export default class Flyer extends Character {
                 y: this.y,
             })
 
+            return
+        }
+
+        if(this.isCounter()){
+            let e = new Counter(this.level)
+            e.setPoint(this.x, this.y - 13)
+            this.level.addEffect(e)
+
+            this.wasCounter(unit)
             return
         }
 
@@ -333,19 +387,12 @@ export default class Flyer extends Character {
             return
         }
 
-        if (Func.chance(30)) {
-            this.level.addSound('get hit', this.x, this.y)
-        }
-
-        let e = new Blood(this.level)
-        e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
-        e.z = Func.random(2, 8)
-        this.level.effects.push(e)
-
-        this.recent_cast = this.recent_cast.filter((elem, index) => index >= 4)
-
         if (Func.chance(this.getAvoidChance(), this.is_lucky)) {
             return
+        }
+
+        if(Func.notChance(this.not_to_lose_courage_when_hit_chacnce)){
+            this.reduceSecondResourse(10)
         }
 
         this.subLife(unit, options)
@@ -355,7 +402,7 @@ export default class Flyer extends Character {
         if (this.life_status === 2) {
             return 10
         } else if (this.life_status === 1) {
-            return 30
+            return 20
         } else {
             return 0
         }
@@ -365,9 +412,6 @@ export default class Flyer extends Character {
         return this.chance_to_avoid_damage_state
     }
 
-    getRegenTimer() {
-        return this.base_regeneration_time
-    }
 
     getManaRegenTimer() {
         return this.base_mana_regen_rate - this.getSecondResource() * 25
@@ -381,90 +425,36 @@ export default class Flyer extends Character {
         this.check_recent_hits_timer = time + 1000
     }
 
-    isSecondTrigger() {
-        return this.chance_to_trigger_additional_time
-    }
-
-    regen() {
-        if (this.level.time >= this.check_recent_hits_timer) {
-            this.check_recent_hits_timer += 1000
-
-            for (let i = this.recent_cast.length; i >= 0; i--) {
-                let hit_time = this.recent_cast[i]
-                // todo timer
-                if (this.level.time - hit_time >= this.courage_expire_timer) {
-                    this.recent_cast.splice(i, 1)
-                }
-            }
-
-            this.sayPhrase()
-        }
-
-        if (this.level.time >= this.next_life_regen_time) {
-            this.next_life_regen_time += this.getRegenTimer()
-
-            this.addLife()
-        }
-        if (this.level.time >= this.next_mana_regen_time) {
-            this.next_mana_regen_time += this.getManaRegenTimer()
-
-            if (this.can_regen_resource && !this.is_dead) {
-                this.addResourse()
-            }
-        }
-    }
-
+  
     addResourse(count: number = 1, ignore_limit = false) {
         if (!this.can_regen_resource) return
 
-        this.playerGetResourse()
-
         if (this.resource < this.maximum_resources || ignore_limit) {
             this.resource += count
+            this.playerGetResourse()
         }
     }
 
-    setDamagedAct() {
-        this.damaged = true
-        this.state = 'damaged'
-        this.can_be_controlled_by_player = false
-        this.stateAct = this.damagedAct
-
-        this.cancelAct = () => {
-            this.can_be_controlled_by_player = true
-            this.damaged = false
+    energyRegen(){
+        if(this.level.time >= this.next_mana_regen_time){
+            this.next_mana_regen_time = this.level.time + this.getManaRegenTimer()
+            this.addResourse(1)
         }
-
-        this.setTimerToGetState(300)
     }
 
     succefullCast() {
-        this.addCourage()
+        for(let i = 0; i < this.level.enemies.length; i++){
+            if(Func.distance(this, this.level.enemies[i]) <= 20){
+                this.addCourage()
+
+                return
+            }
+        }
     }
     
-    addCourage() {
-        if (!this.can_get_courage) return
-
-        this.recent_cast.push(this.level.time)
-
-        if(Func.chance(this.getChanceForAdditionalCourage())){
-            this.recent_cast.push(this.level.time)
-        }
-
-        if (this.can_be_enlighten && this.recent_cast.length >= this.enlightenment_threshold) {
-            this.can_be_enlighten = false
-
-            this.enlight()
-
-            setTimeout(() => {
-                this.can_be_enlighten = true
-            }, this.getEnlightenTimer())
-        }
-    }
-
     enlight() {
         let count = 10
-
+        console.log('en2')
         let zones = 6.28 / count
 
         for (let i = 1; i <= count; i++) {
@@ -485,20 +475,17 @@ export default class Flyer extends Character {
         this.level.addSound('enlight', this.x, this.y)
     }
 
-    getSecondResource() {
-        return this.recent_cast.length
-    }
-    reduceSecondResourse(amount: number = 1){
-        this.recent_cast.splice(-amount)
-    }
-
     getCastSpeed() {
-        let value = this.cast_speed - this.getSecondResource() * 12
+        let base = this.cast_speed
 
-        if (value < Flyer.MIN_CAST_SPEED) {
-            value = Flyer.MIN_CAST_SPEED
+        this.attack_speed_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        if (base < Flyer.MIN_CAST_SPEED) {
+            base = Flyer.MIN_CAST_SPEED
         }
 
-        return value
+        return base
     }
 }

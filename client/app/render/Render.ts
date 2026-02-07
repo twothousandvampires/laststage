@@ -154,6 +154,17 @@ import SingleEarthSpike from "./src/sprites/Effect/SingleEarthSpike"
 import BloodyVines from "./src/sprites/Effect/BloodyVines"
 import BloodySphere from "./src/sprites/Effect/BloodySphere"
 import StreaksOfIce from "./src/sprites/Effect/StreaksOfIce"
+import HalfEnergy from "./src/sprites/Effect/HalfEnergy"
+import Energy from "./src/sprites/Effect/Energy"
+import WeakCourage from "./src/sprites/Effect/WeakCourage"
+import Courage from "./src/sprites/Effect/Courage"
+import Parry from "./src/sprites/Effect/Parry"
+import Regen from "./src/sprites/Effect/Regen"
+import BonesSpear from "./src/sprites/Enemy/BonesSpear"
+import FlyerParry from "./src/sprites/Effect/FlyerParry"
+import Counter from "./src/sprites/Effect/Counter"
+import SoulHarvest from "./src/sprites/Effect/SoulHarvest"
+import SoulDevouring from "./src/sprites/Effect/SoulDevouring"
 
 export default class Render{
     
@@ -257,6 +268,9 @@ export default class Render{
         else if(elem.name === 'flamy_fireball'){
             return new FlamyFireball(elem.id)
         }
+        else if(elem.name === 'parry'){
+            return new Parry(elem.id)
+        }
         else if(elem.name === 'grace'){
             return new Grace(elem.id)
         }
@@ -304,6 +318,12 @@ export default class Render{
         }
         else if(elem.name === 'fireball'){
             return new Fireball(elem.id)
+        }
+        else if(elem.name === 'regen'){
+            return new Regen(elem.id)
+        }
+        else if(elem.name === 'bones spear'){
+            return new BonesSpear(elem.id)
         }
         else if(elem.name === 'lightning'){
             return new Lightning(elem.id)
@@ -527,8 +547,14 @@ export default class Render{
         else if(elem.name === 'heaven ray'){
             return new HeavenRay(elem.id)
         }
+        else if(elem.name === 'soul devouring'){
+            return new SoulDevouring(elem.id)
+        }
         else if(elem.name === 'sorcerers skull'){
             return new SorcerersSkull(elem.id)
+        }
+        else if(elem.name === 'soul harvest'){
+            return new SoulHarvest(elem.id)
         }
         else if(elem.name === 'bless'){
             return new Bless(elem.id)
@@ -682,6 +708,24 @@ export default class Render{
         }
         else if(elem.name === 'streaks of ice'){
             return new StreaksOfIce(elem.id)
+        }
+        else if(elem.name === 'half energy'){
+            return new HalfEnergy(elem.id)
+        }
+        else if(elem.name === 'energy'){
+            return new Energy(elem.id)
+        }
+        else if(elem.name === 'weak courage'){
+            return new WeakCourage(elem.id)
+        }
+        else if(elem.name === 'courage'){
+            return new Courage(elem.id)
+        }
+        else if(elem.name === 'flyer parry'){
+            return new FlyerParry(elem.id)
+        }
+        else if(elem.name === 'counter'){
+            return new Counter(elem.id)
         }
     }
 

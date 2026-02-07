@@ -101,9 +101,9 @@ export default class FlyerSprite extends UnitSprite{
         else if(this.state === 'defend'){
             this.sprite_name = 'flyer2'
             this.y_frame_offset = 240
-            this.max_frame = 8
+            this.max_frame = 9
             this.max_frame_tick = 6
-            this.min_frame = 3
+            this.min_frame = 1
         }
         else if(this.state === 'dying'){
             this.sprite_name = 'flyer1'

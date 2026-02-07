@@ -81,10 +81,12 @@ export default class UpgradeManager {
         UpgradeManager.closeSuggest(player)
     }
 
-    static getGrandForging(amount: number, player: Character){
-        if(amount > player.carved_sparks) return
+    static getGrandForging(amount: number, player: Character, free = false){
+        if(!free){
+            if(amount > player.carved_sparks) return
 
-        player.carved_sparks -= amount
+            player.carved_sparks -= amount
+        }
 
         if(Func.chance(Math.round(amount * 1.5))){
             player.grand_forgings.push(Jewel.createRandom(amount))

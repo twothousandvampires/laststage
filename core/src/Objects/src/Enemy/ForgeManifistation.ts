@@ -1,3 +1,4 @@
+import UpgradeManager from '../../../Classes/UpgradeManager'
 import Func from '../../../Func'
 import Forging from '../../../Items/Forgings/Forging'
 import Level from '../../../Level'
@@ -63,7 +64,18 @@ export class ForgeManifistation extends Manifistation {
                 forging.forge(this.activated_by)
             }
         }
+        
+        let j = false
 
-        this.level.addMessedge('was forged: ' + item.name, this.activated_by.id)
+        if(Func.chance(this.stage * 20)){
+            UpgradeManager.getGrandForging(this.stage * 20, this.activated_by, true)
+            j = true
+        }
+
+        let msg = 'was forged: ' + item.name
+        if(j){
+            msg += ' and got jewel'
+        }
+        this.level.addMessedge(msg, this.activated_by.id)
     }
 }

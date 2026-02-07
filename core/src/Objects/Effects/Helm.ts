@@ -21,7 +21,7 @@ export default class Helm extends Effect {
         this.level.players.forEach(elem => {
             let col = Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())
             if (col) {
-                elem.power ++
+                elem.addWard(5)
                 elem.addAscent()
                 
                 this.level.deleted.push(this.id)

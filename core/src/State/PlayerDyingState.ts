@@ -19,6 +19,7 @@ export default class PlayerDyingState implements IUnitState<Character> {
 
             player.level.playerDead()
         } else if (player.exploded) {
+            console.log('exp')
             player.state = 'explode'
             
             player.level.playerDead()
@@ -31,7 +32,7 @@ export default class PlayerDyingState implements IUnitState<Character> {
     }
 
     update(player: Character) {
-        if (player.level.time - this.start >= this.duration) {
+        if (player.level.time - this.start >= this.duration && player.state != 'freezed_dying' && player.state != 'explode') {
             player.setState(new PlayerDeadState())
         }
     }

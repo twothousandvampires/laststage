@@ -17,7 +17,7 @@ export default class Specter extends Undead {
         this.box_r = 2.5
         this.move_speed = 0.05
         this.cooldown_attack = 2000
-        this.attack_radius = 7
+        this.attack_radius = 7.2
         this.attack_speed = 2000
         this.life_status = 4
         this.spawn_time = 1600

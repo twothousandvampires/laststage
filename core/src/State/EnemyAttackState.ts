@@ -11,7 +11,7 @@ export default class EnemyAttackState implements IUnitState<Enemy> {
         enemy.hit_x = enemy.target.x
         enemy.hit_y = enemy.target.y
 
-        enemy.setImpactTime(80)
+        enemy.setImpactTime(enemy.impact_time)
 
         enemy.attack_angle = Func.angle(enemy.x, enemy.y, enemy.target.x, enemy.target.y)
     }

@@ -14,6 +14,7 @@ import Ancient from '../Objects/src/Enemy/Ancient'
 import { AscentManifistation } from '../Objects/src/Enemy/AscentManifistation'
 import BindedRocks from '../Objects/src/Enemy/BindedRocks'
 import Bones from '../Objects/src/Enemy/Bones'
+import BonesSpear from '../Objects/src/Enemy/BonesSpear'
 import ConstactedOne from '../Objects/src/Enemy/ConstactedOne'
 import Enemy from '../Objects/src/Enemy/Enemy'
 import { Flamy } from '../Objects/src/Enemy/Flamy'
@@ -175,7 +176,7 @@ export default class Default extends Scenario {
           
         let add_count = Math.floor(this.waves_created / 23)
        
-        let count = Func.random(1 + Math.round(add_count / 4), 2 + Math.round(add_count / 2.5))
+        let count = Func.random(1 + Math.round(add_count / 5), 2 + Math.round(add_count / 3))
 
         count += (level.players.length - 1) * 2
 
@@ -261,8 +262,9 @@ export default class Default extends Scenario {
             enemy = new Plague(level)
         } else if (enemy_name === 'binded rocks') {
             enemy = new BindedRocks(level)
+        } else if (enemy_name === 'bones spear') {
+            enemy = new BonesSpear(level)
         }
-        
 
         if (!enemy) {
             return

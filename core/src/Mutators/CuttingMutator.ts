@@ -3,6 +3,12 @@ import Mutator from "./Mutator";
 
 export default class CuttingMutator extends Mutator {
     mutate(base: number,  player: Character): number {
-        return base + (player.getSecondResource() * 2)
+        if(player.isCouraged()){
+            return base + (player.getSecondResource() * 4)
+        }
+        else{
+            return base + (player.getSecondResource() * 2)
+        }
+        
     }
 }

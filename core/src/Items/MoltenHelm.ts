@@ -27,7 +27,7 @@ export default class MoltenHelm extends Item implements ITrigger {
     trigger(character: Character) {
         if (this.disabled) return
 
-        let count = Math.floor(character.getTotalArmour() / 35) + 1
+        let count = Math.floor(character.getTotalArmour() / 25) + 1
         
   
         for (let i = 1; i <= count; i++) {

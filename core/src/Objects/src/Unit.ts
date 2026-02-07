@@ -62,6 +62,14 @@ export default abstract class Unit extends GameObject {
 
     current_state: IUnitState<Unit> | undefined
 
+    static getHitOptions(){
+        return {
+            'hit_effects': [],
+            explode: false,
+            burn: false,
+        }
+    }
+
     constructor(level: Level) {
         super(level)
     }
@@ -104,6 +112,10 @@ export default abstract class Unit extends GameObject {
         return check
     }
 
+    drainSoul(){
+        
+    }
+
     getMoveSpeed(): number {
         let total_inc = this.move_speed_penalty
 
@@ -143,9 +155,9 @@ export default abstract class Unit extends GameObject {
         n_x *= speed
         n_y *= speed
 
-        if (n_x < 0 && !this.is_attacking) {
+        if (n_x < 0) {
             this.flipped = true
-        } else if (!this.is_attacking) {
+        } else {
             this.flipped = false
         }
 
@@ -203,6 +215,7 @@ export default abstract class Unit extends GameObject {
         }
 
         this.addToPoint(n_x, n_y)
+        this.wasChanged()
     }
 
     setZap(duration: number = 0) {

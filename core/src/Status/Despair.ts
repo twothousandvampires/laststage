@@ -52,6 +52,6 @@ export default class Despair extends Status implements ITrigger {
     }
 
     trigger() {
-        this.unit.resource = 0
+        this.unit.loseEnergy(10000)
     }
 }

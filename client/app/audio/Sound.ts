@@ -22,7 +22,7 @@ export default class Sound{
     }
 
     updateData(server_data: any, player: any){
-       
+        if(!player) return
         server_data.sounds.sort((a, b) => Sound.distance(b.x, b.y, player.x, player.y) - Sound.distance(a.x, a.y, player.x, player.y))
         let sounds = server_data.sounds.slice(0, 3)
        
@@ -114,8 +114,14 @@ export default class Sound{
             result.src = v[Math.floor(Math.random() * v.length)]
             result.max_volume = 0.2
         }
+        else if(name === 'parry'){
+            let v = ['block arrow1.wav' ,'block arrow2.wav', 'block arrow3.wav']
+         
+            result.src = v[Math.floor(Math.random() * v.length)]
+            result.max_volume = 0.2
+        }
         else if(name === 'metal hit'){
-            let v = ['block arrow1.wav' ,'block arrow2.wav', 'block arrow3.wav', 'block blade1.wav', 'block blade4.wav', 'block blade5.wav', 'metalshield.wav']
+            let v = ['block blunt1.wav', 'block blunt2.wav', 'block blunt4.wav','block blade1.wav', 'block blade4.wav', 'block blade5.wav', 'metalshield.wav']
          
             result.src = v[Math.floor(Math.random() * v.length)]
             result.max_volume = 0.2

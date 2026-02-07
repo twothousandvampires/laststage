@@ -64,7 +64,7 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
             let enemies = player.level.enemies
 
             let attack_elipse = player.getBoxElipse()
-            attack_elipse.r = player.attack_radius + (this.stomp ? 5 : 0) + second
+            attack_elipse.r = player.attack_radius + (this.stomp ? 5 : 0) + Math.round(second / 2)
 
             let filtered_by_attack_radius = enemies.filter(elem =>
                 Func.elipseCollision(attack_elipse, elem.getBoxElipse())

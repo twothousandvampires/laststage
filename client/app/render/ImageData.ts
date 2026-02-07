@@ -169,6 +169,10 @@ export default class ImageData{
         {
             name: 'pack10',
             path:  'effect/pack10.png',
+        },
+        {
+            name: 'pack11',
+            path:  'effect/pack11.png',
         },   
         {
             name: 'ghost_cultist',
@@ -213,6 +217,30 @@ export default class ImageData{
         {
             name: 'bones6',
             path:  'bones/bones6.png',
+        },
+        {
+            name: 'bones_spear1',
+            path:  'bones_spear/bones_spear1.png',
+        },
+        {
+            name: 'bones_spear2',
+            path:  'bones_spear/bones_spear2.png',
+        },
+        {
+            name: 'bones_spear3',
+            path:  'bones_spear/bones_spear3.png',
+        },
+        {
+            name: 'bones_spear4',
+            path:  'bones_spear/bones_spear4.png',
+        },
+        {
+            name: 'bones_spear5',
+            path:  'bones_spear/bones_spear5.png',
+        },
+        {
+            name: 'bones_spear6',
+            path:  'bones_spear/bones_spear6.png',
         },
         {
             name: 'skull1',

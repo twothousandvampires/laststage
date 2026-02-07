@@ -30,6 +30,10 @@ export default class Level {
             weight: 35,
         },
         {
+            name: 'bones spear',
+            weight: 10,
+        },
+        {
             name: 'flamy',
             weight: 14,
         },
@@ -177,7 +181,7 @@ export default class Level {
 
     public toJSON(): any {
         let changed = Array.from(this.changed_actors.values())
-
+        
         return {
             actors: [...this.players, ...changed],
             deleted: this.deleted,
@@ -320,6 +324,13 @@ export default class Level {
 
         let index = this.enemies.indexOf(enemy)
         this.enemies.splice(index, 1)
+
+        for(let i = 0; i < this.status_pull.length; i ++){
+            if(this.status_pull[i].unit === enemy){
+                this.status_pull[i].clear()
+                this.status_pull.splice(i, 1)
+            }         
+        }
 
         if (hard) {
             this.deleted.push(enemy.id)

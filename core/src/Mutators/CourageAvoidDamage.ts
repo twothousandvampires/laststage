@@ -3,8 +3,11 @@ import Mutator from "./Mutator";
 
 export default class CourageAvoidDamage extends Mutator {
     mutate(base: number,  player: Character): number {
-        let avoid = player.getSecondResource()
-
-        return base + avoid
+        if(player.isCouraged()){
+            return base + player.getSecondResource()
+        }
+        else{
+            return base + Math.round(player.getSecondResource() / 2)
+        }
     }
 }

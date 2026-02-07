@@ -17,12 +17,12 @@ export default class EnemyMoveState implements IUnitState<Enemy> {
         }
 
         let a_e = enemy.getBoxElipse()
-        a_e.r = enemy.attack_radius
+        a_e.r = enemy.attack_radius + enemy.dash_radius
 
         let is_collision = Func.elipseCollision(a_e, enemy.target.getBoxElipse())
 
         if (enemy.enemyCanAtack() && is_collision) {
-            enemy.setState(new EnemyAttackState())
+            enemy.setState(enemy.getAttackState())
         } else if (enemy.enemyCanAtack() && enemy.isAbilityToUse()) {
             enemy.setState(new EnemyCastState())
         } else if (is_collision) {

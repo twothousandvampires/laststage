@@ -15,7 +15,7 @@ export default class PlayerDamagedState implements IUnitState<Character> {
     }
 
     update(player: Character) {
-        if (player.level.time - this.start >= this.duration) {
+        if (player.level.time - this.start >= player.damage_state_duration) {
             player.getState()
         }
     }

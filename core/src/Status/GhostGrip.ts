@@ -15,7 +15,7 @@ export default class GhostGrip extends Status {
     apply(unit: any) {
         this.unit = unit
         if (this.unit instanceof Character) {
-            this.unit.addMoveSpeedPenalty(-50)
+            this.unit.addMoveSpeedPenalty(-30)
             this.unit.statusWasApplied()
 
             this.effect = new GhostGripEffect(this.unit.level)
@@ -33,7 +33,7 @@ export default class GhostGrip extends Status {
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.addMoveSpeedPenalty(50)
+            this.unit.addMoveSpeedPenalty(30)
 
             this.unit.level.deleted.push(this.effect.id)
             this.unit.level.binded_effects = this.unit.level.binded_effects.filter(

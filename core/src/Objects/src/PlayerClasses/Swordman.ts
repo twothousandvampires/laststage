@@ -24,6 +24,10 @@ import Upgrade from '../../../Types/Upgrade'
 import Spirit from '../../Effects/Spirit'
 import SwordmanArmourMutator from '../../../Mutators/SwordmanArmourMutator'
 import Enemy from '../Enemy/Enemy'
+import Parry from '../../Effects/Parry'
+import SwordmanEnlightment from '../../../Triggers/SwordmanEnlightment'
+import Counter from '../../Effects/Counter'
+import SwordmanCounterTrigger from '../../../Triggers/SwordmanCounterTrigger'
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -31,9 +35,6 @@ export default class Swordman extends Character {
 
     weapon_angle: number
     resource: number
-    next_life_regen_time: any
-    recent_kills: any[]
-    check_recent_hits_timer: any
     energy_by_hit_added: boolean = false
 
     constructor(level: Level) {
@@ -51,60 +52,30 @@ export default class Swordman extends Character {
         this.attack_speed = 1450
 
         this.base_regeneration_time = 8500
-        this.recent_kills = []
         this.cast_speed = 1650
         this.chance_to_block = 50
         this.armour_mutators = [new SwordmanArmourMutator()]
         this.armour_rate = 15
+        this.triggers_on_enlight = [new SwordmanEnlightment()]
+        this.on_counter_triggers = [new SwordmanCounterTrigger()]
     }
 
     succefullCast() {
         this.energy_by_hit_added = false
     }
 
-
     getTargetsCount() {
         return 10
-    }
-
-    getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty
-
-        if (total_inc === 0) return this.move_speed
-
-        if (total_inc > 200) total_inc = 200
-        if (total_inc < -95) total_inc = -95
-
-        return this.move_speed * (1 + total_inc / 100)
     }
 
     getMoveSpeedReduceWhenBlock() {
         return 80
     }
 
-    addCourage() {
-        if (!this.can_get_courage) return
-
-        this.recent_kills.push(this.level.time)
-
-        if(Func.chance(this.getChanceForAdditionalCourage())){
-            this.recent_kills.push(this.level.time)
-        }
-
-        if (this.can_be_enlighten && this.recent_kills.length >= this.enlightenment_threshold) {
-            this.can_be_enlighten = false
-
-            this.enlight()
-
-            setTimeout(() => {
-                this.can_be_enlighten = true
-            }, this.getEnlightenTimer())
-        }
-    }
-
     succesefulKill(enemy: Enemy) {
         super.succesefulKill(enemy)
-        if(enemy.count_as_killed){
+
+        if(enemy.count_as_killed && Func.distance(this, enemy) <= 12){
             this.addCourage()
         }     
     }
@@ -124,8 +95,6 @@ export default class Swordman extends Character {
             this.level.effects.push(proj)
         }
 
-        this.addLife()
-       
         this.level.addSound('enlight', this.x, this.y)
         this.playerWasEnlighted()
     }
@@ -185,17 +154,40 @@ export default class Swordman extends Character {
     public succesefulBlock(unit: Unit | undefined): void {
         super.succesefulBlock(unit)
 
+        if(this.isParry()){
+            this.wasParry(unit)
+
+            let e = new Parry(this.level)
+            e.setPoint(this.x, this.y - 10)
+
+            this.level.addEffect(e)
+            this.level.sounds.push({
+                name: 'parry',
+                x: this.x,
+                y: this.y,
+            })
+            return
+        }
+        
+        this.level.sounds.push({
+            name: 'metal hit',
+            x: this.x,
+            y: this.y,
+        })
         if(Func.chance(this.getNotToLoseEnergeWhenBlockValue())){
             return
         }
 
-        this.resource --
-        if(this.resource < 0){
-            this.resource = 0
-        }
+        this.loseEnergy(1)
     }
 
     isBlock(crush: number = 0): boolean {
+        if(this.state != 'defend') return false
+
+        if(this.isParry()){
+            return true
+        }
+
         let b_chance = this.chance_to_block
 
         b_chance += this.resource * this.block_for_energy
@@ -204,7 +196,7 @@ export default class Swordman extends Character {
             b_chance = 95
         }
 
-        return this.state === 'defend' && Func.chance(b_chance, this.is_lucky)
+        return Func.chance(b_chance, this.is_lucky)
     }
 
     isArmourHit(unit: Unit): boolean {
@@ -229,7 +221,7 @@ export default class Swordman extends Character {
 
     takeDamage(unit: any = undefined, options: any = {}) {
         if (!this.can_be_damaged) return
-
+       
         if (options?.instant_death) {
             unit?.succesefulKill()
             this.is_dead = true
@@ -241,10 +233,6 @@ export default class Swordman extends Character {
         if (this.damaged || this.is_dead) return
 
         if (this.ward) {
-            // let count = 1
-            // if (unit && Func.chance(unit.critical)) {
-            //     count++
-            // }
             this.loseWard(1)
             let e = new ToothExplode(this.level)
             e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
@@ -257,6 +245,15 @@ export default class Swordman extends Character {
                 y: this.y,
             })
 
+            return
+        }
+
+        if(this.isCounter()){
+            let e = new Counter(this.level)
+            e.setPoint(this.x, this.y - 10)
+            this.level.addEffect(e)
+
+            this.wasCounter(unit)
             return
         }
 
@@ -275,12 +272,6 @@ export default class Swordman extends Character {
         let is_armour_hit = this.isArmourHit(unit)
 
         if (this.isBlock()) {
-            this.level.sounds.push({
-                name: 'metal hit',
-                x: this.x,
-                y: this.y,
-            })
-
             this.succesefulBlock(unit)
 
             if (is_armour_hit) {
@@ -304,10 +295,6 @@ export default class Swordman extends Character {
             return
         }
 
-        if (Func.chance(30)) {
-            this.level.addSound('get hit', this.x, this.y)
-        }
-
         let e = new Blood(this.level)
         e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
         e.z = Func.random(2, 8)
@@ -317,6 +304,10 @@ export default class Swordman extends Character {
             return
         }
 
+        if(Func.notChance(this.not_to_lose_courage_when_damage_chance)){
+            this.reduceSecondResourse(7)
+        }
+        
         this.subLife(unit, options)
     }
 
@@ -324,7 +315,7 @@ export default class Swordman extends Character {
         if (this.life_status === 2) {
             return 10
         } else if (this.life_status === 1) {
-            return 30
+            return 20
         } else {
             return 0
         }
@@ -334,20 +325,15 @@ export default class Swordman extends Character {
         return this.chance_to_avoid_damage_state
     }
 
-    getRegenTimer() {
-        return this.base_regeneration_time
-    }
-
     generateUpgrades() {
         if (!this.can_generate_upgrades) return
         if (this.upgrades.length) return
 
         super.generateUpgrades()
-        //get all upgrades for this class
+        
         let p = Upgrades.getAllUpgrades()
         let all: Upgrade[] = Upgrades.getSwordmanUpgrades().concat(p)
 
-        //filter by usability
         let filtered = all.filter(elem => {
             return (
                 (!elem.ascend || this.ascend_level >= elem.ascend) &&
@@ -410,58 +396,8 @@ export default class Swordman extends Character {
     startGame() {
         let time = Date.now()
         this.equipItems()
-        this.next_life_regen_time = time + this.getRegenTimer()
+        this.setRegenTimer()
         this.check_recent_hits_timer = time + 1000
-    }
-
-    getSecondResourceTimer() {
-        return this.courage_expire_timer
-    }
-
-    regen() {
-        let second_resouce_timer = this.getSecondResourceTimer()
-
-        if (this.level.time >= this.check_recent_hits_timer) {
-            this.check_recent_hits_timer += 1000
-
-            for (let i = this.recent_kills.length; i >= 0; i--) {
-                let hit_time = this.recent_kills[i]
-
-                if (this.level.time - hit_time >= second_resouce_timer) {
-                    this.recent_kills.splice(i, 1)
-                }
-            }
-
-            this.sayPhrase()
-        }
-
-        if (this.level.time >= this.next_life_regen_time) {
-            this.next_life_regen_time += this.getRegenTimer()
-
-            this.addLife()
-        }
-    }
-
-    setDamagedAct() {
-        this.damaged = true
-        this.state = 'damaged'
-        this.can_be_controlled_by_player = false
-        this.stateAct = this.damagedAct
-
-        this.cancelAct = () => {
-            this.can_be_controlled_by_player = true
-            this.damaged = false
-        }
-
-        this.setTimerToGetState(300)
-    }
-
-    getSecondResource() {
-        return this.recent_kills.length
-    }
-
-    reduceSecondResourse(amount: number = 1){
-        this.recent_kills.splice(-amount)
     }
 
     getMoveSpeedPenaltyValue() {
@@ -479,42 +415,46 @@ export default class Swordman extends Character {
     }
 
     getAttackSpeed() {
-        let value = this.attack_speed - (this.getSecondResource() * 10)
+        let base = this.attack_speed
 
-        if (value < Swordman.MIN_ATTACK_SPEED) {
-            value = Swordman.MIN_ATTACK_SPEED
+        this.attack_speed_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        if (base < Swordman.MIN_ATTACK_SPEED) {
+            base = Swordman.MIN_ATTACK_SPEED
         }
-
-        return value
+        console.log(base)
+        return base
     }
 
     addResourse(count: number = 1, ignore_limit = false) {
         if (!this.can_regen_resource) return
-        this.playerGetResourse()
-
+    
         if (this.resource >= this.maximum_resources && !ignore_limit) {
             return
         }
 
         this.resource += count
+        this.playerGetResourse()
     }
 
     addPoint(count: number = 1, ignore_limit = false) {
         if (this.energy_by_hit_added) return
         if (!this.can_regen_resource) return
 
-        this.playerGetResourse()
-
+    
         if (this.resource >= this.maximum_resources) {
             return
         }
-
+         
         this.resource += count
 
         if (this.resource > this.maximum_resources) {
             this.resource = this.maximum_resources
         }
 
+        this.playerGetResourse()
         this.energy_by_hit_added = true
     }
 }

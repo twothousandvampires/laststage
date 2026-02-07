@@ -16,6 +16,7 @@ export default class Dash extends SwordmanAbility implements IUnitState {
     duration = 250
     total_duration = this.duration
     pressure: boolean = false
+    pressure_value: number = 0
 
     constructor(owner: Swordman) {
         super(owner)
@@ -28,6 +29,8 @@ export default class Dash extends SwordmanAbility implements IUnitState {
     enter(player: Character) {
         player.prepareToAction()
 
+        player.setCounterWindow()
+        
         player.state = 'dash'
         player.action_time = Math.floor(this.owner.cast_speed / 10)
         player.setImpactTime(100)
@@ -35,16 +38,17 @@ export default class Dash extends SwordmanAbility implements IUnitState {
         player.chance_to_avoid_damage_state += 100
         player.level.addSound('holy cast', this.owner.x, this.owner.y)
 
-        this.targets = 3
+        this.targets = this.owner.getSecondResource() + 1
         
-        if(this.pressure){
-            this.targets += 3
-        }
-
         this.total_duration = this.duration + (1500 - player.getAttackSpeed()) / 2
 
         if (this.total_duration < this.duration) {
             this.total_duration = this.duration
+        }
+
+        if(this.pressure){
+            this.pressure_value = this.owner.resource * 8
+            this.owner.pierce += this.pressure_value
         }
     }
 
@@ -77,6 +81,10 @@ export default class Dash extends SwordmanAbility implements IUnitState {
         this.end = false
         this.start_time = 0
         player.chance_to_avoid_damage_state -= 100
+
+        if(this.pressure){
+            this.owner.pierce -= this.pressure_value
+        }
     }
 
     update(player: Character) {

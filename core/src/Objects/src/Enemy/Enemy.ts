@@ -1,11 +1,13 @@
 import Func from '../../../Func'
 import Level from '../../../Level'
+import EnemyAttackState from '../../../State/EnemyAttackState'
 import EnemyDeadState from '../../../State/EnemyDeadState'
 import EnemyDyingState from '../../../State/EnemyDyingState'
 import EnemyMeleeIdleState from '../../../State/EnemyMeleeIdleState'
 import EnemySpawnState from '../../../State/EnemySpawnState'
 import Armour from '../../Effects/Armour'
 import SmallTextLanguage2 from '../../Effects/SmallTextLanguage2'
+import Soul from '../../Effects/Soul'
 import Character from '../Character'
 import Unit from '../Unit'
 
@@ -29,7 +31,7 @@ export default abstract class Enemy extends Unit {
     create_energy_chance: number = 6
     create_entity_chance: number = 6
     create_item_chance: number = 0
-    create_sorcerers_skull_chance: number = 0
+    create_sorcerers_skull_chance: number = 1
     create_helm_of_ascendence_chance: number = 1
 
     create_chance: number = 20
@@ -44,6 +46,10 @@ export default abstract class Enemy extends Unit {
     killed_by: Character | undefined
     wave_start = 0
     player_check_timer: number = 2000
+
+    impact_time: number = 80
+    attack_frames: boolean = false
+    dash_radius: number = 0
 
     constructor(level: Level) {
         super(level)
@@ -60,8 +66,8 @@ export default abstract class Enemy extends Unit {
         let minor_times = Math.floor(wave / 22)
 
         if(minor_times){
-            this.armour_rate += minor_times * 9
-            this.pierce += minor_times * 9
+            this.armour_rate += minor_times * 8
+            this.pierce += minor_times * 8
             this.cooldown_attack -= minor_times * 70
         }
 
@@ -118,7 +124,13 @@ export default abstract class Enemy extends Unit {
         }, timer)
     }
 
+    getAttackState(){
+        return new EnemyAttackState()
+    }
+
     checkPlayer() {
+        if(this.player_check_radius === 0) return 
+        
         if (this.can_check_player) {
             if (!this.target) {
                 this.can_check_player = false
@@ -170,8 +182,35 @@ export default abstract class Enemy extends Unit {
         this.last_action = this.level.time + this.action_time
     }
 
+    hitPlayer(){
+
+    }
+
+    getHitSound(){
+
+    }
+
+    addHitEffects(options){
+        return options
+    }
+
     enemyCanAtack() {
         return this.level.time - this.last_action >= this.cooldown_attack
+    }
+    
+    drainSoul(){
+        this.move_speed = 0
+        this.cooldown_attack = 99999999
+        this.target = undefined
+        this.can_check_player = false
+        this.player_check_radius = 0
+
+        let soul = new Soul(this.level)
+        soul.setPoint(this.x, this.y)
+
+        this.level.addEffect(soul)
+
+        this.getState()
     }
 
     act(time: number) {

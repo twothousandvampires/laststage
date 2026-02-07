@@ -95,6 +95,10 @@ import RegeneratingBlocks from '../Triggers/RegeneratingBlocks'
 import Builder from './Builder'
 import MatterDistortionTrigger from '../Triggers/MatterDistortionTrigger'
 import MentalShieldMutator from '../Mutators/MentalShieldMutator'
+import WillToSurviveTrigger from '../Triggers/WillToSurviveTrigger'
+import LastChance from '../Triggers/LastChance'
+import GoodMoment from '../Triggers/GoodMoment'
+import AbsorptionTrigger from '../Triggers/AbsorptionTrigger'
 
 export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
@@ -135,6 +139,19 @@ export default class Upgrades {
                 },
                 cost: 1,
                 desc: 'Increases pierce rating and movement speed',
+            },
+             {
+                name: 'iron will',
+                canUse: (character: Character) => {
+                    return !(character instanceof Cultist)
+                },
+                teach: (character: Character): void => {
+                    character.additional_courage_chance += 2
+                    character.not_to_lose_courage_when_damage_chance +=5
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'Gives a chance not to lose courage when get hit and increases a chance to get additional courage',
             },
             {
                 name: 'might',
@@ -280,7 +297,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 27,
-                desc: 'Increases chance to avoid damage based on your courage',
+                desc: 'Increases chance to avoid damage equlals hald of your courage, if you are couraged, bonus is doubled',
             },
             {
                 name: 'regenerating blocks',
@@ -309,17 +326,65 @@ export default class Upgrades {
                 desc: 'Your block chance is increased by your energy',
             },
             {
-                name: 'firm grip',
+                name: 'last chance',
                 canUse: (character: Character) => {
-                    return character.blocks >= 30 && !(character instanceof Flyer) && !character.chance_not_to_lose_energy_when_block_mutators.some(elem => elem instanceof FirmGripMutator)
+                    return !character.triggers_on_near_dead.some(elem => elem instanceof LastChance)
                 },
                 teach: (character: Character): void => {
-                    character.chance_not_to_lose_energy_when_block_mutators.push(new FirmGripMutator())
+                    character.triggers_on_near_dead.push(new LastChance())
                 },
                 cost: 2,
-                ascend: 22,
-                desc: 'Power now increases the chance not to lose energy when you block',
+                ascend: 20,
+                desc: 'When you reach one life you get courage equals count of nearby enemies',
             },
+            {
+                name: 'in the heat of battle',
+                canUse: (character: Character) => {
+                    return character.refresh_courage_chance <= 30
+                },
+                teach: (character: Character): void => {
+                    character.refresh_courage_chance += 5
+                },
+                cost: 1,
+                ascend: 14,
+                desc: 'When you courage expires, there is a chance to reshresh duration instead',
+            },
+            {
+                name: 'durability',
+                canUse: (character: Character) => {
+                    return !(character instanceof Cultist)
+                },
+                teach: (character: Character): void => {
+                    character.not_to_lose_courage_when_damage_chance += 10
+                },
+                cost: 1,
+                ascend: 20,
+                desc: 'Gives a chance not to lose courage when get damage',
+            },
+            {
+                name: 'unbroken veins',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character): void => {
+                    character.not_to_lose_regen_when_damage_chance += 10
+                },
+                cost: 1,
+                ascend: 12,
+                desc: 'Gives a chance not to lose regenaration timer when get damage',
+            }, 
+            {
+                name: 'good moment',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_parry.some(elem => elem instanceof GoodMoment)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_parry.push(new GoodMoment())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When you parry there is a chance to get courage',
+            }, 
             {
                 name: 'coordination',
                 canUse: (character: Character) => {
@@ -465,8 +530,8 @@ export default class Upgrades {
                 teach: (character: Character): void => {
                     character.enlightenment_threshold --
                 },
-                cost: 3,
-                ascend: 18,
+                cost: 5,
+                ascend: 25,
                 desc: 'Reduces the amount of courage required to achieve enlightenment',
             },
             {
@@ -524,16 +589,16 @@ export default class Upgrades {
             {
                 name: 'from defense to attack',
                 canUse: (character: Character) => {
-                    return !character.triggers_on_block.some(
+                    return !character.triggers_on_parry.some(
                         elem => elem instanceof FromDefendToAttackTrigger
                     )
                 },
                 teach: (character: Character): void => {
-                    character.triggers_on_block.push(new FromDefendToAttackTrigger())
+                    character.triggers_on_parry.push(new FromDefendToAttackTrigger())
                 },
                 cost: 2,
                 ascend: 10,
-                desc: 'When you block, you have a chance to increase your power',
+                desc: 'When you parry, you have a chance to increase your power and critical chance',
             },
             {
                 name: 'wall of will',
@@ -558,7 +623,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'Pierce rating increases with courage',
+                desc: 'Pierce rating increases with courage, if you are couraged bonus is doubled',
             },
             {
                 name: 'annihilation',
@@ -600,16 +665,28 @@ export default class Upgrades {
                 desc: 'Increases critical, impact, and crushing ratings, and power',
             },
             {
-                name: 'first to strike',
+                name: 'will to survive',
                 canUse: (character: Character) => {
-                    return !character.triggers_on_block.some(elem => elem instanceof FirstToStrikeTrigger)
+                    return !(character instanceof Flyer) && !character.triggers_on_parry.some(elem => elem instanceof WillToSurviveTrigger)
                 },
                 teach: (character: Character): void => {
-                    character.triggers_on_block.push(new FirstToStrikeTrigger())
+                    character.triggers_on_parry.push(new WillToSurviveTrigger())
+                },
+                cost: 2,
+                ascend: 18,
+                desc: 'When you parry, there is a chance to get courage',
+            },
+            {
+                name: 'first to strike',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_parry.some(elem => elem instanceof FirstToStrikeTrigger)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_parry.push(new FirstToStrikeTrigger())
                 },
                 cost: 2,
                 ascend: 8,
-                desc: 'When you block, you have a chance to increase attack and cast speed',
+                desc: 'When you parry, you have a chance to increase attack and cast speed',
             },
             {
                 name: 'divine forging',
@@ -723,13 +800,13 @@ export default class Upgrades {
             {
                 name: 'bravery',
                 canUse: (character: Character) => {
-                    return character.courage_expire_timer <= 20000
+                    return character.courage_expire_timer <= 6000
                 },
                 teach: (character: Character): void => {
-                    character.courage_expire_timer += 2000
+                    character.courage_expire_timer += 250
                 },
-                cost: 2,
-                ascend: 8,
+                cost: 1,
+                ascend: 10,
                 desc: 'Your courage expires more slowly',
             },
             {
@@ -780,7 +857,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 18,
-                desc: 'Gives a chance, based on your courage, to gain maximum energy when you gain energy',
+                desc: 'Gives a chance, based on your courage, to gain maximum energy when you gain energy and drop finisher cd',
             },
             {
                 name: 'massive impact',
@@ -808,7 +885,7 @@ export default class Upgrades {
                 },
                 cost: 3,
                 ascend: 12,
-                desc: 'Courage also increases your armour',
+                desc: 'Courage also increases your armour, if you are couraged bonus is doubled',
             },         
             {
                 name: 'impactor',
@@ -1007,7 +1084,7 @@ export default class Upgrades {
                 teach: (character: Character): void => {
                     character.addAscent(4)
                 },
-                cost: 3,
+                cost: 2,
                 ascend: 5,
                 desc: 'Increases ascension by 5',
             },
@@ -1435,10 +1512,8 @@ export default class Upgrades {
                 canUse: (character: Character) => {
                     return character.attack_speed > 600
                 },
-                teach: (character: Character) => {
-                    if (character instanceof Swordman) {
-                        character.attack_speed -= 40
-                    }
+                teach: (character: Character) => {         
+                    character.attack_speed -= 50
                 },
                 cost: 2,
                 desc: 'Increases attack speed',
@@ -1873,16 +1948,28 @@ export default class Upgrades {
             //     desc: 'You have a chance to get energy when you block hit',
             // },
             {
-                name: 'pain extract',
+                name: 'pain collector',
                 canUse: (character: Cultist) => {
-                    return !character.triggers_on_kill.some(elem => elem instanceof PainExtract)
+                    return character.soul_on_kill_chance < 10
                 },
                 teach: (character: Cultist) => {
-                    character.triggers_on_kill.push(new PainExtract())
+                    character.soul_on_kill_chance ++
                 },
-                cost: 3,
-                ascend: 35,
-                desc: 'You have a chance to get energy when you kill enemy',
+                cost: 1,
+                ascend: 10,
+                desc: 'Increases a chnace to harvest the soul when you kill enemy',
+            },
+            {
+                name: 'absorption',
+                canUse: (character: Cultist) => {
+                    return !character.on_counter_triggers.some(elem => elem instanceof AbsorptionTrigger)
+                },
+                teach: (character: Cultist) => {
+                    character.on_counter_triggers.push(new AbsorptionTrigger())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When counterattacking, soul shards are released from enemies, and the number of them depends on your courage',
             },
             {
                 name: 'burning circle',
@@ -2832,6 +2919,18 @@ export default class Upgrades {
                 desc: 'Provides a chance to create additional copies of your thrown weapon',
             },
             {
+                name: 'firm grip',
+                canUse: (character: Character) => {
+                    return character.blocks >= 30 && !(character instanceof Flyer) && !character.chance_not_to_lose_energy_when_block_mutators.some(elem => elem instanceof FirmGripMutator)
+                },
+                teach: (character: Character): void => {
+                    character.chance_not_to_lose_energy_when_block_mutators.push(new FirmGripMutator())
+                },
+                cost: 2,
+                ascend: 22,
+                desc: 'Power now increases the chance not to lose energy when you block',
+            },
+            {
                 name: 'returning',
                 type: 'weapon throw',
                 canUse: (character: Character) => {
@@ -3190,7 +3289,7 @@ export default class Upgrades {
                 },
                 cost: 1,
                 ascend: 10,
-                desc: 'Increases radius of serching targets by your courage',
+                desc: 'Increases radius of serching targets and targets count by your courage',
             },
             {
                 name: 'heaven grace',
@@ -3258,7 +3357,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 12,
-                desc: 'Increases the maximum number of targets that can be hit',
+                desc: 'Increases the pierce rating for each energy you have',
             },
             {
                 name: 'electrified dash',
@@ -3274,9 +3373,9 @@ export default class Upgrades {
                         character.first_ability.electrified = true
                     }
                 },
-                cost: 4,
+                cost: 3,
                 ascend: 22,
-                desc: 'Dash now spawns sparks upon completion of the move, the number of which depends on the targets hit',
+                desc: 'Dash now spawns sparks upon completion of the move, the number of which depends on targets you hit by ability',
             },
             {
                 name: 'pointed spines',

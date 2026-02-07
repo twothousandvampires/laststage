@@ -30,7 +30,7 @@ export default class EnemyRangeIdleState implements IUnitState<Enemy> {
                 if (enemy.isAbilityToUse()) {
                     enemy.setState(new EnemyCastState())
                 } else {
-                    enemy.setState(new EnemyAttackState())
+                    enemy.setState(enemy.getAttackState())
                 }
             }
         }

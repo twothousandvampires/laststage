@@ -12,7 +12,7 @@ export class EnemyLightning extends Projectiles {
         super(level)
         this.box_r = 0.5
         this.name = 'lightning'
-        this.move_speed = 1.1
+        this.move_speed = 0.9
         this.w = 1
     }
 

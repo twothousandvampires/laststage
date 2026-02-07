@@ -91,7 +91,7 @@ export default class Soulrender extends CultistAbility {
         }
 
         if (t) {
-            if (Func.notChance(20 * this.count)) {
+            if (Func.notChance((20 + this.owner.getSecondResource()) * this.count)) {
                 this.count++
                 this.owner.cast_speed -= 150
 

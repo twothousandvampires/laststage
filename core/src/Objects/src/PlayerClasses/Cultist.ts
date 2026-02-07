@@ -13,14 +13,24 @@ import Func from '../../../Func'
 import Level from '../../../Level'
 import CultistArmourMutator from '../../../Mutators/CultistArmourMutator'
 import CultistWillDamageAvoid from '../../../Mutators/CultistWillDamageAvoid'
+import CultistDefendState from '../../../State/CultistDefendState'
+import CultistGhostState from '../../../State/CultistGhostState'
 import PlayerDyingState from '../../../State/PlayerDyingState'
 import Immortality from '../../../Status/Immortality'
+import SoulHarvester from '../../../Status/SoulHarvester'
+import CultistKillTrigger from '../../../Triggers/CultistKillTrigger'
+import CultistLoseLife from '../../../Triggers/CultistLoseLife'
 import UnbreakableArmour from '../../../Triggers/UnbreakableArmour'
 import UnbreakableSpirit from '../../../Triggers/UnbreakableSpirit'
 import Armour from '../../Effects/Armour'
-import Blood from '../../Effects/Blood'
+import Counter from '../../Effects/Counter'
+import Devour from '../../Effects/Devour'
+import Parry from '../../Effects/Parry'
+import Soul from '../../Effects/Soul'
+import SoulDevouring from '../../Effects/SoulDevouring'
 import Spirit from '../../Effects/Spirit'
 import ToothExplode from '../../Effects/ToothExplode'
+import { SoulShatterProj } from '../../Projectiles/SoulShatterProj'
 import Character from '../Character'
 import Unit from '../Unit'
 
@@ -30,13 +40,12 @@ export default class Cultist extends Character {
     static MAX_ARMOUR = 95
 
     resource: number
-    next_life_regen_time: any
     attack_point_radius: number
     hit_x: number | undefined
     hit_y: number | undefined
     weapon_angle: number
-    recent_hits: any
-    check_recent_hits_timer: any
+    ghost_time_until: number = 0
+    soul_on_kill_chance: number = 5
 
     constructor(level: Level) {
         super(level)
@@ -44,7 +53,7 @@ export default class Cultist extends Character {
         this.weapon_angle = 1.6
         this.attack_point_radius = 4.3
         this.attack_radius = 7
-        this.attack_speed = 1550
+        this.attack_speed = 1500
         this.cast_speed = 1600
         this.name = 'cultist'
         this.move_speed = 0.43
@@ -53,47 +62,32 @@ export default class Cultist extends Character {
         this.resource = 0
         this.hit_x = undefined
         this.hit_y = undefined
-        this.enlightenment_threshold = 8
+        this.enlightenment_threshold = 12
 
-        this.base_regeneration_time = 8000
+        this.base_regeneration_time = 6000
 
-        this.recent_hits = []
         this.chance_to_block = 65
         this.avaid_damage_mutator = [new CultistWillDamageAvoid()]
         this.armour_mutators = [new CultistArmourMutator()]
+        this.triggers_on_lose_life = []
+        this.triggers_on_kill = [new CultistKillTrigger()]
 
-        this.courage_expire_timer = 15000
-    
+        this.courage_expire_timer = 6000
         this.armour_rate = 25
+        this.parry_window = 300
     }
 
-     sSecondTrigger() {
-        return this.chance_to_trigger_additional_time
-    }
-
-    getImpactRating() {
-        let base = this.impact
-
-        this.impact_mutators.forEach(elem => {
-            base = elem.mutate(base, this)
-        })
-
-        return base
+    getDefendState() {
+        if(this.ghost_time_until && this.ghost_time_until - this.level.time < 2000){
+            return new CultistGhostState()
+        }
+        else{
+            return new CultistDefendState()
+        }   
     }
 
     getSkipDamageStateChance() {
         return this.chance_to_avoid_damage_state
-    }
-
-    getMoveSpeed(): number {
-        let total_inc = this.move_speed_penalty
-
-        if (total_inc === 0) return this.move_speed
-
-        if (total_inc > 200) total_inc = 200
-        if (total_inc < -95) total_inc = -95
-
-        return this.move_speed * (1 + total_inc / 100)
     }
 
     createAbilities(abilities: any) {
@@ -145,35 +139,12 @@ export default class Cultist extends Character {
         }
     }
 
-    addCourage(count = 1) {
-        if (!this.can_get_courage) return
-
-        for (let i = 0; i < count; i++) {
-            this.recent_hits.push(this.level.time)
-        }
-
-        if(Func.chance(this.getChanceForAdditionalCourage())){
-            this.recent_hits.push(this.level.time)
-        }
-
-        if (this.can_be_enlighten && this.recent_hits.length >= this.enlightenment_threshold) {
-            this.can_be_enlighten = false
-
-            this.enlight()
-
-            setTimeout(() => {
-                this.can_be_enlighten = true
-            }, this.getEnlightenTimer())
-        }
-    }
-
     addResourse(count: number = 1, ignore_limit = false) {
         if (!this.can_regen_resource) return
 
-        this.playerGetResourse()
-
         if (this.resource < this.maximum_resources || ignore_limit) {
             this.resource += count
+            this.playerGetResourse()
         }
     }
 
@@ -217,20 +188,15 @@ export default class Cultist extends Character {
     public succesefulBlock(unit: Unit | undefined): void {
         super.succesefulBlock(unit)
 
-        if(Func.chance(this.getNotToLoseEnergeWhenBlockValue())){
-            return
-        }
-        
-        this.resource --
-        if(this.resource < 0){
-            this.resource = 0
-        }
+        this.level.sounds.push({
+            name: 'metal hit',
+            x: this.x,
+            y: this.y,
+        })
     }
 
     isBlock(): boolean {
         let b_chance = this.chance_to_block
-
-        b_chance += this.block_for_energy * this.resource
 
         if (b_chance > 95) {
             b_chance = 95
@@ -273,10 +239,6 @@ export default class Cultist extends Character {
         }
 
         if (this.ward) {
-            // let count = 1
-            // if (unit && Func.chance(unit.critical)) {
-            //     count++
-            // }
             this.loseWard(1)
             let e = new ToothExplode(this.level)
             e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
@@ -289,6 +251,29 @@ export default class Cultist extends Character {
                 y: this.y,
             })
 
+            return
+        }
+
+        if(this.isCounter() && unit != this){
+            let e = new Counter(this.level)
+            e.setPoint(this.x, this.y - 10)
+            this.level.addEffect(e)
+
+            if(unit && !unit.is_dead){
+                this.addLife(1)
+
+                let s = new SoulHarvester(this.level.time)
+                s.setDuration(5000)
+                this.level.setStatus(this, s, true)
+
+                this.level.removeEnemy(unit)
+                
+                let e = new SoulDevouring(unit.level)
+                e.setPoint(unit.x, unit.y)
+                this.level.effects.push(e)
+            }
+
+            this.wasCounter(unit)
             return
         }
 
@@ -306,13 +291,27 @@ export default class Cultist extends Character {
 
         let is_armour_hit = this.isArmourHit(unit)
 
-        if (this.isBlock()) {
-            this.level.sounds.push({
-                name: 'metal hit',
-                x: this.x,
-                y: this.y,
-            })
+        if(this.isParry() && unit != this){
+            let e = new Parry(this.level)
+            e.setPoint(this.x, this.y - 10)
 
+            if(unit){
+                if(!unit.is_dead){
+                    unit.drainSoul()
+                }
+            
+                let s = new SoulHarvester(this.level.time)
+                s.setDuration(5000)
+                this.level.setStatus(this, s, true)
+            }
+            
+            this.level.addEffect(e)
+            this.wasParry(unit)
+        }
+
+        this.addCourage()
+
+        if (this.isBlock()) {
             this.succesefulBlock(unit)
 
             if (is_armour_hit) {
@@ -321,9 +320,6 @@ export default class Cultist extends Character {
 
             return
         }
-
-        this.addResourse()
-        this.addCourage()
 
         if (is_armour_hit) {
             this.level.sounds.push({
@@ -335,36 +331,16 @@ export default class Cultist extends Character {
             e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
             e.z = Func.random(2, 8)
             this.level.effects.push(e)
+
             this.succesefulArmourBlock(unit)
             return
         }
-
-        if (Func.chance(30)) {
-            this.level.addSound('get hit', this.x, this.y)
-        }
-
-        let e = new Blood(this.level)
-        e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
-        e.z = Func.random(2, 8)
-        this.level.effects.push(e)
-
+        
         if (Func.chance(this.getAvoidChance(), this.is_lucky)) {
             return
         }
 
         this.subLife(unit, options)
-    }
-
-    getSecondResource() {
-        return this.recent_hits.length
-    }
-
-    reduceSecondResourse(amount: number = 1){
-        this.recent_hits.splice(-amount)
-    }
-
-    getRegenTimer() {
-        return this.base_regeneration_time
     }
 
     generateUpgrades() {
@@ -439,7 +415,7 @@ export default class Cultist extends Character {
     startGame() {
         let time = Date.now()
         this.equipItems()
-        this.next_life_regen_time = time + this.getRegenTimer()
+        this.setRegenTimer()
         this.check_recent_hits_timer = time + 1000
     }
 
@@ -447,42 +423,22 @@ export default class Cultist extends Character {
         return this.courage_expire_timer
     }
 
-    regen() {
-        let second_resouce_timer = this.getSecondResourceTimer()
-
-        if (this.level.time >= this.check_recent_hits_timer) {
-            this.check_recent_hits_timer += 1000
-
-            for (let i = this.recent_hits.length; i >= 0; i--) {
-                let hit_time = this.recent_hits[i]
-
-                if (this.level.time - hit_time >= second_resouce_timer) {
-                    this.recent_hits.splice(i, 1)
-                }
-            }
-
-            this.sayPhrase()
-        }
-
-        if (this.level.time >= this.next_life_regen_time) {
-            this.next_life_regen_time += this.getRegenTimer()
-
-            this.addLife()
-        }
-    }
-
     succesefulKill(enemy: Unit) {
         super.succesefulKill(enemy)
     }
     
     getAttackSpeed() {
-        let value = this.attack_speed
+        let base = this.attack_speed
 
-        if (value < Cultist.MIN_ATTACK_SPEED) {
-            value = Cultist.MIN_ATTACK_SPEED
+        this.attack_speed_mutators.forEach(elem => {
+            base = elem.mutate(base, this)
+        })
+
+        if (base < Cultist.MIN_ATTACK_SPEED) {
+            base = Cultist.MIN_ATTACK_SPEED
         }
 
-        return value
+        return base
     }
 
     getMoveSpeedPenaltyValue() {

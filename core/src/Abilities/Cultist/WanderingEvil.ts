@@ -1,6 +1,7 @@
 import Cultist from '../../Objects/src/PlayerClasses/Cultist'
 import CultistAbility from './CultistAbility'
 import WanderingEvilEffect from '../../Objects/Effects/WanderingEvilEffect'
+import Func from '../../Func'
 
 export default class WanderingEvil extends CultistAbility {
     distance: 25
@@ -37,6 +38,14 @@ export default class WanderingEvil extends CultistAbility {
         evil.setPoint(hit_x, hit_y)
 
         this.owner.level.binded_effects.push(evil)
+
+        if(Func.chance(second * 3)){
+            let evil = new WanderingEvilEffect(this.owner.level)
+            evil.setOwner(this.owner)
+            evil.setPoint(hit_x, hit_y)
+
+            this.owner.level.binded_effects.push(evil)
+        }
 
         this.afterUse()
     }

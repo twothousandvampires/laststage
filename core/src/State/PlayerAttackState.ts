@@ -3,10 +3,12 @@ import Character from '../Objects/src/Character'
 
 export default class PlayerAttackState implements IUnitState<Character> {
     move_penalty = 0
-
+  
     enter(player: Character) {
         player.prepareToAction()
         player.state = 'attack'
+
+        player.setCounterWindow()
 
         this.move_penalty = player.getMoveSpeedPenaltyValue()
 

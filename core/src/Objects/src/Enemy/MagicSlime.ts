@@ -39,7 +39,7 @@ export default class MagicSlime extends Enemy {
 
         if (unit && Func.distance(this, unit) < 10 && Func.chance(50)) {
             let s = new MentalCorrosion(this.level.time)
-            s.setDuration(5000)
+            s.setDuration(2500)
             this.level.setStatus(unit, s)
         }
     }

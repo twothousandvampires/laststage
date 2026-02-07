@@ -27,6 +27,7 @@ export default class ChargedSphere extends Effect {
             if (Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())) {
                 if (elem.can_regen_resource) {
                     elem.addResourse(2)
+                    elem.addCourage(2)
                 }
 
                 let phasing = new Phase(this.level.time)

@@ -22,5 +22,8 @@ export default class InspirationTrigger implements ITrigger {
 
         player.level.addEffect(e)
         player.resource = player.maximum_resources
+        player.checkEnergyEffect()
+
+        player.third_ability.used = false
     }
 }

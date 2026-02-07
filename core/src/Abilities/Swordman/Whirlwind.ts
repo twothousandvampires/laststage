@@ -72,7 +72,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
         }
 
         if (this.fan_of_swords) {
-            let count = this.owner.getTargetsCount()
+            let count = Math.round(this.owner.getSecondResource() / 2)
 
             if (count > 15) {
                 count = 15
@@ -106,6 +106,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
 
     enter(player: Swordman) {
         player.prepareToAction()
+        player.setCounterWindow()
         player.state = 'swing'
 
         let action_time = player.getAttackSpeed() / 2

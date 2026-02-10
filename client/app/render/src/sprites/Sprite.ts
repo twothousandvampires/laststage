@@ -17,6 +17,7 @@ export default abstract class Sprite{
     max_frame_tick: number
     
     repeatable: boolean
+    z_forced: boolean = false
     stopped: boolean
     frame_tick: number
     frame: number
@@ -101,8 +102,10 @@ export default abstract class Sprite{
         this.flipped = data.flipped
         this.box_x = data.box_x
         this.box_y = data.box_y
-        this.z = data.z
         this.light_r = data.light_r
         this.invisible = data.invisible
+        if(!this.z_forced){
+            this.z = data.z
+        }
     }
 }

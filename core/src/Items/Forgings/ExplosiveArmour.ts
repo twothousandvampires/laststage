@@ -25,6 +25,7 @@ export default class ExplosiveArmour extends Forging {
                 this.trigger.chance += 5
 
                 this.payCost()
+                player.armour_rate += 1
                 this.value += 5
             }
         }

@@ -19,7 +19,6 @@ export default class PlayerDyingState implements IUnitState<Character> {
 
             player.level.playerDead()
         } else if (player.exploded) {
-            console.log('exp')
             player.state = 'explode'
             
             player.level.playerDead()

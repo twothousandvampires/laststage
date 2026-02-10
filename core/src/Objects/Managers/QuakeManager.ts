@@ -1,7 +1,6 @@
 import Quake from "../../Abilities/Swordman/Quake";
 import Func from "../../Func";
 import Level from "../../Level";
-import Weakness from "../../Status/Weakness";
 import Effect from "../Effects/Effects";
 import QuakeEffect from "../Effects/Quake";
 import Character from "../src/Character";
@@ -41,7 +40,7 @@ export default class QuakeManager extends Effect{
             wave.r = 5 + add + (this.stage * 5)
   
             targets.forEach(elem => {
-                if (!elem.is_dead && Func.elipseCollision(wave, elem.getBoxElipse())) {
+                if (!elem.is_dead && Func.distance(wave, elem.getBoxElipse(), wave.r) <= wave.r) {
                     if(elem === this.player){
                         this.player.chance_to_avoid_damage_state += 100
                         this.player.not_to_lose_courage_when_damage_chance += 100

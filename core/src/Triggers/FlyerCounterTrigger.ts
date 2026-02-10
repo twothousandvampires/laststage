@@ -19,7 +19,6 @@ export default class FlyerCounterTrigger implements ITrigger {
     }
 
     trigger(player: Character, target: Unit) {
-        console.log('coutner')
         let e = new QuakeEffect(player.level)
         e.setPoint(player.x, player.y)
 

@@ -15,6 +15,7 @@ import FlyerArmourMutator from '../../../Mutators/FlyerArmourMutator'
 import FlyerCastState from '../../../State/FlyerCastState'
 import FlyerDefendState from '../../../State/FlyerDefendState'
 import PlayerDyingState from '../../../State/PlayerDyingState'
+import CurseOfDamned from '../../../Status/CurseOfDamned'
 import Accumulation from '../../../Triggers/Accumulation'
 import FlyerCounterTrigger from '../../../Triggers/FlyerCounterTrigger'
 import FlyerParryTrigger from '../../../Triggers/FlyerParryTrigger'
@@ -22,9 +23,6 @@ import FragilityWhenHitTrigger from '../../../Triggers/FragilityWhenHitTrigger'
 import Upgrade from '../../../Types/Upgrade'
 import Armour from '../../Effects/Armour'
 import Counter from '../../Effects/Counter'
-import FlyerParry from '../../Effects/FlyerParry'
-import Parry from '../../Effects/Parry'
-import Spirit from '../../Effects/Spirit'
 import ToothExplode from '../../Effects/ToothExplode'
 import Character from '../Character'
 import Unit from '../Unit'
@@ -59,6 +57,45 @@ export default class Flyer extends Character {
         this.parry_window = 450
         this.triggers_on_parry = [new FlyerParryTrigger()]
         this.on_counter_triggers = [new FlyerCounterTrigger()]
+
+        this.action_cd = 18000
+        this.action_name = 'dash'
+    }
+
+
+    useAction(){
+        this.setActionWindow()
+        this.prepareToAction()
+        if(!this.attack_angle) return
+
+        if(this.level.enemies.some(elem => Func.distance(this, elem, 8) <= 8 && !elem.is_dead && elem.action_end_time - this.level.time <= 350 && elem.action_end_time - this.level.time > 0)){
+            let targets = this.level.enemies.filter(elem => !elem.is_dead && Func.distance(this, elem, 8) <= 8)
+
+            targets.forEach(elem => {         
+                let t = this.level.enemies.filter(elem2 => !elem2.is_dead && elem2 != elem)[0]
+                if(t){
+                    elem.removeTarget(5000)
+                    elem.target = t
+                }     
+            })
+
+            this.level.createEffect(this, 'escape')
+        }
+        
+
+        let ticks = 12
+        let next_step_x = Math.sin(this.attack_angle) * 1
+        let next_step_y = Math.cos(this.attack_angle) * 1
+
+        for(let i = 0; i < ticks; i++){
+            if (!this.isOutOfMap(this.x + next_step_x, this.y + next_step_y)) {
+                this.level.createEffect(this, 'ftrail')
+                this.addToPoint(next_step_x, next_step_y)
+            }
+        }
+        
+        this.attack_angle = undefined
+        this.is_attacking = false
     }
 
     getAdditionalRadius() {
@@ -276,10 +313,7 @@ export default class Flyer extends Character {
         if(is_parry){
             this.wasParry(unit)
 
-            let e = new Parry(this.level)
-            e.setPoint(this.x, this.y - 13)
-
-            this.level.addEffect(e)
+            this.level.createEffect(this, 'parry', 13)
             
             this.level.sounds.push({
                 name: 'parry',
@@ -356,12 +390,7 @@ export default class Flyer extends Character {
         this.playerWasHited(unit)
 
         if (this.isSpiritBlock()) {
-            this.level.addSound('spirit', this.x, this.y)
-            let e = new Spirit(this.level)
-            e.setPoint(this.x, this.y)
-            this.level.addEffect(e)
-
-            this.reduceSecondResourse(1)
+            this.wasSpiritBlock()
             return
         }
 
@@ -388,6 +417,7 @@ export default class Flyer extends Character {
         }
 
         if (Func.chance(this.getAvoidChance(), this.is_lucky)) {
+            this.level.createEffect(this, 'damage avoid')
             return
         }
 
@@ -423,6 +453,11 @@ export default class Flyer extends Character {
         this.next_life_regen_time = time + this.getRegenTimer()
         this.next_mana_regen_time = time + this.getManaRegenTimer()
         this.check_recent_hits_timer = time + 1000
+
+
+        let status = new CurseOfDamned(this.level.time)
+        status.setDuration(4000)
+        this.level.setStatus(this, status)
     }
 
   
@@ -444,7 +479,7 @@ export default class Flyer extends Character {
 
     succefullCast() {
         for(let i = 0; i < this.level.enemies.length; i++){
-            if(Func.distance(this, this.level.enemies[i]) <= 20){
+            if(Func.checkAngle(this, this.level.enemies[i], this.attack_angle, 1) && Func.distance(this, this.level.enemies[i]) <= 20){
                 this.addCourage()
 
                 return
@@ -454,7 +489,7 @@ export default class Flyer extends Character {
     
     enlight() {
         let count = 10
-        console.log('en2')
+
         let zones = 6.28 / count
 
         for (let i = 1; i <= count; i++) {

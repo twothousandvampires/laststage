@@ -165,6 +165,12 @@ import FlyerParry from "./src/sprites/Effect/FlyerParry"
 import Counter from "./src/sprites/Effect/Counter"
 import SoulHarvest from "./src/sprites/Effect/SoulHarvest"
 import SoulDevouring from "./src/sprites/Effect/SoulDevouring"
+import DeathAura from "./src/sprites/Effect/DeathAura"
+import SoulAttractor from "./src/sprites/Effect/SoulAttractor"
+import BigGraceShard from "./src/sprites/Effect/BigGraceShard"
+import Escape from "./src/sprites/Effect/Escape"
+import DamageAvoid from "./src/sprites/Effect/DamageAvoid"
+import FlyerTrail from "./src/sprites/Effect/FlyerTrail"
 
 export default class Render{
     
@@ -253,11 +259,20 @@ export default class Render{
         else if(elem.name === 'flamy'){
             return new FlamySprite(elem.id)
         }
+        else if(elem.name === 'damage avoid'){
+            return new DamageAvoid(elem.id)
+        }
         else if(elem.name === 'split'){
             return new SplitOfEntity(elem.id)
         }
         else if(elem.name === 'grace shard'){
             return new GraceShard(elem.id)
+        }
+        else if(elem.name === 'big grace shard'){
+            return new BigGraceShard(elem.id)
+        }
+        else if(elem.name === 'escape'){
+            return new Escape(elem.id)
         }
         else if(elem.name === 'solid'){
             return new Solid(elem.id)
@@ -547,6 +562,12 @@ export default class Render{
         else if(elem.name === 'heaven ray'){
             return new HeavenRay(elem.id)
         }
+        else if(elem.name === 'soul attractor'){
+            return new SoulAttractor(elem.id)
+        }
+        else if(elem.name === 'death aura'){
+            return new DeathAura(elem.id)
+        }
         else if(elem.name === 'soul devouring'){
             return new SoulDevouring(elem.id)
         }
@@ -726,6 +747,9 @@ export default class Render{
         }
         else if(elem.name === 'counter'){
             return new Counter(elem.id)
+        }
+        else if(elem.name === 'ftrail'){
+            return new FlyerTrail(elem.id)
         }
     }
 

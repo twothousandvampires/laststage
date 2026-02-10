@@ -18,6 +18,9 @@ import ItemDrop from './Objects/Effects/ItemDrop'
 import SorcerersSkull from './Objects/Effects/SorcerersSkull'
 import Helm from './Objects/Effects/Helm'
 import Message from './Types/Message'
+import BigGraceShard from './Objects/Effects/BigGraceShard'
+import SimpleEffect from './Objects/Effects/SimpleEffect'
+import GameObject from './Objects/src/GameObject'
 
 export default class Level {
     static enemy_list = [
@@ -103,6 +106,7 @@ export default class Level {
     
     public script: Scenario = new Default()
     status_pull: Status[] = []
+    new_statuses: Status[] = []
     private last_id: number = 0
     public kill_count: number = 0
     public previuos_script: Scenario | undefined
@@ -219,11 +223,11 @@ export default class Level {
                 exist.update(status)
             } else {
                 status.apply(unit)
-                this.status_pull.push(status)
+                this.new_statuses.push(status)
             }
-        } else {
+        } else {  
             status.apply(unit)
-            this.status_pull.push(status)
+            this.new_statuses.push(status)
         }
     }
 
@@ -257,18 +261,40 @@ export default class Level {
             }
         }
 
-        this.status_pull.forEach(status => {
-            if (status.isExpired(this.time)) {
+        // this.status_pull.forEach(status => {
+        //     if (status.isExpired(this.time)) {
+        //         status.clear()
+        //         this.status_pull = this.status_pull.filter(elem => elem != status)
+        //     } else if (!status.unit || status.unit.is_dead) {
+        //         status?.unitDead()
+        //         status.clear()
+        //         this.status_pull = this.status_pull.filter(elem => elem != status)
+        //     } else {
+        //         status.act(this.time)
+        //     }
+        // })
+
+        this.status_pull = this.status_pull.filter(status => {
+            
+            if (status.isExpired(this.time) || !status.unit || status.unit.is_dead) {
+                
+                status.unitDead?.()
                 status.clear()
-                this.status_pull = this.status_pull.filter(elem => elem != status)
-            } else if (!status.unit || status.unit.is_dead) {
-                status?.unitDead()
-                status.clear()
-                this.status_pull = this.status_pull.filter(elem => elem != status)
-            } else {
-                status.act(this.time)
+
+                return false
             }
-        })
+            
+            status.act(this.time)
+            return true
+        });
+
+
+        if (this.new_statuses.length > 0) {
+            this.status_pull.push(...this.new_statuses)
+            this.new_statuses = []
+        }
+
+        // console.log(Date.now() - time)
     }
 
     check(enemy: Enemy) {
@@ -294,7 +320,13 @@ export default class Level {
             }
 
             if (drop_name === 'grace') {
-                drop_name = new GraceShard(this)
+                if(Func.chance(enemy.big_grace_chance)){
+                    drop_name = new BigGraceShard(this)
+                }
+                else{
+                    drop_name = new GraceShard(this)
+                }
+                
             } else if (drop_name === 'energy') {
                 drop_name = new ChargedSphere(this)
             } else if (drop_name === 'entity') {
@@ -335,5 +367,13 @@ export default class Level {
         if (hard) {
             this.deleted.push(enemy.id)
         }
+    }
+
+    createEffect(target: GameObject, name: string, z: number = 0){
+        let e = new SimpleEffect(this, name)
+        e.z = z
+        e.setPoint(target.x, target.y)
+
+        this.effects.push(e)
     }
 }

@@ -21,6 +21,9 @@ export default class GraceShard extends Effect {
         this.level.players.forEach(elem => {
             if (Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())) {
                 elem.grace ++
+                if(Func.chance(20)){
+                    elem.grace++
+                }
                 let status = new Grace(elem.level.time)
                 status.setDuration(8000)
 

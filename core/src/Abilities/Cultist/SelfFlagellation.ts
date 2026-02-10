@@ -30,9 +30,9 @@ export default class SelfFlagellation extends CultistAbility {
         }
 
         this.owner.chance_to_avoid_damage_state += 100
-        this.owner.takeDamage()
+        this.owner.subLife(this.owner, {})
         this.owner.chance_to_avoid_damage_state -= 100
-
+        
         if (this.pack) {
             this.owner.can_be_lethaled = true
         }

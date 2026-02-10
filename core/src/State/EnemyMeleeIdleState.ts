@@ -16,6 +16,13 @@ export default class EnemyMeleeIdleState implements IUnitState<Enemy> {
             return
         }
 
+        let test = enemy.level.enemies.some(elem => elem.level.time - elem.action_start <= 300 && Func.distance(enemy, elem) <= 8)
+       
+        if(test){
+            enemy.setCheckUntil(250)
+            return
+        }
+
         let a_e = enemy.getBoxElipse()
         a_e.r = enemy.attack_radius + enemy.dash_radius
 

@@ -7,26 +7,25 @@ export default class SwordmanCounter extends Status {
     constructor(public time: number) {
         super(time)
         this.name = 'countered attack'
-        this.need_to_check_resist = false
     }
 
     apply(unit: any) {
         this.unit = unit
         if (this.unit instanceof Character) {
             this.unit.statusWasApplied()
-            this.unit.critical += 20
-            this.unit.pierce += 20
+
+            this.unit.chance_to_instant_kill += 40
+
             this.unit.newStatus({
                 name: 'counterattack',
                 duration: this.duration,
-                desc: 'additional critical chance and pierce',
+                desc: 'additional chance to instan kill',
             })
         }
     }
 
     clear() {
-        this.unit.critical -= 20
-        this.unit.pierce -= 20
+        this.unit.chance_to_instant_kill -= 40
     }
 
    
@@ -36,7 +35,7 @@ export default class SwordmanCounter extends Status {
         this.unit.newStatus({
             name: 'counterattack',
             duration: this.duration,
-            desc: 'additional critical chance and pierce',
+            desc: 'additional chance to instan kill',
         })
     }
 }

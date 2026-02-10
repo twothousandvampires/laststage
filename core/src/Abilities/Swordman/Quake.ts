@@ -2,6 +2,7 @@ import IUnitState from '../../Interfaces/IUnitState'
 import QuakeManager from '../../Objects/Managers/QuakeManager'
 import Character from '../../Objects/src/Character'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
+import Weakness from '../../Status/Weakness'
 import Ability from '../Ability'
 import SwordmanAbility from './SwordmanAbility'
 
@@ -36,23 +37,26 @@ export default class Quake extends SwordmanAbility implements IUnitState<Charact
         player.addMoveSpeedPenalty(-50)
 
         this.start = player.level.time
-        player.can_block = false
+        player.can_block ++
     }
 
-    exit(player: Character) {
-       
+    exit(player: Character) {     
         player.addMoveSpeedPenalty(50)
         this.impact_hit = false
         this.z_add = 0.5
 
         player.z = 0
-        player.can_block = true
+        player.can_block --
     }
 
     update(player: Character) {
         if (this.impact_hit) {
             let manager = new QuakeManager(this.owner.level, this.owner, this)
             this.owner.level.binded_effects.push(manager)
+
+            let s = new Weakness(player.level.time)
+            s.setDuration(3000)
+            player.level.setStatus(player, s, true)
 
             this.afterUse()
             player.getState()

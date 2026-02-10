@@ -1,6 +1,7 @@
 import FlyingMucusAbility from '../../../EnemyAbilities/FlyingMucusAbility'
 import Func from '../../../Func'
 import Level from '../../../Level'
+import EnemyMelleAttackState from '../../../State/EnemyMelleAttackState'
 import Corrosion from '../../../Status/Corrosion'
 import PuddleOfPoison from '../../Effects/PuddleOfPoison'
 import Enemy from './Enemy'
@@ -22,6 +23,7 @@ export default class Slime extends Enemy {
         this.weapon_angle = 1
         this.abilities = [new FlyingMucusAbility()]
         this.has_boby = false
+        this.attack_ms_penalty = 65
     }
 
     afterDead(): void {
@@ -31,26 +33,23 @@ export default class Slime extends Enemy {
         this.level.binded_effects.push(e)
     }
 
-    hitImpact() {
-        if (this.target && this.attack_angle) {
-            let e = this.getBoxElipse()
-            e.r = this.attack_radius
+    getAttackState() {
+        return new EnemyMelleAttackState()
+    }
 
-            if (
-                this.target.z < 5 &&
-                Func.elipseCollision(e, this.target.getBoxElipse()) &&
-                Func.checkAngle(this, this.target, this.attack_angle, this.weapon_angle)
-            ) {
-                if (Func.chance(50)) {
-                    let status = new Corrosion(this.level.time)
-                    status.setDuration(6000)
-                    this.level.setStatus(this.target, status)
-                    this.level.addSound('goo', this.x, this.y)
-                }
-
-                this.target.takeDamage(this, {})
-            }
+    addHitEffects(options: any) {
+        if(Func.chance(50)){
+            let s = new Corrosion(this.level.time)
+            s.setDuration(5000)
+            
+            options.hit_effects.push(s)
         }
+
+        return options
+    }
+
+    getHitSound(){
+        this.level.addSound('goo', this.x, this.y)
     }
 
     getWeaponHitedSound() {

@@ -1,4 +1,5 @@
 import Level from '../../Level'
+import Box from '../../Types/Box'
 
 export default abstract class GameObject {
     name: string = 'object'
@@ -36,7 +37,7 @@ export default abstract class GameObject {
         return false
     }
 
-    getBoxElipse(x: number = 0, y: number = 0) {
+    getBoxElipse(x: number = 0, y: number = 0): Box {
         return {
             x: this.x + x,
             y: this.y + y,

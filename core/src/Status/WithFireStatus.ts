@@ -20,7 +20,7 @@ export default class WithFireStatus extends Status {
         if (tick_time > this.last_checked) {
             this.last_checked += 4500
 
-            let check_distance = 25
+            let check_distance = 20
 
             let area = this.unit.getBoxElipse()
             area.r = check_distance
@@ -34,7 +34,7 @@ export default class WithFireStatus extends Status {
             targets.forEach(elem => {
                 let s = new Ignite(elem.level.time)
                 s.setDuration(5000)
-                s.setPower(30)
+                s.setPower(20)
 
                 elem.level.setStatus(elem, s, true)
             })

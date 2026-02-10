@@ -1,9 +1,9 @@
 import Level from '../../Level'
 import Effect from './Effects'
 
-export default class Parry extends Effect {
+export default class DeathAuraEffect extends Effect {
     constructor(level: Level) {
         super(level)
-        this.name = 'parry'
+        this.name = 'death aura'
     }
 }

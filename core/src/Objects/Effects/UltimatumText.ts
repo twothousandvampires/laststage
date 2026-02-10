@@ -29,7 +29,7 @@ export default class UltimatumText extends Effect implements IUltimatumChallenge
         )
 
         this.level.players.forEach(elem => {
-            elem.grace += 2
+            elem.grace += 5
         })
 
         if (this.level.script.portal_is_exist) {

@@ -314,7 +314,6 @@ export default class Builder {
     }
 
     static createGreatForging(name: string, item: Item | undefined) {
-        console.log(name)
         let ItemClass = Builder.greatForgingMap[name.toLowerCase()]
 
         if (ItemClass) {

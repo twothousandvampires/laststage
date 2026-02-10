@@ -31,6 +31,7 @@ export default class Specter extends Undead {
         this.gold_revard = 5
         this.create_item_chance = 6
         this.pierce = 20
+        this.big_grace_chance = 7
 
         this.abilities = [new SoulVortex(), new SoulSeekers()]
     }

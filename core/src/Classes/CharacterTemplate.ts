@@ -284,10 +284,10 @@ export default class characterTemplate {
                 },
                 {
                     id: 7,
-                    name: 'self flagellation',
+                    name: 'shatter-shell',
                     type: 4,
                     selected: true,
-                    desc: 'Deals damage to you.',
+                    desc: 'Tears apart nearby enemies without a soul, releasing bones that damage enemies.',
                 },
                 {
                     id: 8,
@@ -298,17 +298,17 @@ export default class characterTemplate {
                 },
                 {
                     id: 8,
-                    name: 'unbreakable spirit',
+                    name: 'death aura',
                     type: 5,
                     selected: true,
-                    desc: 'When you take damage, there is a chance to restore 1 life.',
+                    desc: 'Every 4 seconds you release a wave that can damage enemies, the chance depends on your courage.',
                 },
                 {
                     id: 8,
-                    name: 'unbreakable armour',
+                    name: 'soul attractor',
                     type: 5,
                     selected: false,
-                    desc: 'When you reach 1 life, it permanently gives you 1 armour and increases fortification rate up to 20',
+                    desc: 'Every 4 seconds you release a wave that has a chance to rip out the soul of an enemy, the chance depends on your life',
                 },
             ]
         }

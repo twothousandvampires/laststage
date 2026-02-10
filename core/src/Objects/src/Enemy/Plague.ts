@@ -28,6 +28,7 @@ export default class Plague extends Undead {
         this.create_item_chance = 2
         this.create_sorcerers_skull_chance = 5
         this.retreat_distance = 7
+        this.big_grace_chance = 5
         this.abilities = [
            new PlagueBomb(),
            new SwirlingMucus()

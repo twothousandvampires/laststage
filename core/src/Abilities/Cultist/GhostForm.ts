@@ -3,6 +3,7 @@ import IUnitState from '../../Interfaces/IUnitState'
 import Character from '../../Objects/src/Character'
 import Cultist from '../../Objects/src/PlayerClasses/Cultist'
 import AfterlifeCold from '../../Status/AfterlifeCold'
+import SoulHarvester from '../../Status/SoulHarvester'
 import Weakness from '../../Status/Weakness'
 import Ability from '../Ability'
 import CultistAbility from './CultistAbility'
@@ -21,7 +22,7 @@ export default class GhostForm extends CultistAbility implements IUnitState<Char
         this.lead = false
         this.afterlife_cold = false
         this.name = 'ghost form'
-        this.cd = 15000
+        this.cd = 18000
         this.type = Ability.TYPE_CUSTOM
         this.mastery_chance = 25
     }
@@ -38,6 +39,14 @@ export default class GhostForm extends CultistAbility implements IUnitState<Char
         player.can_cast = false
         player.state = 'start ghost'
         player.can_be_damaged = false
+
+        player.level.enemies.forEach(elem => {
+            if(!elem.is_dead && Func.chance(35) && Func.distance(player, elem) <= 8){
+                let s = new SoulHarvester(player.level.time)
+                s.setDuration(5000)
+                player.level.setStatus(player, s, true)
+            }
+        })
     }
 
     update(player: Character, time: number) {

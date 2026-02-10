@@ -70,7 +70,7 @@ export default class Sound{
             let v = ['impy.wav', 'falla2.wav']
 
             result.src = v[Math.floor(Math.random() * v.length)]
-            result.max_volume = 0.3
+            result.max_volume = 0.05
         } 
         else if(name === 'shatter'){
             let v = ['shatter1.wav', 'coldimpact1.wav', 'coldimpact2.wav', 'coldimpact3.wav']

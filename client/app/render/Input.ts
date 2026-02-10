@@ -108,6 +108,10 @@ export default class Input {
         let total_wrap = document.createElement('div')
         total_wrap.id = 'total_wrap'
 
+        let action_div = document.createElement('img')
+        action_div.src = '/preview/special.png'
+        action_div.id = 'action'
+
         let special_div = document.createElement('img')
         special_div.src = '/preview/special.png'
         special_div.id = 'special'
@@ -115,6 +119,16 @@ export default class Input {
         let defend_div = document.createElement('img');
         defend_div.src = '/preview/defend.png'
         defend_div.id = 'defend'
+
+        action_div.addEventListener('touchstart', (e) => {
+            e.preventDefault()
+            this.pressed[81] = true
+        })
+
+        action_div.addEventListener('touchend', (e) => {
+            e.preventDefault()
+            this.pressed[81] = false
+        })
 
         special_div.addEventListener('touchstart', (e) => {
             e.preventDefault()
@@ -140,6 +154,7 @@ export default class Input {
         wrap.style.display = 'flex'
         wrap.style.flexDirection = 'column'
         wrap.id = 'defend_and_special'
+         wrap.appendChild(action_div)
         wrap.appendChild(special_div)
         wrap.appendChild(defend_div)
        

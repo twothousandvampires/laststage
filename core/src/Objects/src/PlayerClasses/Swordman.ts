@@ -28,6 +28,9 @@ import Parry from '../../Effects/Parry'
 import SwordmanEnlightment from '../../../Triggers/SwordmanEnlightment'
 import Counter from '../../Effects/Counter'
 import SwordmanCounterTrigger from '../../../Triggers/SwordmanCounterTrigger'
+import SwordmanJumpState from '../../../State/SwordmanJumpState'
+import Escape from '../../Effects/Escape'
+import SorcerersSkull from '../../Effects/SorcerersSkull'
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -58,6 +61,11 @@ export default class Swordman extends Character {
         this.armour_rate = 15
         this.triggers_on_enlight = [new SwordmanEnlightment()]
         this.on_counter_triggers = [new SwordmanCounterTrigger()]
+        this.action_name = 'jump'
+    }
+
+    useAction(){
+        this.setState(new SwordmanJumpState())
     }
 
     succefullCast() {
@@ -157,23 +165,22 @@ export default class Swordman extends Character {
         if(this.isParry()){
             this.wasParry(unit)
 
-            let e = new Parry(this.level)
-            e.setPoint(this.x, this.y - 10)
-
-            this.level.addEffect(e)
-            this.level.sounds.push({
+            this.level.createEffect(this, 'parry', 12)      
+            this.level.addSound({
                 name: 'parry',
                 x: this.x,
                 y: this.y,
             })
+
             return
         }
         
-        this.level.sounds.push({
+        this.level.addSound({
             name: 'metal hit',
             x: this.x,
             y: this.y,
         })
+
         if(Func.chance(this.getNotToLoseEnergeWhenBlockValue())){
             return
         }
@@ -234,6 +241,7 @@ export default class Swordman extends Character {
 
         if (this.ward) {
             this.loseWard(1)
+
             let e = new ToothExplode(this.level)
             e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
             e.z = Func.random(2, 8)
@@ -245,6 +253,18 @@ export default class Swordman extends Character {
                 y: this.y,
             })
 
+            return
+        }
+
+        if(this.isEscape()){
+            this.level.enemies.forEach(elem => {
+                if(!elem.is_dead && Func.distance(elem, this) <= 8){
+                    elem.removeTarget(3000)
+                }
+            })
+            
+            this.level.createEffect(this, 'escape')
+            this.addCourage()
             return
         }
 
@@ -260,12 +280,7 @@ export default class Swordman extends Character {
         this.playerWasHited(unit)
 
         if (this.isSpiritBlock()) {
-            this.level.addSound('spirit', this.x, this.y)
-            let e = new Spirit(this.level)
-            e.setPoint(this.x, this.y)
-            this.level.addEffect(e)
-
-            this.reduceSecondResourse(1)
+            this.wasSpiritBlock()
             return
         }
 
@@ -301,6 +316,7 @@ export default class Swordman extends Character {
         this.level.effects.push(e)
 
         if (Func.chance(this.getAvoidChance(), this.is_lucky)) {
+            this.level.createEffect(this, 'damage avoid')
             return
         }
 
@@ -424,9 +440,30 @@ export default class Swordman extends Character {
         if (base < Swordman.MIN_ATTACK_SPEED) {
             base = Swordman.MIN_ATTACK_SPEED
         }
-        console.log(base)
+
         return base
     }
+
+    wasCounter(unit: any){
+            this.counter_time_until = 0
+            this.addCourage()
+            let time = this.level.time
+          
+            this.on_counter_triggers.forEach(elem => {
+                if (time - elem.last_trigger_time >= elem.cd) {
+                    if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                        elem.trigger(this, unit)
+    
+                        // if (Func.chance(this.isSecondTrigger())) {
+                        //     elem.trigger(this, unit)
+                        // }
+    
+                        elem.last_trigger_time = time
+                        // this.wasTrigger()
+                    }
+                }
+            })
+        }
 
     addResourse(count: number = 1, ignore_limit = false) {
         if (!this.can_regen_resource) return

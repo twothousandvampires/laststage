@@ -88,7 +88,7 @@ export default class UpgradeManager {
             player.carved_sparks -= amount
         }
 
-        if(Func.chance(Math.round(amount * 1.5))){
+        if(free || Func.chance(Math.round(amount * 1.5))){
             player.grand_forgings.push(Jewel.createRandom(amount))
 
             UpgradeManager.closeForgings(player)
@@ -184,7 +184,6 @@ export default class UpgradeManager {
             can_hold: !player.spend_grace,
             ascend: player.ascend_level,
             life: player.life_status,
-            free: player.free_upgrade_count,
             stats: player.getStats(),
             masteries: player.masteries,
             triggers: player.getTriggersInfo(),

@@ -23,7 +23,7 @@ export default class ThunderStrikes extends Forging {
                 player.triggers_on_pierce.push(this.trigger)
             }
             this.trigger.count += 1
-
+            player.pierce ++
             this.payCost()
             this.value += 1
         }

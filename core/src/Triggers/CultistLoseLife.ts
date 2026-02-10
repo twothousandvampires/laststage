@@ -1,6 +1,7 @@
 import ITrigger from '../Interfaces/Itrigger'
 import Character from '../Objects/src/Character'
 import Cultist from '../Objects/src/PlayerClasses/Cultist'
+import SoulHarvester from '../Status/SoulHarvester'
 
 export default class CultistLoseLife implements ITrigger {
 
@@ -15,7 +16,15 @@ export default class CultistLoseLife implements ITrigger {
         return this.chance
     }
 
-    trigger(player: Cultist) {
-        player.setParryWindow()
+    trigger(player: Cultist, target: any) {
+        if(!target) return
+        
+        if(!target.is_dead){
+            target.drainSoul(5000)
+        }
+    
+        let s = new SoulHarvester(player.level.time)
+        s.setDuration(5000)
+        player.level.setStatus(player, s, true)
     }
 }

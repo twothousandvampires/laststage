@@ -14,9 +14,17 @@ body{
     padding: 0;
     background-color: black;
 }
+#action{
+    position: relative;
+    left: -30px;
+}
 #main-logo{
     width: 400px;
     height: auto
+}
+.drop-li{
+    display: flex;
+    align-items: center;
 }
 @media (max-width: 900px) {
     #main-logo{

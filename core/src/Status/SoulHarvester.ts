@@ -18,6 +18,7 @@ export default class SoulHarvester extends Status {
     apply(unit: any) {
         this.unit = unit
         if (this.unit instanceof Character) {
+            this.unit.addCourage(1)
             this.unit.newStatus({
                 name: 'harvested souls',
                 duration: this.duration,
@@ -32,7 +33,10 @@ export default class SoulHarvester extends Status {
     }
 
     clear() {
-        this.unit.addResourse(this.count)
+        for(let i = 0; i < this.count; i++){
+            this.unit.addResourse(1)
+        }
+        
 
         if(this.effect){
             this.effect.delete()
@@ -60,6 +64,7 @@ export default class SoulHarvester extends Status {
     update(status: any) {
         this.time = Date.now()
         this.count ++
+        this.unit.addCourage(1)
         this.unit.newStatus({
             name: 'harvested souls',
             duration: this.duration,

@@ -14,7 +14,9 @@ export default class Weakness extends Status {
         this.unit = unit
         if (this.unit instanceof Character) {
             this.unit.can_regen_resource = false
-            this.unit.can_block = false
+            this.unit.can_block ++
+
+         
 
             this.unit.statusWasApplied()
 
@@ -29,7 +31,7 @@ export default class Weakness extends Status {
     clear() {
         if (this.unit instanceof Character) {
             this.unit.can_regen_resource = true
-            this.unit.can_block = true
+            this.unit.can_block --
         }
     }
 

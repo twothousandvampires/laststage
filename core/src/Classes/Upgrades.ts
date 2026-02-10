@@ -123,7 +123,7 @@ export default class Upgrades {
                 },
                 teach: (character: Character): void => {
                     character.spirit ++
-                    character.additional_energy_chance ++
+                    character.additional_energy_chance += 2
                 },
                 cost: 1,
                 desc: 'Increases spirit and the chance to gain additional energy',
@@ -135,7 +135,7 @@ export default class Upgrades {
                 },
                 teach: (character: Character): void => {
                     character.move_speed_penalty ++
-                    character.pierce ++
+                    character.pierce += 2
                 },
                 cost: 1,
                 desc: 'Increases pierce rating and movement speed',
@@ -146,8 +146,8 @@ export default class Upgrades {
                     return !(character instanceof Cultist)
                 },
                 teach: (character: Character): void => {
-                    character.additional_courage_chance += 2
-                    character.not_to_lose_courage_when_damage_chance +=5
+                    character.additional_courage_chance += 5
+                    character.not_to_lose_courage_when_damage_chance += 10
                 },
                 cost: 2,
                 ascend: 20,
@@ -189,7 +189,7 @@ export default class Upgrades {
                     return character.life_gained >= 60
                 },
                 teach: (character: Character): void => {
-                    character.chance_to_regen_additional_life += 5
+                    character.chance_to_regen_additional_life += 15
                 },
                 cost: 1,
                 ascend: 22,
@@ -343,7 +343,7 @@ export default class Upgrades {
                     return character.refresh_courage_chance <= 30
                 },
                 teach: (character: Character): void => {
-                    character.refresh_courage_chance += 5
+                    character.refresh_courage_chance += 10
                 },
                 cost: 1,
                 ascend: 14,
@@ -356,10 +356,11 @@ export default class Upgrades {
                 },
                 teach: (character: Character): void => {
                     character.not_to_lose_courage_when_damage_chance += 10
+                    character.fortify += 2
                 },
                 cost: 1,
                 ascend: 20,
-                desc: 'Gives a chance not to lose courage when get damage',
+                desc: 'Gives a chance not to lose courage when get damage and fortification rating',
             },
             {
                 name: 'unbroken veins',
@@ -367,7 +368,7 @@ export default class Upgrades {
                     return true
                 },
                 teach: (character: Character): void => {
-                    character.not_to_lose_regen_when_damage_chance += 10
+                    character.not_to_lose_regen_when_damage_chance += 15
                 },
                 cost: 1,
                 ascend: 12,
@@ -427,7 +428,7 @@ export default class Upgrades {
                     return character.avoid_damage_chance < 20
                 },
                 teach: (character: Character): void => {
-                    character.avoid_damage_chance += 1
+                    character.avoid_damage_chance += 2
                 },
                 cost: 1,
                 ascend: 22,
@@ -551,7 +552,7 @@ export default class Upgrades {
             {
                 name: 'metabolism',
                 canUse: (character: Character) => {
-                    return character.base_regeneration_time > 5000
+                    return character.base_regeneration_time > 4000
                 },
                 teach: (character: Character): void => {
                     character.base_regeneration_time -= 200
@@ -667,14 +668,14 @@ export default class Upgrades {
             {
                 name: 'will to survive',
                 canUse: (character: Character) => {
-                    return !(character instanceof Flyer) && !character.triggers_on_parry.some(elem => elem instanceof WillToSurviveTrigger)
+                    return !character.triggers_on_parry.some(elem => elem instanceof WillToSurviveTrigger)
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_parry.push(new WillToSurviveTrigger())
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'When you parry, there is a chance to get courage',
+                desc: 'When you parry, there is a chance to get life',
             },
             {
                 name: 'first to strike',
@@ -1139,7 +1140,7 @@ export default class Upgrades {
                     return character.chance_to_get_additional_gold < 100
                 },
                 teach: (character: Character) => {
-                    character.chance_to_get_additional_gold += 3
+                    character.chance_to_get_additional_gold += 5
                 },
                 cost: 1,
                 desc: `Increases chance to get additional gold`,
@@ -1174,7 +1175,7 @@ export default class Upgrades {
                     return true
                 },
                 teach: (character: Character) => {
-                    character.pierce += 3
+                    character.pierce += 4
                 },
                 cost: 1,
                 desc: 'Increases pierce rating',
@@ -1414,7 +1415,7 @@ export default class Upgrades {
                 },
                 teach: (character: Character) => {
                     if (character instanceof Character) {
-                        character.impact += 2
+                        character.impact += 3
                     }
                 },
                 cost: 1,

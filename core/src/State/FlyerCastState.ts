@@ -7,7 +7,6 @@ export default class FlyerCastState implements IUnitState<Character> {
     enter(player: Character) {
         player.prepareToAction()
         player.state = 'cast'
-        console.log('enter state')
         this.move_penalty = player.getMoveSpeedPenaltyValue()
         player.addMoveSpeedPenalty(-this.move_penalty)
 

@@ -10,29 +10,43 @@
         </div>
         <h2>There are 2 types of resources in the game:</h2>
         <ul>
-            <li>energy</li>
-            <li>courage</li>
+            <li>Energy</li>
+            <li>Courage</li>
         </ul>
 
-        <div>
-            <img src="/preview/image.jpg" alt="">
+        <div style="display: flex;flex-wrap: wrap;gap:20px">
+            <div style="display: flex;flex-direction: column;width: fit-content;">
+                HUD info
+                <img width="300px" height="400px" src="/preview/image.jpg" alt="">
+            </div>
+            <div style="display: flex;flex-direction: column;width: fit-content;">
+                Indication when energy is full
+                <img width="300px" height="400px"  src="/preview/energy.png" alt="">
+            </div>
+            <div style="display: flex;flex-direction: column;width: fit-content;">
+                Indication when courage is full
+                <img width="300px" height="400px"  src="/preview/courage.png" alt="">
+            </div>
+            <div style="display: flex;flex-direction: column;width: fit-content;">
+                Indication when regen is near
+                <img width="300px" height="400px"  src="/preview/regen.png" alt="">
+            </div>
         </div>
 
         <h3>Each class gets them differently:</h3>
         <ul>
-            <li>Swordsman gains energy when dealing damage with abilities, courage when killing</li>
-            <li>The sorcerer gains energy over time, courage when using the spell</li>
-            <li>The cultist gains courage and energy when receiving damage</li>
+            <li>Swordsman gains energy when dealing damage with abilities, courage when killing.</li>
+            <li>The sorcerer gains energy over time, courage when using the spell.</li>
+            <li>The cultist gains courage when steal enemy soul by taking damage, killing or parring, gains energy when stealed souls are realised.</li>
         </ul>
-        <p>
-            Each ability except the last one does not consume energy, you just need to have enough energy to use it.
-            The last ability consumes energy when used. Utility skills only have a cooldown.
-            The main gameplay is using the first skill, getting enough energy for the second, and then using the last one.
-        </p>
-        <p>
-            Utility uses by pressing 'E'.
-        </p>
-        <p>Courage hiddenly affects the strength of skills and the character, and is lost when receiving damage.</p>
+
+        <ul>
+            <li>Each ability except the last one does not consume energy, you just need to have enough energy to use it.</li>
+            <li>The last ability consumes energy when used. Utility skills("E") only have a cooldown.</li>
+            <li>The main gameplay is using the first skill, getting enough energy for the second, and then using the last one.</li>
+            <li>Courage hiddenly affects the strength of skills and the character, and is lost when receiving damage.</li>
+            <li>Courage affect on move, attack, cast speed by default.</li>
+        </ul>
 
         <br>
 
@@ -55,6 +69,15 @@
 
         <ul>
             <li style="margin-bottom: 10px;">
+                Parry - when you start blocking, you have 250ms to parry enemy damage. Parry effect depends on class.
+            </li>
+            <li style="margin-bottom: 10px;">
+                Counter - when you start attacking, you have 250ms to counterattack enemy damage. Counter effect depends on class.
+            </li>
+            <li style="margin-bottom: 10px;">
+                Escape - when you use action ability('Q'), you have 250ms to escape enemy damage. Escape effect depends on class.
+            </li>
+            <li style="margin-bottom: 10px;">
                 The player starts with 4 lives, and regenerates them over time. 
                 By default, you can't regenerate more than 4, but there are ways to bypass it (for example, "LUST FOR LIFE").
                 If you have more than 4 lives, your status will be - "BLESSED".
@@ -71,10 +94,13 @@
                 If armour rating is higher than pierce rating you have a chance to block damage based on difference.
             </li>
              <li style="margin-bottom: 10px;">
-                "SPIRIT" - Gives a chance lose resource instead life when getting damage.
+                Spirit - Gives a chance lose courage instead life when getting damage.
             </li>
             <li>
-               "FORTIFICATION" - Gives a chance to reduce total damage by 1. Calculating before crit calculation.
+               Fortification - Gives a chance to reduce total damage by 1. Calculating before crit calculation.
+            </li>
+            <li>
+               Avoid damage - Grants a chance to avoid damage altogether.
             </li>
         </ul>
     
@@ -230,9 +256,9 @@
         <h3>The player has 3 currencies:</h3>
 
         <ul>
-            <li>grace (spent on improving the character, buying and improving new/existing skills, getting strong buffs for a while)</li>
-            <li>gold (spent on purchasing and upgrading items)</li>
-            <li>ascent (uses to reroll upgrades and deteminates how powerfull upgrades you will get)</li>
+            <li>Grace - spent on improving the character, buying and improving new/existing skills, getting strong buffs for a while</li>
+            <li>Gold - spent on purchasing and upgrading items</li>
+            <li>Ascent - uses to reroll upgrades and deteminates how powerfull upgrades you will get</li>
         </ul>
     
         <p>
@@ -245,12 +271,12 @@
         <p>
             When killing enemies, you will get something:
             <ul>
-                <li>Grace - gives you 1 grace <span><img width="120px" height="120px" src="/preview/grace.png"></span></li>
-                <li>Essence - resrores health and briefly increases vision radius <span><img  width="120px" height="120px" src="/preview/entity.png"></span></li>
-                <li>Energy sphere - gives 2 energy and phasing<span><img width="120px" height="120px" src="/preview/charged_sphere.png"></span></li>
-                <li>Sorcerer's skull - gives 1 ward and one free cast<span><img width="120px" height="120px" src="/preview/skull.gif"></span></li>
-                <li>Item - gives a random item <span><img width="120px" height="120px" src="/preview/item_drop.gif"></span></li>
-                <li>Helm - increases random stat and increases ascent level <span><img class="bg" width="120px" height="120px" src="/preview/helm.png"></span></li>
+                <li class="drop-li">Grace - gives you 1 grace <span><img width="120px" height="120px" src="/preview/grace.png"></span></li>
+                <li class="drop-li">Essence - resrores health and briefly increases vision radius <span><img  width="120px" height="120px" src="/preview/entity.png"></span></li>
+                <li class="drop-li">Energy sphere - gives 2 energy, 2 courage and phasing<span><img width="120px" height="120px" src="/preview/charged_sphere.png"></span></li>
+                <li class="drop-li">Gold - gives gold and jewel <span><img width="120px" height="120px" src="/preview/gold.png"></span></li>
+                <li class="drop-li">Item - gives a random item <span><img width="120px" height="120px" src="/preview/item_drop.gif"></span></li>
+                <li class="drop-li">Helm - increases ascent level and gives 5 ward <span><img class="bg" width="120px" height="120px" src="/preview/helm.png"></span></li>
             </ul>
         </p>
 
@@ -265,12 +291,12 @@
         <h3>Statuses</h3>
         <p>During the game, negative and positive statuses will be applied to you, for example:
             <ul>
-                <li>weakness - you can't block and receive energy <span><img width="60px" height="60px" src="/icons/weakness.png"></span></li>
-                <li>poison - you can't gain life <span><img width="60px" height="60px" src="/icons/poison.png"></span></li>
-                <li>stream - receiving energy every 2 seconds <span><img width="60px" height="60px" src="/icons/stream.png"></span></li>
-                <li>immortality - you can't take damage <span><img width="60px" height="60px" src="/icons/immortality.png"></span></li>
-                <li>phasing - you can move through enemies <span><img width="60px" height="60px" src="/icons/phase.png"></span></li>
-                <li>etc.</li>
+                <li class="drop-li">weakness - you can't block and receive energy <span><img width="60px" height="60px" src="/icons/weakness.png"></span></li>
+                <li class="drop-li">poison - you can't gain life <span><img width="60px" height="60px" src="/icons/poison.png"></span></li>
+                <li class="drop-li">stream - receiving energy every 2 seconds <span><img width="60px" height="60px" src="/icons/stream.png"></span></li>
+                <li class="drop-li">immortality - you can't take damage <span><img width="60px" height="60px" src="/icons/immortality.png"></span></li>
+                <li class="drop-li">phasing - you can move through enemies <span><img width="60px" height="60px" src="/icons/phase.png"></span></li>
+                <li class="drop-li">etc.</li>
             </ul>
         </p>
         
@@ -292,7 +318,7 @@
                 If all players have activated the challenge, a zone will be created for you to complete. Completing the challenge will earn you a reward; exiting the zone or failing to complete the challenge will incur a penalty.
             </p>
             <div>
-                <img title="create a portal and gives one free upgrade, when failed drains 3 grace" width="200px" height="200px" style="margin-right: 12px;" src="/preview/ultimate1.png" alt="">
+                <img title="create a portal and gives 5 grace, when failed drains 3 grace" width="200px" height="200px" style="margin-right: 12px;" src="/preview/ultimate1.png" alt="">
                 <img title="increases enemy create rate and chance for dropping grace from them, when failed reduces enemy create rate"  width="200px" height="200px"  src="/preview/ultimate2.png" alt="">
             </div>
         </div>
@@ -316,8 +342,8 @@
                 Drains your energy to give you more help.
             </p>
             <div>
-                 <img  style="margin-right: 12px;" title="drains 6 energy and cast powerfull spell afterwards" width="200px" height="200px"  src="/preview/callofpower.png" alt=""></img>
-                 <img title="drains 6 courage and grants powerful status afterwards." width="200px" height="200px"  src="/preview/circleofcalm.png" alt=""></img>
+                 <img  style="margin-right: 12px;" title="drains 4 energy and cast powerfull spell afterwards" width="200px" height="200px"  src="/preview/callofpower.png" alt=""></img>
+                 <img title="drains 4 courage and grants powerful status afterwards." width="200px" height="200px"  src="/preview/circleofcalm.png" alt=""></img>
             </div>
         </div>
 

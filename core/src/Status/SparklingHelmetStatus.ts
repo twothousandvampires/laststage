@@ -3,7 +3,7 @@ import BigShockNova from '../Objects/Effects/BigShockNova'
 import Status from './Status'
 
 export default class SparklingHelmetStatus extends Status {
-    time_beetween_proc: number = 5000
+    time_beetween_proc: number = 6500
     last_trigger_time: number
     public disabled: boolean = false
 
@@ -67,7 +67,7 @@ export default class SparklingHelmetStatus extends Status {
                 Func.elipseCollision(wave, elem.getBoxElipse()) &&
                 elem != this.unit
             ) {
-                let timer = Func.random(1500, 2500)
+                let timer = Func.random(500, 2000)
                 elem.setZap(timer)
                 if (!was_sound) {
                     this.unit.level.addSound('zap', elem.x, elem.y)

@@ -5,7 +5,6 @@ import { Enemy } from '../Objects/src/Enemy/Enemy'
 export default class EnemyDashState implements IUnitState<Enemy> {
     ms: number = 0
     enter(enemy: Enemy) {
-        console.log('state')
         enemy.state = 'attack'
         enemy.is_attacking = true
         enemy.attack_angle = Func.angle(enemy.x, enemy.y, enemy.target.x, enemy.target.y)

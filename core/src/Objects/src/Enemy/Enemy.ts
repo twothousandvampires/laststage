@@ -50,6 +50,11 @@ export default abstract class Enemy extends Unit {
     impact_time: number = 80
     attack_frames: boolean = false
     dash_radius: number = 0
+    big_grace_chance: number = 0
+    attack_ms_penalty: number = 50
+    action_start: number = 0
+    cannot_check_player_until: number = 0
+    soul: boolean = true
 
     constructor(level: Level) {
         super(level)
@@ -66,8 +71,8 @@ export default abstract class Enemy extends Unit {
         let minor_times = Math.floor(wave / 22)
 
         if(minor_times){
-            this.armour_rate += minor_times * 8
-            this.pierce += minor_times * 8
+            this.armour_rate += minor_times * 10
+            this.pierce += minor_times * 10
             this.cooldown_attack -= minor_times * 70
         }
 
@@ -83,11 +88,11 @@ export default abstract class Enemy extends Unit {
             }
             this.elemental_status_resist += status 
 
-            this.move_speed_penalty += major_times * 8
-            this.create_chance -= major_times * 4
+            this.move_speed_penalty += major_times * 10
+            this.create_chance -= major_times * 5
 
-            this.attack_speed -= major_times * 100
-            this.critical += major_times * 5
+            this.attack_speed -= major_times * 150
+            this.critical += major_times * 7
 
             let add_range = major_times * 0.1
             if(add_range > 1){
@@ -114,14 +119,18 @@ export default abstract class Enemy extends Unit {
         return new EnemyDeadState()
     }
 
+    setCheckUntil(timer){
+        if(this.cannot_check_player_until - this.level.time >= timer) return
+
+        this.cannot_check_player_until = this.level.time + timer
+    }
+
     removeTarget(timer: number = this.player_check_timer){
+        this.setCheckUntil(timer)
+        this.can_check_player = false
         this.target = undefined
 
-        this.can_check_player = false
-        
-        setTimeout(() => {
-            this.can_check_player = true
-        }, timer)
+        this.getState()
     }
 
     getAttackState(){
@@ -129,9 +138,14 @@ export default abstract class Enemy extends Unit {
     }
 
     checkPlayer() {
-        if(this.player_check_radius === 0) return 
-        
-        if (this.can_check_player) {
+        if(!this.can_check_player){
+            if(this.level.time >= this.cannot_check_player_until){
+                this.can_check_player = true
+                
+                this.soul = true
+            }
+        }
+        else{
             if (!this.target) {
                 this.can_check_player = false
 
@@ -156,9 +170,7 @@ export default abstract class Enemy extends Unit {
                 }
             }
 
-            setTimeout(() => {
-                this.can_check_player = true
-            }, this.player_check_timer)
+            this.cannot_check_player_until = this.level.time + 2000
         }
     }
 
@@ -180,6 +192,8 @@ export default abstract class Enemy extends Unit {
         this.action_impact = this.level.time + this.action_time * (c / 100)
         this.action_end_time = this.level.time + this.action_time
         this.last_action = this.level.time + this.action_time
+
+        this.action_start = this.level.time
     }
 
     hitPlayer(){
@@ -198,19 +212,13 @@ export default abstract class Enemy extends Unit {
         return this.level.time - this.last_action >= this.cooldown_attack
     }
     
-    drainSoul(){
-        this.move_speed = 0
-        this.cooldown_attack = 99999999
-        this.target = undefined
-        this.can_check_player = false
-        this.player_check_radius = 0
-
+    drainSoul(timer: number = 60000){
+        this.soul = false
         let soul = new Soul(this.level)
         soul.setPoint(this.x, this.y)
-
         this.level.addEffect(soul)
 
-        this.getState()
+        this.removeTarget(timer)
     }
 
     act(time: number) {

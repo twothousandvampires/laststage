@@ -25,6 +25,8 @@ export default class SorcerersSkull extends Effect {
                 elem.addGold(Func.random(40, 60))
                 UpgradeManager.getGrandForging(Func.random(20, 100), elem, true)
 
+                this.level.addSound('gold spending', elem.x, elem.y)
+
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)
             }

@@ -43,6 +43,7 @@ export default class EnemyMelleDashState implements IUnitState<Enemy> {
                 enemy.moveByAngle(enemy.attack_angle)
             } 
         }
+        
         if (enemy.action) {
             enemy.attack_frames = true   
             enemy.attack_angle = Func.angle(enemy.x, enemy.y, enemy.target.x, enemy.target.y)       
@@ -59,7 +60,6 @@ export default class EnemyMelleDashState implements IUnitState<Enemy> {
         enemy.attack_angle = undefined
         enemy.attack_frames = false
         enemy.move_speed -= 0.6
-        enemy.removeTarget(1000)
         enemy.phasing = false
         enemy.move_speed += this.ms
     }

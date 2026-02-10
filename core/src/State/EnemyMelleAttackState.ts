@@ -5,7 +5,6 @@ import Unit from '../Objects/src/Unit'
 
 export default class EnemyMelleAttackState implements IUnitState<Enemy> {
     enter(enemy: Enemy) {
-        console.log(0)
         enemy.state = 'attack'
         enemy.is_attacking = true
         enemy.action_time = enemy.attack_speed
@@ -14,15 +13,13 @@ export default class EnemyMelleAttackState implements IUnitState<Enemy> {
         enemy.hit_y = enemy.target.y
 
         enemy.setImpactTime(enemy.impact_time)
-        enemy.move_speed_penalty -= 50
+        enemy.move_speed_penalty -= enemy.attack_ms_penalty
 
         enemy.attack_angle = Func.angle(enemy.x, enemy.y, enemy.target.x, enemy.target.y)
     }
 
     update(enemy: Enemy) {
-        if(!enemy.hit){
-            if (!enemy.target || !enemy.attack_angle) return
-
+        if(!enemy.hit && enemy.target && enemy.attack_angle){
             let e = enemy.getBoxElipse()
             e.r = enemy.attack_radius
 
@@ -39,11 +36,15 @@ export default class EnemyMelleAttackState implements IUnitState<Enemy> {
                 enemy.moveByAngle(enemy.attack_angle)
             } 
         }
+
         if (enemy.action) {
-            enemy.attack_angle = Func.angle(enemy.x, enemy.y, enemy.target.x, enemy.target.y)
+            if(enemy.target){
+                enemy.attack_angle = Func.angle(enemy.x, enemy.y, enemy.target.x, enemy.target.y)
+            }
             enemy.attack_frames = true
             enemy.getHitSound()          
-        } 
+        }
+
         else if (enemy.action_is_end) {
             enemy.getState()
         }
@@ -55,7 +56,6 @@ export default class EnemyMelleAttackState implements IUnitState<Enemy> {
         enemy.is_attacking = false
         enemy.attack_angle = undefined
         enemy.attack_frames = false
-        enemy.move_speed_penalty += 50
-        enemy.removeTarget(1000)
+        enemy.move_speed_penalty += enemy.attack_ms_penalty
     }
 }

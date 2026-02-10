@@ -1,5 +1,6 @@
 import GameObject from './Objects/src/GameObject'
 import Unit from './Objects/src/Unit'
+import Box from './Types/Box'
 
 type Rect = {
     x: number
@@ -37,12 +38,17 @@ export default class Func {
         return new Promise(resolve => setTimeout(resolve, ms))
     }
 
-    static distance(one: GameObject, two: GameObject) {
-        let a = Func.angle(one.x, one.y, two.x, two.y)
+    static distance(one: GameObject | Box, two: GameObject | Box, check_distance: number = 9999) {
+        if (Math.abs(one.x - two.x) > check_distance + 4) return 9999
+        if (Math.abs(one.y - two.y) > check_distance + 4) return 9999
 
+        let dx = Math.abs(one.x - two.x);
+        let dy = Math.abs(one.y - two.y);
+        
+        let a = Func.angle(one.x, one.y, two.x, two.y)
         let l = 1 - Math.abs(0.5 * Math.cos(a))
 
-        return Math.sqrt((one.x - two.x) ** 2 + ((one.y - two.y) / l) ** 2)
+        return Math.sqrt(dx ** 2 + (dy / l) ** 2)
     }
 
     static getRandomFromArray(array: any) {

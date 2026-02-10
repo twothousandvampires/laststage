@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import FlamyRing from '../Objects/Effects/FlamyRing'
 import Character from '../Objects/src/Character'
 import Item from './Item'
@@ -12,7 +12,7 @@ export default class FlamyNimbus extends Item implements ITrigger {
         super()
         this.type = 3
         this.chance = 20
-        this.cd = 4000
+        this.cd = 0
         this.description = 'When you reach maximum energy, creates a ring that burns enemies'
         this.name = 'flamy nimbus'
     }

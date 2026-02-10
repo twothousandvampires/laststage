@@ -179,7 +179,7 @@ export default class Default extends Scenario {
         let count = Func.random(1 + Math.round(add_count / 5), 2 + Math.round(add_count / 3))
 
         count += (level.players.length - 1) * 2
-
+          
         for (let i = 0; i < count; i++) {
             await Func.sleep(Func.random(100, 300))
 

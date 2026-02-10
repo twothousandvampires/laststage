@@ -3,7 +3,7 @@ import Sprite from "../Sprite";
 export default class Parry extends Sprite {
     constructor(id) {
         super(id);
-
+       
         this.max_frame = 9;
         this.max_frame_tick = 1;
         this.sprite_h = 40;

@@ -7,7 +7,10 @@ export default class PlayerIdleState implements IUnitState<Character> {
     }
 
     update(player: Character) {
-        if (player.pressed.l_click && player.can_use_skills && player.first_ability) {
+        if(player.pressed[81] && player.canUseAction()){
+            player.useAction()
+        }
+        else if (player.pressed.l_click && player.can_use_skills && player.first_ability) {
             if (player.first_ability.canUse()) {
                 player.useAbility(player.first_ability)
             }

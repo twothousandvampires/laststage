@@ -73,6 +73,7 @@ export class ForgeManifistation extends Manifistation {
         }
 
         let msg = 'was forged: ' + item.name
+        
         if(j){
             msg += ' and got jewel'
         }

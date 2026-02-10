@@ -8,10 +8,10 @@ export default class BloodySpell extends Forging {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 40
+        this.max_value = 100
         this.name = 'bloody spell'
         this.description = 'When you lose life, there is a chance to create 4 blood vines from their body that damage enemies'
-        this.gold_cost = 5
+        this.gold_cost = 7
     }
 
     forge(player: Character) {
@@ -19,16 +19,16 @@ export default class BloodySpell extends Forging {
             let trigger = player.triggers_on_lose_life.find( elem => elem instanceof BloodyVinesTrigger)
 
             if (trigger) {
-                trigger.chance += 4
+                trigger.chance += 10
             } else {
                 let t = new BloodyVinesTrigger()
-                t.chance = 4
+                t.chance = 10
 
                 player.triggers_on_lose_life.push(t)
             }
 
             this.payCost()
-            this.value += 4
+            this.value += 10
         }
     }
 

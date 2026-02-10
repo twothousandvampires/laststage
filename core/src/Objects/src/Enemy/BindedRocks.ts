@@ -30,6 +30,7 @@ export default class BindedRocks extends Enemy {
         this.immune_to_zap = true
         this.immune_to_stun = true
         this.wave_start = 120
+        this.big_grace_chance = 9
     }
 
     hitImpact() {

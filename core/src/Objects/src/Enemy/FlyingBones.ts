@@ -35,6 +35,7 @@ export default class FlyingBones extends Undead {
         this.gold_revard = 3
         this.create_item_chance = 3
         this.create_sorcerers_skull_chance = 15
+        this.big_grace_chance = 3
         this.abilities = [
             new GhostGripAbility(),
             new FanOfBonesAbility(),

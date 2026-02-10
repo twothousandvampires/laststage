@@ -2,7 +2,7 @@ import GhostForm from '../../../Abilities/Cultist/GhostForm'
 import GrimPile from '../../../Abilities/Cultist/GrimPile'
 import PileOfThornCast from '../../../Abilities/Cultist/PileOfThornCast'
 import Rune from '../../../Abilities/Cultist/Rune'
-import SelfFlagellation from '../../../Abilities/Cultist/SelfFlagellation'
+import ShatterShell from '../../../Abilities/Cultist/ShatterShell'
 import ShieldBash from '../../../Abilities/Cultist/ShieldBash'
 import Slam from '../../../Abilities/Cultist/Slam'
 import Soulrender from '../../../Abilities/Cultist/Soulrender'
@@ -16,21 +16,18 @@ import CultistWillDamageAvoid from '../../../Mutators/CultistWillDamageAvoid'
 import CultistDefendState from '../../../State/CultistDefendState'
 import CultistGhostState from '../../../State/CultistGhostState'
 import PlayerDyingState from '../../../State/PlayerDyingState'
+import DeathAura from '../../../Status/DeathAura'
 import Immortality from '../../../Status/Immortality'
+import SoulAttractor from '../../../Status/SoulAttractor'
 import SoulHarvester from '../../../Status/SoulHarvester'
 import CultistKillTrigger from '../../../Triggers/CultistKillTrigger'
 import CultistLoseLife from '../../../Triggers/CultistLoseLife'
-import UnbreakableArmour from '../../../Triggers/UnbreakableArmour'
-import UnbreakableSpirit from '../../../Triggers/UnbreakableSpirit'
 import Armour from '../../Effects/Armour'
+import Blood from '../../Effects/Blood'
+import BloodyVinesEffect from '../../Effects/BloodyVinesEffect'
 import Counter from '../../Effects/Counter'
-import Devour from '../../Effects/Devour'
-import Parry from '../../Effects/Parry'
-import Soul from '../../Effects/Soul'
 import SoulDevouring from '../../Effects/SoulDevouring'
-import Spirit from '../../Effects/Spirit'
 import ToothExplode from '../../Effects/ToothExplode'
-import { SoulShatterProj } from '../../Projectiles/SoulShatterProj'
 import Character from '../Character'
 import Unit from '../Unit'
 
@@ -45,8 +42,8 @@ export default class Cultist extends Character {
     hit_y: number | undefined
     weapon_angle: number
     ghost_time_until: number = 0
-    soul_on_kill_chance: number = 5
-
+    soul_on_kill_chance: number = 15
+   
     constructor(level: Level) {
         super(level)
 
@@ -69,12 +66,27 @@ export default class Cultist extends Character {
         this.chance_to_block = 65
         this.avaid_damage_mutator = [new CultistWillDamageAvoid()]
         this.armour_mutators = [new CultistArmourMutator()]
-        this.triggers_on_lose_life = []
+        this.triggers_on_lose_life = [new CultistLoseLife()]
         this.triggers_on_kill = [new CultistKillTrigger()]
 
-        this.courage_expire_timer = 6000
+        this.courage_expire_timer = 8000
         this.armour_rate = 25
         this.parry_window = 300
+        this.action_cd = 6000
+        this.action_name = 'self-flagellation'
+    }
+
+    useAction(): void {
+        this.setActionWindow()
+
+        let e = new Blood(this.level)
+        e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
+        e.z = Func.random(2, 8)
+        this.level.effects.push(e)
+
+        this.chance_to_avoid_damage_state += 100
+        this.subLife(this, {})
+        this.chance_to_avoid_damage_state -= 100
     }
 
     getDefendState() {
@@ -121,8 +133,8 @@ export default class Cultist extends Character {
 
         let utility_name = abilities.find(elem => elem.type === 4 && elem.selected).name
 
-        if (utility_name === 'self flagellation') {
-            this.utility = new SelfFlagellation(this)
+        if (utility_name === 'shatter-shell') {
+            this.utility = new ShatterShell(this)
         } else if (utility_name === 'ghost form') {
             this.utility = new GhostForm(this)
         }
@@ -130,11 +142,13 @@ export default class Cultist extends Character {
         let passive = abilities.find(elem => elem.type === 5 && elem.selected)
         
         if (passive) {
-            if (passive.name === 'unbreakable spirit') {
-                this.triggers_on_get_hit.push(new UnbreakableSpirit())
+            if (passive.name === 'death aura') {
+                let s = new DeathAura(0)
+                this.level.setStatus(this, s)
             }
-            if (passive.name === 'unbreakable armour') {
-                this.triggers_on_near_dead.push(new UnbreakableArmour())
+            if (passive.name === 'soul attractor') {
+                let s = new SoulAttractor(0)
+                this.level.setStatus(this, s)
             }
         }
     }
@@ -254,17 +268,27 @@ export default class Cultist extends Character {
             return
         }
 
+        if(this.isEscape()){
+            let e = new BloodyVinesEffect(this.level)
+            e.setOwner(this)
+            e.setPoint(this.x, this.y)
+    
+            this.level.binded_effects.push(e)
+            return
+        }
+
         if(this.isCounter() && unit != this){
+
             let e = new Counter(this.level)
             e.setPoint(this.x, this.y - 10)
             this.level.addEffect(e)
 
             if(unit && !unit.is_dead){
                 this.addLife(1)
-
-                let s = new SoulHarvester(this.level.time)
-                s.setDuration(5000)
-                this.level.setStatus(this, s, true)
+                this.succesefulKill(unit)
+                // let s = new SoulHarvester(this.level.time)
+                // s.setDuration(5000)
+                // this.level.setStatus(this, s, true)
 
                 this.level.removeEnemy(unit)
                 
@@ -280,20 +304,14 @@ export default class Cultist extends Character {
         this.playerWasHited(unit)
 
         if (this.isSpiritBlock()) {
-            this.level.addSound('spirit', this.x, this.y)
-            let e = new Spirit(this.level)
-            e.setPoint(this.x, this.y)
-            this.level.addEffect(e)
-
-            this.reduceSecondResourse(1)
+            this.wasSpiritBlock()
             return
         }
 
         let is_armour_hit = this.isArmourHit(unit)
 
         if(this.isParry() && unit != this){
-            let e = new Parry(this.level)
-            e.setPoint(this.x, this.y - 10)
+            this.level.createEffect(this, 'parry', 10)
 
             if(unit){
                 if(!unit.is_dead){
@@ -304,12 +322,9 @@ export default class Cultist extends Character {
                 s.setDuration(5000)
                 this.level.setStatus(this, s, true)
             }
-            
-            this.level.addEffect(e)
+
             this.wasParry(unit)
         }
-
-        this.addCourage()
 
         if (this.isBlock()) {
             this.succesefulBlock(unit)
@@ -337,6 +352,7 @@ export default class Cultist extends Character {
         }
         
         if (Func.chance(this.getAvoidChance(), this.is_lucky)) {
+            this.level.createEffect(this, 'damage avoid')
             return
         }
 

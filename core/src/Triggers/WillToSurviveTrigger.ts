@@ -13,6 +13,6 @@ export default class WillToSurviveTrigger implements ITrigger {
     }
 
     trigger(player: Character) {
-        player.addCourage(1)
+        player.addLife(1)
     }
 }

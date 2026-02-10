@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import { ThrowedWeaponShard } from '../Objects/Projectiles/ThrowedWeaponShard'
 import Character from '../Objects/src/Character'
 import Item from './Item'
@@ -9,11 +9,10 @@ export default class FlyingShards extends Item implements ITrigger {
     constructor() {
         super()
         this.type = 3
-        this.chance = 30
+        this.chance = 100
         this.count = 2
-        this.cd = 800
-        this.description =
-            'When you block hit with armour there is a chance to realise metal shards to enemies'
+        this.cd = 500
+        this.description ='When you block hit with armour there is a chance to realise metal shards to enemies'
         this.name = 'flying shards'
     }
 
@@ -26,7 +25,7 @@ export default class FlyingShards extends Item implements ITrigger {
     }
 
     getSpecialForgings(): string[] {
-        return ['chance', 'count', 'frequency']
+        return ['count']
     }
 
     trigger(character: Character, target: any) {

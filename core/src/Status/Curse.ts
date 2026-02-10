@@ -10,7 +10,7 @@ export default class Curse extends Status {
 
     apply(unit: any) {
         this.unit = unit
-
+         console.log('11hereeee22')
         if (this.unit instanceof Character) {
             this.unit.can_use_skills = false
             this.unit.statusWasApplied()
@@ -24,7 +24,9 @@ export default class Curse extends Status {
     }
 
     clear() {
+         console.log('hereeee22')
         if (this.unit instanceof Character) {
+            console.log('hereeee')
             this.unit.can_use_skills = true
         }
     }

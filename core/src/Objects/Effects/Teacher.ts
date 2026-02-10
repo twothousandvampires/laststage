@@ -28,12 +28,9 @@ export default class Teacher extends Effect {
                 }
                 
             } else if (!is_coll && this.entered.includes(elem.id)) {
-                 this.entered = this.entered.filter(elem2 => elem2 != elem.id)
+                this.entered = this.entered.filter(elem2 => elem2 != elem.id)
                 elem.left_teacher = false
                 UpgradeManager.closeUpgrades(elem)
-
-               
-                 console.log(this.entered)
             }
         })
     }

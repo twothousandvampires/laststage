@@ -171,6 +171,13 @@ import BigGraceShard from "./src/sprites/Effect/BigGraceShard"
 import Escape from "./src/sprites/Effect/Escape"
 import DamageAvoid from "./src/sprites/Effect/DamageAvoid"
 import FlyerTrail from "./src/sprites/Effect/FlyerTrail"
+import FallingSword from "./src/sprites/Effect/FallingSword"
+import HitSpark from "./src/sprites/Effect/HitSpark"
+import BonesHit from "./src/sprites/Effect/BonesHit"
+import FloorBlood from "./src/sprites/Effect/FloorBlood"
+import FloorBones from "./src/sprites/Effect/FloorBones"
+import MoltenBurst from "./src/sprites/Effect/MoltenBurst"
+import Bat from "./src/sprites/Enemy/Bat"
 
 export default class Render{
     
@@ -253,6 +260,9 @@ export default class Render{
         else if(elem.name === 'impy'){
             return new ImpySprite(elem.id)
         }
+        else if(elem.name === 'bat'){
+            return new Bat(elem.id)
+        }
         else if(elem.name === 'bones'){
             return new Bones(elem.id)
         }
@@ -264,6 +274,9 @@ export default class Render{
         }
         else if(elem.name === 'split'){
             return new SplitOfEntity(elem.id)
+        }
+        else if(elem.name === 'falling sword'){
+            return new FallingSword(elem.id)
         }
         else if(elem.name === 'grace shard'){
             return new GraceShard(elem.id)
@@ -364,6 +377,18 @@ export default class Render{
         else if(elem.name === 'blood'){
             return new Blood(elem.id)
         }
+        else if(elem.name === 'floor blood'){
+            return new FloorBlood(elem.id)
+        }
+        else if(elem.name === 'bones hit'){
+            return new BonesHit(elem.id)
+        }
+        else if(elem.name === 'floor bones'){
+            return new FloorBones(elem.id)
+        }
+        else if(elem.name === 'molten burst'){
+            return new MoltenBurst(elem.id)
+        }
         else if(elem.name === 'big shocknova'){
             return new BigShocknova(elem.id)
         }
@@ -420,6 +445,9 @@ export default class Render{
         }
         else if(elem.name === 'weapon fragment'){
             return new WeaponFragment(elem.id)
+        }
+        else if(elem.name === 'hit spark'){
+            return new HitSpark(elem.id)
         }
         else if(elem.name === 'specter'){
             return new Spectre(elem.id)

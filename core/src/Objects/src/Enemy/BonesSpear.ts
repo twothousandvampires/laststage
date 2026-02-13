@@ -22,6 +22,7 @@ export default class BonesSpear extends Undead {
         this.weapon_angle = 0.7
         this.impact_time = 50
         this.dash_radius = 12
+        this.dash_ms = 0.6
     }
 
     whenDead(): void {

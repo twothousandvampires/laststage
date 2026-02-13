@@ -1,4 +1,3 @@
-import ITrigger from '../../Interfaces/Itrigger'
 import Character from '../../Objects/src/Character'
 import FreezeWhetHitedTrigger from '../../Triggers/FreezeWhetHitedTrigger'
 import Item from '../Item'
@@ -9,8 +8,8 @@ export default class FreezeWhenHited extends Forging {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 50
-        this.name = 'icy halo'
+        this.max_value = 100
+        this.name = 'freeze when hit'
         this.description = 'Chance to freeze enemies in a radius when getting hit'
         this.gold_cost = 8
     }

@@ -99,6 +99,15 @@ import WillToSurviveTrigger from '../Triggers/WillToSurviveTrigger'
 import LastChance from '../Triggers/LastChance'
 import GoodMoment from '../Triggers/GoodMoment'
 import AbsorptionTrigger from '../Triggers/AbsorptionTrigger'
+import MoltenHelm from '../Items/MoltenHelm'
+import MoltenShrapenel from '../Triggers/MoltenShrapenel'
+import FireTrapTrigger from '../Triggers/FireTrapTrigger'
+import Overflow from '../Triggers/Overflow'
+import ExplodingMeat from '../Triggers/ExplodingMeat'
+import BreakingBodyTrigger from '../Triggers/BreakingBodyTrigger'
+import SummonBat from '../Triggers/SummonBat'
+import SoulPierceTrigger from '../Triggers/SoulPierceTrigger'
+import FrostTrap from '../Triggers/FrostTrap'
 
 export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
@@ -127,6 +136,18 @@ export default class Upgrades {
                 },
                 cost: 1,
                 desc: 'Increases spirit and the chance to gain additional energy',
+            },
+            {
+                name: 'bat caller',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_use_not_utility.some(elem => elem instanceof SummonBat)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_use_not_utility.push(new SummonBat())
+                },
+                cost: 2,
+                ascend: 16,
+                desc: 'When you use ability there is a chance to summon bat',
             },
             {
                 name: 'offense',
@@ -460,6 +481,54 @@ export default class Upgrades {
                 desc: 'Increases cast speed',
             },
             {
+                name: 'molten shrapnel',
+                canUse: (character: Character) => {
+                    return !character.on_counter_triggers.some(elem => elem instanceof MoltenShrapenel)
+                },
+                teach: (character: Character) => {
+                    character.on_counter_triggers.push(new MoltenShrapenel())
+                },
+                cost: 2,
+                ascend: 14,
+                desc: 'When counterattacking, release molten shrapnel in a circle to ignite enemies',
+            },
+            {
+                name: 'soul pierce',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_pierce.some(elem => elem instanceof SoulPierceTrigger)
+                },
+                teach: (character: Character) => {
+                    character.triggers_on_pierce.push(new SoulPierceTrigger())
+                },
+                cost: 2,
+                ascend: 25,
+                desc: 'When pierce, get a ward',
+            },
+            {
+                name: 'fire trap',
+                canUse: (character: Character) => {
+                    return !character.on_escape_triggers.some(elem => elem instanceof FireTrapTrigger)
+                },
+                teach: (character: Character) => {
+                    character.on_escape_triggers.push(new FireTrapTrigger())
+                },
+                cost: 1,
+                ascend: 10,
+                desc: 'When escape, create a big explosion and reduce action cooldown by 1 sec',
+            },
+            {
+                name: 'frost trap',
+                canUse: (character: Character) => {
+                    return !character.on_escape_triggers.some(elem => elem instanceof FrostTrap)
+                },
+                teach: (character: Character) => {
+                    character.on_escape_triggers.push(new FrostTrap())
+                },
+                cost: 1,
+                ascend: 15,
+                desc: 'When escape, freeze enemies and reduce action cooldown by 1 sec',
+            },
+            {
                 name: 'breaking armor',
                 canUse: (character: Character) => {
                     return character.crushing_rating >= 30 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingArmorTrigger)
@@ -469,19 +538,31 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 18,
-                desc: 'When you crush an enemy, there is a chance to reduce their armour',
+                desc: 'When you crush an enemy, there is a chance to reduce their armour and move speed',
             },
             {
                 name: 'breaking bones',
                 canUse: (character: Character) => {
-                    return character.crushing_rating >= 15 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingBonesTrigger)
+                    return character.crushing_rating >= 10 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingBonesTrigger)
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_crushing.push(new BreakingBonesTrigger())
                 },
                 cost: 1,
                 ascend: 10,
-                desc: 'When you crush an enemy, there is a chance to reduce their movement speed',
+                desc: 'When you crush an enemy, bones are knocked out of him, wounding the enemy',
+            },
+             {
+                name: 'breaking body',
+                canUse: (character: Character) => {
+                    return character.crushing_rating >= 15 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingBodyTrigger)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_crushing.push(new BreakingBodyTrigger())
+                },
+                cost: 1,
+                ascend: 10,
+                desc: 'When you crush an enemy, their blood spreads and deals damage',
             },
             {
                 name: 'fortune-teller',
@@ -649,6 +730,30 @@ export default class Upgrades {
                 cost: 1,
                 ascend: 10,
                 desc: 'Increases power',
+            },
+             {
+                name: 'exploding meat',
+                canUse: (character: Character) => {
+                    return character.impact >= 20 && !character.triggers_on_impact.some(elem => elem instanceof ExplodingMeat)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_impact.push(new ExplodingMeat())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When you impact, you explode all bodies in impact radius',
+            },
+            {
+                name: 'overflow',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_get_energy.some(elem => elem instanceof Overflow)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_get_energy.push(new Overflow())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When you gain energy, there is a chance to create electric explosion around you',
             },
             {
                 name: 'overpower',
@@ -1055,7 +1160,7 @@ export default class Upgrades {
             {
                 name: 'spirit strikes',
                 canUse: (character: Character) => {
-                    return !character.triggers_on_impact.some(elem => elem instanceof SpiritStrikes) && character.ward >= 6
+                    return !character.triggers_on_impact.some(elem => elem instanceof SpiritStrikes) && character.ward >= 3
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_impact.push(new SpiritStrikes())
@@ -2818,6 +2923,60 @@ export default class Upgrades {
     static getSwordmanUpgrades() {
         return [
             {
+                name: 'sweep',
+                type: 'weapon swing',
+                canUse: (character: Character) => {
+                    return (
+                        character.first_ability instanceof WeaponSwing &&
+                        !character.first_ability.sweep
+                    )
+                },
+                teach: (character: Character) => {
+                    if (character.first_ability && character.first_ability instanceof WeaponSwing) {
+                        character.first_ability.sweep = true
+                    }
+                },
+                cost: 3,
+                ascend: 30,
+                desc: 'Gives a chance to deal damage around you',
+            }, 
+            {
+                name: 'icy blade',
+                type: 'weapon swing',
+                canUse: (character: Character) => {
+                    return (
+                        character.first_ability instanceof WeaponSwing &&
+                        !character.first_ability.icy
+                    )
+                },
+                teach: (character: Character) => {
+                    if (character.first_ability && character.first_ability instanceof WeaponSwing) {
+                        character.first_ability.icy = true
+                    }
+                },
+                cost: 2,
+                ascend: 15,
+                desc: 'Gives a chance to freeze enemy',
+            },       
+            {
+                name: 'call of sword',
+                type: 'weapon swing',
+                canUse: (character: Character) => {
+                    return (
+                        character.first_ability instanceof WeaponSwing &&
+                        !character.first_ability.call
+                    )
+                },
+                teach: (character: Character) => {
+                    if (character.first_ability && character.first_ability instanceof WeaponSwing) {
+                        character.first_ability.call = true
+                    }
+                },
+                cost: 2,
+                ascend: 15,
+                desc: 'Drops a sword on a random enemy on hit',
+            },
+            {
                 name: 'crushing swings',
                 type: 'weapon swing',
                 canUse: (character: Character) => {
@@ -2831,8 +2990,8 @@ export default class Upgrades {
                         character.first_ability.crushing = true
                     }
                 },
-                cost: 4,
-                ascend: 18,
+                cost: 2,
+                ascend: 22,
                 desc: 'Increase attack range and slash angle',
             },
             {
@@ -2843,7 +3002,7 @@ export default class Upgrades {
                 teach: (character: Character): void => {
                     character.attack_radius += 1.5
                 },
-                cost: 3,
+                cost: 2,
                 ascend: 14,
                 desc: 'Increases your attack range',
             },
@@ -3011,6 +3170,42 @@ export default class Upgrades {
                 desc: 'After landing by jump ability your will get armour by each hited enemy',
             },
             {
+                name: 'catacomb tremor',
+                type: 'jump',
+                canUse: (character: Character) => {
+                    return (
+                        character.second_ability instanceof Jump &&
+                        !character.second_ability.tremor
+                    )
+                },
+                teach: (character: Character) => {
+                    if (character.second_ability && character.second_ability instanceof Jump) {
+                        character.second_ability.tremor = true
+                    }
+                },
+                cost: 2,
+                ascend: 16,
+                desc: 'When you land, collapse pieces of the ceiling onto your enemies',
+            },
+            {
+                name: 'bodies shake',
+                type: 'jump',
+                canUse: (character: Character) => {
+                    return (
+                        character.second_ability instanceof Jump &&
+                        !character.second_ability.shake
+                    )
+                },
+                teach: (character: Character) => {
+                    if (character.second_ability && character.second_ability instanceof Jump) {
+                        character.second_ability.shake = true
+                    }
+                },
+                cost: 1,
+                ascend: 25,
+                desc: 'When you land, corpse can drop the sphere',
+            },
+            {
                 name: 'stomp',
                 type: 'jump',
                 canUse: (character: Character) => {
@@ -3023,7 +3218,7 @@ export default class Upgrades {
                         character.second_ability.stomp = true
                     }
                 },
-                cost: 3,
+                cost: 2,
                 ascend: 24,
                 desc: 'Increases radius',
             },

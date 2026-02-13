@@ -9,11 +9,10 @@ export default class GlacialChain extends Item implements ITrigger {
     public cd: number = 0
     constructor() {
         super()
-        this.chance = 20
+        this.chance = 15
         this.name = 'glacial chain'
         this.type = 1
-        this.description =
-            'after using your non-utility skill you have a 25% chance to spell Frost Wave'
+        this.description = 'after using your non-utility skill you have a 25% chance to spell Frost Wave'
     }
 
     getTriggerChance(player: Character | undefined): number {

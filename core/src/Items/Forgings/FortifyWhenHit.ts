@@ -13,8 +13,8 @@ export default class FortifyWhenHit extends Forging implements ITrigger {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 50
-        this.name = 'fortify'
+        this.max_value = 100
+        this.name = 'fortify when hit'
         this.description = 'When you get hit, there is a chance to gain fortify'
         this.gold_cost = 8
     }

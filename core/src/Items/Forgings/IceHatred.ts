@@ -9,7 +9,7 @@ export default class IceHatred extends Forging {
     constructor(item: Item) {
         super(item)
         this.max_value = 10
-        this.name = 'ice hatred'
+        this.name = 'freeze on critical'
         this.description = 'When you land a critical hit, you release streaks of ice that freeze enemies for an extended time'
         this.gold_cost = 20
     }

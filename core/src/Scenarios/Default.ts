@@ -458,7 +458,7 @@ export default class Default extends Scenario {
 
             level.enemies.push(a)
         }
-        if (this.waves_created % 10 === 0 && this.waves_created > 1) {
+        if (this.waves_created % 8 === 0 && this.waves_created > 1) {
             let e = undefined
             let r = Func.random(1, 5)
 
@@ -495,7 +495,7 @@ export default class Default extends Scenario {
             level.binded_effects.push(e)
         }
 
-        if (this.waves_created % 18 === 0 && this.waves_created > 1) {
+        if (this.waves_created % 16 === 0 && this.waves_created > 1) {
             let e = undefined
             let r = Func.random(1, 4)
 
@@ -529,64 +529,5 @@ export default class Default extends Scenario {
             EffectBuilder.createGroup(e)
             level.binded_effects.push(e)
         }
-
-        // if (this.waves_created % 9 === 0) {
-        //     let min = undefined
-        //     let name = undefined
-        //     for (let minor in this.monster_upgrades.minor) {
-        //         if (min === undefined || this.monster_upgrades.minor[minor] < min) {
-        //             min = this.monster_upgrades.minor[minor]
-        //             name = minor
-        //         }
-        //     }
-        //     if (!name) return
-
-        //     this.monster_upgrades.minor[name]++
-
-        //     switch (name) {
-        //         case 'cooldown_attack':
-        //             this.add_cooldown_attack += 50
-        //             break
-        //         case 'pierce':
-        //             this.add_e_pierce += 5
-        //             break
-        //         case 'armour':
-        //             this.add_e_armour += 5
-        //             break
-        //     }
-        // }
-        // if (this.waves_created % 19 === 0) {
-        //     let min = undefined
-        //     let name = undefined
-        //     for (let major in this.monster_upgrades.major) {
-        //         if (min === undefined || this.monster_upgrades.major[major] < min) {
-        //             min = this.monster_upgrades.major[major]
-        //             name = major
-        //         }
-        //     }
-        //     if (!name) return
-
-        //     this.monster_upgrades.major[name]++
-
-        //     switch (name) {
-        //         case 'attack_speed':
-        //             this.add_attack_speed += 50
-        //             this.add_critical += 6
-        //             break
-        //         case 'move_speed':
-        //             this.add_e_speed += 6
-        //             this.minus_create_chance += 4
-        //             break
-        //         case 'life':
-        //             this.add_e_life += 1
-        //             this.add_e_fortify += 5
-        //             if (this.add_e_elem_resist < 60) {
-        //                 this.add_e_elem_resist += 15
-        //             }
-        //             break
-        //     }
-
-        //     level.addSound('evel upgrade', 40, 40)
-        // }
     }
 }

@@ -120,6 +120,9 @@ import BoilingBlood from '../Items/Forgings/BoilingBlood'
 import IceHatred from '../Items/Forgings/IceHatred'
 import Thunder from '../Glyphs/Thunder'
 import ShockWave from '../Glyphs/ShockWave'
+import FallingSwords from '../Items/Forgings/FallingSwords'
+import TurnOffIron from '../Items/Forgings/TurnOffIron'
+import Chain from '../Glyphs/Chain'
 
 export default class Builder {
     static masteryMap = {
@@ -141,7 +144,8 @@ export default class Builder {
         dismemberment: Dismemberment,
         'lightning sentries': LightningSentries,
         'thunder': Thunder,
-        'shock wave': ShockWave
+        'shock wave': ShockWave,
+        'chain': Chain
     }
 
     static itemMap = {
@@ -194,6 +198,7 @@ export default class Builder {
     }
 
     static forgingMap = {
+        charisma: Charisma,
         'attack speed': AttackSpeed,
         'armour rate': ArmourRate,
         'block chance': BlockChance,
@@ -246,7 +251,9 @@ export default class Builder {
         'ascension armor': AscensionArmour,
         'bloody spell': BloodySpell,
         'boiling blood': BoilingBlood,
-        'ice hatred': IceHatred
+        'ice hatred': IceHatred,
+        'falling swords': FallingSwords,
+        'torn off iron': TurnOffIron
     }
 
     static createCharacter(client: Client, level: Level): Character {

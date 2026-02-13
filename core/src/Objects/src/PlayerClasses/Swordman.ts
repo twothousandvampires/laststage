@@ -21,16 +21,19 @@ import InnerPowerTrigger from '../../../Triggers/InnerPowerTrigger'
 import HeavenIntervention from '../../../Triggers/HeavenIntervention'
 import HeavenWrath from '../../../Abilities/Swordman/HeavenWrath'
 import Upgrade from '../../../Types/Upgrade'
-import Spirit from '../../Effects/Spirit'
 import SwordmanArmourMutator from '../../../Mutators/SwordmanArmourMutator'
 import Enemy from '../Enemy/Enemy'
-import Parry from '../../Effects/Parry'
 import SwordmanEnlightment from '../../../Triggers/SwordmanEnlightment'
 import Counter from '../../Effects/Counter'
 import SwordmanCounterTrigger from '../../../Triggers/SwordmanCounterTrigger'
 import SwordmanJumpState from '../../../State/SwordmanJumpState'
-import Escape from '../../Effects/Escape'
-import SorcerersSkull from '../../Effects/SorcerersSkull'
+import MoltenShrapenel from '../../../Triggers/MoltenShrapenel'
+import FireTrapTrigger from '../../../Triggers/FireTrapTrigger'
+import Overflow from '../../../Triggers/Overflow'
+import ExplodingMeat from '../../../Triggers/ExplodingMeat'
+import Bat from '../Enemy/Bat'
+import SummonBat from '../../../Triggers/SummonBat'
+
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -49,7 +52,6 @@ export default class Swordman extends Character {
         this.name = 'swordman'
         this.move_speed = 0.5
         this.chance_to_avoid_damage_state = 10
-        this.armour_rate = 0
         this.resource = 0
 
         this.attack_speed = 1450
@@ -58,7 +60,7 @@ export default class Swordman extends Character {
         this.cast_speed = 1650
         this.chance_to_block = 50
         this.armour_mutators = [new SwordmanArmourMutator()]
-        this.armour_rate = 15
+        this.armour_rate = 25
         this.triggers_on_enlight = [new SwordmanEnlightment()]
         this.on_counter_triggers = [new SwordmanCounterTrigger()]
         this.action_name = 'jump'
@@ -241,7 +243,7 @@ export default class Swordman extends Character {
 
         if (this.ward) {
             this.loseWard(1)
-
+             this.level.addLog('player ward')
             let e = new ToothExplode(this.level)
             e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
             e.z = Func.random(2, 8)
@@ -262,9 +264,11 @@ export default class Swordman extends Character {
                     elem.removeTarget(3000)
                 }
             })
-            
+            this.level.addLog('player escape')
             this.level.createEffect(this, 'escape')
             this.addCourage()
+
+            this.wasEscape(unit)
             return
         }
 
@@ -272,7 +276,7 @@ export default class Swordman extends Character {
             let e = new Counter(this.level)
             e.setPoint(this.x, this.y - 10)
             this.level.addEffect(e)
-
+            this.level.addLog('player counter')
             this.wasCounter(unit)
             return
         }
@@ -280,6 +284,7 @@ export default class Swordman extends Character {
         this.playerWasHited(unit)
 
         if (this.isSpiritBlock()) {
+            this.level.addLog('player spirit block')
             this.wasSpiritBlock()
             return
         }
@@ -290,6 +295,7 @@ export default class Swordman extends Character {
             this.succesefulBlock(unit)
 
             if (is_armour_hit) {
+                this.level.addLog('player armour')
                 this.succesefulArmourBlock(unit)
             }
 
@@ -297,6 +303,7 @@ export default class Swordman extends Character {
         }
 
         if (is_armour_hit) {
+            this.level.addLog('player armour')
             this.level.sounds.push({
                 name: 'metal hit',
                 x: this.x,
@@ -316,6 +323,7 @@ export default class Swordman extends Character {
         this.level.effects.push(e)
 
         if (Func.chance(this.getAvoidChance(), this.is_lucky)) {
+            this.level.addLog('player avoid')
             this.level.createEffect(this, 'damage avoid')
             return
         }

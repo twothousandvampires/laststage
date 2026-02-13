@@ -112,6 +112,7 @@ export default abstract class Character extends Unit {
     triggers_on_trigger: any[] = []
     triggers_on_parry: any[] = []
     on_counter_triggers: any[] = []
+    on_escape_triggers: any[] = []
 
     chance_to_instant_kill: number = 0
     chance_to_avoid_damage_state: number = 0
@@ -193,6 +194,8 @@ export default abstract class Character extends Unit {
     using_ability: any
     items_to_buy: Item[] = []
 
+    couraged_in_portal: boolean = false
+
     pierce_rating_mutators: Mutator[] = []
     critical_rating_mutators: Mutator[] = []
     avaid_damage_mutator: Mutator[] = []
@@ -229,6 +232,8 @@ export default abstract class Character extends Unit {
     courages: any[] = []
     damage_state_duration: number = 300
     action_cd: number = 10000
+    light_r_delta: number = 0
+
     constructor(level: Level) {
         super(level)
         this.box_r = 2.5
@@ -258,8 +263,25 @@ export default abstract class Character extends Unit {
         this.action_time_until = this.level.time + this.action_window
     }
 
-    wasEscape(){
+    wasEscape(unit:any){
         this.action_time_until = 0
+
+        let time = this.level.time
+
+        this.on_escape_triggers.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this, unit)
+
+                    if (Func.chance(this.isSecondTrigger())) {
+                        elem.trigger(this, unit)
+                    }
+
+                    elem.last_trigger_time = time
+                    this.wasTrigger()
+                }
+            }
+        })
     }
 
     isEscape(){
@@ -290,8 +312,18 @@ export default abstract class Character extends Unit {
 
     regen() {
         let second_resouce_timer = this.getSecondResourceTimer()
+        
 
         if (this.level.time >= this.check_recent_hits_timer) {
+            if(Func.chance(30)){
+                this.light_r_delta += Func.chance(50) ? -1 : 1
+                if(this.light_r_delta < -1){
+                    this.light_r_delta = -1
+                }
+                if(this.light_r_delta > 1){
+                    this.light_r_delta = 1
+                }
+            }
             this.check_recent_hits_timer += 1000
 
             let last = this.courages.pop()
@@ -350,7 +382,7 @@ export default abstract class Character extends Unit {
     isCouraged(){
         let courage = this.getSecondResource()
 
-        return courage > this.enlightenment_threshold
+        return courage >= this.enlightenment_threshold
     }
 
     addCourage(count = 1) {
@@ -687,6 +719,10 @@ export default abstract class Character extends Unit {
         return base
     }
 
+    getLightRadius(){
+        return this.light_r - (this.max_life - this.life_status) + this.light_r_delta
+    }
+
     toJSON() {
         return {
             abilities: [
@@ -716,7 +752,7 @@ export default abstract class Character extends Unit {
             name: this.name,
             z: this.z,
             action_time: this.action_time,
-            light_r: this.light_r,
+            light_r: this.getLightRadius(),
             ward: this.ward,
             invisible: this.invisible,
             courage: this.getSecondResource(),
@@ -863,11 +899,15 @@ export default abstract class Character extends Unit {
 
     public isStatusResist(): boolean {
         let chacne = this.getResistValue()
+
         if (chacne > 95) {
             chacne = 95
         }
         
         let result = Func.chance(chacne, this.is_lucky)
+        if(result){
+            this.level.addLog('player resist')
+        }
         return result
     }
 
@@ -942,7 +982,8 @@ export default abstract class Character extends Unit {
     }
 
     public addGold(value: number = 1): void {
-        let total = Func.random(Math.round(value / 2), Math.round(value * 2))
+        let total = Func.chance(value * 10) ? 1 : 0
+        // let total = Func.random(Math.round(value / 2), Math.round(value * 2))
  
         if (Func.chance(this.chance_to_get_additional_gold, this.is_lucky)) {
             total ++
@@ -1232,10 +1273,14 @@ export default abstract class Character extends Unit {
 
         upgrade.teach(this)
 
-      
-        this.grace -= upgrade.cost
-        this.spend_grace = true
+        if(this.couraged_in_portal && Func.chance(this.couraged_in_portal)){
 
+        }
+        else{
+            this.grace -= upgrade.cost
+            this.spend_grace = true
+        }
+        
         if (upgrade.cost) {
             this.addAscent()
         }
@@ -1390,6 +1435,8 @@ export default abstract class Character extends Unit {
             let p = unit.pierce
           
             if(Func.chance(p - a)){
+                 this.level.addLog('enemy pierce')
+
                 this.level.addSound('get hit', this.x, this.y)
                 let e = new Blood(this.level)
                 e.setPoint(Func.random(this.x - 3, this.x + 3), Func.random(this.y - 1, this.y + 1))
@@ -1401,12 +1448,13 @@ export default abstract class Character extends Unit {
         }
 
         if (Func.chance(this.fortify)) {
+             this.level.addLog('player fortify')
             value --
         }
 
         if (unit && Func.chance(unit.critical)) {
             value *= 2
-
+             this.level.addLog('enemy critical')
             this.level.addSound('get hit', this.x, this.y)
 
             let e = new Blood(this.level)
@@ -1420,6 +1468,7 @@ export default abstract class Character extends Unit {
         }
 
         if (unit && Func.chance(unit.power)) {
+            this.level.addLog('enemy power')
             value ++
         }
       
@@ -1453,6 +1502,8 @@ export default abstract class Character extends Unit {
                     }
                 }
             }
+
+           
 
             if (this.is_dead) return
 

@@ -8,7 +8,7 @@ export default class InstantKill extends Forging {
     constructor(item: Item) {
         super(item)
         this.max_value = 7
-        this.name = 'death provider'
+        this.name = 'sacred strike'
         this.description = 'Increases chance to instantly kill'
         this.gold_cost = 20
     }

@@ -2,6 +2,7 @@ import SoulSeekers from '../../../EnemyAbilities/SoulSeekers'
 import SoulVortex from '../../../EnemyAbilities/SoulVortex'
 import Func from '../../../Func'
 import Level from '../../../Level'
+import EnemyMelleDashState from '../../../State/EnemyMelleDashState'
 import Undead from './Undead'
 
 export default class Specter extends Undead {
@@ -33,7 +34,12 @@ export default class Specter extends Undead {
         this.pierce = 20
         this.big_grace_chance = 7
 
+        this.dash_ms = 0.4
         this.abilities = [new SoulVortex(), new SoulSeekers()]
+    }
+
+    getAttackState() {
+        return new EnemyMelleDashState()
     }
 
     deadSound(): void {
@@ -46,28 +52,15 @@ export default class Specter extends Undead {
         })
     }
 
-    getCastStateString() {
-        return 'cast'
+    getHitSound(){
+        this.level.sounds.push({
+            x: this.x,
+            y: this.y,
+            name: 'specter attack',
+        })
     }
 
-    hitImpact() {
-        if (this.target && this.attack_angle) {
-            this.level.sounds.push({
-                x: this.x,
-                y: this.y,
-                name: 'specter attack',
-            })
-
-            let e = this.getBoxElipse()
-            e.r = this.attack_radius
-
-            if (
-                this.target.z < 5 &&
-                Func.checkAngle(this, this.target, this.attack_angle, 1.6) &&
-                Func.elipseCollision(e, this.target?.getBoxElipse())
-            ) {
-                this.target.takeDamage(this, {})
-            }
-        }
+    getCastStateString() {
+        return 'cast'
     }
 }

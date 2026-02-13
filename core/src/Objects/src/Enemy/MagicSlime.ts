@@ -27,6 +27,10 @@ export default class MagicSlime extends Enemy {
         this.cooldown_attack = 4500
     }
 
+    createHitEffect(){
+    
+    }
+
     afterDead() {
         let e = new PuddleOfStream(this.level)
         e.setPoint(this.x, this.y)

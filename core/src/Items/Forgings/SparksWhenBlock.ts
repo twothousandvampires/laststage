@@ -4,15 +4,16 @@ import Item from '../Item'
 import Forging from './Forging'
 
 export default class SparksWhenBlock extends Forging {
-    value: number = 0
+
+    value: number = 1
     trigger: any
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 35
+        this.max_value = 10
         this.name = 'charged shield'
-        this.description = 'Gives a chance to release sparks when you block'
-        this.gold_cost = 10
+        this.description = 'Releases sparks when you block'
+        this.gold_cost = 20
     }
 
     forge(player: Character) {
@@ -21,15 +22,15 @@ export default class SparksWhenBlock extends Forging {
                 this.trigger = new SparksWhenBlockTrigger()
                 player.triggers_on_block.push(this.trigger)
             }
-            this.trigger.chance += 5
+            this.trigger.count += 1
 
             this.payCost()
-            this.value += 5
+            this.value += 1
         }
     }
 
     getValue() {
-        return this.value + '%'
+        return this.value + ' sparks'
     }
 
     canBeForged(): boolean {

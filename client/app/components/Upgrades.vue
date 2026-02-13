@@ -1,7 +1,7 @@
 <template>
     <div id="upgrades">
         <div @click="show_abilities = false; mastery_name = ''" v-if="show_abilities" id="suggest">
-            <div class="button" @click="addMastery(ability)" v-for="ability in abilities.splice(0, 1)">
+            <div class="button" @click="addMastery(ability)" v-for="ability in abilities.slice(1, 5)">
                 <p>{{ ability }}</p>
             </div>
         </div>

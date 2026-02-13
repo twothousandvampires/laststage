@@ -13,8 +13,10 @@ import Func from '../../../Func'
 import Level from '../../../Level'
 import FlyerArmourMutator from '../../../Mutators/FlyerArmourMutator'
 import FlyerCastState from '../../../State/FlyerCastState'
+import FlyerDashState from '../../../State/FlyerDashState'
 import FlyerDefendState from '../../../State/FlyerDefendState'
 import PlayerDyingState from '../../../State/PlayerDyingState'
+import SwordmanJumpState from '../../../State/SwordmanJumpState'
 import CurseOfDamned from '../../../Status/CurseOfDamned'
 import Accumulation from '../../../Triggers/Accumulation'
 import FlyerCounterTrigger from '../../../Triggers/FlyerCounterTrigger'
@@ -43,7 +45,7 @@ export default class Flyer extends Character {
         this.name = 'flyer'
         this.move_speed = 0.45
         this.chance_to_avoid_damage_state = 0
-        this.armour_rate = 0
+        this.armour_rate = 15
         this.resource = 0
         this.base_regeneration_time = 8000
         this.takeoff = false
@@ -64,38 +66,7 @@ export default class Flyer extends Character {
 
 
     useAction(){
-        this.setActionWindow()
-        this.prepareToAction()
-        if(!this.attack_angle) return
-
-        if(this.level.enemies.some(elem => Func.distance(this, elem, 8) <= 8 && !elem.is_dead && elem.action_end_time - this.level.time <= 350 && elem.action_end_time - this.level.time > 0)){
-            let targets = this.level.enemies.filter(elem => !elem.is_dead && Func.distance(this, elem, 8) <= 8)
-
-            targets.forEach(elem => {         
-                let t = this.level.enemies.filter(elem2 => !elem2.is_dead && elem2 != elem)[0]
-                if(t){
-                    elem.removeTarget(5000)
-                    elem.target = t
-                }     
-            })
-
-            this.level.createEffect(this, 'escape')
-        }
-        
-
-        let ticks = 12
-        let next_step_x = Math.sin(this.attack_angle) * 1
-        let next_step_y = Math.cos(this.attack_angle) * 1
-
-        for(let i = 0; i < ticks; i++){
-            if (!this.isOutOfMap(this.x + next_step_x, this.y + next_step_y)) {
-                this.level.createEffect(this, 'ftrail')
-                this.addToPoint(next_step_x, next_step_y)
-            }
-        }
-        
-        this.attack_angle = undefined
-        this.is_attacking = false
+        this.setState(new FlyerDashState())
     }
 
     getAdditionalRadius() {
@@ -375,6 +346,13 @@ export default class Flyer extends Character {
                 y: this.y,
             })
 
+            return
+        }
+        if(this.isEscape()){
+            this.level.addLog('player escape')
+            this.level.createEffect(this, 'escape')
+
+            this.wasEscape(unit)
             return
         }
 

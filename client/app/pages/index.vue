@@ -37,7 +37,9 @@
         'while we alive', 'heaven intervention', 'glass sword', 'frost sphere', 'fragility', 'fortification', 'forger', 'forge', 'flesh harvest', 'flame ring',
         'emerald knife', 'durability', 'drained', 'distorter', 'disintegration', 'disease', 'devouring', 'devouring flame', 'destroyer', 'despair', 'defender',
         'cutting', 'curse', 'crushed', 'crossbow', 'corrosion', 'conductivity', 'conduct of pain', 'collapse', 'charged shield', 'charged armour', 'glacial chain',
-        'excitement', 'fan of swords', 'fire spliting', 'light stream', 'as a wall', 'regeneration','forbidden power', 'red jewel'
+        'excitement', 'fan of swords', 'fire spliting', 'light stream', 'as a wall', 'regeneration','forbidden power', 'red jewel', 'overflow', 'rainbow jewel',
+        'tormented', 'teleportation', 'equiped', 'eternal thirst', 'immaterial', 'immortality', 'immune to freeze', 'improved chain reaction', 'in the heat of battle',
+        'inner guidance', 'inner power', 'iron will', 'last chance', 'magic flow'
     ]
 
     let b_data = {

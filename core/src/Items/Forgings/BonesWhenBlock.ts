@@ -7,17 +7,19 @@ import Item from '../Item'
 import Forging from './Forging'
 
 export default class BonesWhenBlock extends Forging implements ITrigger {
-    value: number = 0
+    value: number = 1
     last_trigger_time: number = 0
-    chance: number = 10
-    cd: number = 1000
+    chance: number = 100
+    cd: number = 3000
+
+    count: number = 1
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 80
+        this.max_value = 8
         this.name = 'bones when block'
-        this.description = 'gives a chance to realise bones when you block which hurts enemies'
-        this.gold_cost = 10
+        this.description = 'When you block, you realise bones those hurt enemies'
+        this.gold_cost = 12
     }
 
     getTriggerChance(): number {
@@ -31,13 +33,13 @@ export default class BonesWhenBlock extends Forging implements ITrigger {
             }
 
             this.payCost()
-            this.value += 10
-            this.chance += 10
+            this.value += 1
+            this.count ++
         }
     }
 
     getValue() {
-        return this.value
+        return this.value + ' bones'
     }
 
     trigger(player: Character, target: Unit) {
@@ -48,7 +50,7 @@ export default class BonesWhenBlock extends Forging implements ITrigger {
         
         let u = 0
         let d = 0
-        let count = Math.round(player.chance_to_block / 15)
+        let count = this.count
 
         for (let i = 0; i < count; i++) {
             let proj = new Bone(player.level)

@@ -16,7 +16,7 @@ export default class DominanceWhenCritical extends Forging implements ITrigger{
     constructor(item: Item) {
         super(item)
         this.max_value = 40
-        this.name = 'dominance'
+        this.name = 'power on critical'
         this.description = 'When you land a critical strike, there is a chance to gain dominance (+30 power)'
         this.gold_cost = 8
     }

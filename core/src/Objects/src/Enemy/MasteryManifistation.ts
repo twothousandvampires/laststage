@@ -19,16 +19,16 @@ export class MasteryManifistation extends Manifistation {
         let chance = 0
 
         if (this.stage == 1) {
-            chance = 10
+            chance = 15
         }
         else if (this.stage == 2) {
-            chance = 20
-        }
-        else if (this.stage == 3) {
             chance = 30
         }
+        else if (this.stage == 3) {
+            chance = 45
+        }
         else if (this.stage == 4) {
-            chance = 50
+            chance = 60
         }
         else if (this.stage >= 5) {
             chance = 100

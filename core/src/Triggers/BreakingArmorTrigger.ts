@@ -8,7 +8,7 @@ export default class BreakingArmorTrigger implements ITrigger {
     last_trigger_time: number = 0
     chance: number = 50
     name: string = 'breaking armour'
-    description: string = 'When you crush an enemy, there is a chance to reduce their armour'
+    description: string = 'When you crush an enemy, there is a chance to reduce their armour and move speed'
 
     getTriggerChance(): number {
         return this.chance
@@ -18,5 +18,6 @@ export default class BreakingArmorTrigger implements ITrigger {
         if(!enemy) return
 
         enemy.armour_rate -= 25
+        enemy.move_speed_penalty -= 25
     }
 }

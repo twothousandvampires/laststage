@@ -206,7 +206,8 @@ export default abstract class Item {
         'dominance when critical',
         'fragility on hit',
         'storm presence',
-        'energy weapon'
+        'energy weapon',
+        'falling swords'
     ]
 
     static forging_list_type_2 = [
@@ -220,7 +221,7 @@ export default abstract class Item {
         'fire presence',
         'fortify when hit',
         'enchanted armour',
-        'ascension armor'
+        'torn off iron'
     ]
 
     static forging_list_type_3 = [
@@ -235,6 +236,7 @@ export default abstract class Item {
         'cold heart',
         'gift of enlightenment',
         'soul pulling',
+        'charisma',
     ]
 
     name: string = ''

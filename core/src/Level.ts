@@ -13,7 +13,6 @@ import Status from './Status/Status'
 import GameServer from './GameServer'
 import Sound from './Types/Sound'
 import Enemy from './Objects/src/Enemy/Enemy'
-import Learning from './Scenarios/Learning'
 import ItemDrop from './Objects/Effects/ItemDrop'
 import SorcerersSkull from './Objects/Effects/SorcerersSkull'
 import Helm from './Objects/Effects/Helm'
@@ -21,6 +20,8 @@ import Message from './Types/Message'
 import BigGraceShard from './Objects/Effects/BigGraceShard'
 import SimpleEffect from './Objects/Effects/SimpleEffect'
 import GameObject from './Objects/src/GameObject'
+import Box from './Types/Box'
+import Learning from './Scenarios/Learning'
 
 export default class Level {
     static enemy_list = [
@@ -42,7 +43,7 @@ export default class Level {
         },
         {
             name: 'solid',
-            weight: 12,
+            weight: 10,
         },
         {
             name: 'slime',
@@ -50,11 +51,11 @@ export default class Level {
         },
         {
             name: 'flying bones',
-            weight: 10,
+            weight: 8,
         },
         {
             name: 'ghost',
-            weight: 5,
+            weight: 4,
         },
         {
             name: 'pile',
@@ -110,6 +111,7 @@ export default class Level {
     private last_id: number = 0
     public kill_count: number = 0
     public previuos_script: Scenario | undefined
+    public battle_logs = {}
 
     constructor(private server: GameServer) {
         this.server = server
@@ -120,6 +122,15 @@ export default class Level {
     addSound(sound: Sound): void
     addSound(sound: string, x: number, y: number): void
 
+    addLog(key){
+        if(this.battle_logs[key]){
+            this.battle_logs[key] ++
+        }
+        else{
+            this.battle_logs[key] = 1
+        }
+    }
+
     public addSound(sound: string | Sound, x?: number, y?: number): void {
         if (typeof sound === 'object') {
             this.sounds.push(sound)
@@ -127,6 +138,11 @@ export default class Level {
             let created: Sound = { name: sound, x, y }
             this.sounds.push(created)
         }
+    }
+
+    getRandomAliveEnemy(target: GameObject | Box, radius: number){
+        let t = this.enemies.filter(elem => !elem.is_dead && Func.distance(target, elem, radius) <= radius)
+        return Func.getRandomFromArray(t)
     }
 
     enemyMap(func: Function) {
@@ -141,6 +157,7 @@ export default class Level {
 
         let are_all_dead: boolean = this.players.every(elem => elem.is_dead)
         if (are_all_dead) {
+            console.log(this.battle_logs)
             this.players.forEach(elem => {
                 elem.waves = this.script instanceof Default ? this.script.waves_created : 0
                 this.server.db.saveData(elem, this.players.length === 1 ? 'solo' : 'party')
@@ -369,7 +386,7 @@ export default class Level {
         }
     }
 
-    createEffect(target: GameObject, name: string, z: number = 0){
+    createEffect(target: GameObject | Box, name: string, z: number = 0){
         let e = new SimpleEffect(this, name)
         e.z = z
         e.setPoint(target.x, target.y)

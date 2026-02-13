@@ -5,7 +5,7 @@ import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'
 
 export default class FreezeWhetHitedTrigger implements ITrigger {
-    cd: number = 1200
+    cd: number = 1500
     last_trigger_time: number = 0
     chance: number = 0
     name: string = 'icy halo'

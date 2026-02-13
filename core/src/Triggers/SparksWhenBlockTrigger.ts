@@ -1,22 +1,23 @@
-import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import { Spark } from '../Objects/Projectiles/Spark'
 import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'
 
 export default class SparksWhenBlockTrigger implements ITrigger {
-    cd: number = 1200
+
+    cd: number = 2500
     last_trigger_time: number = 0
-    chance: number = 0
+    chance: number = 100
     name: string = 'charged shield'
     description: string = 'Gives a chance to release sparks when you block'
+    count: number = 1
 
     getTriggerChance(): number {
         return this.chance
     }
 
     trigger(player: Character, target: Unit) {
-        let count = 3
+        let count = this.count
         let zones = 6.28 / count
 
         for (let i = 1; i <= count; i++) {

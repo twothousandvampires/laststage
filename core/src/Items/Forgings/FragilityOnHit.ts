@@ -1,6 +1,5 @@
 import Character from '../../Objects/src/Character'
 import CrystilizingHits from '../../Triggers/CrystilizingHits'
-import FrostShpereWhenKillTrigger from '../../Triggers/FrostShpereWhenKillTrigger'
 import Item from '../Item'
 import Forging from './Forging'
 
@@ -10,7 +9,7 @@ export default class FragilityOnHit extends Forging {
     constructor(item: Item) {
         super(item)
         this.max_value = 50
-        this.name = 'crystilizing hits'
+        this.name = 'fragility on hit'
         this.description = 'Provides a chance to inflict fragility on enemies in a small radius on hit'
         this.gold_cost = 8
     }

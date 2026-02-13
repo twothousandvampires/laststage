@@ -1,6 +1,5 @@
 import Func from '../../../Func'
 import Level from '../../../Level'
-import EnemyAttackState from '../../../State/EnemyAttackState'
 import EnemyMelleAttackState from '../../../State/EnemyMelleAttackState'
 import Bleed from '../../../Status/Bleed'
 import Enemy from './Enemy'

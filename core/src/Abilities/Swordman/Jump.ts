@@ -1,5 +1,13 @@
 import Func from '../../Func'
 import IUnitState from '../../Interfaces/IUnitState'
+import ChargedSphere from '../../Objects/Effects/ChargedSphere'
+import Effect from '../../Objects/Effects/Effects'
+import GraceShard from '../../Objects/Effects/GraceShard'
+import Helm from '../../Objects/Effects/Helm'
+import ItemDrop from '../../Objects/Effects/ItemDrop'
+import RocksFromCeil from '../../Objects/Effects/RocksFromCeil'
+import SorcerersSkull from '../../Objects/Effects/SorcerersSkull'
+import Split from '../../Objects/Effects/Split'
 import Character from '../../Objects/src/Character'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
 import Ability from '../Ability'
@@ -14,6 +22,8 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
     move_per_tick: number | undefined
     heavy_landing: boolean
     stomp: boolean
+    tremor: boolean = false
+    shake: boolean = false
     z_add = 0.7
 
     constructor(owner: Swordman) {
@@ -26,7 +36,7 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
         this.stomp = false
         this.name = 'jump'
         this.type = Ability.TYPE_CUSTOM
-        this.mastery_chance = 45
+        this.mastery_chance = 35
     }
 
     enter(player: Character) {
@@ -63,8 +73,44 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
             let second = player.getSecondResource()
             let enemies = player.level.enemies
 
+            if(this.tremor){
+                let count = 2 + Math.round(second / 5)
+                
+                let zones = 6.28 / count
+        
+                for (let i = 1; i <= count; i++) {
+                   
+                    let min_a = (i - 1) * zones
+                    let max_a = i * zones
+        
+                    let angle = Math.random() * (max_a - min_a) + min_a
+                    let distance_x = player.attack_radius + (this.stomp ? 5 : 0) + Math.round(second / 4)
+                    let distance_y = player.attack_radius + (this.stomp ? 5 : 0) + Math.round(second / 4)
+                    let effect = new RocksFromCeil(player.level)
+        
+                    effect.setPoint(
+                        player.x + Math.sin(angle) * distance_x,
+                        player.y + Math.cos(angle) * distance_y
+                    )
+        
+                    player.level.addEffect(effect)
+        
+                    setTimeout(() => {
+                        let box = effect.getBoxElipse()
+                        box.r = 6
+        
+                        player.level.enemies.forEach(elem => {
+                            if (!elem.is_dead && Func.elipseCollision(elem.getBoxElipse(), box)) {
+                                elem.takeDamage(player, {})
+                            }
+                        })
+                    }, 500)
+                }
+            }
+
+
             let attack_elipse = player.getBoxElipse()
-            attack_elipse.r = player.attack_radius + (this.stomp ? 5 : 0) + Math.round(second / 2)
+            attack_elipse.r = player.attack_radius + (this.stomp ? 5 : 0) + Math.round(second / 4)
 
             let filtered_by_attack_radius = enemies.filter(elem =>
                 Func.elipseCollision(attack_elipse, elem.getBoxElipse())
@@ -90,6 +136,54 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
                 setTimeout(() => {
                     player.armour_rate -= count * 4
                 }, 5000)
+            }
+
+            if(this.shake){
+                player.level.enemies.forEach(corpse => {
+                    if (corpse.is_corpse && Func.chance(15) && Func.elipseCollision(corpse.getBoxElipse(), attack_elipse)) {       
+                        let drop_name: Effect | undefined | string = undefined
+            
+                        let total_weights = [
+                            ['grace', 20],
+                            ['energy', 5],
+                            ['entity', 5],
+                            ['item', 1],
+                            ['skull', 1],
+                            ['helm', 1],
+                        ]
+            
+                        let sum = total_weights.reduce((acc, elem) => elem[1] + acc, 0)
+                        let w2 = 0
+                        let rnd = Math.random() * sum
+                        for (let item of total_weights) {
+                            w2 += item[1]
+                            if (rnd <= w2) {
+                                drop_name = item[0]
+                                break
+                            }
+                        }
+            
+                        if (drop_name === 'grace') {
+                            drop_name = new GraceShard(corpse.level)
+                        } else if (drop_name === 'energy') {
+                            drop_name = new ChargedSphere(corpse.level)
+                        } else if (drop_name === 'entity') {
+                            drop_name = new Split(corpse.level)
+                        } else if (drop_name === 'item') {
+                            drop_name = new ItemDrop(corpse.level)
+                        } else if (drop_name === 'skull') {
+                            drop_name = new SorcerersSkull(corpse.level)
+                        } else if (drop_name === 'helm') {
+                            drop_name = new Helm(corpse.level)
+                        }
+            
+                        if (drop_name instanceof Effect) {
+                            let a = Math.random() * 6.28
+                            drop_name.setPoint(corpse.x + Math.sin(a) * 6, corpse.y + Math.cos(a) * 6)
+                            player?.level.binded_effects.push(drop_name)
+                        }
+                    }                   
+                })
             }
 
             player.getState()

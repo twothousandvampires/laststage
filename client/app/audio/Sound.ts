@@ -58,19 +58,19 @@ export default class Sound{
             let v = ['lning1.wav' ,'ltning.wav', 'storm.wav', 'cbolt.wav']
          
             result.src = v[Math.floor(Math.random() * v.length)]
-            result.max_volume = 0.6
+            result.max_volume = 0.3
         }
         else if(name === 'demon roar'){
             let v = ['attack1.wav', 'attack3.wav', 'attack2.wav', 'biclopd2.wav']
 
             result.src = v[Math.floor(Math.random() * v.length)]
-            result.max_volume = 0.2
+            result.max_volume = 0.1
         }
         else if(name === 'impy'){
             let v = ['impy.wav', 'falla2.wav']
 
             result.src = v[Math.floor(Math.random() * v.length)]
-            result.max_volume = 0.05
+            result.max_volume = 0.1
         } 
         else if(name === 'shatter'){
             let v = ['shatter1.wav', 'coldimpact1.wav', 'coldimpact2.wav', 'coldimpact3.wav']
@@ -87,7 +87,7 @@ export default class Sound{
             let v = ['readbook.wav', 'holylight.wav', 'defiance.wav']
 
             result.src = v[Math.floor(Math.random() * v.length)]
-            result.max_volume = 0.4
+            result.max_volume = 0.2
         }
         else if(name === 'devil sound'){
             let v = ['vtheft.wav']

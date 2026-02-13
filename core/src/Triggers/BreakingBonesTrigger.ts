@@ -1,4 +1,6 @@
+import Func from '../Func'
 import ITrigger from '../Interfaces/Itrigger'
+import { Bone } from '../Objects/Projectiles/Bone'
 import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'
 
@@ -6,17 +8,39 @@ export default class BreakingBonesTrigger implements ITrigger {
 
     cd: number = 500
     last_trigger_time: number = 0
-    chance: number = 50
+    chance: number = 100
     name: string = 'breaking bones'
-    description: string = 'When you crush an enemy, there is a chance to reduce their move speed'
+    description: string = 'Bones are knocked out of him, wounding the enemy'
 
     getTriggerChance(): number {
         return this.chance
     }
 
-    trigger(player: Character, enemy: Unit) {
-        if(!enemy) return
+    trigger(player: Character, target: Unit) {
+        if(!target) return
 
-        enemy.move_speed_penalty -= 25
+        let angle = Func.angle(player.x, player.y, target.x, target.y)
+        
+        let u = 0
+        let d = 0
+        let count = 3
+
+        for (let i = 0; i < count; i++) {
+            let proj = new Bone(player.level)
+    
+            if (i === 0) {
+                proj.setAngle(angle)
+            } else if (i % 2 === 0) {
+                u += 0.5
+                proj.setAngle(angle - u)
+            } else {
+                d += 0.5
+                proj.setAngle(angle + d)
+            }
+
+            proj.setPoint(player.x, player.y)
+            proj.setOwner(player)
+            player.level.projectiles.push(proj)
+        }
     }
 }

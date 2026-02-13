@@ -45,11 +45,6 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
                 elem.takeDamage(this.owner)
                 if (elem.is_dead) {
                     kill_count++
-                    for (let i = 0; i < 2; i++) {
-                        let e = new Blood(this.owner.level)
-                        e.setPoint(elem.x, elem.y)
-                        this.owner.level.effects.push(e)
-                    }
                 }
             }
         })

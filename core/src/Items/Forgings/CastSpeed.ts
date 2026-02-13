@@ -16,7 +16,7 @@ export default class CastSpeed extends Forging {
     forge(player: Character) {
         if (this.canBeForged() && this.costEnough()) {
             this.value += 20
-            this.item.player.cast_speed -= 20
+            this.item.player.cast_speed -= 10
             this.payCost()
         }
     }

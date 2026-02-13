@@ -26,6 +26,10 @@ export default class Slime extends Enemy {
         this.attack_ms_penalty = 65
     }
 
+    createHitEffect(){
+    
+    }
+
     afterDead(): void {
         let e = new PuddleOfPoison(this.level)
         e.setPoint(this.x, this.y)

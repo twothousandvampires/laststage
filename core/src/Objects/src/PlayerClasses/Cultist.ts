@@ -55,7 +55,6 @@ export default class Cultist extends Character {
         this.name = 'cultist'
         this.move_speed = 0.43
         this.chance_to_avoid_damage_state = 15
-        this.armour_rate = 0
         this.resource = 0
         this.hit_x = undefined
         this.hit_y = undefined
@@ -70,7 +69,7 @@ export default class Cultist extends Character {
         this.triggers_on_kill = [new CultistKillTrigger()]
 
         this.courage_expire_timer = 8000
-        this.armour_rate = 25
+        this.armour_rate = 35
         this.parry_window = 300
         this.action_cd = 6000
         this.action_name = 'self-flagellation'
@@ -274,6 +273,7 @@ export default class Cultist extends Character {
             e.setPoint(this.x, this.y)
     
             this.level.binded_effects.push(e)
+            this.wasEscape(unit)
             return
         }
 

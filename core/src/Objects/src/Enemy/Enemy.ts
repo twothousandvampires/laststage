@@ -6,6 +6,8 @@ import EnemyDyingState from '../../../State/EnemyDyingState'
 import EnemyMeleeIdleState from '../../../State/EnemyMeleeIdleState'
 import EnemySpawnState from '../../../State/EnemySpawnState'
 import Armour from '../../Effects/Armour'
+import Blood from '../../Effects/Blood'
+import FloorBlood from '../../Effects/FloorBlood'
 import SmallTextLanguage2 from '../../Effects/SmallTextLanguage2'
 import Soul from '../../Effects/Soul'
 import Character from '../Character'
@@ -327,6 +329,17 @@ export default abstract class Enemy extends Unit {
         }
     }
 
+    createHitEffect(){
+        let e = new Blood(this.level)
+        e.setPoint(Func.random(this.x - 2, this.x + 2), this.y)
+        e.z = Func.random(2, 8)
+        this.level.effects.push(e)
+
+        let fe = new FloorBlood(this.level)
+        fe.setPoint(Func.random(this.x - 4, this.x + 4), Func.random(this.y - 4, this.y + 4))
+        this.level.effects.push(fe)
+    }
+
     deadSound() {}
 
     takeDamage(unit: any = undefined, options: any = {}) {
@@ -343,6 +356,7 @@ export default abstract class Enemy extends Unit {
         }
 
         if (this.checkArmour(unit)) {
+            this.level.addLog('enemy armour')
             this.level.addSound({
                 name: 'metal hit',
                 x: this.x,
@@ -364,9 +378,11 @@ export default abstract class Enemy extends Unit {
 
         if (is_player_deal_hit) {
             let pierce = unit.getPierce()
+            
             let is_pierce = Func.chance(pierce - this.armour_rate)
 
             if (is_pierce) {
+                this.level.addLog('player pierce')
                 damage_value ++
                 unit.succesefulPierce(this)
             }
@@ -377,31 +393,41 @@ export default abstract class Enemy extends Unit {
         }
 
         if (is_player_deal_hit && unit.isCrushing()) {    
+            this.level.addLog('player crush')
             this.crushing ++
             unit.playerApplyCrushing(this)
         }
 
         if (Func.chance(this.fortify)) { 
+             this.level.addLog('enemy fortify')
             damage_value --
         }
 
         if (is_player_deal_hit && Func.chance(unit.getCritical())) {
+            this.level.addLog('player critical')
             damage_value *= 2       
             unit.succesefulCritical(this)  
         }
 
-        if (this.fragility) {  
+        if (this.fragility) {
+            this.level.addLog('enemy fragility')  
             damage_value *= 2
         }
 
         if (is_player_deal_hit && Func.chance(unit.getPower())) {
+            this.level.addLog('player power')  
             damage_value ++
         }
 
         this.life_status -= damage_value
 
+        let is_burn = options?.burn && this.can_be_burned
+
         if (is_player_deal_hit) {
             unit.succesefulHit(this, damage_value)
+            if(!is_burn){
+                this.createHitEffect()
+            }  
         }
 
         if (this.life_status <= 0) {
@@ -410,7 +436,7 @@ export default abstract class Enemy extends Unit {
             if (options?.explode) {
                 this.exploded = true
                 this.level.addSound(this.getExplodedSound())
-            } else if (options?.burn && this.can_be_burned) {
+            } else if (is_burn) {
                 this.burned = true
             }
 

@@ -57,6 +57,7 @@ export default class Grace extends Effect {
 
                     this.level.setStatus(elem, status)
 
+                    elem.couraged_in_portal = elem.isCouraged()
                     elem.setZone(1, 180, 60)
                     elem.light_r = 32
                 }
@@ -84,6 +85,7 @@ export default class Grace extends Effect {
         player.light_r = 16
         player.left_forger = false
         player.left_teacher = false
+        player.couraged_in_portal = false
         player.removeUpgrades()
         UpgradeManager.closeUpgrades(player)
         player.setZone(0, player_data.x, player_data.y)
@@ -117,7 +119,7 @@ export default class Grace extends Effect {
                 player_data.player.spend_grace = false
                 player_data.player.left_forger = false
                 player_data.player.left_teacher = false
-
+                player_data.player.couraged_in_portal = false
                 this.deleteStatus(player_data.player)
 
                 player_data.player.after_grace_statuses.forEach(status => {

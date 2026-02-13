@@ -11,13 +11,13 @@ export default class Charisma extends Forging {
         this.max_value = 7
         this.name = 'charisma'
         this.description = 'increases the chance of saying something'
-        this.gold_cost = 0
+        this.gold_cost = 12
     }
 
     forge(player: Character, force = false) {
         if (this.canBeForged() || force) {
-            player.chance_to_say_phrase += 7
-            this.value += 7
+            player.chance_to_say_phrase += 1
+            this.value += 1
         }
     }
 

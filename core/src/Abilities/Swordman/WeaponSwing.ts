@@ -1,14 +1,18 @@
 import Func from '../../Func'
-import InfernalGaze from '../../Glyphs/InfernalGaze'
+import FallingSwordEffect from '../../Objects/Effects/FallingSwordEffect'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
 import ImprovedSwingTechnology from '../../Status/ImprovedSwingTechnology'
 import Ability from '../Ability'
 import SwordmanAbility from './SwordmanAbility'
 
 export default class WeaponSwing extends SwordmanAbility {
+
     echo_swing: boolean = false
     improved_swing_technology: boolean = false
     crushing: boolean = false
+    call: boolean = false
+    icy: boolean = false
+    sweep: boolean = false
 
     constructor(owner: Swordman) {
         super(owner)
@@ -38,19 +42,18 @@ export default class WeaponSwing extends SwordmanAbility {
             weapon_angle += 0.5
         }
 
-        let f = enemies
-            .concat(players)
-            .filter(
-                elem =>
-                    elem != this.owner &&
-                    Func.checkAngle(this.owner, elem, attack_angle, weapon_angle)
-            )
-        let filtered_by_attack_radius = f.filter(elem =>
-            Func.elipseCollision(attack_elipse, elem.getBoxElipse())
-        )
-        filtered_by_attack_radius.sort(
-            (a, b) => Func.distance(a, this.owner) - Func.distance(b, this.owner)
-        )
+        let f: any[] = []
+
+        if(this.sweep && Func.chance(30 + second)){
+            f = enemies.concat(players).filter(elem => elem != this.owner && !elem.is_dead)
+        }
+        else{
+            f = enemies.concat(players).filter(elem => elem != this.owner && !elem.is_dead && Func.checkAngle(this.owner, elem, attack_angle, weapon_angle))
+        }
+
+        let filtered_by_attack_radius = f.filter(elem => Func.elipseCollision(attack_elipse, elem.getBoxElipse()))
+
+        filtered_by_attack_radius.sort((a, b) => Func.distance(a, this.owner) - Func.distance(b, this.owner))
 
         let target = this.owner.getTarget()
 
@@ -65,6 +68,9 @@ export default class WeaponSwing extends SwordmanAbility {
         filtered_by_attack_radius = filtered_by_attack_radius.slice(0, hit_count)
 
         filtered_by_attack_radius.forEach(elem => {
+            if(this.icy && Func.chance(25 + second)){
+                elem.setFreeze(2000)
+            }
             elem.takeDamage(this.owner)
             this.owner.addPoint()
         })
@@ -76,6 +82,19 @@ export default class WeaponSwing extends SwordmanAbility {
                 y: this.owner.y,
             })
         } else {
+            if(this.call){
+                let t = this.owner.level.getRandomAliveEnemy(this.owner, 14)
+                if(t){
+                    let effect = new FallingSwordEffect(this.owner.level)
+                    effect.target = t
+                    effect.setPoint(t.x, t.y)
+                    effect.setOwner(this.owner)
+
+                    this.owner.level.binded_effects.push(effect)
+                }         
+            }
+            
+
             if (this.improved_swing_technology && Func.chance(30)) {
                 let status = new ImprovedSwingTechnology(this.owner.level.time)
                 status.setDuration(5000)
@@ -85,6 +104,7 @@ export default class WeaponSwing extends SwordmanAbility {
         }
 
         this.afterUse()
+
         if (this.echo_swing && attack_angle) {
             this.echo(40, attack_angle, attack_elipse, weapon_angle)
         }
@@ -96,17 +116,23 @@ export default class WeaponSwing extends SwordmanAbility {
         setTimeout(() => {
             attack_elipse.r += 1
 
-            let f = this.owner.level.enemies.filter(elem =>
-                Func.checkAngle(this.owner, elem, attack_angle, weapon_angle)
-            )
-            let filtered_by_attack_radius = f.filter(elem =>
-                Func.elipseCollision(attack_elipse, elem.getBoxElipse())
-            )
-            filtered_by_attack_radius.sort(
-                (a, b) => Func.distance(a, this.owner) - Func.distance(b, this.owner)
-            )
+            let f: any[] = []
+
+            if(this.sweep && Func.chance(30)){
+                f = this.owner.level.enemies.filter(elem => elem != this.owner && !elem.is_dead)
+            }
+            else{
+                f = this.owner.level.enemies.filter(elem => Func.checkAngle(this.owner, elem, attack_angle, weapon_angle))
+            }
+            
+            let filtered_by_attack_radius = f.filter(elem =>Func.elipseCollision(attack_elipse, elem.getBoxElipse()))
+
+            filtered_by_attack_radius.sort((a, b) => Func.distance(a, this.owner) - Func.distance(b, this.owner))
 
             filtered_by_attack_radius.forEach(elem => {
+                if(this.icy && Func.chance(25)){
+                    elem.setFreeze(2000)
+                }
                 elem.takeDamage(this.owner)
             })
 
@@ -118,6 +144,18 @@ export default class WeaponSwing extends SwordmanAbility {
                 let status = new ImprovedSwingTechnology(this.owner.level.time)
                 status.setDuration(5000)
                 this.owner.level.setStatus(this.owner, status, true)
+            }
+
+            if(this.call){
+                let t = this.owner.level.getRandomAliveEnemy(this.owner, 14)
+                if(t){
+                    let effect = new FallingSwordEffect(this.owner.level)
+                    effect.target = t
+                    effect.setPoint(t.x, t.y)
+                    effect.setOwner(this.owner)
+
+                    this.owner.level.binded_effects.push(effect)
+                }         
             }
 
             this.owner.level.addSound({

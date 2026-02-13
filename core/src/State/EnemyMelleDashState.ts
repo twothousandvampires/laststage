@@ -14,7 +14,7 @@ export default class EnemyMelleDashState implements IUnitState<Enemy> {
         enemy.hit_y = enemy.target.y
 
         enemy.setImpactTime(enemy.impact_time)
-        enemy.move_speed += 0.6
+        enemy.move_speed += enemy.dash_ms
         enemy.attack_angle = Func.angle(enemy.x, enemy.y, enemy.target.x, enemy.target.y)
         enemy.phasing = true
     }
@@ -59,7 +59,7 @@ export default class EnemyMelleDashState implements IUnitState<Enemy> {
         enemy.is_attacking = false
         enemy.attack_angle = undefined
         enemy.attack_frames = false
-        enemy.move_speed -= 0.6
+        enemy.move_speed -= enemy.dash_ms
         enemy.phasing = false
         enemy.move_speed += this.ms
     }

@@ -2,7 +2,6 @@ import Func from '../Func'
 import ITrigger from '../Interfaces/Itrigger'
 import HitSpark from '../Objects/Effects/HitSpark'
 import Character from '../Objects/src/Character'
-import Unit from '../Objects/src/Unit'
 
 export default class Overflow implements ITrigger {
     cd: number = 0
@@ -16,7 +15,9 @@ export default class Overflow implements ITrigger {
         return this.chance
     }
 
-    trigger(player: Character, target: Unit) {
+    trigger(player: Character, value: number = 0) {
+        if(!value) return
+
         let count = player.resource
 
         let zones = 6.28 / count

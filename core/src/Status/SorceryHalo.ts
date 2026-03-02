@@ -27,7 +27,7 @@ export default class SorceryHalo extends Status {
 
     apply(unit: any) {
         this.unit = unit
-        unit.gold_revard += 2
+        unit.gold_revard += 20
         unit.life_status += 1
         unit.cooldown_attack -= 1000
         if (unit.cooldown_attack < 0) {

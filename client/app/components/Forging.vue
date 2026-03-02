@@ -14,7 +14,7 @@
             <div v-for="(forging, index) in forgings">      
                 <p
                 class="button"
-                @mouseover="$title($event, forging.description + '(upgrade cost: ' +  forging.cost + ')')"
+                @mouseover="$title($event, forging.description)"
                 @mouseleave="$closeTitle()"
                 @click="$socket.emit('pick_forging', {id: id, index: index}); forgings.length = 0">
                 {{  forging.name }}
@@ -58,7 +58,7 @@
                         class="button">donate
                     </p>
                     <p v-if="data.can_buy"
-                        @mouseover="$title($event, 'Buy an item for 100 gold.')"
+                        @mouseover="$title($event, 'Buy an item for 35 gold.')"
                         @mouseleave="$closeTitle()"
                         @click="$socket.emit('buy')" 
                         style="font-size: 20px;cursor: pointer;"
@@ -167,7 +167,7 @@
 
     let getUnlockCost = (item) => {
         if(item.forge.length >= item.max_forgings) return 'maximum forgings'
-        return 'forging unlock cost: ' + ((item.forge.length * 15) + 15)
+        return 'forging unlock cost: ' + ((item.forge.length * 5) + 5)
     }
 
     let applyGrandForging = (item_name) => {

@@ -13,7 +13,7 @@ export default class ThunderStrikes extends Forging {
         this.name = 'thunder strikes'
         this.description =
             'when your pierce enemy create lightning bolts that strike behind the target'
-        this.gold_cost = 12
+        this.gold_cost = 3
     }
 
     forge(player: Character) {

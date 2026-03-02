@@ -11,7 +11,7 @@ export default class Phase extends Status {
         this.unit = unit
 
         if (this.unit instanceof Character) {
-            this.unit.phasing = true
+            this.unit.phasing ++
             this.unit.statusWasApplied()
 
             this.unit.newStatus({
@@ -24,7 +24,7 @@ export default class Phase extends Status {
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.phasing = false
+            this.unit.phasing --
         }
     }
 }

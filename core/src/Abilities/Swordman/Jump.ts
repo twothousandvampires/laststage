@@ -8,6 +8,8 @@ import ItemDrop from '../../Objects/Effects/ItemDrop'
 import RocksFromCeil from '../../Objects/Effects/RocksFromCeil'
 import SorcerersSkull from '../../Objects/Effects/SorcerersSkull'
 import Split from '../../Objects/Effects/Split'
+import FireClot from '../../Objects/Projectiles/FireClot'
+import MoltenShrapnelProjectile from '../../Objects/Projectiles/MoltenShrapnelProjectile'
 import Character from '../../Objects/src/Character'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
 import Ability from '../Ability'
@@ -24,6 +26,7 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
     stomp: boolean
     tremor: boolean = false
     shake: boolean = false
+    feet: boolean = false
     z_add = 0.7
 
     constructor(owner: Swordman) {
@@ -108,9 +111,8 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
                 }
             }
 
-
             let attack_elipse = player.getBoxElipse()
-            attack_elipse.r = player.attack_radius + (this.stomp ? 5 : 0) + Math.round(second / 4)
+            attack_elipse.r = player.attack_radius + (this.stomp ? 5 : 0)
 
             let filtered_by_attack_radius = enemies.filter(elem =>
                 Func.elipseCollision(attack_elipse, elem.getBoxElipse())
@@ -184,6 +186,28 @@ export default class Jump extends SwordmanAbility implements IUnitState<Swordman
                         }
                     }                   
                 })
+            }
+
+            if(this.feet){
+                let count = Math.round(player.armour_rate / 10)
+                        
+                let zones = 6.28 / count
+        
+                for (let i = 1; i <= count; i++) {
+                    let min_a = (i - 1) * zones
+                    let max_a = i * zones
+        
+                    let angle = Math.random() * (max_a - min_a) + min_a
+
+                    let x = Math.sin(angle) * Func.random(4, attack_elipse.r)
+                    let y = Math.cos(angle) * Func.random(4, attack_elipse.r)
+
+                    let proj = new FireClot(player.level)
+                    proj.setOwner(player)
+                    proj.setPoint(player.x + x, player.y + y)
+        
+                    player.level.projectiles.push(proj)
+                }
             }
 
             player.getState()

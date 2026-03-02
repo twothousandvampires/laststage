@@ -37,6 +37,7 @@ export default class Sound{
 
         if(distance < track.distance){
             let info = this.getSrcByName(name)
+            if(!info?.src) return
             track.stop()
             track.setDistance(distance)
             track.setSrc(info.src)
@@ -49,6 +50,8 @@ export default class Sound{
 
     getSrcByName(name: string){
 
+        if(name != 'reign') return
+      
         let result = {
             max_volume: 1,
             src: ''
@@ -65,6 +68,11 @@ export default class Sound{
 
             result.src = v[Math.floor(Math.random() * v.length)]
             result.max_volume = 0.1
+        }
+        else if(name === 'reign'){
+            result.src = 'reign.mp3'
+            result.max_volume = 1
+            return result
         }
         else if(name === 'impy'){
             let v = ['impy.wav', 'falla2.wav']

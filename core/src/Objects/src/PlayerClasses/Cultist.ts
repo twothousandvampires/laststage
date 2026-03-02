@@ -86,6 +86,15 @@ export default class Cultist extends Character {
         this.chance_to_avoid_damage_state += 100
         this.subLife(this, {})
         this.chance_to_avoid_damage_state -= 100
+
+        let escapte_t = this.level.enemies.filter(elem => !elem.is_dead && Func.distance(this, elem, 9) <= 9)
+        if(escapte_t.length >= 5){
+            this.level.addLog('player escape')
+            this.level.createEffect(this, 'escape')
+            // this.addCourage()
+            this.wasEscape(Func.getRandomFromArray(escapte_t))
+            this.addLife(1)
+        }     
     }
 
     getDefendState() {
@@ -149,15 +158,6 @@ export default class Cultist extends Character {
                 let s = new SoulAttractor(0)
                 this.level.setStatus(this, s)
             }
-        }
-    }
-
-    addResourse(count: number = 1, ignore_limit = false) {
-        if (!this.can_regen_resource) return
-
-        if (this.resource < this.maximum_resources || ignore_limit) {
-            this.resource += count
-            this.playerGetResourse()
         }
     }
 
@@ -274,6 +274,7 @@ export default class Cultist extends Character {
     
             this.level.binded_effects.push(e)
             this.wasEscape(unit)
+            this.addLife(1)
             return
         }
 
@@ -304,7 +305,7 @@ export default class Cultist extends Character {
         this.playerWasHited(unit)
 
         if (this.isSpiritBlock()) {
-            this.wasSpiritBlock()
+            this.wasSpiritBlock(unit)
             return
         }
 

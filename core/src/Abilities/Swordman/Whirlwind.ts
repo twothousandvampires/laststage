@@ -13,6 +13,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
     blood_harvest: boolean
     fan_of_swords: boolean
     courage_when_use: number = 0
+    second: boolean = false
 
     constructor(owner: Swordman) {
         super(owner)
@@ -49,7 +50,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
             }
         })
 
-        if (this.blood_harvest && kill_count > 0) {
+        if (this.blood_harvest && !this.second && kill_count > 0) {
             let chance = 20 * kill_count
             if (Func.chance(chance)) {
                 let sphere = new BloodSphere(this.owner.level, kill_count)
@@ -66,7 +67,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
             })
         }
 
-        if (this.fan_of_swords) {
+        if (this.fan_of_swords && !this.second) {
             let count = Math.round(this.owner.getSecondResource() / 2)
 
             if (count > 15) {
@@ -126,8 +127,9 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
             if (Func.chance(proc)) {
                 unit.hit = false
                 unit.action = false
+                this.second = true
                 unit.setImpactTime(70)
-            } else {
+            } else {            
                 this.afterUse()
                 unit.getState()
             }
@@ -135,6 +137,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
     }
 
     exit(unit: Swordman): void {
+        this.second = false
         this.courage_when_use = 0
     }
 }

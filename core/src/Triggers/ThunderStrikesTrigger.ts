@@ -27,7 +27,8 @@ export default class ThunderStrikesTrigger implements ITrigger{
         for (let i = 0; i < this.count; i++) {
             let l = new Lightning(player.level)
             l.setPoint(enemy.x + Math.sin(angle) * 4, enemy.y + Math.cos(angle) * 4)
-
+            l.setOwner(player)
+            
             if (i === 0) {
                 l.setAngle(angle)
             } else if (i % 2 === 0) {

@@ -13,7 +13,7 @@ export default class EnchantedArmour extends Forging {
         this.max_value = 100
         this.name = 'ward on armour hit'
         this.description = 'Gives a chance to gain a ward when you block damage with armour'
-        this.gold_cost = 10
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

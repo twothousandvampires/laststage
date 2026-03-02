@@ -11,7 +11,7 @@ export default class FragilityOnHit extends Forging {
         this.max_value = 50
         this.name = 'fragility on hit'
         this.description = 'Provides a chance to inflict fragility on enemies in a small radius on hit'
-        this.gold_cost = 8
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

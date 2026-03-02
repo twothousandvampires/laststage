@@ -1,4 +1,5 @@
 import Func from '../../Func'
+import Chain from '../../Glyphs/Chain'
 import FallingSwordEffect from '../../Objects/Effects/FallingSwordEffect'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
 import ImprovedSwingTechnology from '../../Status/ImprovedSwingTechnology'

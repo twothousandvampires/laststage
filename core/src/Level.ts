@@ -22,6 +22,7 @@ import SimpleEffect from './Objects/Effects/SimpleEffect'
 import GameObject from './Objects/src/GameObject'
 import Box from './Types/Box'
 import Learning from './Scenarios/Learning'
+import Reign from './Scenarios/Reign'
 
 export default class Level {
     static enemy_list = [
@@ -75,6 +76,10 @@ export default class Level {
             weight: 2,
         },
         {
+            name: 'gold statue',
+            weight: 2,
+        },
+        {
             name: 'plague',
             weight: 5,
             wave: 80
@@ -87,7 +92,7 @@ export default class Level {
     ]
 
     public boss_kills_trashold: number = 0
-    public enemies: (Enemy | Unit)[] = []
+    public enemies: (Enemy)[] = []
     public players: Character[] = []
     public projectiles: Projectiles[] = []
     public effects: Effect[] = []
@@ -145,6 +150,10 @@ export default class Level {
         return Func.getRandomFromArray(t)
     }
 
+    getAliveEnemyInRadius(target: GameObject | Box, radius: number): Enemy[]{
+        return this.enemies.filter(elem => !elem.is_dead && Func.distance(target, elem, radius) <= radius)
+    }
+
     enemyMap(func: Function) {
         this.enemies.forEach(elem => {
             func(elem)
@@ -156,6 +165,8 @@ export default class Level {
         this.players.forEach(p => p.playerDead())
 
         let are_all_dead: boolean = this.players.every(elem => elem.is_dead)
+       
+        
         if (are_all_dead) {
             console.log(this.battle_logs)
             this.players.forEach(elem => {

@@ -11,7 +11,7 @@ export default class FreezeWhenHited extends Forging {
         this.max_value = 100
         this.name = 'freeze when hit'
         this.description = 'Chance to freeze enemies in a radius when getting hit'
-        this.gold_cost = 8
+        this.gold_cost = 1
     }
 
     forge(player: Character) {

@@ -6,7 +6,7 @@ export default class Chance extends Forging {
         super(item)
         this.name = 'chance'
         this.description = 'increases the chance of an item being triggered'
-        this.gold_cost = 5
+        this.gold_cost = 1
         this.max_value = 20
     }
 

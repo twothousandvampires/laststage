@@ -9,7 +9,7 @@ export default class TextLanguage1 extends Sprite{
         this.sprite_h = 35
         this.sprite_w = 100
         this.sprite_name = 'pack5'
-        this.removable = true
+        // this.removable = true
        
         this.y_frame_offset = 60
         this.set()

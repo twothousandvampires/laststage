@@ -41,7 +41,7 @@ export default abstract class Enemy extends Unit {
 
     count_as_killed: boolean = true
     say_z: number = 12
-    gold_revard: number = 1
+    gold_revard: number = 10
     can_be_burned: boolean = true
     abilities: any[] = []
     dead_time: number = 5000
@@ -76,6 +76,7 @@ export default abstract class Enemy extends Unit {
             this.armour_rate += minor_times * 10
             this.pierce += minor_times * 10
             this.cooldown_attack -= minor_times * 70
+            this.power += 1
         }
 
         let major_times = Math.floor(wave / 55)
@@ -102,6 +103,7 @@ export default abstract class Enemy extends Unit {
             }
 
             this.attack_radius += add_range
+            this.power += 3
         }   
     }
 
@@ -423,9 +425,9 @@ export default abstract class Enemy extends Unit {
 
         let is_burn = options?.burn && this.can_be_burned
 
-        if (is_player_deal_hit) {
+        if (is_player_deal_hit ) {
             unit.succesefulHit(this, damage_value)
-            if(!is_burn){
+            if(!is_burn && !options?.explode){
                 this.createHitEffect()
             }  
         }

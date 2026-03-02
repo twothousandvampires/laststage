@@ -11,8 +11,6 @@ export default class FlyerDefendState implements IUnitState<Flyer> {
         player.setParryWindow()
         
         player.can_regen_resource = player.allow_mana_regen_while_def
-
-        player.phasing = player.takeoff
     }
 
     update(player: Flyer) {
@@ -24,6 +22,5 @@ export default class FlyerDefendState implements IUnitState<Flyer> {
     exit(player: Flyer) {
         player.defended = false
         player.can_regen_resource = true
-        player.phasing = false
     }
 }

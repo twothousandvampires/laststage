@@ -11,7 +11,7 @@ export default class FallingSwords extends Forging {
         this.max_value = 10
         this.name = 'sword rain'
         this.description = 'When you block, swords fall on enemies'
-        this.gold_cost = 20
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

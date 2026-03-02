@@ -3,7 +3,7 @@ import Mutator from "./Mutator";
 
 export default class GoldenChainmailMutator extends Mutator {
     mutate(base: number,  player: Character): number {
-        let v = Math.round(player.gold / 10)
+        let v = Math.round(player.gold / 2)
         if(v > 50){
             v = 50
         }

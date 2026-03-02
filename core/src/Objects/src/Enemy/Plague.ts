@@ -24,7 +24,7 @@ export default class Plague extends Undead {
         this.create_grace_chance = 40
         this.create_chance = 70
         this.ressurect_chance = 0
-        this.gold_revard = 4
+        this.gold_revard = 20
         this.create_item_chance = 2
         this.create_sorcerers_skull_chance = 5
         this.retreat_distance = 7

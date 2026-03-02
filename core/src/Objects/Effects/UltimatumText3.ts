@@ -109,7 +109,7 @@ export default class UltimatumText3 extends Effect {
                     !this.activated_players.includes(elem.id) &&
                     Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())
                 ) {
-                    this.activated_players.length++
+                    this.activated_players.push(elem.id)
                     if (this.activated_players.length === this.level.players.length) {
                         this.activate()
                     }

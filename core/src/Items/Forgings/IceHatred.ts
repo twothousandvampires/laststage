@@ -11,7 +11,7 @@ export default class IceHatred extends Forging {
         this.max_value = 10
         this.name = 'freeze on critical'
         this.description = 'When you land a critical hit, you release streaks of ice that freeze enemies for an extended time'
-        this.gold_cost = 20
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

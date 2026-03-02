@@ -9,7 +9,7 @@ export default class ArmourRate extends Forging {
         this.max_value = 25
         this.name = 'armour'
         this.description = 'Increases your armour'
-        this.gold_cost = 7
+        this.gold_cost = 1
     }
 
     forge() {

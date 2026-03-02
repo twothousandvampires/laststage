@@ -12,7 +12,7 @@ export default class FlamyNimbus extends Item implements ITrigger {
         super()
         this.type = 3
         this.chance = 20
-        this.cd = 0
+        this.cd = 500
         this.description = 'When you reach maximum energy, creates a ring that burns enemies'
         this.name = 'flamy nimbus'
     }
@@ -29,7 +29,7 @@ export default class FlamyNimbus extends Item implements ITrigger {
         return ['chance']
     }
 
-    trigger(character: Character, target: any) {
+    trigger(character: Character, value: number = 0) {
         if (this.disabled) return
         if (character.resource < character.maximum_resources) return
 

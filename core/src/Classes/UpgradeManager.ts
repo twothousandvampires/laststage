@@ -60,7 +60,7 @@ export default class UpgradeManager {
     }
 
     static buyItem(id: number, player: Character) {
-        player.gold -= 100
+        player.gold -= 35
 
         let item = player.items_to_buy[id]
 
@@ -133,7 +133,7 @@ export default class UpgradeManager {
 
         if (!item) return
 
-        let cost = item.forge.length * 15 + 15
+        let cost = item.forge.length * 5 + 5
 
         if (player.gold < cost) return
 
@@ -154,12 +154,13 @@ export default class UpgradeManager {
     }
 
     static buyNewItem(player: Character) {
-        if (player.gold < 100) return
+        if (player.gold < 35) return
         if (player.purchased_items >= 2) return
 
         if (player.items_to_buy.length === 0) {
             for (let i = 0; i < Character.MAX_ITEMS_TO_PURCHASE; i++) {
-                let item_name = Item.list[Math.floor(Math.random() * Item.list.length)].name
+                let list = Item.getList()
+                let item_name = list[Math.floor(Math.random() * list.length)].name
                 let item = Builder.createItem(item_name)
 
                 if (player.item.some(elem => elem.name === item.name)) {

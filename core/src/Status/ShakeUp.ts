@@ -2,12 +2,12 @@ import Func from '../Func'
 import Devour from '../Objects/Effects/Devour'
 import Status from './Status'
 
-export default class CrushingWave extends Status {
+export default class ShakeUp extends Status {
     chance: number
 
     constructor(time: number) {
         super(time)
-        this.name = 'crushing wave'
+        this.name = 'shake-up'
         this.chance = 50
     }
 

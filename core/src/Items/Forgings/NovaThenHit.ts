@@ -17,7 +17,7 @@ export default class NovaThenHit extends Forging implements ITrigger {
         this.max_value = 80
         this.name = 'frost nova'
         this.description = 'Gives a chance to cast Frost Nova when hit'
-        this.gold_cost = 12
+        this.gold_cost = 1
     }
 
     getTriggerChance(player: Character | undefined): number {

@@ -30,7 +30,7 @@ export default class Ancient extends Enemy {
         this.life_status = 666666
         this.has_boby = false
         this.is_spawning = false
-        this.phasing = true
+        this.phasing = 1
         this.move_speed = 0.2
         this.can_be_instant_killed = false
         this.hitCount = new Map()

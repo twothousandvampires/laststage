@@ -11,7 +11,7 @@ export default class TurnOffIron extends Forging {
         this.max_value = 50
         this.name = 'torn off iron'
         this.description = 'When you deal hit, there is a chance to create piece of iron shard that spins around you'
-        this.gold_cost = 12
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

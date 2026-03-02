@@ -63,7 +63,7 @@ export default abstract class UnitSprite extends Sprite{
 
     public update(data: any){
         super.update(data)
-
+        this.level_id = data.zone
         this.action = data.action
         this.action_time = data.action_time
 

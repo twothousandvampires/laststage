@@ -1,6 +1,7 @@
 import Builder from '../Classes/Builder'
 import Func from '../Func'
 import Character from '../Objects/src/Character'
+import Chance from './Forgings/Chance'
 import Forging from './Forgings/Forging'
 
 export default abstract class Item {
@@ -27,6 +28,21 @@ export default abstract class Item {
             description: this.description,
             max_forgings: this.max_forgings,
         }
+    }
+
+    static getList(){
+        let result: any = []
+        
+        Item.list.forEach(elem => {
+            if(elem?.chance && Func.chance(elem.chance)){
+                result.push(elem)
+            }
+            else if(!elem?.chance){
+                result.push(elem)
+            }
+        })
+
+        return result
     }
 
     static readonly list = [
@@ -179,6 +195,11 @@ export default abstract class Item {
         {
             name: 'crusher',
             description: 'Increases crushing rating by 5 and gives a chance that a killed crushed enemy will explode and deal damage in a radius'
+        },
+        {
+            name: 'lizas ring',
+            description: 'Get a courage when you find gold',
+            chance: 1
         }
     ]
 
@@ -265,7 +286,7 @@ export default abstract class Item {
             player.armour_rate += Func.random(1, 4)
         }
         else{
-            player.base_regeneration_time -= 200
+            player.base_regeneration_time -= 150
         }
 
         this.equip(this.player)

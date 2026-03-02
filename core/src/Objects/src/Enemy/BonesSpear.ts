@@ -12,13 +12,13 @@ export default class BonesSpear extends Undead {
         this.box_r = 2.3
         this.move_speed = 0.12
         this.attack_radius = 6
-        this.attack_speed = 2000
+        this.attack_speed = 1500
         this.cooldown_attack = 2200
         this.life_status = 2
         this.spawn_time = 1600
         this.ressurect_chance = 60
         this.armour_rate = 15
-        this.gold_revard = 4
+        this.gold_revard = 30
         this.weapon_angle = 0.7
         this.impact_time = 50
         this.dash_radius = 12

@@ -22,7 +22,7 @@ export default class SorcerersSkull extends Effect {
         this.level.players.forEach(elem => {
             let col = Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())
             if (col) {
-                elem.addGold(Func.random(40, 60))
+                elem.addGoldValue(Func.random(2, 6))
                 UpgradeManager.getGrandForging(Func.random(20, 100), elem, true)
 
                 this.level.addSound('gold spending', elem.x, elem.y)

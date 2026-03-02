@@ -71,7 +71,7 @@ export class Room {
         let data: Client[] = Array.from(this.clients.values())
 
         let p_items = this.getAllPlayersItems(data)
-        let list = item.list
+        let list = item.getList()
         let available = []
 
         list.forEach(elem => {

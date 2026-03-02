@@ -88,7 +88,7 @@ export default class ElementalEnchanted extends Status {
 
     apply(unit: any) {
         this.unit = unit
-        unit.gold_revard += 1
+        unit.gold_revard += 10
         let effect = new ElementalEnchantedEffect(this.unit.level)
         effect.setOwner(this.unit)
         effect.setPoint(this.unit.x, this.unit.y)

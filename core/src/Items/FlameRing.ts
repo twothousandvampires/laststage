@@ -22,7 +22,7 @@ export default class FlameRing extends Item implements ITrigger {
     }
 
     getSpecialForgings(): string[] {
-        return ['chance', 'distance', 'count']
+        return ['chance', 'count']
     }
 
     equip(character: Character): void {

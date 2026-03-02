@@ -148,6 +148,18 @@ export default class PlayerSprite extends UnitSprite {
             this.max_frame_tick = Math.round( (this.action_time / this.max_frame) / 30)
             this.repeatable = false
         }
+        else if(this.state === 'sing_idle'){
+            this.sprite_name = 'swordman1'
+            this.y_frame_offset = 560
+            this.max_frame = 2
+            this.max_frame_tick = 10000
+        }
+        else if(this.state === 'sing'){
+            this.sprite_name = 'swordman1'
+            this.y_frame_offset = 640
+            this.max_frame = 2
+            this.max_frame_tick = 10000
+        }
         else if(this.state === 'charge'){
             this.sprite_name = 'swordman3'
             this.y_frame_offset = 0

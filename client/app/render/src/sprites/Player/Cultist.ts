@@ -100,6 +100,12 @@ export default class Cultist extends UnitSprite{
             this.max_frame = 1
             this.max_frame_tick = 1
         }
+        else if(this.state === 'guitar'){
+            this.sprite_name = 'cultist1'
+            this.y_frame_offset = 560
+            this.max_frame = 5
+            this.max_frame_tick = 6
+        }
         else if(this.state === 'stunned'){
             this.sprite_name = 'cultist1'
             this.y_frame_offset = 480

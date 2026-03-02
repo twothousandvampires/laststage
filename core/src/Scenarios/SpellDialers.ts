@@ -161,7 +161,7 @@ export default class SpellDialers extends Scenario {
         this.dealer2 = wizard
 
         let bayer = new Bones(level)
-        bayer.phasing = true
+        bayer.phasing = 1
         bayer.player_check_radius = 2000
         bayer.enemyCanAtack = () => { return false }
         bayer.setPoint(60, 60)

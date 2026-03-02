@@ -37,11 +37,11 @@ export class MasteryManifistation extends Manifistation {
         if(Func.chance(chance)){
             let mastery = Builder.createRandomMastery()
             this.activated_by.masteries.push(mastery)
-            await Func.sleep(2000)
             this.activated_by.level.addMessedge(mastery.name + ' was added')
         }
         else{
-            this.activated_by.level.addMessedge('your skill is not enough...')
+            this.activated_by.grace += this.stage
+            this.activated_by.level.addMessedge('you need to study')
         }
     }
 }

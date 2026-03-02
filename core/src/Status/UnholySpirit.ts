@@ -30,7 +30,7 @@ export default class UnholySpirit extends Status {
         this.unit = unit
         unit.life_status += 1
         unit.move_speed += 0.3
-        unit.phasing = true
+        unit.phasing ++
 
         let effect = new UnholySpiritEffect(this.unit.level)
 

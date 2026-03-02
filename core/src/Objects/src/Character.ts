@@ -113,6 +113,8 @@ export default abstract class Character extends Unit {
     triggers_on_parry: any[] = []
     on_counter_triggers: any[] = []
     on_escape_triggers: any[] = []
+    triggers_on_gold: any[] = []
+    on_spirit_block_triggers: any[] = []
 
     chance_to_instant_kill: number = 0
     chance_to_avoid_damage_state: number = 0
@@ -576,16 +578,16 @@ export default abstract class Character extends Unit {
         return Func.chance(this.crushing_rating, this.is_lucky)  
     }
 
-    playerGetResourse() {
+    playerGetResourse(value: number = 0) {
         let time = this.level.time
 
         this.triggers_on_get_energy.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
-                    elem.trigger(this)
+                    elem.trigger(this, value)
 
                     if (Func.chance(this.isSecondTrigger())) {
-                        elem.trigger(this)
+                        elem.trigger(this, value)
                     }
 
                     elem.last_trigger_time = time
@@ -596,7 +598,6 @@ export default abstract class Character extends Unit {
 
         if(Func.chance(this.additional_energy_chance)){
             this.resource ++
-            this.playerGetResourse()
         }
 
         this.checkEnergyEffect()
@@ -720,7 +721,11 @@ export default abstract class Character extends Unit {
     }
 
     getLightRadius(){
-        return this.light_r - (this.max_life - this.life_status) + this.light_r_delta
+        let d = this.max_life - this.life_status
+        if(d < 0){
+            d = 0
+        }
+        return this.light_r - d + this.light_r_delta
     }
 
     toJSON() {
@@ -757,14 +762,32 @@ export default abstract class Character extends Unit {
             invisible: this.invisible,
             courage: this.getSecondResource(),
             max_courage: this.enlightenment_threshold,
+            zone: this.zone_id
         }
     }
     
-    wasSpiritBlock(){
+    wasSpiritBlock(enemy: any){
         this.level.addSound('spirit', this.x, this.y)
         this.level.createEffect(this, 'spirit')
 
         this.reduceSecondResourse(1)
+
+        let time = this.level.time
+
+        this.on_spirit_block_triggers.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this, enemy)
+
+                    if (Func.chance(this.isSecondTrigger())) {
+                        elem.trigger(this, enemy)
+                    }
+
+                    elem.last_trigger_time = time
+                    this.wasTrigger()
+                }
+            }
+        })
     }
 
     isSpiritBlock() {
@@ -981,21 +1004,66 @@ export default abstract class Character extends Unit {
         //todo
     }
 
-    public addGold(value: number = 1): void {
-        let total = Func.chance(value * 10) ? 1 : 0
-        // let total = Func.random(Math.round(value / 2), Math.round(value * 2))
- 
+    public addGoldValue(value = 1){
+        this.gold += value
+        this.gold_earned += value
+        this.goldWasAdded(value)
+    }
+
+    public addResourse(count: number = 1, ignore_limit = false) {
+        if (!this.can_regen_resource) return
+
+        let value = count
+
+        if(!ignore_limit){
+            let max = this.maximum_resources - this.resource
+            if(max < 0){
+                max = 0
+            }
+            value = value > max ? max : value
+        }
+      
+        this.resource += value
+        this.playerGetResourse(value)
+    }
+
+    public addGold(value: number = 0): void {
+        let total = Func.chance(value) ? 1 : 0
+   
         if (Func.chance(this.chance_to_get_additional_gold, this.is_lucky)) {
             total ++
         }
 
-        this.gold += total
-        this.gold_earned += total
+        if(total > 0){
+            this.gold += total
+            this.gold_earned += total
+            this.level.addLog('gold')
+            this.goldWasAdded(total)
+        }
+    }
+
+    goldWasAdded(value = 1){
+        let time = this.level.time
+
+        this.triggers_on_gold.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this, value)
+
+                    if (Func.chance(this.isSecondTrigger())) {
+                        elem.trigger(this, value)
+                    }
+
+                    elem.last_trigger_time = time
+                    this.wasTrigger()
+                }
+            }
+        })
     }
 
     onSayTriggers() {
         let time = this.level.time
-
+        this.level.addLog('say phrase')
         this.triggers_on_say.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
@@ -1013,7 +1081,8 @@ export default abstract class Character extends Unit {
     }
 
     public sayPhrase(force: boolean = false): void {
-        if (!Func.chance(this.chance_to_say_phrase) && !force) return
+        return
+        if (!Func.chance(Math.round(this.chance_to_say_phrase)) && !force) return
 
         let phrase = undefined
 
@@ -1273,7 +1342,7 @@ export default abstract class Character extends Unit {
 
         upgrade.teach(this)
 
-        if(this.couraged_in_portal && Func.chance(this.couraged_in_portal)){
+        if(this.couraged_in_portal && Func.chance(20)){
 
         }
         else{
@@ -1448,7 +1517,7 @@ export default abstract class Character extends Unit {
         }
 
         if (Func.chance(this.fortify)) {
-             this.level.addLog('player fortify')
+            this.level.addLog('player fortify')
             value --
         }
 
@@ -1768,10 +1837,10 @@ export default abstract class Character extends Unit {
         let x_coll = false
         let y_coll = false
 
-        if (!this.phasing) {
+        if (!this.isPhasing()) {
             for (let i = 0; i < this.level.enemies.length; i++) {
                 let enemy = this.level.enemies[i]
-                if (enemy.phasing) continue
+                if (enemy.isPhasing()) continue
 
                 if (Func.elipseCollision(this.getBoxElipse(next_step_x, 0), enemy.getBoxElipse())) {
                     x_coll = true
@@ -1985,8 +2054,12 @@ export default abstract class Character extends Unit {
         
     }
 
+    getTime(){
+        return this.level.time
+    }
+
     canBlock(){
-        return !this.can_block
+        return this.can_block <= 0
     }
 
     public act(time: number): void {

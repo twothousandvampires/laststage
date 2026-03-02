@@ -35,7 +35,7 @@ export default class Charge extends SwordmanAbility implements IUnitState<Charac
         player.setImpactTime(100)
 
         player.chance_to_avoid_damage_state += 100
-        player.phasing = true
+        player.phasing ++
     }
 
     update(player: Character) {
@@ -103,7 +103,7 @@ export default class Charge extends SwordmanAbility implements IUnitState<Charac
         }
 
         player.chance_to_avoid_damage_state -= 100
-        player.phasing = false
+        player.phasing --
         this.hited = []
     }
 }

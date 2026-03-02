@@ -11,7 +11,7 @@ export default class EnergyWeapon extends Forging {
         this.max_value = 45
         this.name = 'energy weapon'
         this.description = 'When you deal a critical strike there is a chance to create an energy sphere'
-        this.gold_cost = 5
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

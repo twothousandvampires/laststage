@@ -25,7 +25,7 @@ export default class SpectralSword extends Enemy {
         this.weapon_angle = 0.9
         this.create_chance = 2
         this.count_as_killed = false
-        this.phasing = true
+        this.phasing = 1
         this.player_check_radius = 25
         this.life_status = creator.life_status
         this.has_boby = false

@@ -34,7 +34,7 @@ export default class GhostForm extends CultistAbility implements IUnitState<Char
 
         player.action_time = 500
         player.setImpactTime(100)
-        player.phasing = true
+        player.phasing ++
         player.can_attack = false
         player.can_cast = false
         player.state = 'start ghost'
@@ -70,14 +70,14 @@ export default class GhostForm extends CultistAbility implements IUnitState<Char
                 r.r = 15
                 this.owner.level.players.forEach(elem => {
                     if (elem != this.owner && Func.elipseCollision(elem.getBoxElipse(), r)) {
-                        elem.phasing = true
+                        elem.phasing ++
                         let status = new Weakness(time)
                         status.setDuration(this.ghost_time)
 
                         this.owner.level.setStatus(elem, status)
 
                         setTimeout(() => {
-                            elem.phasing = false
+                            elem.phasing --
                         }, this.ghost_time)
                     }
                 })
@@ -92,7 +92,7 @@ export default class GhostForm extends CultistAbility implements IUnitState<Char
     exit(player: Character) {
         this.started = false
 
-        player.phasing = false
+        player.phasing --
         player.can_attack = true
         player.can_cast = true
         player.can_be_damaged = true

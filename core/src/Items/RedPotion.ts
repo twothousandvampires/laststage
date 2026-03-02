@@ -14,7 +14,6 @@ export default class RedPotion extends Item {
         this.chance = 100
         this.duration = 1500
         this.type = 3
-        this.forge = [new Recharge(this)]
         this.description =
             'when you reach 1 life, your life is restored to full and you gain immortality for a short period'
     }

@@ -6,7 +6,7 @@ import Unit from '../Objects/src/Unit'
 
 export default class BreakingBonesTrigger implements ITrigger {
 
-    cd: number = 500
+    cd: number = 1000
     last_trigger_time: number = 0
     chance: number = 100
     name: string = 'breaking bones'
@@ -38,7 +38,7 @@ export default class BreakingBonesTrigger implements ITrigger {
                 proj.setAngle(angle + d)
             }
 
-            proj.setPoint(player.x, player.y)
+            proj.setPoint(target.x, target.y)
             proj.setOwner(player)
             player.level.projectiles.push(proj)
         }

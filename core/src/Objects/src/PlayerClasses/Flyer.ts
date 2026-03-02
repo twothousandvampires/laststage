@@ -33,7 +33,6 @@ export default class Flyer extends Character {
     static MIN_CAST_SPEED: number = 150
 
     next_mana_regen_time: any
-    takeoff: boolean
     allow_mana_regen_while_def: boolean
     charged_shield: boolean
     mental_shield: boolean
@@ -48,7 +47,6 @@ export default class Flyer extends Character {
         this.armour_rate = 15
         this.resource = 0
         this.base_regeneration_time = 8000
-        this.takeoff = false
         this.allow_mana_regen_while_def = false
         this.charged_shield = false
         this.mental_shield = false
@@ -66,6 +64,14 @@ export default class Flyer extends Character {
 
 
     useAction(){
+        let escapte_t = this.level.enemies.filter(elem => !elem.is_dead && Func.distance(this, elem, 9) <= 9)
+        if(escapte_t.length >= 5){      
+            this.level.addLog('player escape')
+            this.level.createEffect(this, 'escape')
+            // this.addCourage()
+            this.wasEscape(Func.getRandomFromArray(escapte_t))
+        }
+        
         this.setState(new FlyerDashState())
     }
 
@@ -368,7 +374,7 @@ export default class Flyer extends Character {
         this.playerWasHited(unit)
 
         if (this.isSpiritBlock()) {
-            this.wasSpiritBlock()
+            this.wasSpiritBlock(unit)
             return
         }
 
@@ -436,16 +442,6 @@ export default class Flyer extends Character {
         let status = new CurseOfDamned(this.level.time)
         status.setDuration(4000)
         this.level.setStatus(this, status)
-    }
-
-  
-    addResourse(count: number = 1, ignore_limit = false) {
-        if (!this.can_regen_resource) return
-
-        if (this.resource < this.maximum_resources || ignore_limit) {
-            this.resource += count
-            this.playerGetResourse()
-        }
     }
 
     energyRegen(){

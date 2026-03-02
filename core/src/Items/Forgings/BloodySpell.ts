@@ -11,7 +11,7 @@ export default class BloodySpell extends Forging {
         this.max_value = 100
         this.name = 'bloody spell'
         this.description = 'When you lose life, there is a chance to create 4 blood vines from their body that damage enemies'
-        this.gold_cost = 7
+        this.gold_cost = 1
     }
 
     forge(player: Character) {

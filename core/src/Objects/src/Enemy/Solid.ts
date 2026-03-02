@@ -26,7 +26,7 @@ export default class Solid extends Enemy {
         this.create_chance = 80
         this.create_chance = 80
         this.say_z = 18
-        this.gold_revard = 4
+        this.gold_revard = 40
         this.create_item_chance = 2
         this.dead_time = 1200
         this.big_grace_chance = 5

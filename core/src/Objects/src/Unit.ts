@@ -170,12 +170,12 @@ export default abstract class Unit extends GameObject {
             return
         }
 
-        if (!this.phasing) {
+        if (!this.isPhasing()) {
             for (let i = 0; i < this.level.enemies.length; i++) {
                 let enemy = this.level.enemies[i]
 
                 if (enemy === this) continue
-                if (enemy.phasing) continue
+                if (enemy.isPhasing()) continue
                 if (enemy.is_dead) continue
 
                 if (Func.elipseCollision(this.getBoxElipse(n_x, 0), enemy.getBoxElipse())) {

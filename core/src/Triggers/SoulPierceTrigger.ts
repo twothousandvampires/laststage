@@ -8,7 +8,7 @@ export default class SoulPierceTrigger implements ITrigger {
     count: number = 0
     name: string = 'soul pierce'
     description: string = 'Get a ward'
-    chance: number = 100
+    chance: number = 25
 
     getTriggerChance(): number {
         return this.chance

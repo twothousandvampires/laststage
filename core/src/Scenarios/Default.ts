@@ -23,6 +23,7 @@ import FlyingBones from '../Objects/src/Enemy/FlyingBones'
 import { ForgeManifistation } from '../Objects/src/Enemy/ForgeManifistation'
 import Ghost from '../Objects/src/Enemy/Ghost'
 import Gifter from '../Objects/src/Enemy/Gifter'
+import GoldStatue from '../Objects/src/Enemy/GoldStatue'
 import Impy from '../Objects/src/Enemy/Impy'
 import MagicSlime from '../Objects/src/Enemy/MagicSlime'
 import { MasterManifestation } from '../Objects/src/Enemy/MasterManifestation'
@@ -48,8 +49,8 @@ export default class Default extends Scenario {
     static TIMES_BAD = 2
 
     last_checked: number
-    time_between_wave_ms: number = 4500
-    max_time_wave: number = 7000
+    time_between_wave_ms: number = 5000
+    max_time_wave: number = 8000
     min_time_wave: number = 4000
     waves_created: number = 0
     times_count: number = 0
@@ -71,8 +72,8 @@ export default class Default extends Scenario {
     times: number
     portal_is_exist = false
 
-    waves_plato: number = 135
-    waves_plato_end: number = 140
+    waves_plato: number = 140
+    waves_plato_end: number = 170
     waves_end: number = 150
 
     time_increment: number = 0
@@ -178,8 +179,8 @@ export default class Default extends Scenario {
        
         let count = Func.random(1 + Math.round(add_count / 5), 2 + Math.round(add_count / 3))
 
-        count += (level.players.length - 1) * 2
-          
+        count += level.players.length - 1
+        
         for (let i = 0; i < count; i++) {
             await Func.sleep(Func.random(100, 300))
 
@@ -191,7 +192,7 @@ export default class Default extends Scenario {
 
     updateTimeBetweenWaves(){
         if(this.waves_created >= this.waves_plato){
-            if(this.waves_plato + 50 && this.max_time_wave >= 4000){
+            if(this.waves_plato + 25 && this.max_time_wave >= 4000){
                 this.max_time_wave -= 30
                 
             }
@@ -250,6 +251,8 @@ export default class Default extends Scenario {
             enemy = new Impy(level)
         } else if (enemy_name === 'gifter') {
             enemy = new Gifter(level, this.waves_created)
+        } else if (enemy_name === 'gold statue') {
+            enemy = new GoldStatue(level)
         } else if (enemy_name === 'ghost') {
             enemy = new Ghost(level)
         } else if (enemy_name === 'slime') {
@@ -495,7 +498,7 @@ export default class Default extends Scenario {
             level.binded_effects.push(e)
         }
 
-        if (this.waves_created % 16 === 0 && this.waves_created > 1) {
+        if (this.waves_created % 14 === 0 && this.waves_created > 1) {
             let e = undefined
             let r = Func.random(1, 4)
 

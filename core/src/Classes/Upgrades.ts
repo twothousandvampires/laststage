@@ -62,7 +62,6 @@ import Luck from '../Status/Luck'
 import Forging from '../Items/Forgings/Forging'
 import MagicFlowTrigger from '../Triggers/MagicFlowTrigger'
 import RisingMoraleTrigger from '../Triggers/RisingMoraleTrigger'
-import CrushingWave from '../Status/CrushingWave'
 import FromDefendToAttackTrigger from '../Triggers/FromDefendToAttackTrigger'
 import WallOfWillTrigger from '../Triggers/WallOfWillTrigger'
 import FirstToStrikeTrigger from '../Triggers/FirstToStrikeTrigger'
@@ -99,7 +98,6 @@ import WillToSurviveTrigger from '../Triggers/WillToSurviveTrigger'
 import LastChance from '../Triggers/LastChance'
 import GoodMoment from '../Triggers/GoodMoment'
 import AbsorptionTrigger from '../Triggers/AbsorptionTrigger'
-import MoltenHelm from '../Items/MoltenHelm'
 import MoltenShrapenel from '../Triggers/MoltenShrapenel'
 import FireTrapTrigger from '../Triggers/FireTrapTrigger'
 import Overflow from '../Triggers/Overflow'
@@ -108,6 +106,29 @@ import BreakingBodyTrigger from '../Triggers/BreakingBodyTrigger'
 import SummonBat from '../Triggers/SummonBat'
 import SoulPierceTrigger from '../Triggers/SoulPierceTrigger'
 import FrostTrap from '../Triggers/FrostTrap'
+import BattleOrdersTrigger from '../Triggers/BattleOrdersTrigger'
+import CallOfTheShield from '../Triggers/CallOfTheShield'
+import NoticingWeaknesses from '../Triggers/NoticingWeaknesses'
+import BloodCollector from '../Triggers/BloodCollector'
+import Growths from '../Triggers/Growths'
+import GoldCannon from '../Triggers/GoldCannon'
+import InsolenceTrigger from '../Triggers/InsolenceTrigger'
+import DemoralizingShout from '../Triggers/DemoralizingShout'
+import CorrosiveBlows from '../Triggers/CorrosiveBlows'
+import Barrier from '../Triggers/Barrier'
+import Incorporeity from '../Triggers/Incorporeity'
+import ShakeUp from '../Status/ShakeUp'
+import CrushingWave from '../Triggers/CrushingWave'
+import Overcharge from '../Triggers/Overcharge'
+import InnerFireTrigger from '../Triggers/InnerFireTrigger'
+import FaithTrigger from '../Triggers/FaithTrigger'
+import HopeTrigger from '../Triggers/HopeTrigger'
+import ArdorTrigger from '../Triggers/ArdorTrigger'
+import ExecutionTrigger from '../Triggers/ExecutionTrigger'
+import CalmnessMutator from '../Mutators/CalmnessMutator'
+import PrimordialProtection from '../Triggers/PrimordialProtection'
+import SadismTrigger from '../Triggers/SadismTrigger'
+import Fanaticism from '../Triggers/Fanaticism'
 
 export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
@@ -131,7 +152,7 @@ export default class Upgrades {
                     return character.additional_energy_chance < 100
                 },
                 teach: (character: Character): void => {
-                    character.spirit ++
+                    character.spirit += 2
                     character.additional_energy_chance += 2
                 },
                 cost: 1,
@@ -150,18 +171,104 @@ export default class Upgrades {
                 desc: 'When you use ability there is a chance to summon bat',
             },
             {
+                name: 'noticing weaknesses',
+                canUse: (character: Character) => {
+                    return character.chance_to_say_phrase >= 2 && !character.triggers_on_pierce.some(elem => elem instanceof NoticingWeaknesses)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_pierce.push(new NoticingWeaknesses())
+                    character.pierce += 5
+                },
+                cost: 1,
+                ascend: 8,
+                desc: 'When you pierce, there is a chance to say phrase',
+            },         
+            {
                 name: 'offense',
                 canUse: (character: Character) => {
                     return true
                 },
                 teach: (character: Character): void => {
-                    character.move_speed_penalty ++
-                    character.pierce += 2
+                    character.move_speed_penalty +=2
+                    character.pierce += 3
                 },
                 cost: 1,
                 desc: 'Increases pierce rating and movement speed',
             },
-             {
+            {
+                name: 'execution',
+                type: 'mastery (kills)',
+                canUse: (character: Character) => {
+                    return character.kills >= 100 && !character.triggers_on_kill.some(elem => elem instanceof ExecutionTrigger)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_kill.push(new ExecutionTrigger())
+                },
+                cost: 2,
+                desc: 'When killing an enemy, there is a chance to reduce armor and pierce rating of enemies around the killed target',
+            },
+            {
+                name: 'fanaticism',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_kill.some(elem => elem instanceof Fanaticism)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_kill.push(new Fanaticism())
+                },
+                cost: 1,
+                ascend: 8,
+                desc: 'After killing 3 enemies, increase your spirit by 5 for 5 seconds',
+            },
+            {
+                name: 'primordial protection',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_get_hit.some(elem => elem instanceof PrimordialProtection)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_get_hit.push(new PrimordialProtection())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When you get damage, there is a chance to gain ward',
+            },
+            {
+                name: 'sadism',
+                canUse: (character: Character) => {
+                    return character.crushing_rating >= 10 && !character.triggers_on_crushing.some(elem => elem instanceof SadismTrigger)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_crushing.push(new SadismTrigger())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When you deal crushing strike, increase move speed and pierce rating up to 15 for 7 seconds',
+            },          
+            {
+                name: 'calmness',
+                canUse: (character: Character) => {
+                    return !character.pierce_rating_mutators.some(elem => elem instanceof CalmnessMutator)
+                },
+                teach: (character: Character): void => {
+                    character.pierce_rating_mutators.push(new CalmnessMutator())
+                    character.move_speed_penalty_mutators.push(new CalmnessMutator())
+                },
+                cost: 1,
+                ascend: 12,
+                desc: 'During you have ward your move speed and pierce rating are increased',
+            },                     
+            {
+                name: 'combatant',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character): void => {
+                    character.armour_rate +=2
+                    character.pierce += 2
+                },
+                cost: 1,
+                desc: 'Increases pierce and armour rating',
+            },
+            {
                 name: 'iron will',
                 canUse: (character: Character) => {
                     return !(character instanceof Cultist)
@@ -180,10 +287,10 @@ export default class Upgrades {
                     return character.power >= 30
                 },
                 teach: (character: Character): void => {
-                    character.attack_speed -= 50
-                    character.cast_speed -= 50
-                    character.armour_rate += 10
-                    character.pierce += 10
+                    character.attack_speed -= 25
+                    character.cast_speed -= 25
+                    character.armour_rate += 5
+                    character.pierce += 5
                 },
                 cost: 2,
                 ascend: 18,
@@ -273,10 +380,10 @@ export default class Upgrades {
                 name: 'taste of blood',
                 type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.kills >= 350
+                    return character.kills >= 250
                 },
                 teach: (character: Character): void => {
-                    character.vampiric_rate += 3
+                    character.vampiric_rate += 5
                 },
                 cost: 2,
                 ascend: 18,
@@ -324,7 +431,7 @@ export default class Upgrades {
                 name: 'regenerating blocks',
                 type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.blocks >= 30 && character.life_gained >= 50 && !character.triggers_on_block.some(elem => elem instanceof RegeneratingBlocks)
+                    return character.blocks >= 20 && character.life_gained >= 20 && !character.triggers_on_block.some(elem => elem instanceof RegeneratingBlocks)
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_block.push(new RegeneratingBlocks())
@@ -337,7 +444,7 @@ export default class Upgrades {
                 name: 'as a wall',
                 type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.blocks >= 50
+                    return character.blocks >= 30
                 },
                 teach: (character: Character): void => {
                     character.block_for_energy += 3
@@ -459,7 +566,7 @@ export default class Upgrades {
                 name: 'golden chainmail',
                 type: 'mastery',
                 canUse: (character: Character) => {
-                    return character.gold_earned >= 500 && !character.armour_mutators.some(elem => elem instanceof GoldenChainmailMutator)
+                    return character.gold_earned >= 75 && !character.armour_mutators.some(elem => elem instanceof GoldenChainmailMutator)
                 },
                 teach: (character: Character) => {
                     character.armour_mutators.push(new GoldenChainmailMutator())
@@ -493,6 +600,89 @@ export default class Upgrades {
                 desc: 'When counterattacking, release molten shrapnel in a circle to ignite enemies',
             },
             {
+                name: 'slayer',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character) => {
+                    character.critical += 2
+                    character.pierce += 2
+                },
+                cost: 1,
+                desc: 'Increases critical chance and pierce rating',
+            },
+            {
+                name: 'mind and matter',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character) => {
+                    character.spirit += 2
+                    character.armour_rate += 2
+                },
+                cost: 1,
+                desc: 'Increases spirit and armour',
+            },
+            {
+                name: 'inner fire',
+                canUse: (character: Character) => {
+                    return character.spirit >= 10 && !character.on_spirit_block_triggers.some(elem => elem instanceof InnerFireTrigger)
+                },
+                teach: (character: Character) => {
+                    character.on_spirit_block_triggers.push(new InnerFireTrigger())
+                },
+                cost: 1,
+                desc: 'When you spirit block, there is a chance to incinerate the enemies around',
+            },
+            {
+                name: 'faith',
+                canUse: (character: Character) => {
+                    return character.spirit >= 20 && !character.triggers_on_get_hit.some(elem => elem instanceof FaithTrigger)
+                },
+                teach: (character: Character) => {
+                    character.triggers_on_get_hit.push(new FaithTrigger())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When you get damage, there is a chance to increase spirit by 20 for 5 seconds',
+            },
+            {
+                name: 'hope',
+                canUse: (character: Character) => {
+                    return character.spirit >= 30 && !character.on_spirit_block_triggers.some(elem => elem instanceof HopeTrigger)
+                },
+                teach: (character: Character) => {
+                    character.on_spirit_block_triggers.push(new HopeTrigger())
+                },
+                cost: 2,
+                ascend: 30,
+                desc: 'When you spirit block, there is a chance to gain life',
+            },
+            {
+                name: 'juggernaut',
+                canUse: (character: Character) => {
+                    return true
+                },
+                teach: (character: Character) => {
+                    character.fortify += 2
+                    character.crushing_rating += 2
+                },
+                cost: 1,
+                desc: 'Increases fortification and crushing rating',
+            },
+            {
+                name: 'ardor',
+                canUse: (character: Character) => {
+                    return character.armour_rate >= 50 && !character.triggers_on_armour_hit.some(elem => elem instanceof ArdorTrigger)
+                },
+                teach: (character: Character) => {
+                    character.triggers_on_armour_hit.puhs(new ArdorTrigger())
+                },
+                cost: 2,
+                ascend: 15,
+                desc: 'After 3 damage blocks with armor, increase pierce by half of your armor for 5 seconds',
+            },
+            {
                 name: 'soul pierce',
                 canUse: (character: Character) => {
                     return !character.triggers_on_pierce.some(elem => elem instanceof SoulPierceTrigger)
@@ -502,7 +692,7 @@ export default class Upgrades {
                 },
                 cost: 2,
                 ascend: 25,
-                desc: 'When pierce, get a ward',
+                desc: 'When pierce, there is a chance to gain ward',
             },
             {
                 name: 'fire trap',
@@ -541,9 +731,81 @@ export default class Upgrades {
                 desc: 'When you crush an enemy, there is a chance to reduce their armour and move speed',
             },
             {
+                name: 'demoralizing shout',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_say.some(elem => elem instanceof DemoralizingShout)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_say.push(new DemoralizingShout())
+                },
+                cost: 1,
+                ascend: 10,
+                desc: 'When you speak, reduce pierce rating of nearby enemies',
+            },
+            {
+                name: 'growths',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_get_hit.some(elem => elem instanceof Growths)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_get_hit.push(new Growths())
+                },
+                cost: 2,
+                ascend: 8,
+                desc: 'When you take damage, increase your armor by 1, up to 20. If you already have 20 armor this way, gain the fortification buff',
+            },
+            {
+                name: 'corrosive blows',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_hit.some(elem => elem instanceof CorrosiveBlows)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_hit.push(new CorrosiveBlows())
+                },
+                cost: 2,
+                ascend: 10,
+                desc: 'Gives a chance to reduce the armor of enemies near the target on hit'
+            },
+            {
+                name: 'insolence',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_critical.some(elem => elem instanceof InsolenceTrigger)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_critical.push(new InsolenceTrigger())
+                },
+                cost: 1,
+                ascend: 6,
+                desc: 'When you deal critical strike, permanently increase your pierce rating by 1, up to 30',
+            },
+            {
+                name: 'gold cannon',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_gold.some(elem => elem instanceof GoldCannon)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_gold.push(new GoldCannon())
+                },
+                cost: 2,
+                ascend: 8,
+                desc: 'When you find gold, fires gold projectiles in random direction',
+            },
+            {
+                name: 'blood collector',
+                canUse: (character: Character) => {
+                    return character.pierce >= 35 && !character.triggers_on_pierce.some(elem => elem instanceof BloodCollector)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_pierce.push(new BloodCollector())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'Pierce 5 times and release 5 blood shards',
+            },
+            {
                 name: 'breaking bones',
                 canUse: (character: Character) => {
-                    return character.crushing_rating >= 10 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingBonesTrigger)
+                    return character.crushing_rating >= 15 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingBonesTrigger)
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_crushing.push(new BreakingBonesTrigger())
@@ -552,10 +814,10 @@ export default class Upgrades {
                 ascend: 10,
                 desc: 'When you crush an enemy, bones are knocked out of him, wounding the enemy',
             },
-             {
+            {
                 name: 'breaking body',
                 canUse: (character: Character) => {
-                    return character.crushing_rating >= 15 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingBodyTrigger)
+                    return character.crushing_rating >= 20 && !character.triggers_on_crushing.some(elem => elem instanceof BreakingBodyTrigger)
                 },
                 teach: (character: Character): void => {
                     character.triggers_on_crushing.push(new BreakingBodyTrigger())
@@ -584,7 +846,7 @@ export default class Upgrades {
                 },
                 teach: (character: Character): void => {
                     character.base_move_speed_penalty_when_action -= 5
-                    character.critical += 1
+                    character.critical += 2
                 },
                 cost: 2,
                 ascend: 15,
@@ -725,7 +987,7 @@ export default class Upgrades {
                     return character.power < 100
                 },
                 teach: (character: Character): void => {
-                    character.power += 2
+                    character.power += 3
                 },
                 cost: 1,
                 ascend: 10,
@@ -744,6 +1006,18 @@ export default class Upgrades {
                 desc: 'When you impact, you explode all bodies in impact radius',
             },
             {
+                name: 'overcharge',
+                canUse: (character: Character) => {
+                    return character.critical >= 20 && !character.triggers_on_get_energy.some(elem => elem instanceof Overcharge)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_get_energy.push(new Overcharge())
+                },
+                cost: 2,
+                ascend: 10,
+                desc: 'Upon reaching maximum energy, your critical strike chance increases to 100% for 4 seconds',
+            },
+            {
                 name: 'overflow',
                 canUse: (character: Character) => {
                     return !character.triggers_on_get_energy.some(elem => elem instanceof Overflow)
@@ -756,6 +1030,18 @@ export default class Upgrades {
                 desc: 'When you gain energy, there is a chance to create electric explosion around you',
             },
             {
+                name: 'barrier',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_get_energy.some(elem => elem instanceof Barrier)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_get_energy.push(new Barrier())
+                },
+                cost: 2,
+                ascend: 20,
+                desc: 'When you gain energy and it max, you have a chance get a ward instead',
+            },
+            {
                 name: 'overpower',
                 canUse: (character: Character) => {
                     return character.power > 20
@@ -763,11 +1049,11 @@ export default class Upgrades {
                 teach: (character: Character): void => {
                     character.critical += 3
                     character.impact += 3
-                    character.crushing += 3
+                    character.crushing_rating += 3
                     character.power += 1
                 },
                 cost: 2,
-                ascend: 18,
+                ascend: 25,
                 desc: 'Increases critical, impact, and crushing ratings, and power',
             },
             {
@@ -852,11 +1138,24 @@ export default class Upgrades {
             {
                 name: 'crushing wave',
                 canUse: (character: Character) => {
-                    return character.crushing_rating >= 30 && !character.level.status_pull.find(elem => elem.unit === character && elem instanceof CrushingWave)
+                    return !character.triggers_on_parry.some(elem => elem instanceof CrushingWave)
                     
                 },
                 teach: (character: Character): void => {
-                    let s = new CrushingWave(character.level.time)
+                    character.triggers_on_parry.push(new CrushingWave())
+                },
+                cost: 2,
+                ascend: 12,
+                desc: 'When you parry apply crushing on nearby enemies',
+            },
+            {
+                name: 'shake-up',
+                canUse: (character: Character) => {
+                    return character.crushing_rating >= 30 && !character.level.status_pull.find(elem => elem.unit === character && elem instanceof ShakeUp)
+                    
+                },
+                teach: (character: Character): void => {
+                    let s = new ShakeUp(character.level.time)
 
                     character.level.setStatus(character, s, true)
                 },
@@ -871,7 +1170,7 @@ export default class Upgrades {
                 },
                 teach: (character: Character): void => {
                     character.chance_to_block += 1
-                    character.armour_rate += 2
+                    character.armour_rate += 3
                 },
                 cost: 1,
                 desc: 'Increases armour and chance to block',
@@ -1003,7 +1302,7 @@ export default class Upgrades {
                 },
                 teach: (character: Character): void => {
                     character.impact_radius += 2
-                    character.impact ++
+                    character.impact +=2
                     let t = character.triggers_on_hit.find(elem => elem instanceof ImpactTrigger)
                     if(t){
                         t.cd -= 150
@@ -1091,7 +1390,7 @@ export default class Upgrades {
                 teach: (character: Character): void => {
                     character.vampiric_rate += 2
                 },
-                cost: 2,
+                cost: 1,
                 ascend: 8,
                 desc: 'Increases vampiric rate',
             },
@@ -1125,7 +1424,7 @@ export default class Upgrades {
                     return character.power >= 12
                 },
                 teach: (character: Character): void => {
-                    character.impact += 6
+                    character.impact += 8
                 },
                 cost: 2,
                 ascend: 22,
@@ -1240,12 +1539,23 @@ export default class Upgrades {
                 desc: 'Restores life',
             },
             {
+                name: 'incorporeity',
+                canUse: (character: Character) => {
+                    return character.critical >= 25 && !character.triggers_on_critical.some(elem => elem instanceof Incorporeity)
+                },
+                teach: (character: Character) => {
+                    character.triggers_on_critical.push(new Incorporeity())
+                },
+                cost: 2,
+                desc: 'When you deal critical strike, get phasing for 3 seconds',
+            },        
+            {
                 name: 'gold finder',
                 canUse: (character: Character) => {
                     return character.chance_to_get_additional_gold < 100
                 },
                 teach: (character: Character) => {
-                    character.chance_to_get_additional_gold += 5
+                    character.chance_to_get_additional_gold += 2
                 },
                 cost: 1,
                 desc: `Increases chance to get additional gold`,
@@ -1280,7 +1590,7 @@ export default class Upgrades {
                     return true
                 },
                 teach: (character: Character) => {
-                    character.pierce += 4
+                    character.pierce += 5
                 },
                 cost: 1,
                 desc: 'Increases pierce rating',
@@ -1291,7 +1601,7 @@ export default class Upgrades {
                     return character.critical < 100
                 },
                 teach: (character: Character) => {
-                    character.critical += 3
+                    character.critical += 4
                 },
                 cost: 1,
                 desc: 'Increases chance to deal double damage',
@@ -1302,7 +1612,7 @@ export default class Upgrades {
                     return true
                 },
                 teach: (character: Character) => {
-                    character.armour_rate += 4
+                    character.armour_rate += 5
                 },
                 cost: 1,
                 desc: 'Increases armour',
@@ -1328,7 +1638,7 @@ export default class Upgrades {
                     return character.status_resistance < 80
                 },
                 teach: (character: Character) => {
-                    character.status_resistance += 2
+                    character.status_resistance += 3
                 },
                 cost: 1,
                 desc: 'Increases resistance',
@@ -1520,12 +1830,27 @@ export default class Upgrades {
                 },
                 teach: (character: Character) => {
                     if (character instanceof Character) {
-                        character.impact += 3
+                        character.impact += 5
                     }
                 },
                 cost: 1,
                 ascend: 6,
                 desc: 'Increases impact rating',
+            },
+            {
+                name: 'herald',
+                canUse: (character: Character) => {
+                    return character.impact < 100
+                },
+                teach: (character: Character) => {
+                    if (character instanceof Character) {
+                        character.impact += 2
+                        character.armour_rate += 2
+                    }
+                },
+                cost: 1,
+                ascend: 6,
+                desc: 'Increases impact rating and armour',
             },
             {
                 name: 'preparation',
@@ -1544,7 +1869,7 @@ export default class Upgrades {
                     return character.crushing_rating < 100
                 },
                 teach: (character: Character) => {
-                    character.crushing_rating += 3
+                    character.crushing_rating += 4
                 },
                 cost: 1,
                 ascend: 8,
@@ -1572,11 +1897,35 @@ export default class Upgrades {
                     return character.spirit < 90
                 },
                 teach: (character: Character) => {
-                    character.spirit += 2
+                    character.spirit += 3
                 },
                 cost: 1,
                 ascend: 8,
                 desc: 'Increases spirit',
+            },
+            {
+                name: 'battle orders',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_say.some(elem => elem instanceof BattleOrdersTrigger)
+                },
+                teach: (character: Character) => {
+                    character.triggers_on_say.push(new BattleOrdersTrigger())
+                },
+                cost: 1,
+                ascend: 8,
+                desc: 'When you speak, gives you and your allies armour and pierce rating based on enemies near you',
+            },
+            {
+                name: 'call of the shield',
+                canUse: (character: Character) => {
+                    return !character.triggers_on_start_block.some(elem => elem instanceof CallOfTheShield)
+                },
+                teach: (character: Character) => {
+                    character.triggers_on_start_block.push(new CallOfTheShield())
+                },
+                cost: 3,
+                ascend: 30,
+                desc: 'When you start block, trigger all you on block triggers',
             },
             {
                 name: 'shout',
@@ -3150,6 +3499,24 @@ export default class Upgrades {
                 cost: 3,
                 ascend: 27,
                 desc: 'Thrown weapons have a chance to shatter and realise metal parts that hit enemies',
+            },
+             {
+                name: 'melted feet',
+                type: 'jump',
+                canUse: (character: Character) => {
+                    return (
+                        character.second_ability instanceof Jump &&
+                        !character.second_ability.feet
+                    )
+                },
+                teach: (character: Character) => {
+                    if (character.second_ability && character.second_ability instanceof Jump) {
+                        character.second_ability.feet = true
+                    }
+                },
+                cost: 2,
+                ascend: 26,
+                desc: 'Upon landing, create static fire clots that explode upon impact with an enemy; the number of clots depends on your armor.',
             },
             {
                 name: 'heavy landing',

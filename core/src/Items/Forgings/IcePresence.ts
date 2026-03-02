@@ -12,7 +12,7 @@ export default class IcePresence extends Forging {
         this.max_value = 40
         this.name = 'ice presence'
         this.description = 'Gives a chance to deal damage to nearby frozen enemies'
-        this.gold_cost = 10
+        this.gold_cost = 1
     }
 
     forge(player: Character) {

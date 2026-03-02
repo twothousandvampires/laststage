@@ -23,7 +23,7 @@ export default class Reanimator extends Status {
 
     apply(unit: any) {
         this.unit = unit
-        unit.gold_revard += 2
+        unit.gold_revard += 20
         unit.life_status += 2
 
         let effect = new ReanimatorEffect(this.unit.level)

@@ -18,7 +18,7 @@ export default class DominanceWhenCritical extends Forging implements ITrigger{
         this.max_value = 40
         this.name = 'power on critical'
         this.description = 'When you land a critical strike, there is a chance to gain dominance (+30 power)'
-        this.gold_cost = 8
+        this.gold_cost = 2
     }
 
     getTriggerChance(player: Character | undefined): number {

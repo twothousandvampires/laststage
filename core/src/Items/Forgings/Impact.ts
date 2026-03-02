@@ -9,7 +9,7 @@ export default class Impact extends Forging {
         this.max_value = 15
         this.name = 'impact'
         this.description = 'Increases your impact rating'
-        this.gold_cost = 6
+        this.gold_cost = 1
     }
 
     forge() {

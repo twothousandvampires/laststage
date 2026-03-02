@@ -9,7 +9,7 @@ export default class CultistGhostState implements IUnitState<Character> {
     enter(player: Character) {
         player.state = 'ghost'
         player.defended = true
-        player.phasing = true
+        player.phasing ++
         this.start = player.level.time
     }
 
@@ -22,6 +22,6 @@ export default class CultistGhostState implements IUnitState<Character> {
     exit(player: Cultist) {
         player.defended = false
         player.ghost_time_until = 0
-        player.phasing = false
+        player.phasing --
     }
 }

@@ -10,7 +10,7 @@ export default abstract class GameObject {
     zone_id: number = 0
     id: number | string
     invisible: boolean = false
-    phasing: boolean = false
+    phasing: number = 0
 
     constructor(
         public level: Level,
@@ -35,6 +35,10 @@ export default abstract class GameObject {
         }
 
         return false
+    }
+
+    isPhasing(){
+        return this.phasing > 0
     }
 
     getBoxElipse(x: number = 0, y: number = 0): Box {

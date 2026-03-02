@@ -24,7 +24,8 @@ export default class ItemDrop extends Effect {
             let col = Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())
             if (elem.item.length < elem.max_items && col) {
                 for (let i = 0; i < 1; i++) {
-                    let item_name = Item.list[Math.floor(Math.random() * Item.list.length)].name
+                    let list = Item.getList()
+                    let item_name = list[Math.floor(Math.random() * list.length)].name
                     let item = Builder.createItem(item_name)
 
                     if (elem.item.some(elem => elem.name === item.name)) {
@@ -43,7 +44,7 @@ export default class ItemDrop extends Effect {
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)
             } else if (elem.item.length >= 6 && col) {
-                elem.addGold(20)
+                elem.addGoldValue(10)
 
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)

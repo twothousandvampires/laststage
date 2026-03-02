@@ -21,7 +21,7 @@ export default class BindedRocks extends Enemy {
         this.cooldown_attack = 3000
         this.create_chance = 80
         this.say_z = 20
-        this.gold_revard = 5
+        this.gold_revard = 50
         this.create_item_chance = 4
         this.dead_time = 1200
         this.abilities = [new EarthSpikes(), new FlyingRock()]

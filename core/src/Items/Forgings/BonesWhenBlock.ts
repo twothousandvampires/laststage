@@ -19,7 +19,7 @@ export default class BonesWhenBlock extends Forging implements ITrigger {
         this.max_value = 8
         this.name = 'bones when block'
         this.description = 'When you block, you realise bones those hurt enemies'
-        this.gold_cost = 12
+        this.gold_cost = 3
     }
 
     getTriggerChance(): number {

@@ -15,7 +15,7 @@ export default class Skull extends Undead {
         this.create_grace_chance = 0
         this.create_entity_chance = 0
         this.create_energy_chance = 0
-        this.gold_revard = 0
+        this.gold_revard = 1
         this.create_chance = 0
         this.has_boby = false
         this.count_as_killed = false

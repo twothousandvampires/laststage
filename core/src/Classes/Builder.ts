@@ -123,6 +123,7 @@ import ShockWave from '../Glyphs/ShockWave'
 import FallingSwords from '../Items/Forgings/FallingSwords'
 import TurnOffIron from '../Items/Forgings/TurnOffIron'
 import Chain from '../Glyphs/Chain'
+import LizasRing from '../Items/LizasRing'
 
 export default class Builder {
     static masteryMap = {
@@ -183,7 +184,8 @@ export default class Builder {
         'devouring axe': DevouringAxe,
         'flamy nimbus': FlamyNimbus,
         distorter: Distorter,
-        'crusher': Crusher
+        'crusher': Crusher,
+        'lizas ring': LizasRing
     }
 
     static greatForgingMap = {

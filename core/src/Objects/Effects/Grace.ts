@@ -59,7 +59,7 @@ export default class Grace extends Effect {
 
                     elem.couraged_in_portal = elem.isCouraged()
                     elem.setZone(1, 180, 60)
-                    elem.light_r = 32
+                    elem.light_r += 16
                 }
             }
         })
@@ -82,7 +82,7 @@ export default class Grace extends Effect {
 
         if (!player_data) return
 
-        player.light_r = 16
+        player.light_r -= 16
         player.left_forger = false
         player.left_teacher = false
         player.couraged_in_portal = false
@@ -111,7 +111,7 @@ export default class Grace extends Effect {
     closeGate() {
         this.gatedPlayers.forEach(player_data => {
             if (!this.leaved.includes(player_data.player.id)) {
-                player_data.player.light_r = 16
+                player_data.player.light_r -= 16
                 player_data.player.removeUpgrades()
                 UpgradeManager.closeUpgrades(player_data.player)
                 player_data.player.setZone(0, player_data.x, player_data.y)
@@ -142,7 +142,7 @@ export default class Grace extends Effect {
         let exit = new Gate(this.level)
         this.level.binded_effects.push(exit)
 
-        let stars_count = 60
+        let stars_count = 20
         let centr_x = 180
         let centr_y = 60
 

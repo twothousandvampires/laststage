@@ -178,6 +178,11 @@ import FloorBlood from "./src/sprites/Effect/FloorBlood"
 import FloorBones from "./src/sprites/Effect/FloorBones"
 import MoltenBurst from "./src/sprites/Effect/MoltenBurst"
 import Bat from "./src/sprites/Enemy/Bat"
+import FlyingGold from "./src/sprites/Effect/FlyingGold"
+import Reign from "./src/sprites/Effect/Reign"
+import Reign2 from "./src/sprites/Effect/Reign2"
+import BurningRing from "./src/sprites/Effect/BurningRing"
+import Reign3 from "./src/sprites/Effect/Reign3"
 
 export default class Render{
     
@@ -319,6 +324,9 @@ export default class Render{
         }
         else if(elem.name === 'bone armour'){
             return new BoneArmour(elem.id)
+        }
+        else if(elem.name === 'flying gold'){
+            return new FlyingGold(elem.id)
         }
         else if(elem.name === 'bone explosion'){
             return new BoneExplosion(elem.id)
@@ -481,6 +489,9 @@ export default class Render{
         }
         else if(elem.name === 'burning circle'){
             return new BurningCircle(elem.id)
+        }
+        else if(elem.name === 'burning ring'){
+            return new BurningRing(elem.id)
         }
         else if(elem.name === 'small shocknova'){
             return new SmallShockNova(elem.id)
@@ -778,6 +789,15 @@ export default class Render{
         }
         else if(elem.name === 'ftrail'){
             return new FlyerTrail(elem.id)
+        }
+        else if(elem.name === 'reign'){
+            return new Reign(elem.id)
+        }
+        else if(elem.name === 'reign2'){
+            return new Reign2(elem.id)
+        }
+        else if(elem.name === 'reign3'){
+            return new Reign3(elem.id)
         }
     }
 

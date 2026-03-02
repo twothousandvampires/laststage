@@ -18,7 +18,7 @@ export default class Boss extends Undead {
         this.attack_speed = 1600
         this.player_check_radius = 50
         this.spawn_time = 2200
-        this.phasing = true
+        this.phasing = 1
         this.can_be_instant_killed = false
         this.abilities = [new UnholyTouch(), new BlindAbility()]
         this.immune_to_freeze = true

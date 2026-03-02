@@ -18,7 +18,7 @@ export default class ExplodingSkull extends Enemy {
         this.life_status = 1
         this.has_boby = false
         this.is_spawning = false
-        this.phasing = true
+        this.phasing = 1
         this.move_speed = 0.3
     }
 

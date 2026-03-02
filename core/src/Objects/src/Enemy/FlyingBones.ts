@@ -32,7 +32,7 @@ export default class FlyingBones extends Undead {
         this.create_chance = 80
         this.ressurect_chance = 30
         this.want_to_cast = true
-        this.gold_revard = 3
+        this.gold_revard = 30
         this.create_item_chance = 3
         this.create_sorcerers_skull_chance = 15
         this.big_grace_chance = 3

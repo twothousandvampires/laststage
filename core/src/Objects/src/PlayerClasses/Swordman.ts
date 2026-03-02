@@ -27,13 +27,7 @@ import SwordmanEnlightment from '../../../Triggers/SwordmanEnlightment'
 import Counter from '../../Effects/Counter'
 import SwordmanCounterTrigger from '../../../Triggers/SwordmanCounterTrigger'
 import SwordmanJumpState from '../../../State/SwordmanJumpState'
-import MoltenShrapenel from '../../../Triggers/MoltenShrapenel'
-import FireTrapTrigger from '../../../Triggers/FireTrapTrigger'
-import Overflow from '../../../Triggers/Overflow'
-import ExplodingMeat from '../../../Triggers/ExplodingMeat'
-import Bat from '../Enemy/Bat'
-import SummonBat from '../../../Triggers/SummonBat'
-
+import InnerFireTrigger from '../../../Triggers/InnerFireTrigger'
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -67,6 +61,19 @@ export default class Swordman extends Character {
     }
 
     useAction(){
+        let escapte_t = this.level.enemies.filter(elem => !elem.is_dead && Func.distance(this, elem, 9) <= 9)
+        if(escapte_t.length >= 5){
+             this.level.enemies.forEach(elem => {
+                if(!elem.is_dead && Func.distance(elem, this) <= 8){
+                    elem.removeTarget(3000)
+                }
+            })
+            this.level.addLog('player escape')
+            this.level.createEffect(this, 'escape')
+            // this.addCourage()
+            this.wasEscape(Func.getRandomFromArray(escapte_t))
+        }
+
         this.setState(new SwordmanJumpState())
     }
 
@@ -285,7 +292,7 @@ export default class Swordman extends Character {
 
         if (this.isSpiritBlock()) {
             this.level.addLog('player spirit block')
-            this.wasSpiritBlock()
+            this.wasSpiritBlock(unit)
             return
         }
 
@@ -422,6 +429,8 @@ export default class Swordman extends Character {
         this.equipItems()
         this.setRegenTimer()
         this.check_recent_hits_timer = time + 1000
+
+        console.log(this.gold)
     }
 
     getMoveSpeedPenaltyValue() {
@@ -453,53 +462,39 @@ export default class Swordman extends Character {
     }
 
     wasCounter(unit: any){
-            this.counter_time_until = 0
-            this.addCourage()
-            let time = this.level.time
-          
-            this.on_counter_triggers.forEach(elem => {
-                if (time - elem.last_trigger_time >= elem.cd) {
-                    if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
-                        elem.trigger(this, unit)
-    
-                        // if (Func.chance(this.isSecondTrigger())) {
-                        //     elem.trigger(this, unit)
-                        // }
-    
-                        elem.last_trigger_time = time
-                        // this.wasTrigger()
-                    }
+        this.counter_time_until = 0
+        this.addCourage()
+        let time = this.level.time
+        
+        this.on_counter_triggers.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this, unit)
+
+                    // if (Func.chance(this.isSecondTrigger())) {
+                    //     elem.trigger(this, unit)
+                    // }
+
+                    elem.last_trigger_time = time
+                    // this.wasTrigger()
                 }
-            })
-        }
-
-    addResourse(count: number = 1, ignore_limit = false) {
-        if (!this.can_regen_resource) return
-    
-        if (this.resource >= this.maximum_resources && !ignore_limit) {
-            return
-        }
-
-        this.resource += count
-        this.playerGetResourse()
+            }
+        })
     }
 
     addPoint(count: number = 1, ignore_limit = false) {
         if (this.energy_by_hit_added) return
         if (!this.can_regen_resource) return
 
-    
-        if (this.resource >= this.maximum_resources) {
-            return
-        }
-         
-        this.resource += count
+        let value = count
 
-        if (this.resource > this.maximum_resources) {
-            this.resource = this.maximum_resources
+        if(!ignore_limit){
+            let max = this.maximum_resources - this.resource
+            value = value > max ? max : value
         }
-
-        this.playerGetResourse()
+      
+        this.resource += value
+        this.playerGetResourse(value)
         this.energy_by_hit_added = true
     }
 }

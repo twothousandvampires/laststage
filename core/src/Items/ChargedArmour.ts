@@ -1,5 +1,4 @@
-import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import Character from '../Objects/src/Character'
 import Ignite from '../Status/Ignite'
 import Item from './Item'
@@ -26,9 +25,9 @@ export default class ChargedArmour extends Item implements ITrigger {
         return ['chance']
     }
 
-    trigger(character: Character) {
+    trigger(character: Character, value: number = 0) {
         if (this.disabled) return
-
+ 
         if (character.resource < character.maximum_resources) {
             character.addWard(1)
         } else {

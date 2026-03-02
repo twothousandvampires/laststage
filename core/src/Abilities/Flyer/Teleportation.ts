@@ -76,7 +76,7 @@ export default class Teleportation extends FlyerAbility implements IUnitState<Ch
         this.owner.using_ability = undefined
 
         unit.can_be_controlled_by_player = true
-        unit.phasing = false
+        unit.phasing --
     }
 
     update(unit: Flyer) {
@@ -94,7 +94,7 @@ export default class Teleportation extends FlyerAbility implements IUnitState<Ch
             this.state = Teleportation.TELEPOR_OUT_STATE
             this.out_of_map_start = unit.level.time
 
-            unit.phasing = true
+            unit.phasing ++
         } else if (this.state === Teleportation.TELEPOR_OUT_STATE) {
             if (unit.level.time - this.out_of_map_start >= this.out_of_map_duration) {
                 unit.can_be_controlled_by_player = true

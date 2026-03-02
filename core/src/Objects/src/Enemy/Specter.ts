@@ -29,7 +29,7 @@ export default class Specter extends Undead {
         this.can_cast_seekers = true
         this.create_grace_chance = 90
         this.create_chance = 90
-        this.gold_revard = 5
+        this.gold_revard = 50
         this.create_item_chance = 6
         this.pierce = 20
         this.big_grace_chance = 7

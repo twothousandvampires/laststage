@@ -16,7 +16,7 @@ export default class FortifyWhenHit extends Forging implements ITrigger {
         this.max_value = 100
         this.name = 'fortify when hit'
         this.description = 'When you get hit, there is a chance to gain fortify'
-        this.gold_cost = 8
+        this.gold_cost = 2
     }
 
     getTriggerChance(): number {

@@ -8,10 +8,10 @@ export default class GiftOfEnlightment extends Forging {
 
     constructor(item: Item) {
         super(item)
-        this.max_value = 80
+        this.max_value = 100
         this.name = 'gift of enlightenment'
         this.description = 'When you become enlightened, there is a chance to create grace'
-        this.gold_cost = 8
+        this.gold_cost = 1
     }
 
     forge(player: Character) {
@@ -19,10 +19,10 @@ export default class GiftOfEnlightment extends Forging {
             let trigger = player.triggers_on_enlight.find( elem => elem instanceof GiftOfEnlightmentGrigger)
 
             if (trigger) {
-                trigger.chance += 20
+                trigger.chance += 10
             } else {
                 let t = new GiftOfEnlightmentGrigger()
-                t.chance = 20
+                t.chance = 10
 
                 player.triggers_on_enlight.push(t)
             }

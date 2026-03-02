@@ -1,4 +1,3 @@
-import Func from '../Func'
 import ITrigger from '../Interfaces/Itrigger'
 import Gold from '../Objects/Effects/Gold'
 import Character from '../Objects/src/Character'
@@ -39,7 +38,7 @@ export default class RingOfTransmutation extends Item implements ITrigger {
             })
         }
 
-        character.gold += 10
+        character.addGoldValue(1)
 
         character.level.addSound('gold spending', unit.x, unit.y)
         let e = new Gold(character.level)

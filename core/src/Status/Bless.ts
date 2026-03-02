@@ -22,7 +22,7 @@ export default class Bless extends Status {
 
     apply(unit: any) {
         this.unit = unit
-        unit.gold_revard += 15
+        unit.gold_revard += 50
         unit.life_status += 1
         unit.critical += 50
 

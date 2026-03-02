@@ -12,7 +12,7 @@ export default class ColdHeart extends Forging {
         this.max_value = 75
         this.name = 'cold heart'
         this.description = 'When you get life you realise icicles amount of that depends on you life'
-        this.gold_cost = 5
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

@@ -13,7 +13,7 @@ export default class EternalThirst extends Status {
         if (this.unit instanceof Character) {
             this.unit.statusWasApplied()
 
-            this.unit.phasing = true
+            this.unit.phasing ++
             this.unit.move_speed_penalty += 50
             this.unit.attack_speed -= 500
             this.unit.cast_speed -= 500
@@ -30,7 +30,7 @@ export default class EternalThirst extends Status {
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.phasing = false
+            this.unit.phasing --
             this.unit.move_speed_penalty -= 50
             this.unit.critical -= 50
             this.unit.pierce -= 100

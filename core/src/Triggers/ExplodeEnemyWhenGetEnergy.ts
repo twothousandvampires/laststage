@@ -14,7 +14,9 @@ export default class ExplodeEnemyWhenGetEnergy implements ITrigger {
         return this.chance
     }
 
-    trigger(player: Character) {
+    trigger(player: Character, value: number = 0) {
+        if(!value) return
+        
         let targets = player.level.enemies.filter(
             elem => elem.can_be_removed && elem.is_corpse && Func.distance(elem, player) <= 16
         )

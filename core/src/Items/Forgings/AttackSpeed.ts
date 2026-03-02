@@ -10,7 +10,7 @@ export default class AttackSpeed extends Forging {
         this.max_value = 120
         this.name = 'attack speed'
         this.description = 'increases your attack speed'
-        this.gold_cost = 5
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

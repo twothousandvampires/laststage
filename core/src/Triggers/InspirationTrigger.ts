@@ -16,14 +16,14 @@ export default class InspirationTrigger implements ITrigger {
         return 0
     }
 
-    trigger(player: Character) {
+    trigger(player: Character, value: number = 0) {
+        if(!value) return
+
         let e = new HeavenRay(player.level)
         e.setPoint(player.x, player.y)
 
         player.level.addEffect(e)
-        player.resource = player.maximum_resources
-        player.checkEnergyEffect()
-
+        player.addResourse(player.maximum_resources - player.resource)
         player.third_ability.used = false
     }
 }

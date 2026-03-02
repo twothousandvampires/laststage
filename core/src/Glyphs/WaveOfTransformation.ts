@@ -26,7 +26,7 @@ export default class WaveOfTransformation extends Mastery {
                 Func.distance(player, elem) <= 12
             ) {
                 player.level.addSound('gold spending', elem.x, elem.y)
-                player.addGold(1)
+                player.addGold(100)
                 let effect = new Gold(player.level)
                 effect.setPoint(elem.x, elem.y)
 

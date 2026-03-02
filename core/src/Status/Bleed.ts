@@ -1,5 +1,6 @@
 import Func from '../Func'
 import Blood from '../Objects/Effects/Blood'
+import FloorBlood from '../Objects/Effects/FloorBlood'
 import Character from '../Objects/src/Character'
 import Status from './Status'
 
@@ -33,6 +34,10 @@ export default class Bleed extends Status {
                 e.setPoint(Func.random(this.unit.x - 2, this.unit.x + 2), this.unit.y)
                 e.z = Func.random(2, 8)
                 this.unit.level.effects.push(e)
+
+                let fe = new FloorBlood(this.unit.level)
+                fe.setPoint(Func.random(this.unit.x - 4, this.unit.x + 4), Func.random(this.unit.y - 4, this.unit.y + 4))
+                this.unit.level.effects.push(fe)
             }
         }
     }

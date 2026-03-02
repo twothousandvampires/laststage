@@ -11,7 +11,7 @@ export default class BoilingBlood extends Forging {
         this.max_value = 10
         this.name = 'boiling blood'
         this.description = 'When you kill an enemy near you, there is a chance to create spheres that will target the enemy and deal damage to them'
-        this.gold_cost = 5
+        this.gold_cost = 2
     }
 
     forge(player: Character) {

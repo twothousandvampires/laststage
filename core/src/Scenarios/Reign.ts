@@ -521,7 +521,6 @@ export default class Reign extends Scenario {
                     let l = 1 - Math.abs(0.5 * Math.cos(a))
                     
                     e.setPoint(this.dealer1.x + Math.sin(a) * 20 * l, this.dealer1.y + Math.cos(a) * 20 * l)
-                    e.setAngle(a)
 
                     level.binded_effects.push(e)
                 }

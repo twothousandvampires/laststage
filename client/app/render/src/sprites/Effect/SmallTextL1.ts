@@ -9,7 +9,7 @@ export default class SmallTextL1 extends Sprite{
         this.sprite_h = 20
         this.sprite_w = 50
         this.sprite_name = 'pack5'
-        // this.removable = true
+        this.removable = true
        
         this.y_frame_offset = 0
         this.set()

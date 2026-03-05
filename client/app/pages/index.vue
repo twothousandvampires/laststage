@@ -39,7 +39,9 @@
         'cutting', 'curse', 'crushed', 'crossbow', 'corrosion', 'conductivity', 'conduct of pain', 'collapse', 'charged shield', 'charged armour', 'glacial chain',
         'excitement', 'fan of swords', 'fire spliting', 'light stream', 'as a wall', 'regeneration','forbidden power', 'red jewel', 'overflow', 'rainbow jewel',
         'tormented', 'teleportation', 'equiped', 'eternal thirst', 'immaterial', 'immortality', 'immune to freeze', 'improved chain reaction', 'in the heat of battle',
-        'inner guidance', 'inner power', 'iron will', 'last chance', 'magic flow'
+        'inner guidance', 'inner power', 'iron will', 'last chance', 'magic flow', 'ardor', 'barrier', 'blessed armour', 'breaking body', 'call of sword', 'call of the shield',
+        'calmness', 'charge' , 'chosen one', 'cold spires', 'death aura', 'empower', 'lizas ring', 'preparation', 'matter distortion', 'melted feet', 'pulling out teeth',
+        'reign of pain', 'ressurection', 'returning', 'sadism', 'sharp fragments'
     ]
 
     let b_data = {

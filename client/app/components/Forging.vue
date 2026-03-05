@@ -65,7 +65,7 @@
                         class="button"> buy item
                     </p>
                     <p 
-                        @mouseover="$title($event, 'Spend all of your carved sparks (max is 100), the more there are, the greater the chance of creating a synthesized property, which can then be applied to an item')"
+                        @mouseover="$title($event, `Spend all your Carved Sparks (maximum 100). The more you spend, the higher the chance of creating a jewel, and the higher the quality of the jewel.A jewel is attached to a specific type of item and increases its stats based on the number of properties attached to it. The higher the jewels power, the higher the multiplier.`)"
                         @mouseleave="$closeTitle()" 
                         class="button"
                         @click.stop="getGrandForging()"

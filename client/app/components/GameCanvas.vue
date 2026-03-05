@@ -1,6 +1,6 @@
 <template>
     <div id="canvas-wrap">
-        <div v-if="true" id="hud">
+        <div id="hud">
             <div id="skill_icons">
               <div v-for="(ability, key) in client.abilities">
                 <img :class="{'cannot_use': !client.can_use[key]}" width="60px" height="60px" :src="`/icons/${ability}.png`" alt="">

@@ -30,7 +30,7 @@ export default class EnemyMelleAttackState implements IUnitState<Enemy> {
                 
                 let options = Unit.getHitOptions()
                 enemy.addHitEffects(options)
-                // enemy.target.takeDamage(enemy, options)
+                enemy.target.takeDamage(enemy, options)
             }
             else if(!is_coll){
                 enemy.moveByAngle(enemy.attack_angle)

@@ -13,6 +13,7 @@ export default class PlayerDeadState implements IUnitState<Character> {
 
         if (!player.can_ressurect) {
             player.level.playerDead()
+            player.light_r += 8
         }
     }
 

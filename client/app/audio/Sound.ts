@@ -49,9 +49,6 @@ export default class Sound{
     }
 
     getSrcByName(name: string){
-
-        if(name != 'reign') return
-      
         let result = {
             max_volume: 1,
             src: ''

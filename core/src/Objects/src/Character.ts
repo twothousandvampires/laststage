@@ -722,10 +722,10 @@ export default abstract class Character extends Unit {
 
     getLightRadius(){
         let d = this.max_life - this.life_status
-        if(d < 0){
-            d = 0
+        if(d < -1){
+            d = -1
         }
-        return this.light_r - d + this.light_r_delta
+        return this.light_r - (d * 2) + this.light_r_delta
     }
 
     toJSON() {

@@ -20,13 +20,7 @@ export default class Split extends Effect {
 
         this.level.players.forEach(elem => {
             if (Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())) {
-                elem.light_r += 3
                 elem.addLife(1, false, true)
-
-                setTimeout(() => {
-                    elem.light_r -= 3
-                }, 10000)
-
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)
             }

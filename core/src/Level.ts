@@ -160,13 +160,11 @@ export default class Level {
         })
     }
 
-
     public playerDead(): void {
         this.players.forEach(p => p.playerDead())
 
         let are_all_dead: boolean = this.players.every(elem => elem.is_dead)
-       
-        
+  
         if (are_all_dead) {
             console.log(this.battle_logs)
             this.players.forEach(elem => {

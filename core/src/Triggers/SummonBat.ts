@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import Character from '../Objects/src/Character'
 import Bat from '../Objects/src/Enemy/Bat'
 

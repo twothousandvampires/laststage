@@ -39,6 +39,7 @@ import PlayerAttackState from '../../State/PlayerAttackState'
 
 export default abstract class Character extends Unit {
     static MAX_ITEMS_TO_PURCHASE: number = 3
+    protected collision_slide_strength: number = 0.3
 
     next_life_regen_time: any // when player will regen next life
     action_end_time: number = 0 // when player end currect action
@@ -1227,7 +1228,7 @@ export default abstract class Character extends Unit {
         if (this.ward <= 0) {
             this.ward = 0
             let e = this.level.binded_effects.find(
-                elem => (elem.owner = this && elem instanceof Ward)
+                elem => elem.owner === this && elem instanceof Ward
             )
 
             if (e) {
@@ -1831,56 +1832,7 @@ export default abstract class Character extends Unit {
         next_step_x *= this.a
         next_step_y *= this.a
 
-        let coll_e_x = undefined
-        let coll_e_y = undefined
-
-        let x_coll = false
-        let y_coll = false
-
-        if (!this.isPhasing()) {
-            for (let i = 0; i < this.level.enemies.length; i++) {
-                let enemy = this.level.enemies[i]
-                if (enemy.isPhasing()) continue
-
-                if (Func.elipseCollision(this.getBoxElipse(next_step_x, 0), enemy.getBoxElipse())) {
-                    x_coll = true
-                    next_step_x = 0
-                    coll_e_x = enemy
-                    if (y_coll) {
-                        break
-                    }
-                }
-
-                if (Func.elipseCollision(this.getBoxElipse(0, next_step_y), enemy.getBoxElipse())) {
-                    y_coll = true
-                    next_step_y = 0
-                    coll_e_y = enemy
-                    if (x_coll) {
-                        break
-                    }
-                }
-            }
-        }
-
-        if (!this.isOutOfMap(this.x + next_step_x, this.y + next_step_y)) {
-            if (x_coll && next_step_y === 0) {
-                if (this.y <= coll_e_x.y) {
-                    next_step_y = -0.2
-                } else {
-                    next_step_y = 0.2
-                }
-            }
-
-            if (y_coll && next_step_x === 0) {
-                if (this.x <= coll_e_y.x) {
-                    next_step_x = -0.2
-                } else {
-                    next_step_x = 0.2
-                }
-            }
-
-            this.addToPoint(next_step_x, next_step_y)
-        }
+        this.moveWithCollision(next_step_x, next_step_y)
     }
 
     private moveAct(tick: number): void {
@@ -1946,58 +1898,7 @@ export default abstract class Character extends Unit {
         next_step_x *= this.a
         next_step_y *= this.a
 
-        let coll_e_x = undefined
-        let coll_e_y = undefined
-
-        let x_coll = false
-        let y_coll = false
-
-        if (!this.phasing) {
-            for (let i = 0; i < this.level.enemies.length; i++) {
-                let enemy = this.level.enemies[i]
-
-                if (enemy.phasing) continue
-                if (enemy.is_dead) continue
-
-                if (Func.elipseCollision(this.getBoxElipse(next_step_x, 0), enemy.getBoxElipse())) {
-                    x_coll = true
-                    next_step_x = 0
-                    coll_e_x = enemy
-                    if (y_coll) {
-                        break
-                    }
-                }
-
-                if (Func.elipseCollision(this.getBoxElipse(0, next_step_y), enemy.getBoxElipse())) {
-                    y_coll = true
-                    next_step_y = 0
-                    coll_e_y = enemy
-                    if (x_coll) {
-                        break
-                    }
-                }
-            }
-        }
-
-        if (!this.isOutOfMap(this.x + next_step_x, this.y + next_step_y)) {
-            if (x_coll && next_step_y === 0) {
-                if (this.y <= coll_e_x.y) {
-                    next_step_y = -0.2
-                } else {
-                    next_step_y = 0.2
-                }
-            }
-
-            if (y_coll && next_step_x === 0) {
-                if (this.x <= coll_e_y.x) {
-                    next_step_x = -0.2
-                } else {
-                    next_step_x = 0.2
-                }
-            }
-
-            this.addToPoint(next_step_x, next_step_y)
-        }
+        this.moveWithCollision(next_step_x, next_step_y)
     }
 
     public newStatus(status: any): void {
@@ -2018,7 +1919,7 @@ export default abstract class Character extends Unit {
         this.c_x = rel_x
         this.c_y = rel_y
 
-        if (!this.c_x || this.c_y) {
+        if (!this.c_x || !this.c_y) {
             this.c_x = Math.round(this.pressed.over_x + this.x)
             this.c_y = Math.round(this.pressed.over_y + this.y)
         }

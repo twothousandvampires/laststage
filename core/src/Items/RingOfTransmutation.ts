@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import Gold from '../Objects/Effects/Gold'
 import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'

@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import { SoulShatterProj } from '../Objects/Projectiles/SoulShatterProj'
 import Character from '../Objects/src/Character'
 

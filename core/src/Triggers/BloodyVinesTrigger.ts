@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import BloodyVinesEffect from '../Objects/Effects/BloodyVinesEffect'
 import Character from '../Objects/src/Character'
 

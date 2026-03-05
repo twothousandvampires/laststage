@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import FireExplosionSmall from '../Objects/Effects/FireExplosionSmall'
 import Character from '../Objects/src/Character'
 import Item from './Item'

@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import Character from '../Objects/src/Character'
 import Phase from '../Status/Phase'
 import Item from './Item'

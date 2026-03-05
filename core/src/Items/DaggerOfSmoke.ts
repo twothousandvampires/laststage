@@ -1,5 +1,5 @@
 
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import { SmokeDaggerShard } from '../Objects/Projectiles/SmokeDaggerShard'
 import Character from '../Objects/src/Character'
 import Item from './Item'

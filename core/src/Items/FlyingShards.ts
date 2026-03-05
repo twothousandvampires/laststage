@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import { ThrowedWeaponShard } from '../Objects/Projectiles/ThrowedWeaponShard'
 import Character from '../Objects/src/Character'
 import Item from './Item'

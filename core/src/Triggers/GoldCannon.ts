@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import FlyingGold from '../Objects/Projectiles/FlyingGold'
 import Character from '../Objects/src/Character'
 

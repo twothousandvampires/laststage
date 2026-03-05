@@ -168,7 +168,6 @@ export default class Level {
        
         
         if (are_all_dead) {
-            console.log(this.battle_logs)
             this.players.forEach(elem => {
                 elem.waves = this.script instanceof Default ? this.script.waves_created : 0
                 this.server.db.saveData(elem, this.players.length === 1 ? 'solo' : 'party')
@@ -385,12 +384,13 @@ export default class Level {
         let index = this.enemies.indexOf(enemy)
         this.enemies.splice(index, 1)
 
-        for(let i = 0; i < this.status_pull.length; i ++){
-            if(this.status_pull[i].unit === enemy){
-                this.status_pull[i].clear()
-                this.status_pull.splice(i, 1)
-            }         
-        }
+        this.status_pull = this.status_pull.filter(status => {
+            if (status.unit === enemy) {
+                status.clear()
+                return false
+            }
+            return true
+        })
 
         if (hard) {
             this.deleted.push(enemy.id)

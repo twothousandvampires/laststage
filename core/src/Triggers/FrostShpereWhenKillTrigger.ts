@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import { FrostSphereProjectile } from '../Objects/Projectiles/FrostSphereProjectile'
 import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'

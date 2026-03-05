@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'
 import Fortify from '../Status/Fortify'

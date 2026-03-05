@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import Character from '../Objects/src/Character'
 import Cultist from '../Objects/src/PlayerClasses/Cultist'
 import SoulHarvester from '../Status/SoulHarvester'

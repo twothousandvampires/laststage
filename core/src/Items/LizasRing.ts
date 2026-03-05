@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import BloodBonesExplode from '../Objects/Effects/BloodBonesExplode'
 import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'

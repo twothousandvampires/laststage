@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import { Spark } from '../Objects/Projectiles/Spark'
 import Character from '../Objects/src/Character'
 import Unit from '../Objects/src/Unit'

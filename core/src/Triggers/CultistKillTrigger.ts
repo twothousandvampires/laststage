@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import Soul from '../Objects/Effects/Soul'
 import Character from '../Objects/src/Character'
 import Cultist from '../Objects/src/PlayerClasses/Cultist'

@@ -9,6 +9,7 @@ import GameObject from './GameObject'
 
 export default abstract class Unit extends GameObject {
     move_speed_penalty: number = 0
+    protected collision_slide_strength: number = 0.4
     action_impact: number = 0
     action_end_time: number = 0
     action_is_end: boolean = false
@@ -142,6 +143,104 @@ export default abstract class Unit extends GameObject {
         }
     }
 
+    protected canMoveTo(nextX: number, nextY: number): boolean {
+        if (this.isOutOfMap(nextX, nextY)) {
+            return false
+        }
+
+        if (this.isPhasing()) {
+            return true
+        }
+
+        let dx = nextX - this.x
+        let dy = nextY - this.y
+        let nextBox = this.getBoxElipse(dx, dy)
+
+        for (let i = 0; i < this.level.enemies.length; i++) {
+            let enemy = this.level.enemies[i]
+
+            if (enemy.id === this.id) continue
+            if (enemy.isPhasing()) continue
+            if (enemy.is_dead) continue
+
+            if (Func.elipseCollision(nextBox, enemy.getBoxElipse())) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    protected moveWithCollision(
+        stepX: number,
+        stepY: number,
+        minSlide = this.collision_slide_strength
+    ): boolean {
+        let targetX = this.x + stepX
+        let targetY = this.y + stepY
+
+        if (this.canMoveTo(targetX, targetY)) {
+            this.addToPoint(stepX, stepY)
+            this.wasChanged()
+            return true
+        }
+
+        let xOnlyX = this.x + stepX
+        let xOnlyY = this.y
+        if (this.canMoveTo(xOnlyX, xOnlyY)) {
+            this.addToPoint(stepX, 0)
+            this.wasChanged()
+            return true
+        }
+
+        let yOnlyX = this.x
+        let yOnlyY = this.y + stepY
+        if (this.canMoveTo(yOnlyX, yOnlyY)) {
+            this.addToPoint(0, stepY)
+            this.wasChanged()
+            return true
+        }
+
+        let len = Math.hypot(stepX, stepY)
+        if (len <= 0) {
+            return false
+        }
+
+        let slide = Math.max(minSlide, len * 0.75)
+        let sideX = (-stepY / len) * slide
+        let sideY = (stepX / len) * slide
+
+        let candidates = [
+            { x: this.x + sideX, y: this.y + sideY, dx: sideX, dy: sideY },
+            { x: this.x - sideX, y: this.y - sideY, dx: -sideX, dy: -sideY },
+        ]
+
+        let best: { dx: number; dy: number } | undefined
+        let bestDist = Number.POSITIVE_INFINITY
+
+        for (let i = 0; i < candidates.length; i++) {
+            let c = candidates[i]
+            if (!this.canMoveTo(c.x, c.y)) continue
+
+            let dX = targetX - c.x
+            let dY = targetY - c.y
+            let dist = dX * dX + dY * dY
+
+            if (dist < bestDist) {
+                bestDist = dist
+                best = { dx: c.dx, dy: c.dy }
+            }
+        }
+
+        if (!best) {
+            return false
+        }
+
+        this.addToPoint(best.dx, best.dy)
+        this.wasChanged()
+        return true
+    }
+
     moveByAngle(angle: number) {
         let a = angle
 
@@ -161,61 +260,7 @@ export default abstract class Unit extends GameObject {
             this.flipped = false
         }
 
-        let x_coll = false
-        let y_coll = false
-        let coll_e_x = undefined
-        let coll_e_y = undefined
-
-        if (this.isOutOfMap(this.x + n_x, this.y + n_y)) {
-            return
-        }
-
-        if (!this.isPhasing()) {
-            for (let i = 0; i < this.level.enemies.length; i++) {
-                let enemy = this.level.enemies[i]
-
-                if (enemy === this) continue
-                if (enemy.isPhasing()) continue
-                if (enemy.is_dead) continue
-
-                if (Func.elipseCollision(this.getBoxElipse(n_x, 0), enemy.getBoxElipse())) {
-                    x_coll = true
-                    n_x = 0
-                    coll_e_x = enemy
-                    if (y_coll) {
-                        break
-                    }
-                }
-
-                if (Func.elipseCollision(this.getBoxElipse(0, n_y), enemy.getBoxElipse())) {
-                    y_coll = true
-                    n_y = 0
-                    coll_e_y = enemy
-                    if (x_coll) {
-                        break
-                    }
-                }
-            }
-
-            if (x_coll && n_y === 0) {
-                if (this.y <= coll_e_x.y) {
-                    n_y = -0.4
-                } else {
-                    n_y = 0.4
-                }
-            }
-
-            if (y_coll && n_x === 0) {
-                if (this.x <= coll_e_y.x) {
-                    n_x = -0.4
-                } else {
-                    n_x = 0.4
-                }
-            }
-        }
-
-        this.addToPoint(n_x, n_y)
-        this.wasChanged()
+        this.moveWithCollision(n_x, n_y)
     }
 
     setZap(duration: number = 0) {

@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import FallingSwordEffect from '../Objects/Effects/FallingSwordEffect'
 import Character from '../Objects/src/Character'
 

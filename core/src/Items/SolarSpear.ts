@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import Heal from '../Objects/Effects/Heal'
 import LightNova from '../Objects/Effects/LightNova'
 import Character from '../Objects/src/Character'

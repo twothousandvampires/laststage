@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/Itrigger'
+import ITrigger from '../Interfaces/ITrigger'
 import LightningBoltEffect from '../Objects/Effects/LightningBoltEffect'
 import { Spark } from '../Objects/Projectiles/Spark'
 import Character from '../Objects/src/Character'

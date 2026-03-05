@@ -1227,7 +1227,7 @@ export default abstract class Character extends Unit {
         if (this.ward <= 0) {
             this.ward = 0
             let e = this.level.binded_effects.find(
-                elem => (elem.owner = this && elem instanceof Ward)
+                elem => (elem.owner === this && elem instanceof Ward)
             )
 
             if (e) {

@@ -107,7 +107,8 @@ export default class Level {
     public started: number
     public ambient_time: number = 0
     public check_grace_time: number = 0
-    public messedges: Message[] = []                            
+    public messedges: Message[] = []      
+    public grid_map = new Map()                      
 
     
     public script: Scenario = new Default()
@@ -271,6 +272,19 @@ export default class Level {
             this.addSound('ambient', Func.random(20, 120), Func.random(10, 110))
         }
 
+        this.grid_map = new Map();
+
+        this.enemies.forEach(e => {
+            if (e.is_dead) return;
+           
+            const cellX = Math.floor(e.x / 10);
+            const cellY = Math.floor(e.y / 10);
+            const key = `${cellX}_${cellY}`;
+            
+            if (!this.grid_map.has(key)) this.grid_map.set(key, []);
+            this.grid_map.get(key).push(e);
+        });
+
         this.players.forEach(player => {
             player.act(this.time)
         })
@@ -321,6 +335,22 @@ export default class Level {
         }
 
         // console.log(Date.now() - time)
+    }
+
+    getNearby(x: number, y: number): Enemy[] {
+    const cellSize = 10;
+    const cellX = Math.floor(x / cellSize);
+    const cellY = Math.floor(y / cellSize);
+        let result: Enemy[] = [];
+
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                const key = `${cellX + i}_${cellY + j}`;
+                const cell = this.grid_map.get(key);
+                if (cell) result.push(...cell);
+            }
+        }
+        return result;
     }
 
     check(enemy: Enemy) {
@@ -383,12 +413,13 @@ export default class Level {
         let index = this.enemies.indexOf(enemy)
         this.enemies.splice(index, 1)
 
-        for(let i = 0; i < this.status_pull.length; i ++){
-            if(this.status_pull[i].unit === enemy){
-                this.status_pull[i].clear()
-                this.status_pull.splice(i, 1)
-            }         
-        }
+        this.status_pull = this.status_pull.filter(status => {
+            if (status.unit === enemy) {
+                status.clear()
+                return false
+            }
+            return true
+        })
 
         if (hard) {
             this.deleted.push(enemy.id)

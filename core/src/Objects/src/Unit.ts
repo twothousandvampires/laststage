@@ -143,80 +143,84 @@ export default abstract class Unit extends GameObject {
     }
 
     moveByAngle(angle: number) {
-        let a = angle
+    const a = angle;
+    // Изометрический коэффициент коррекции Y
+    const l = 1 - Math.abs(0.5 * Math.cos(a));
+    
+    const speed = this.getMoveSpeed();
+    let n_x = Math.sin(a) * l * speed;
+    let n_y = Math.cos(a) * l * speed;
 
-        let l = 1 - Math.abs(0.5 * Math.cos(a))
+    // Поворот спрайта
+    this.flipped = n_x < 0;
 
-        let n_x = Math.sin(a) * l
-        let n_y = Math.cos(a) * l
+    // Проверка границ карты (мгновенный выход, если за краем)
+    if (this.isOutOfMap(this.x + n_x, this.y + n_y)) return;
 
-        let speed = this.getMoveSpeed()
+    if (!this.isPhasing()) {
+        let x_coll = false;
+        let y_coll = false;
+        let coll_e_x = null;
+        let coll_e_y = null;
 
-        n_x *= speed
-        n_y *= speed
 
-        if (n_x < 0) {
-            this.flipped = true
-        } else {
-            this.flipped = false
-        }
+        const nearby = this.level.getNearby(this.x, this.y); // функция, которая берет 9 ячеек
+        
+        for (let i = 0; i < nearby.length; i++) {
+            const enemy = nearby[i];
 
-        let x_coll = false
-        let y_coll = false
-        let coll_e_x = undefined
-        let coll_e_y = undefined
+            if (enemy.is_dead || enemy === this || enemy.isPhasing()) continue;
 
-        if (this.isOutOfMap(this.x + n_x, this.y + n_y)) {
-            return
-        }
-
-        if (!this.isPhasing()) {
-            for (let i = 0; i < this.level.enemies.length; i++) {
-                let enemy = this.level.enemies[i]
-
-                if (enemy === this) continue
-                if (enemy.isPhasing()) continue
-                if (enemy.is_dead) continue
-
-                if (Func.elipseCollision(this.getBoxElipse(n_x, 0), enemy.getBoxElipse())) {
-                    x_coll = true
-                    n_x = 0
-                    coll_e_x = enemy
-                    if (y_coll) {
-                        break
-                    }
-                }
-
-                if (Func.elipseCollision(this.getBoxElipse(0, n_y), enemy.getBoxElipse())) {
-                    y_coll = true
-                    n_y = 0
-                    coll_e_y = enemy
-                    if (x_coll) {
-                        break
-                    }
-                }
+            // Проверка коллизии по X (для слайдинга вдоль препятствий)
+            if (!x_coll && Func.elipseCollision(this.getBoxElipse(n_x, 0), enemy.getBoxElipse())) {
+                x_coll = true;
+                coll_e_x = enemy;
+                n_x = 0; // Останавливаем движение по X
             }
 
-            if (x_coll && n_y === 0) {
-                if (this.y <= coll_e_x.y) {
-                    n_y = -0.4
-                } else {
-                    n_y = 0.4
-                }
+            // Проверка коллизии по Y
+            if (!y_coll && Func.elipseCollision(this.getBoxElipse(0, n_y), enemy.getBoxElipse())) {
+                y_coll = true;
+                coll_e_y = enemy;
+                n_y = 0; // Останавливаем движение по Y
             }
 
-            if (y_coll && n_x === 0) {
-                if (this.x <= coll_e_y.x) {
-                    n_x = -0.4
-                } else {
-                    n_x = 0.4
-                }
-            }
+            // Если застряли по обеим осям, дальше цикл крутить нет смысла
+            if (x_coll && y_coll) break;
         }
 
-        this.addToPoint(n_x, n_y)
-        this.wasChanged()
+        // ФИЗИЧЕСКИЙ АНТИ-СТАК (Если зажаты со всех сторон)
+        if (x_coll && y_coll) {
+            // 1. Находим среднюю точку между двумя препятствиями
+            // Если есть оба — толкаемся от середины, если один — от него.
+            let targetX = coll_e_x ? coll_e_x.x : (coll_e_y ? coll_e_y.x : this.x);
+            let targetY = coll_e_y ? coll_e_y.y : (coll_e_x ? coll_e_x.y : this.y);
+            
+            if (coll_e_x && coll_e_y) {
+                targetX = (coll_e_x.x + coll_e_y.x) / 2;
+                targetY = (coll_e_x.y + coll_e_y.y) / 2;
+            }
+
+            let dx = this.x - targetX;
+            let dy = this.y - targetY;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist === 0) {
+                n_x = Math.random() > 0.5 ? 0.5 : -0.5;
+                n_y = Math.random() > 0.5 ? 0.5 : -0.5;
+            } else {
+                // Выталкиваем по результирующему вектору
+                n_x = (dx / dist) * 0.5;
+                n_y = (dy / dist) * 0.5;
+            }
+        }
     }
+
+    // Финальное перемещение
+    this.addToPoint(n_x, n_y);
+    this.wasChanged();
+}
+
 
     setZap(duration: number = 0) {
         if (this.is_dead) return

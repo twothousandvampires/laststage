@@ -180,7 +180,7 @@ export default class Default extends Scenario {
         let count = Func.random(1 + Math.round(add_count / 5), 2 + Math.round(add_count / 3))
 
         count += level.players.length - 1
-        
+
         for (let i = 0; i < count; i++) {
             await Func.sleep(Func.random(100, 300))
 
@@ -304,8 +304,6 @@ export default class Default extends Scenario {
 
         enemy.upgradeByWave(this.waves_created)
 
-        // enemy = this.upgradeEnemy(enemy)
-
         level.enemies.push(enemy)
     }
 
@@ -336,42 +334,6 @@ export default class Default extends Scenario {
         }
 
         enemy.can_be_instant_killed = false
-
-        return enemy
-    }
-
-    upgradeEnemy(enemy: Enemy) {
-        enemy.life_status += this.add_e_life
-        enemy.armour_rate += this.add_e_armour
-        enemy.pierce += this.add_e_pierce
-        enemy.move_speed_penalty += this.add_e_speed
-        enemy.attack_speed -= this.add_attack_speed
-       
-        if(enemy.create_chance <= 20){
-            enemy.create_chance -= this.minus_create_chance
-        }
-        else{
-            enemy.create_chance -= (this.minus_create_chance * 2)
-        }
-
-        enemy.fortify += this.add_e_fortify
-        enemy.critical += this.add_critical
-
-        // if (enemy.create_chance <= 0) {
-        //     enemy.create_chance = 0
-        // }
-
-        if (enemy.attack_speed < 150) {
-            enemy.attack_speed = 150
-        }
-
-        enemy.cooldown_attack -= this.add_cooldown_attack
-
-        if (enemy.cooldown_attack < 0) {
-            enemy.cooldown_attack = 0
-        }
-
-        enemy.elemental_status_resist += this.add_e_elem_resist
 
         return enemy
     }

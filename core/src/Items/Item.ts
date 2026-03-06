@@ -200,6 +200,10 @@ export default abstract class Item {
             name: 'lizas ring',
             description: 'Get a courage when you find gold',
             chance: 1
+        },
+        {
+            name: 'liquid star',
+            description: 'Increases your vision',
         }
     ]
 

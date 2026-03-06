@@ -124,6 +124,7 @@ import FallingSwords from '../Items/Forgings/FallingSwords'
 import TurnOffIron from '../Items/Forgings/TurnOffIron'
 import Chain from '../Glyphs/Chain'
 import LizasRing from '../Items/LizasRing'
+import LiquidStar from '../Items/LiquidStar'
 
 export default class Builder {
     static masteryMap = {
@@ -185,7 +186,8 @@ export default class Builder {
         'flamy nimbus': FlamyNimbus,
         distorter: Distorter,
         'crusher': Crusher,
-        'lizas ring': LizasRing
+        'lizas ring': LizasRing,
+        'liquid star': LiquidStar   
     }
 
     static greatForgingMap = {

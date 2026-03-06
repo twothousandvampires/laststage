@@ -1,12 +1,11 @@
 import Heal from '../Objects/Effects/Heal'
 import Character from '../Objects/src/Character'
 import Immortality from '../Status/Immortality'
-import Recharge from './Forgings/Recharge'
 import Item from './Item'
 
 export default class RedPotion extends Item {
     used: boolean
-
+    kills: number = 0
     constructor() {
         super()
         this.used = false
@@ -14,8 +13,7 @@ export default class RedPotion extends Item {
         this.chance = 100
         this.duration = 1500
         this.type = 3
-        this.description =
-            'when you reach 1 life, your life is restored to full and you gain immortality for a short period'
+        this.description = 'when you reach 1 life, your life is restored to full and you gain immortality for a short period, refils after 20 kills'
     }
 
     equip(character: Character): void {
@@ -28,8 +26,9 @@ export default class RedPotion extends Item {
 
     trigger(character: Character) {
         if (this.disabled) return
-        if (this.used) return
+        if (this.used && character.kills < this.kills) return
 
+        this.kills = character.kills + 20
         let status = new Immortality(character.time)
         status.setDuration(this.duration)
 

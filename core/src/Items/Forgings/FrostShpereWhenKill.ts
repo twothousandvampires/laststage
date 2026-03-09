@@ -34,6 +34,10 @@ export default class FrostShpereWhenKill extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_kill = player.triggers_on_kill.filter(elem => !(elem instanceof FrostShpereWhenKillTrigger))
+    }
+
     getValue() {
         return this.value
     }

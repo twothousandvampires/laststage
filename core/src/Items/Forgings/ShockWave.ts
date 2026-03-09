@@ -33,6 +33,10 @@ export default class ShockWave extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_use_not_utility = player.triggers_on_use_not_utility.filter(elem => !(elem instanceof this.trigger))
+    }
+
     getValue() {
         return this.value + '%'
     }

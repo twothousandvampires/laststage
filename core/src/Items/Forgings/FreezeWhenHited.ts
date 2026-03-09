@@ -34,6 +34,10 @@ export default class FreezeWhenHited extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_get_hit = player.triggers_on_get_hit.filter(elem => !(elem instanceof FreezeWhetHitedTrigger))
+    }
+
     getValue() {
         return this.value + '%'
     }

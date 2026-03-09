@@ -10,6 +10,7 @@ export default class Penetrating extends Forging {
         this.name = 'crushing'
         this.description = 'Increases your crushing rating'
         this.gold_cost = 1
+        this.stat = 'crushing_rating'
     }
 
     forge() {

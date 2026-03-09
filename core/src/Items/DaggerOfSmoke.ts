@@ -27,7 +27,8 @@ export default class DaggerOfSmoke extends Item implements ITrigger {
         return ['chance', 'count']
     }
 
-    trigger(character: Character) {
+    trigger(character: Character, value: number = 0) {
+        if(!value) return
         if (this.disabled) return
 
         character.level.addSound('blood', character.x, character.y)

@@ -4,7 +4,7 @@
     <div>
       <img :src="`/icons/rules.png`" class="grid-img button" style="box-shadow: unset;" @click="show_info = !show_info">
       <img :src="`/icons/records.png`" class="grid-img button" style="box-shadow: unset;"  @click="socket.emit('get_records');show_records = !show_records">
-      <img :src="`/icons/tg.png`" class="grid-img button" style="box-shadow: unset;" @click="goTg()">
+      <img :src="`/icons/discord.png`" class="grid-img button" title="discord server" style="box-shadow: unset;" @click="goTg()">
     </div>
   </div>
 
@@ -42,7 +42,7 @@
   let socket = $getInstance()
 
   const goTg = () => {
-    const channelUrl = 'https://t.me/lststg';
+    const channelUrl = 'https://discord.gg/MReQMztU6D';
     window.open(channelUrl, '_blank');
   }
 

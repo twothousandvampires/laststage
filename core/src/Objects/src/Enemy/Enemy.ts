@@ -14,6 +14,8 @@ import Character from '../Character'
 import Unit from '../Unit'
 
 export default abstract class Enemy extends Unit {
+    static phrases_texts = ['rrrrrr', 'grrrr', 'gr', 'rrr', 'rrr', 'grtake rhis one']  
+
     is_spawning: boolean = true
     target: Character | undefined
     check_timer: any
@@ -483,6 +485,13 @@ export default abstract class Enemy extends Unit {
         let phrase = new SmallTextLanguage2(this.level)
         phrase.z = this.say_z
         phrase.setPoint(this.x, this.y)
+
+        this.level.players.forEach(elem => {
+            if(Func.distance(elem, this, 30) <= 30 && elem.older_dialect){
+                let text = Func.getRandomFromArray(Enemy.phrases_texts)
+                this.level.addMessedge(text, elem.id)
+            }
+        })
 
         this.level.effects.push(phrase)
     }

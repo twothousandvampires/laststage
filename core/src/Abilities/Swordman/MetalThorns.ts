@@ -11,6 +11,7 @@ export default class MetalThorns extends SwordmanAbility {
         this.cost = 5
         this.cd = 20000
         this.mastery_chance = 75
+        this.grade = 2
     }
 
     impact() {

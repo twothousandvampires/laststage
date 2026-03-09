@@ -12,6 +12,7 @@ export default class Charisma extends Forging {
         this.name = 'charisma'
         this.description = 'increases the chance of saying something'
         this.gold_cost = 3
+        this.stat = 'chance_to_say_phrase'
     }
 
     forge(player: Character) {

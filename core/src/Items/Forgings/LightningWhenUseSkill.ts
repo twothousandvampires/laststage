@@ -28,6 +28,10 @@ export default class LightningWhenUseSkill extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_use_not_utility = player.triggers_on_use_not_utility.filter(elem => !(elem instanceof LightningWhenUseAbilityTrigger))
+    }
+
     getValue() {
         return this.value + '%'
     }

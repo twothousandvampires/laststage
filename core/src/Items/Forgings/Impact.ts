@@ -10,6 +10,7 @@ export default class Impact extends Forging {
         this.name = 'impact'
         this.description = 'Increases your impact rating'
         this.gold_cost = 1
+        this.stat = 'impact'
     }
 
     forge() {

@@ -35,6 +35,10 @@ export default class FragilityOnHit extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_hit = player.triggers_on_hit.filter(elem => !(elem instanceof CrystilizingHits))
+    }
+
     getValue() {
         return this.value
     }

@@ -31,6 +31,10 @@ export default class ExplosiveArmour extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_armour_hit = player.triggers_on_armour_hit.filter(elem => !(elem instanceof this.trigger))
+    }
+
     getValue() {
         return this.value + '%'
     }

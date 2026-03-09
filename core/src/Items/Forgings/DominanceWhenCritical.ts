@@ -43,6 +43,10 @@ export default class DominanceWhenCritical extends Forging implements ITrigger{
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_heal = player.triggers_on_heal.filter(elem => !(elem instanceof DominanceWhenCritical))
+    }
+
     getValue() {
         return this.value
     }

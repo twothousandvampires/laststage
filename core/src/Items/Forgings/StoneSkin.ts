@@ -12,6 +12,7 @@ export default class StoneSkin extends Forging {
         this.name = 'stone skin'
         this.description = 'Increases the chance of avoiding damage'
         this.gold_cost = 0
+        this.stat = 'avoid_damage_chance'
     }
 
     forge(player: Character, force = false) {

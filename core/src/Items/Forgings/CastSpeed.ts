@@ -11,6 +11,7 @@ export default class CastSpeed extends Forging {
         this.name = 'cast speed'
         this.description = 'increases your cast speed'
         this.gold_cost = 2
+        this.stat = 'cast_speed'
     }
 
     forge(player: Character) {

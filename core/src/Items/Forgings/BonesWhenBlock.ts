@@ -38,6 +38,10 @@ export default class BonesWhenBlock extends Forging implements ITrigger {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_block = player.triggers_on_block.filter(elem => !(elem instanceof BonesWhenBlock))
+    }
+
     getValue() {
         return this.value + ' bones'
     }

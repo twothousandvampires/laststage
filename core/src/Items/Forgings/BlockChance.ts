@@ -10,6 +10,7 @@ export default class BlockChance extends Forging {
         this.name = 'block chance'
         this.description = 'Increases the block chance'
         this.gold_cost = 2
+        this.stat = 'chance_to_block'
     }
 
     forge() {

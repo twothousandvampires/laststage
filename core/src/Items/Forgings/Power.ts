@@ -10,6 +10,7 @@ export default class Power extends Forging {
         this.name = 'power'
         this.description = 'Increases your power'
         this.gold_cost = 2
+        this.stat = 'power'
     }
 
     forge() {

@@ -29,6 +29,10 @@ export default class SparksWhenBlock extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_block = player.triggers_on_block.filter(elem => !(elem instanceof this.trigger))
+    }
+
     getValue() {
         return this.value + ' sparks'
     }

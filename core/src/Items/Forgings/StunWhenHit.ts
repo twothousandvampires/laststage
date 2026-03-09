@@ -40,6 +40,10 @@ export default class StunWhenHit extends Forging implements ITrigger {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_hit = player.triggers_on_hit.filter(elem => !(elem instanceof StunWhenHit))
+    }
+
     getValue() {
         return this.chance + '%'
     }

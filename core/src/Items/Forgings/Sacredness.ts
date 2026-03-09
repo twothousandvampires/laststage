@@ -10,6 +10,7 @@ export default class Sacredness extends Forging {
         this.name = 'soul pulling'
         this.description = 'Increases chance to create a sphere after an enemy dies'
         this.gold_cost = 3
+        this.stat = 'chance_to_create_grace'
     }
 
     forge() {

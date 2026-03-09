@@ -183,6 +183,8 @@ import Reign from "./src/sprites/Effect/Reign"
 import Reign2 from "./src/sprites/Effect/Reign2"
 import BurningRing from "./src/sprites/Effect/BurningRing"
 import Reign3 from "./src/sprites/Effect/Reign3"
+import Guider from "./src/sprites/Effect/Guider"
+import Dodge from "./src/sprites/Effect/Dodge"
 
 export default class Render{
     
@@ -304,6 +306,9 @@ export default class Render{
         else if(elem.name === 'parry'){
             return new Parry(elem.id)
         }
+        else if(elem.name === 'dodge'){
+            return new Dodge(elem.id)
+        }
         else if(elem.name === 'grace'){
             return new Grace(elem.id)
         }
@@ -402,6 +407,9 @@ export default class Render{
         }
         else if(elem.name === 'teacher'){
             return new Teacher(elem.id)
+        }
+        else if(elem.name === 'guider'){
+            return new Guider(elem.id)
         }
         else if(elem.name === 'blood sphere'){
             return new BloodSphere(elem.id)

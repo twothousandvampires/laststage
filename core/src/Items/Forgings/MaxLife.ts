@@ -12,6 +12,7 @@ export default class MaxLife extends Forging {
         this.name = 'life'
         this.description = 'Increases maximum life'
         this.gold_cost = 0
+        this.stat = 'max_life'
     }
 
     forge(player: Character, force = false) {

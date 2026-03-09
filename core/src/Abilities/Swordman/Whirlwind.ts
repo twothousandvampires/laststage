@@ -1,6 +1,5 @@
 import Func from '../../Func'
 import IUnitState from '../../Interfaces/IUnitState'
-import Blood from '../../Objects/Effects/Blood'
 import BloodSphere from '../../Objects/Effects/BloodSphere'
 import { ThrowedWeapon } from '../../Objects/Projectiles/ThrowedWeapon'
 import Swordman from '../../Objects/src/PlayerClasses/Swordman'
@@ -24,6 +23,7 @@ export default class Whirlwind extends SwordmanAbility implements IUnitState<Swo
         this.type = Ability.TYPE_CUSTOM
         this.need_to_pay = true
         this.mastery_chance = 60
+        this.grade = 3
         this.cd = 4000
     }
 

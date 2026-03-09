@@ -26,7 +26,7 @@ export default class GoldStatue extends Pile {
 
         if(unit && unit instanceof Character){
             unit.addGoldValue(1)
-            console.log('gold')
+            this.level.addSound('gold spending', this.x, this.y)
         }
     }
 }

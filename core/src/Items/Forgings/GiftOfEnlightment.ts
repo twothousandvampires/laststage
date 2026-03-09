@@ -32,6 +32,10 @@ export default class GiftOfEnlightment extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_enlight = player.triggers_on_enlight.filter(elem => !(elem instanceof GiftOfEnlightmentGrigger))
+    }
+
     getValue() {
         return this.value
     }

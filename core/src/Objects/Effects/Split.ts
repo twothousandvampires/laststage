@@ -20,7 +20,9 @@ export default class Split extends Effect {
 
         this.level.players.forEach(elem => {
             if (Func.elipseCollision(elem.getBoxElipse(), this.getBoxElipse())) {
-                elem.addLife(1, false, true)
+                elem.can_regen_more_life_chance += 100
+                elem.addLife(1)
+                elem.can_regen_more_life_chance -= 100
                 this.level.deleted.push(this.id)
                 this.level.binded_effects = this.level.binded_effects.filter(elem => elem != this)
             }

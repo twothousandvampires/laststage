@@ -1,3 +1,4 @@
+import Character from '../../Objects/src/Character'
 import Item from '../Item'
 import Forging from './Forging'
 

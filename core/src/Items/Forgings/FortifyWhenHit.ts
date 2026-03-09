@@ -35,6 +35,10 @@ export default class FortifyWhenHit extends Forging implements ITrigger {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_get_hit = player.triggers_on_get_hit.filter(elem => !(elem instanceof FortifyWhenHit))
+    }
+
     getValue() {
         return this.value + '%'
     }

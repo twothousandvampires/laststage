@@ -10,6 +10,7 @@ export default class Regen extends Forging {
         this.name = 'regeneration'
         this.description = 'Increases your life regeneration rate'
         this.gold_cost = 1
+        this.stat = 'base_regeneration_time'
     }
 
     forge() {

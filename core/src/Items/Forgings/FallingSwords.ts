@@ -31,6 +31,10 @@ export default class FallingSwords extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_block = player.triggers_on_block.filter(elem => !(elem instanceof FallingSwordTrigger))
+    }
+    
     getValue() {
         return this.value + ' swords'
     }

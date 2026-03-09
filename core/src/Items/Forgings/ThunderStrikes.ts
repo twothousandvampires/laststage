@@ -29,6 +29,10 @@ export default class ThunderStrikes extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_pierce = player.triggers_on_pierce.filter(elem => !(elem instanceof this.trigger))
+    }
+
     getValue() {
         return this.value + ' lightnings'
     }

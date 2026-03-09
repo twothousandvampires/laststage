@@ -115,6 +115,9 @@ export default abstract class Character extends Unit {
     on_escape_triggers: any[] = []
     triggers_on_gold: any[] = []
     on_spirit_block_triggers: any[] = []
+    lose_ward_triggers: any[] = []
+    lose_energy_triggers: any[] = []
+    dodge_triggers: any[] = []
 
     chance_to_instant_kill: number = 0
     chance_to_avoid_damage_state: number = 0
@@ -137,7 +140,6 @@ export default abstract class Character extends Unit {
     can_be_controlled_by_player: boolean = true
     can_be_lethaled: boolean = true
     can_regen_resource: boolean = true
-    can_regen_life: boolean = true
     can_use_skills: boolean = true
     can_generate_upgrades: boolean = true
     can_be_enlighten: boolean = true
@@ -235,6 +237,14 @@ export default abstract class Character extends Unit {
     damage_state_duration: number = 300
     action_cd: number = 10000
     light_r_delta: number = 0
+    combo: number = 0
+    last_combo_time: number = 0
+    last_used_ability: number = 0
+    can_regen_more_life_flag: boolean = true
+    can_ignore_poison_flag: boolean = true
+    cant_regen_life: number = 0
+    cant_gain_ward: number = 0
+    older_dialect: boolean = false
 
     constructor(level: Level) {
         super(level)
@@ -266,6 +276,7 @@ export default abstract class Character extends Unit {
     }
 
     wasEscape(unit:any){
+        this.checkCombo()
         this.action_time_until = 0
 
         let time = this.level.time
@@ -284,6 +295,14 @@ export default abstract class Character extends Unit {
                 }
             }
         })
+    }
+
+    deleteRandomItem(){
+        let item = Func.getRandomFromArray(this.item)
+        if(!item) return
+
+        item.deleteForgings(this)
+        this.item = this.item.filter(elem => elem != item)
     }
 
     isEscape(){
@@ -681,14 +700,27 @@ export default abstract class Character extends Unit {
     useAbility(ability: Ability) {
         this.using_ability = ability
         this.pay_to_cost = ability.cost
-        this.useNotUtility()
+
+        this.useNotUtility(ability)
 
         ability.use(this)
     }
 
-    useNotUtility(): void {
+    useNotUtility(ability: Ability): void {
         let time = this.level.time
 
+        if(this.last_used_ability === 1 && ability.grade === 2){
+            this.checkCombo()
+        }
+        else if(this.last_used_ability === 2 && ability.grade === 3){
+            this.checkCombo()
+        }
+        else if(this.last_used_ability === 3 && ability.grade === 1){
+            this.checkCombo()
+        }
+
+        this.last_used_ability = ability.grade
+        
         this.ability_use ++
 
         this.triggers_on_use_not_utility.forEach(elem => {
@@ -854,6 +886,7 @@ export default abstract class Character extends Unit {
     }
 
     wasCounter(unit: any){
+        this.checkCombo()
         this.counter_time_until = 0
 
         let time = this.level.time
@@ -874,7 +907,42 @@ export default abstract class Character extends Unit {
         })
     }
 
+    dodge(unit: any){
+        this.checkCombo()
+        this.level.createEffect(this, 'dodge', 12)
+
+        let time = this.level.time
+
+        this.dodge_triggers.forEach(elem => {
+            if (time - elem.last_trigger_time >= elem.cd) {
+                if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
+                    elem.trigger(this, unit)
+
+                    if (Func.chance(this.isSecondTrigger())) {
+                        elem.trigger(this, unit)
+                    }
+
+                    elem.last_trigger_time = time
+                    this.wasTrigger()
+                }
+            }
+        })
+    }
+
+    checkCombo(){
+        if(this.level.time - this.last_combo_time > 5000){
+            this.combo = 0
+        }
+        this.combo ++
+        this.last_combo_time = this.level.time
+
+        if(this.combo % 3 === 0){
+            this.level.addMessedge('x' + this.combo, this.id)
+        }
+    }
+
     wasParry(unit: Unit | undefined){
+        this.checkCombo()
         let time = this.level.time
 
         this.parry_time_until = 0
@@ -1081,7 +1149,6 @@ export default abstract class Character extends Unit {
     }
 
     public sayPhrase(force: boolean = false): void {
-        return
         if (!Func.chance(Math.round(this.chance_to_say_phrase)) && !force) return
 
         let phrase = undefined
@@ -1209,6 +1276,8 @@ export default abstract class Character extends Unit {
     }
 
     public addWard(value: number = 1) {
+        if(this.cant_gain_ward > 0) return
+
         if (this.ward <= 0) {
             let e = new Ward(this.level)
 
@@ -1408,6 +1477,8 @@ export default abstract class Character extends Unit {
     }
 
     canRegenMoreLife() {
+        if(!this.can_regen_more_life_flag) return 0
+
         let base = this.can_regen_more_life_chance
 
         this.regen_over_max_mutators.forEach(elem => {
@@ -1417,15 +1488,19 @@ export default abstract class Character extends Unit {
         return base
     }
 
-    public addLife(
-        count: number = 1,
-        ignore_poison: boolean = false,
-        ignore_limit: boolean = false
-    ): void {
-        if (!this.can_regen_life && !ignore_poison) return
+    canRegenLife(){
+        return this.cant_regen_life === 0
+    }
 
+    public addLife(count: number = 1, force: boolean = false): void {
         if (this.isRegenAdditionalLife()) {
             count++
+        }
+
+        if (!this.canRegenLife()) {
+            if(!force || !this.can_ignore_poison_flag){
+                count = 0
+            }        
         }
 
         let restored = 0
@@ -1435,7 +1510,7 @@ export default abstract class Character extends Unit {
             if (previous > this.max_life) {
                 continue
             } else if (previous === this.max_life) {
-                if (ignore_limit || this.canRegenMoreLife()) {
+                if (this.canRegenMoreLife()) {
                     this.life_status ++
                     restored ++
                 }
@@ -1447,23 +1522,22 @@ export default abstract class Character extends Unit {
             }
         }
 
+        console.log(restored + '-restored')
         this.life_gained += restored
 
-        if (restored > 0) {
-            this.playerWasHealed()
-        }
+        this.playerWasHealed(restored) 
     }
 
-    public playerWasHealed(): void {
+    public playerWasHealed(value: number): void {
         let time = this.level.time
 
         this.triggers_on_heal.forEach(elem => {
             if (time - elem.last_trigger_time >= elem.cd) {
                 if (Func.chance(elem.getTriggerChance(this), this.is_lucky)) {
-                    elem.trigger(this)
+                    elem.trigger(this, value)
 
                     if (Func.chance(this.isSecondTrigger())) {
-                        elem.trigger(this)
+                        elem.trigger(this, value)
                     }
 
                     elem.last_trigger_time = time
@@ -1572,12 +1646,11 @@ export default abstract class Character extends Unit {
                 }
             }
 
-           
-
             if (this.is_dead) return
 
             if (this.life_status > 0) {
                 this.playerLoseLife(unit)
+                this.combo = 0
                 if(options?.hit_effects){
                     options.hit_effects.forEach(elem => {
                         this.level.setStatus(this, elem)
@@ -1611,8 +1684,14 @@ export default abstract class Character extends Unit {
             this.regen_effect.delete()
             this.regen_effect = undefined
         }
+
         if(this.life_status < this.max_life || (this.life_status === this.max_life && this.canRegenMoreLife())){
             let timer = this.getRegenTimer()
+            this.current_regen_time = timer
+            this.next_life_regen_time = this.level.time + timer
+        }
+        else{
+            let timer = 10000000
             this.current_regen_time = timer
             this.next_life_regen_time = this.level.time + timer
         }      

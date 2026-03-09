@@ -32,6 +32,10 @@ export default class BloodySpell extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_lose_life = player.triggers_on_lose_life.filter(elem => !(elem instanceof BloodyVinesTrigger))
+    }
+
     getValue() {
         return this.value
     }

@@ -11,6 +11,7 @@ export default class Echo extends Forging {
         this.name = 'echo'
         this.description = 'Gives a chance that a trigger activates twice'
         this.gold_cost = 0
+        this.stat = 'chance_to_trigger_additional_time'
     }
 
     forge(player: Character, force = false) {

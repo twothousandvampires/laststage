@@ -1,7 +1,6 @@
 import Builder from '../Classes/Builder'
 import Func from '../Func'
 import Character from '../Objects/src/Character'
-import Chance from './Forgings/Chance'
 import Forging from './Forgings/Forging'
 
 export default abstract class Item {
@@ -374,5 +373,11 @@ export default abstract class Item {
         }
 
         return forging
+    }
+
+    deleteForgings(player: Character){
+        this.forge.forEach(elem => {
+            elem.removeEffect(player)
+        })
     }
 }

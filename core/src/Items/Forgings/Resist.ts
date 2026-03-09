@@ -11,6 +11,7 @@ export default class Resist extends Forging {
         this.name = 'resist'
         this.description = 'Increases your status resistance'
         this.gold_cost = 1
+        this.stat = 'resist'
     }
 
     forge() {

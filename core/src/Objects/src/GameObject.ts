@@ -41,11 +41,11 @@ export default abstract class GameObject {
         return this.phasing > 0
     }
 
-    getBoxElipse(x: number = 0, y: number = 0): Box {
+    getBoxElipse(x: number = 0, y: number = 0, r: number = 0): Box {
         return {
             x: this.x + x,
             y: this.y + y,
-            r: this.box_r,
+            r: this.box_r + r,
         }
     }
 

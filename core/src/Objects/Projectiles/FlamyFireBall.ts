@@ -6,6 +6,8 @@ import Projectiles from './Projectiles'
 
 export class FlamyFireBall extends Projectiles {
     w: number
+    dodged: boolean = false
+    was_dodged: boolean = false
     constructor(level: Level) {
         super(level)
         this.box_r = 0.5
@@ -18,14 +20,21 @@ export class FlamyFireBall extends Projectiles {
         for (let i = 0; i < this.level.players.length; i++) {
             let p = this.level.players[i]
 
-            if (
-                !p.is_dead &&
-                p.z < this.w &&
-                Func.elipseCollision(this.getBoxElipse(), p.getBoxElipse())
-            ) {
+
+            if (!p.is_dead && p.z < this.w && Func.elipseCollision(this.getBoxElipse(), p.getBoxElipse())) {
                 this.impact()
                 return
             }
+            if(!this.was_dodged){
+                if(!this.dodged && !p.is_dead && p.z < this.w && Func.elipseCollision(this.getBoxElipse(), p.getBoxElipse(0, 0, 0.6))){
+                    this.dodged = true
+                }
+                else if(this.dodged && Func.distance(p, this) >= 4){
+                    this.was_dodged = true
+                    p.dodge()
+                }
+            }
+            
         }
 
         this.moveAct()

@@ -10,11 +10,21 @@ export default abstract class Forging {
     name: string = ''
     value: number = 0
     consumable: boolean = false
+    stat: any
+    trigger: any
 
     constructor(protected item: Item | undefined) {}
 
     forge(player: Character | undefined, force: boolean = false): void{
 
+    }
+
+    removeEffect(player: Character){
+        if(!player) return
+
+        if(this.stat){
+            player[this.stat] -= this.value
+        }
     }
     
     getValue(): string | number{

@@ -1,10 +1,12 @@
 import Func from '../Func'
 import IUnitState from '../Interfaces/IUnitState'
+import Character from '../Objects/src/Character'
 import { Enemy } from '../Objects/src/Enemy/Enemy'
 import Unit from '../Objects/src/Unit'
 
 export default class EnemyMelleDashState implements IUnitState<Enemy> {
     ms: number = 0
+    dodged: boolean = false
     enter(enemy: Enemy) {
         enemy.state = 'attack'
         enemy.is_attacking = true
@@ -36,12 +38,20 @@ export default class EnemyMelleDashState implements IUnitState<Enemy> {
                 let options = Unit.getHitOptions()
                 enemy.addHitEffects(options)
                 enemy.target.takeDamage(enemy, options)
+
+                this.dodged = false
             }
             else if(!is_coll){
                 enemy.move_speed -= 0.02
                 this.ms += 0.02
                 enemy.moveByAngle(enemy.attack_angle)
-            } 
+            }
+
+            let is_dodge_coll = Func.elipseCollision(e, enemy.target.getBoxElipse(0, 0, 0.6))
+
+            if(!enemy.hit && enemy.target instanceof Character && enemy.target.z < 5 && is_dodge_coll){
+                this.dodged = true
+            }
         }
         
         if (enemy.action) {
@@ -50,6 +60,9 @@ export default class EnemyMelleDashState implements IUnitState<Enemy> {
         } 
         else if (enemy.action_is_end) {
             enemy.getState()
+            if(this.dodged && enemy.target instanceof Character ){
+                enemy.target.dodge()
+            }
         }
     }
 

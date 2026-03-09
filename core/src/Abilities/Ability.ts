@@ -19,6 +19,7 @@ export default abstract class Ability {
     type: number = Ability.TYPE_CAST
     state_sprite: string | undefined
     mastery_chance: number = 10
+    grade: number = 1
 
     after_use_triggers: any[] = []
     before_use_triggers: any[] = []

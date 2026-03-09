@@ -58,7 +58,7 @@ export default class UltimatumText3 extends Effect {
                 e = this.level.script.createElite(e, this.level)
             }
 
-            e = this.level.script.upgradeEnemy(e)
+            e.upgradeByWave(this.level.script.waves_created)
         }
 
         e.life_status += 5

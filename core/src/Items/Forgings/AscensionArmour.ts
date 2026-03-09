@@ -31,6 +31,10 @@ export default class AscensionArmour extends Forging {
             this.value += 5
         }
     }
+    
+    removeEffect(player: Character): void {
+        player.triggers_on_armour_hit = player.triggers_on_armour_hit.filter(elem => !(elem instanceof AcsensionArmourTrigger))
+    }
 
     getValue() {
         return this.value

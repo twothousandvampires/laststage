@@ -36,6 +36,10 @@ export default class NovaThenHit extends Forging implements ITrigger {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_hit = player.triggers_on_hit.filter(elem => !(elem instanceof NovaThenHit))
+    }
+
     getValue() {
         return this.value + '%'
     }

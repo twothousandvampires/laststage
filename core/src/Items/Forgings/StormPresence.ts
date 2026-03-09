@@ -32,6 +32,10 @@ export default class StormPresence extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.level.status_pull = player.level.status_pull.filter(elem => elem.unit === player && elem instanceof StormPresenceStatus)
+    }
+
     getValue() {
         return this.value + '%'
     }

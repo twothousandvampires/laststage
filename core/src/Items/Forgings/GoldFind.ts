@@ -10,6 +10,7 @@ export default class GoldFind extends Forging {
         this.name = 'gold find'
         this.description = 'Increases chance to get additional gold'
         this.gold_cost = 1
+        this.stat = 'chance_to_get_additional_gold'
     }
 
     forge() {

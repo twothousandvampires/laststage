@@ -30,6 +30,10 @@ export default class Overcharge extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_get_energy = player.triggers_on_get_energy.filter(elem => !(elem instanceof this.trigger))
+    }
+
     getValue() {
         return this.value + '%'
     }

@@ -129,6 +129,9 @@ import CalmnessMutator from '../Mutators/CalmnessMutator'
 import PrimordialProtection from '../Triggers/PrimordialProtection'
 import SadismTrigger from '../Triggers/SadismTrigger'
 import Fanaticism from '../Triggers/Fanaticism'
+import Horcrux from '../Triggers/Horcrux'
+import Rite from '../Triggers/Rite'
+import Adrenalin from '../Triggers/Adrenalin'
 
 export default class Upgrades {
     static getAllUpgrades(): Upgrade[] {
@@ -755,6 +758,49 @@ export default class Upgrades {
                 desc: 'When you take damage, increase your armor by 1, up to 20. If you already have 20 armor this way, gain the fortification buff',
             },
             {
+                name: 'horcrux',
+                type: 'epic',
+                canUse: (character: Character) => {
+                    return Func.chance(15) && !character.triggers_on_lethal_damage.some(elem => elem instanceof Horcrux)
+                },
+                teach: (character: Character): void => {
+                    character.triggers_on_lethal_damage.push(new Horcrux())
+                },
+                cost: 3,
+                ascend: 30,
+                desc: 'When you get lethal damage, avoid it and estroy random item',
+            },
+            {
+                name: 'rite of bleeding',
+                type: 'epic',
+                canUse: (character: Character) => {
+                    return Func.chance(15) && !character.triggers_on_heal.some(elem => elem instanceof Rite)
+                },
+                teach: (character: Character): void => {
+                    character.can_regen_more_life_flag = false
+                    character.can_ignore_poison_flag = false
+                    character.cant_regen_life ++
+
+                    character.life_status = 1
+                    character.setRegenTimer()
+                    character.triggers_on_heal.push(new Rite())
+                },
+                cost: 3,
+                ascend: 30,
+                desc: 'You life becomes 1, can not regenerate life, regenerate ward instead',
+            },
+            {
+                name: 'older dialect',
+                canUse: (character: Character) => {
+                    return !character.older_dialect && Func.chance(5)
+                },
+                teach: (character: Character): void => {
+                    character.older_dialect = true
+                },
+                cost: 1,
+                desc: 'You start to understand that the elders says'
+            },         
+            {
                 name: 'corrosive blows',
                 canUse: (character: Character) => {
                     return !character.triggers_on_hit.some(elem => elem instanceof CorrosiveBlows)
@@ -765,6 +811,18 @@ export default class Upgrades {
                 cost: 2,
                 ascend: 10,
                 desc: 'Gives a chance to reduce the armor of enemies near the target on hit'
+            },
+            {
+                name: 'adrenalin',
+                canUse: (character: Character) => {
+                    return !character.dodge_triggers.some(elem => elem instanceof Adrenalin)
+                },
+                teach: (character: Character): void => {
+                    character.dodge_triggers.push(new Adrenalin())
+                },
+                cost: 1,
+                ascend: 10,
+                desc: 'When you dodge, increase you armour and pierce rating by 15 for 5 seconds'
             },
             {
                 name: 'insolence',
@@ -1533,7 +1591,9 @@ export default class Upgrades {
                     return character.life_status < 4
                 },
                 teach: (character: Character) => {
-                    character.addLife(3, true, true)
+                    character.can_regen_more_life_chance += 100
+                    character.addLife(3, true)
+                    character.can_regen_more_life_chance -= 100
                 },
                 cost: 1,
                 desc: 'Restores life',
@@ -3325,6 +3385,7 @@ export default class Upgrades {
                 ascend: 15,
                 desc: 'Drops a sword on a random enemy on hit',
             },
+            
             {
                 name: 'crushing swings',
                 type: 'weapon swing',

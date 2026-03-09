@@ -13,7 +13,9 @@ export default class ServiceTrigger implements ITrigger {
         return player.getSecondResource() * 4  
     }
 
-    trigger(player: Character) {
+    trigger(player: Character, value: number = 0) {
+        if(!value) return
+        
         player.addResourse()
     }
 }

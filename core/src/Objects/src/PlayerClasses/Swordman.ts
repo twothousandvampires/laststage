@@ -27,7 +27,6 @@ import SwordmanEnlightment from '../../../Triggers/SwordmanEnlightment'
 import Counter from '../../Effects/Counter'
 import SwordmanCounterTrigger from '../../../Triggers/SwordmanCounterTrigger'
 import SwordmanJumpState from '../../../State/SwordmanJumpState'
-import InnerFireTrigger from '../../../Triggers/InnerFireTrigger'
 
 export default class Swordman extends Character {
     static MIN_ATTACK_SPEED = 150
@@ -61,7 +60,8 @@ export default class Swordman extends Character {
     }
 
     useAction(){
-        let escapte_t = this.level.enemies.filter(elem => !elem.is_dead && Func.distance(this, elem, 9) <= 9)
+        let escapte_t = this.level.getAliveEnemyInRadius(this, 10)
+        
         if(escapte_t.length >= 5){
              this.level.enemies.forEach(elem => {
                 if(!elem.is_dead && Func.distance(elem, this) <= 8){
@@ -70,7 +70,7 @@ export default class Swordman extends Character {
             })
             this.level.addLog('player escape')
             this.level.createEffect(this, 'escape')
-            // this.addCourage()
+            this.addCourage()
             this.wasEscape(Func.getRandomFromArray(escapte_t))
         }
 
@@ -173,7 +173,6 @@ export default class Swordman extends Character {
 
         if(this.isParry()){
             this.wasParry(unit)
-
             this.level.createEffect(this, 'parry', 12)      
             this.level.addSound({
                 name: 'parry',
@@ -274,7 +273,6 @@ export default class Swordman extends Character {
             this.level.addLog('player escape')
             this.level.createEffect(this, 'escape')
             this.addCourage()
-
             this.wasEscape(unit)
             return
         }

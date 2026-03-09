@@ -16,6 +16,7 @@ export default class ShatteredWeapon extends SwordmanAbility {
         this.cd = 5000
         this.type = Ability.TYPE_ATTACK
         this.mastery_chance = 20
+        this.grade = 2
     }
 
     impact() {

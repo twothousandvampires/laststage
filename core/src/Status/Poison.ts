@@ -13,7 +13,7 @@ export default class Poison extends Status {
     apply(unit: any) {
         this.unit = unit
         if (this.unit instanceof Character) {
-            this.unit.can_regen_life = false
+            this.unit.cant_regen_life ++
             this.unit.statusWasApplied()
 
             this.unit.newStatus({
@@ -26,7 +26,7 @@ export default class Poison extends Status {
 
     clear() {
         if (this.unit instanceof Character) {
-            this.unit.can_regen_life = true
+            this.unit.cant_regen_life --
         }
     }
 

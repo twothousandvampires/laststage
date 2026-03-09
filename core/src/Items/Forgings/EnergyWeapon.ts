@@ -32,6 +32,10 @@ export default class EnergyWeapon extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_critical = player.triggers_on_critical.filter(elem => !(elem instanceof EnergyWeaponTrigger))
+    }
+
     getValue() {
         return this.value
     }

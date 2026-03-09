@@ -10,6 +10,7 @@ export default class BlessedLife extends Forging {
         this.name = 'blessed life'
         this.description = 'increases chance to regen life above maximum'
         this.gold_cost = 2
+        this.stat = 'can_regen_more_life_chance'
     }
 
     forge() {

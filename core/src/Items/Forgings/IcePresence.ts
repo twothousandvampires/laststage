@@ -31,6 +31,10 @@ export default class IcePresence extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.level.status_pull = player.level.status_pull.filter(elem => elem.unit === player && elem instanceof IcePresenceStatus)
+    }
+    
     getValue() {
         return this.value + '%'
     }

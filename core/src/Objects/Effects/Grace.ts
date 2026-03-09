@@ -6,6 +6,7 @@ import Character from '../src/Character'
 import Effect from './Effects'
 import Forger from './Forger'
 import Gate from './Gate'
+import Guider from './Guider'
 import Star from './Star'
 import Teacher from './Teacher'
 
@@ -133,6 +134,10 @@ export default class Grace extends Effect {
     }
 
     generateEffects() {
+        if(Func.chance(5)){
+            let guider = new Guider(this.level)
+            this.level.binded_effects.push(guider)
+        }
         let teacher = new Teacher(this.level)
         this.level.binded_effects.push(teacher)
 

@@ -5,7 +5,6 @@ import Forging from './Forging'
 
 export default class ColdHeart extends Forging {
     value: number = 0
-    trigger: any
 
     constructor(item: Item) {
         super(item)
@@ -28,6 +27,10 @@ export default class ColdHeart extends Forging {
                 this.value += 5
             }
         }
+    }
+
+    removeEffect(player: Character): void {
+        player.triggers_on_heal = player.triggers_on_heal.filter(elem => !(elem instanceof this.trigger))
     }
 
     getValue() {

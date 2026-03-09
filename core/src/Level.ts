@@ -226,8 +226,8 @@ export default class Level {
         }
     }
 
-    addMessedge(msg: string, id = undefined): void {
-        if (this.messedges.length) return
+    addMessedge(msg: string, id: string | number | undefined = undefined): void {
+        // if (this.messedges.length) return
 
         this.messedges.push({ text: msg, id: id })
     }

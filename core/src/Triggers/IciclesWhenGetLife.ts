@@ -13,7 +13,8 @@ export default class IciclesWhenGetLife implements ITrigger {
         return this.chance
     }
 
-    trigger(player: Character) {
+    trigger(player: Character, value: number = 0) {
+        if(!value) return
         let count = player.life_status
 
         let zones = 6.28 / count

@@ -31,6 +31,10 @@ export default class IceHatred extends Forging {
         }
     }
 
+    removeEffect(player: Character): void {
+        player.triggers_on_critical = player.triggers_on_critical.filter(elem => !(elem instanceof IceHatredTrigger))
+    }
+
     getValue() {
         return this.value + ' additional radius'
     }

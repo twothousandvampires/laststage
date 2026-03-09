@@ -17,6 +17,12 @@
     "dev:client": "npm run dev -w client"
   },
   "devDependencies": {
+    "@nuxt/ui": "^4.5.0",
     "typescript": "^5.x.x"
+  },
+  "dependencies": {
+    "mysql2": "^3.18.2",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
   }
 }

@@ -39,7 +39,7 @@ export default class MasterServer {
                         .query(
                             `SELECT * FROM (SELECT * FROM game_stats WHERE class = 'swordman' and game_type = 'solo' ORDER BY kills DESC LIMIT 3) AS swordman_top UNION ALL SELECT * FROM (SELECT * FROM game_stats WHERE class = 'flyer' and game_type = 'solo' ORDER BY kills DESC LIMIT 3) AS flyer_top UNION ALL SELECT * FROM (SELECT * FROM game_stats WHERE class = 'cultist' and game_type = 'solo' ORDER BY kills DESC LIMIT 3) AS cultist_top;`
                         )
-
+	            console.log(results)
                     socket.emit('records', JSON.stringify(results))
                 } catch (err) {
                     socket.emit('records', [])

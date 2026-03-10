@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import Character from '../Objects/src/Character'
 
 export default class WardAfterEnlightTrigger implements ITrigger {

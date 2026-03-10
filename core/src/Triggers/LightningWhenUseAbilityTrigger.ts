@@ -1,4 +1,4 @@
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import { Lightning } from '../Objects/Projectiles/Lightning'
 import Character from '../Objects/src/Character'
 

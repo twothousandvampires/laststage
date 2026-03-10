@@ -1,5 +1,5 @@
 import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import HeavenRay from '../Objects/Effects/HeavenRay'
 import Character from '../Objects/src/Character'
 

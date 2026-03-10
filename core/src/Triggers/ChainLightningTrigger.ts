@@ -1,5 +1,4 @@
-import Func from '../Func'
-import ITrigger from '../Interfaces/ITrigger'
+import ITrigger from '../Interfaces/Itrigger'
 import { ChainLightning } from '../Objects/Projectiles/ChainLightning'
 import Character from '../Objects/src/Character'
 

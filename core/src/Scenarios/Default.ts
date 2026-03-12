@@ -269,6 +269,7 @@ export default class Default extends Scenario {
             enemy = new BonesSpear(level)
         }
 
+    
         if (!enemy) {
             return
         }

@@ -11,7 +11,6 @@ export default abstract class Forging {
     value: number = 0
     consumable: boolean = false
     stat: any
-    trigger: any
 
     constructor(protected item: Item | undefined) {}
 

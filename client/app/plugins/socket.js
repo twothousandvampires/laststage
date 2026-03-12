@@ -3,11 +3,12 @@ import { io } from 'socket.io-client';
 export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig()
     
-    const isProd = config.public.env == 'prod'
+    const isProd = true
 
     console.log(isProd)
 
     const getSocketOptions = (port) => {
+	if(!port) port = 9001
         const options = {
             autoConnect: false,
             transports: ['websocket'],

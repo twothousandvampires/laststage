@@ -14,11 +14,7 @@
            style="box-shadow: unset;"  
            @click="handleGetRecords">
       
-<<<<<<< Updated upstream
       <img :src="`/icons/discord.png`" class="grid-img button" 
-=======
-      <img :src="`/icons/tg.png`" class="grid-img button" 
->>>>>>> Stashed changes
            style="box-shadow: unset;" 
            @click="goTg">
     </div>
@@ -101,10 +97,6 @@ const handleGetRecords = () => {
 };
 
 const goTg = () => {
-<<<<<<< Updated upstream
-  window.open('https://discird.gg/MReQMztuU6D', '_blank');
-=======
-  window.open('https://t.me/lststg', '_blank');
->>>>>>> Stashed changes
+  window.open('https://discird.gg/MReQMztU6D', '_blank');
 };
 </script>
